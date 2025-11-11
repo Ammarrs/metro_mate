@@ -13,13 +13,24 @@ class _loginPageState extends State<loginPage> {
   bool _obsecurePassword = true;
 
   @override
-  void dispose() {}
+  void dispose() {
+    _emailController.dispose();
+    _passwordController.dispose();
+    super.dispose();
+  }
 
-  void _handleSignIn() {}
+  void _handleSignIn() {
+    print("Email: ${_emailController.text}");
+    print("Password: ${_passwordController.text}");
+  }
 
-  void _handleForgotPassword() {}
+  void _handleForgotPassword() {
+    print("Forgot password clicked!");
+  }
 
-  void _handleSignUp() {}
+  void _handleSignUp() {
+    print("Sign up clicked");
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -125,7 +136,7 @@ class _loginPageState extends State<loginPage> {
                   fillColor: Colors.grey[50],
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(50),
-                    borderSide: BorderSide(color: Colors.grey[300]!),
+                    borderSide: BorderSide(color: Colors.transparent),
                   ),
                 ),
               ),
@@ -169,28 +180,25 @@ class _loginPageState extends State<loginPage> {
                         _obsecurePassword = !_obsecurePassword;
                       });
                     },
-                    icon: Icon(_obsecurePassword ? Icons.visibility_outlined : Icons.visibility_off_outlined),
+                    icon: Icon(
+                      _obsecurePassword
+                          ? Icons.visibility_outlined
+                          : Icons.visibility_off_outlined,
+                    ),
                   ),
                   // filled: true,
                   fillColor: Colors.grey[50],
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(50),
-                    borderSide: BorderSide(
-                      color: Colors.grey[300]!,
-                    ),
+                    borderSide: BorderSide(color: Colors.grey[300]!),
                   ),
                 ),
                 // style: ,
               ),
-              SizedBox(height: 38,),
+              SizedBox(height: 38),
               ElevatedButton(
                 onPressed: _handleSignIn,
-                child: Text(
-                  "Sign In",
-                  style: TextStyle(
-                    fontSize: 16,
-                  ),
-                ),
+                child: Text("Sign In", style: TextStyle(fontSize: 16)),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Color(0xFF4a6190),
                   foregroundColor: Colors.white,
@@ -201,18 +209,15 @@ class _loginPageState extends State<loginPage> {
                   elevation: 1,
                 ),
               ),
-              SizedBox(height: 24,),
+              SizedBox(height: 24),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
                     "Don't have an account?",
-                    style: TextStyle(
-                      fontSize: 16,
-                      color: Colors.black54,
-                    ),
+                    style: TextStyle(fontSize: 16, color: Colors.black54),
                   ),
-                  SizedBox(width: 5,),
+                  SizedBox(width: 5),
                   GestureDetector(
                     onTap: _handleSignUp,
                     child: Text(
