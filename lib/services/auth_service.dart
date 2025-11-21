@@ -9,7 +9,7 @@ class AuthService {
   final ApiClient _apiClient = ApiClient();
   final StorageService _storage = StorageService();
 
-  static const String _baseUrl = ApiConfig.baseUrl;
+  // static const String _baseUrl = ApiConfig.baseUrl;
   static const String _loginEndpoint = ApiConfig.loginEndpoint;
 
   Future<AuthResult> signIn({
@@ -28,14 +28,15 @@ class AuthService {
       }
 
       final response = await _apiClient.post(
-        _baseUrl + _loginEndpoint,
+        _loginEndpoint,
         data: {'email': email, 'password': password},
       );
 
       if (response.statusCode == 200 || response.statusCode == 201) {
         final data = response.data;
         if (data['token'] != null) await _storage.saveToken(data['token']);
-        final user = User.fromJson(data['user'] ?? data['data']);
+        final userJson = data['data']['user'];
+        final user = User.fromJson(userJson);
         await _storage.saveUserData(
           id: user.id,
           email: user.email,

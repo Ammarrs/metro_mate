@@ -5,11 +5,7 @@ class User extends Equatable {
   final String email;
   final String name;
 
-  const User({
-    required this.id,
-    required this.email,
-    required this.name,
-  });
+  const User({required this.id, required this.email, required this.name});
 
   @override
   List<Object?> get props => [id, email, name];
@@ -17,27 +13,19 @@ class User extends Equatable {
   // From JSON (for API responses)
   factory User.fromJson(Map<String, dynamic> json) {
     return User(
-      id: json['id'] as String,
-      email: json['email'] as String,
-      name: json['name'] as String,
+      id: json['_id'] ?? json['id'],
+      email: json['email'],
+      name: json['name'],
     );
   }
 
   // To JSON (for API requests)
   Map<String, dynamic> toJson() {
-    return {
-      'id': id,
-      'email': email,
-      'name': name,
-    };
+    return {'id': id, 'email': email, 'name': name};
   }
 
   // Copy with method for updates
-  User copyWith({
-    String? id,
-    String? email,
-    String? name,
-  }) {
+  User copyWith({String? id, String? email, String? name}) {
     return User(
       id: id ?? this.id,
       email: email ?? this.email,
@@ -51,9 +39,5 @@ class AuthResult {
   final String message;
   final User? user;
 
-  AuthResult({
-    required this.success,
-    required this.message,
-    this.user,
-  });
+  AuthResult({required this.success, required this.message, this.user});
 }
