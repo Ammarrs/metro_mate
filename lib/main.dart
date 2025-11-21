@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:metro_mate/login.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:metro_mate/cubits/login/login_cubit.dart';
+import 'package:metro_mate/services/auth_service.dart';
+import 'package:metro_mate/views/home.dart';
+import 'package:metro_mate/views/login_view.dart';
 
 void main() {
   runApp(MetroMate());
@@ -15,9 +19,18 @@ class MetroMate extends StatefulWidget {
 class _MetroMateState extends State<MetroMate> {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: const loginPage(),
-      debugShowCheckedModeBanner: false,
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(create: (context) => LoginCubit(AuthService()),),
+      ],
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        initialRoute: 'loginPage',
+        routes: {
+          'loginPage': (context) => const LoginPage(),
+          'home': (context) => const Home(),
+        },
+      ),
     );
   }
 }
