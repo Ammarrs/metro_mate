@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 import 'package:metro_mate/config/api_config.dart';
 import 'package:metro_mate/services/storage_service.dart';
 
@@ -11,8 +12,16 @@ class ApiClient {
   }
 
   void _setupBaseOptions() {
+    // Use proxy for web to avoid CORS issues
+    String baseUrl = ApiConfig.baseUrl;
+    
+    // For web platform, use a CORS proxy (only for development)
+    if (kIsWeb) {
+      baseUrl = 'https://corsproxy.io/?${Uri.encodeComponent(ApiConfig.baseUrl)}';
+    }
+    
     _dio.options = BaseOptions(
-      baseUrl: ApiConfig.baseUrl,
+      baseUrl: baseUrl,
       connectTimeout: ApiConfig.connectTimeout,
       receiveTimeout: ApiConfig.receiveTimeout,
       headers: {
@@ -32,6 +41,12 @@ class ApiClient {
           }
           return handler.next(options);
         },
+        onError: (DioException error, handler) {
+          print('DioError: ${error.type}');
+          print('DioError Message: ${error.message}');
+          print('DioError Response: ${error.response}');
+          return handler.next(error);
+        },
       ),
     );
   }
@@ -40,6 +55,7 @@ class ApiClient {
     try {
       return await _dio.get(path, queryParameters: query);
     } catch (e) {
+      print('GET Error: $e');
       throw Exception(e);
     }
   }
@@ -48,6 +64,7 @@ class ApiClient {
     try {
       return await _dio.post(path, data: data);
     } catch (e) {
+      print('POST Error: $e');
       throw Exception(e);
     }
   }
@@ -56,6 +73,7 @@ class ApiClient {
     try {
       return await _dio.put(path, data: data);
     } catch (e) {
+      print('PUT Error: $e');
       throw Exception(e);
     }
   }
@@ -64,6 +82,7 @@ class ApiClient {
     try {
       return await _dio.delete(path, data: data);
     } catch (e) {
+      print('DELETE Error: $e');
       throw Exception(e);
     }
   }
