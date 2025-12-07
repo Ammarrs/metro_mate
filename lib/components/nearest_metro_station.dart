@@ -13,7 +13,7 @@ class NearestMetroStation extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            buildHeader(),
+            buildHeader(title: "Nearest Metro Station",),
             Container(
               width: 500,
               height: 390,
