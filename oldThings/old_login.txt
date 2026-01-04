@@ -245,11 +245,12 @@ class _LoginPageState extends State<LoginPage> {
             Future.microtask(() => Navigator.pushNamed(context, 'home'));
           }
           if (state is LoginFailure) {
-            ScaffoldMessenger.of(
-              context,
-            ).showSnackBar(SnackBar(content: Text(state.error)));
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text(state.error)),
+            );
           }
         },
+
       ),
     );
   }
