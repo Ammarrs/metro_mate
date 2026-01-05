@@ -28,6 +28,7 @@ import 'package:metro_mate/cubits/login/login_cubit.dart';
 import 'package:metro_mate/services/auth_service.dart';
 import 'package:metro_mate/views/home.dart';
 import 'package:metro_mate/views/login_view.dart';
+import 'package:metro_mate/views/profile_page_view.dart';
 
 
 
