@@ -154,6 +154,14 @@ bool CheckMethod(){
 
 
 getStations()async{
+  try {
+
+  } on DioException catch (e) {
+    print(e.response?.statusCode);
+    print(e.response?.data);
+    print(e.requestOptions.data);
+  }
+
     final response=await Dio().get('https://metrodb-production.up.railway.app/api/v1/trips/station');
     Map<String,dynamic> data=response.data;
     List StationsName=data['data'];
@@ -168,6 +176,8 @@ getStations()async{
     
 }
 getInfoStation()async{
+
+
     try {
       emit(InfoLodingState());
       final response = await Dio().post(
