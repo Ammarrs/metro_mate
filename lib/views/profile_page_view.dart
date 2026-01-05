@@ -7,10 +7,7 @@ class ProfilePageView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: const ProfilePage(),
-    );
+    return ProfilePage();
   }
 }
 
@@ -33,16 +30,16 @@ class _ProfilePageState extends State<ProfilePage> {
         maxHeight: 512,
         imageQuality: 85,
       );
-      
+
       if (image != null) {
         setState(() {
           _profileImage = File(image.path);
         });
       }
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Error picking image: $e')),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text('Error picking image: $e')));
     }
   }
 
@@ -70,11 +67,17 @@ class _ProfilePageState extends State<ProfilePage> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         IconButton(
-                          icon: const Icon(Icons.arrow_back, color: Colors.white),
+                          icon: const Icon(
+                            Icons.arrow_back,
+                            color: Colors.white,
+                          ),
                           onPressed: () {},
                         ),
                         IconButton(
-                          icon: const Icon(Icons.settings_outlined, color: Colors.white),
+                          icon: const Icon(
+                            Icons.settings_outlined,
+                            color: Colors.white,
+                          ),
                           onPressed: () {},
                         ),
                       ],
@@ -249,11 +252,7 @@ class _ProfilePageState extends State<ProfilePage> {
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
         child: Row(
           children: [
-            Icon(
-              icon,
-              color: iconColor ?? Colors.grey[600],
-              size: 24,
-            ),
+            Icon(icon, color: iconColor ?? Colors.grey[600], size: 24),
             const SizedBox(width: 16),
             Expanded(
               child: Text(
@@ -266,11 +265,7 @@ class _ProfilePageState extends State<ProfilePage> {
               ),
             ),
             if (titleColor == null)
-              Icon(
-                Icons.chevron_right,
-                color: Colors.grey[400],
-                size: 24,
-              ),
+              Icon(Icons.chevron_right, color: Colors.grey[400], size: 24),
           ],
         ),
       ),

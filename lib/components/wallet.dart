@@ -21,18 +21,15 @@ class TransitHeaderComponent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      height: 300,
       decoration: const BoxDecoration(
         gradient: LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
-          colors: [
-            Color(0xFF5B8FB9),
-            Color(0xFF7AB8D9),
-            Color(0xFF87CEEB),
-          ],
+          colors: [Color(0xFF5B8FB9), Color(0xFF7AB8D9), Color(0xFF87CEEB)],
         ),
       ),
-      padding: const EdgeInsets.all(20.0),
+      padding: const EdgeInsets.only(top: 85.0, left: 30.0, right: 30.0),
       child: Column(
         children: [
           // Header with profile and notification
@@ -148,10 +145,7 @@ class TransitHeaderComponent extends StatelessWidget {
                       children: [
                         const Text(
                           'Wallet Balance',
-                          style: TextStyle(
-                            color: Colors.white70,
-                            fontSize: 14,
-                          ),
+                          style: TextStyle(color: Colors.white70, fontSize: 14),
                         ),
                         const SizedBox(height: 4),
                         Text(
@@ -168,15 +162,10 @@ class TransitHeaderComponent extends StatelessWidget {
                 ),
                 TextButton(
                   onPressed: onDepositPressed,
-                  style: TextButton.styleFrom(
-                    foregroundColor: Colors.white,
-                  ),
+                  style: TextButton.styleFrom(foregroundColor: Colors.white),
                   child: const Text(
                     'Deposit Money',
-                    style: TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w500,
-                    ),
+                    style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
                   ),
                 ),
               ],

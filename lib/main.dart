@@ -4,6 +4,7 @@ import 'package:metro_mate/cubits/login/login_cubit.dart';
 import 'package:metro_mate/services/auth_service.dart';
 import 'package:metro_mate/views/home.dart';
 import 'package:metro_mate/views/login_view.dart';
+import 'package:metro_mate/views/profile_page_view.dart';
 
 void main() {
   runApp(MetroMate());
@@ -25,11 +26,12 @@ class _MetroMateState extends State<MetroMate> {
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
-        initialRoute: 'loginPage',
-        routes: {
-          'loginPage': (context) => const LoginPage(),
-          'home': (context) => const Home(),
-        },
+        home: Home(),
+        // initialRoute: 'loginPage',
+        // routes: {
+        //   'loginPage': (context) => const LoginPage(),
+        //   'home': (context) => const Home(),
+        // },
       ),
     );
   }
