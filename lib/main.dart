@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import 'OnbordingScreens.dart';
+import 'block/Cubit.dart';
 import 'Authentication/ForgetPassword/Forget_Password.dart';
 import 'Authentication/ForgetPassword/NewPassword_Page.dart';
 import 'Authentication/Regestration/Register_Otp.dart';
@@ -20,13 +22,21 @@ class MetroApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(providers: [
-
+      BlocProvider(
+      create: (context) => OnBoardingCubit()..CheckSeen(),
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        home: Onbordingscreen(),
+      
       BlocProvider(
         create: (context)=>RegisterCubit() ,
       ),
       BlocProvider(
         create: (context)=>ForgetPasswordCubit() ,
       ),
+    );
+  }
+}
 
     ],
 
