@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 import 'OnbordingScreens.dart';
 import 'block/Cubit.dart';
 import 'Authentication/ForgetPassword/Forget_Password.dart';
@@ -9,6 +8,10 @@ import 'Authentication/Regestration/Register_Otp.dart';
 import 'Authentication/Regestration/Register_page.dart';
 import 'Authentication_Cubit/ForgetPassword_Cubit/ForgetPassword_Cubit.dart';
 import 'Authentication_Cubit/Register_Cubit/Register_Cubit.dart';
+import 'package:metro_mate/cubits/login/login_cubit.dart';
+import 'package:metro_mate/services/auth_service.dart';
+import 'package:metro_mate/views/home.dart';
+import 'package:metro_mate/views/login_view.dart';
 
 
 
@@ -34,6 +37,7 @@ class MetroApp extends StatelessWidget {
       BlocProvider(
         create: (context)=>ForgetPasswordCubit() ,
       ),
+      BlocProvider(create: (context) => LoginCubit(AuthService()),),
     );
   }
 }
@@ -42,9 +46,9 @@ class MetroApp extends StatelessWidget {
 
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
-        home: Home(),
+        initialRoute: 'loginPage',
         routes: {
-          'Home':(context)=>Home(),
+          'loginPage': (context) => const LoginPage(),
           'Register':(context)=>RegisterPage(),
           'RegisterOtp':(context)=>RegisterOtp(),
           'ForgetPassword':(context)=>ForgetPassword(),
