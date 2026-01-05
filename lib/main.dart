@@ -16,6 +16,20 @@ import 'NavigationBar_Page/wallet.dart';
 import 'package:dropdown_search/dropdown_search.dart';
 
 import 'RouteDeatils.dart';
+import 'OnbordingScreens.dart';
+import 'block/Cubit.dart';
+import 'Authentication/ForgetPassword/Forget_Password.dart';
+import 'Authentication/ForgetPassword/NewPassword_Page.dart';
+import 'Authentication/Regestration/Register_Otp.dart';
+import 'Authentication/Regestration/Register_page.dart';
+import 'Authentication_Cubit/ForgetPassword_Cubit/ForgetPassword_Cubit.dart';
+import 'Authentication_Cubit/Register_Cubit/Register_Cubit.dart';
+import 'package:metro_mate/cubits/login/login_cubit.dart';
+import 'package:metro_mate/services/auth_service.dart';
+import 'package:metro_mate/views/home.dart';
+import 'package:metro_mate/views/login_view.dart';
+
+
 
 void main() {
   runApp(MetroApp());
@@ -34,6 +48,19 @@ class MetroApp extends StatelessWidget {
       BlocProvider(
         create: (context)=>SelectRoute() ,
       ),
+      BlocProvider(
+      create: (context) => OnBoardingCubit()..CheckSeen(),
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        home: Onbordingscreen(),
+      ),
+      BlocProvider(
+        create: (context)=>RegisterCubit() ,
+      ),
+      BlocProvider(
+        create: (context)=>ForgetPasswordCubit() ,
+      ),
+      BlocProvider(create: (context) => LoginCubit(AuthService()),),
 
     ],
 
@@ -46,7 +73,12 @@ class MetroApp extends StatelessWidget {
       routes: {
         'test_page':(context)=>test_page(),
         'Home':(context)=>Home(),
-
+        'loginPage': (context) => const LoginPage(),
+        'Register':(context)=>RegisterPage(),
+        'RegisterOtp':(context)=>RegisterOtp(),
+        'ForgetPassword':(context)=>ForgetPassword(),
+        /*'VerifyEmail':(context)=>  VerifyEmail(),*/
+        'NewpasswordPage':(context)=>NewpasswordPage()
         'detalis':(context)=>Routedeatils(),
         'SelectQuantity':(context)=>SelectQuantity(),
         'Chosepaymentmethod':(context)=>Chosepaymentmethod(),
