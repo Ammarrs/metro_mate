@@ -1,35 +1,98 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'OnbordingScreens.dart';
+import 'block/Cubit.dart';
+import 'Authentication/ForgetPassword/Forget_Password.dart';
+import 'Authentication/ForgetPassword/NewPassword_Page.dart';
+import 'Authentication/Regestration/Register_Otp.dart';
+import 'Authentication/Regestration/Register_page.dart';
+import 'Authentication_Cubit/ForgetPassword_Cubit/ForgetPassword_Cubit.dart';
+import 'Authentication_Cubit/Register_Cubit/Register_Cubit.dart';
 import 'package:metro_mate/cubits/login/login_cubit.dart';
 import 'package:metro_mate/services/auth_service.dart';
 import 'package:metro_mate/views/home.dart';
 import 'package:metro_mate/views/login_view.dart';
 
+
+
 void main() {
-  runApp(MetroMate());
+  runApp(MetroApp());
 }
 
-class MetroMate extends StatefulWidget {
-  const MetroMate({super.key});
+class MetroApp extends StatelessWidget {
+  const MetroApp({super.key});
 
-  @override
-  State<MetroMate> createState() => _MetroMateState();
-}
-
-class _MetroMateState extends State<MetroMate> {
   @override
   Widget build(BuildContext context) {
-    return MultiBlocProvider(
-      providers: [
-        BlocProvider(create: (context) => LoginCubit(AuthService()),),
-      ],
+    return MultiBlocProvider(providers: [
+      BlocProvider(
+      create: (context) => OnBoardingCubit()..CheckSeen(),
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        home: Onbordingscreen(),
+      
+      BlocProvider(
+        create: (context)=>RegisterCubit() ,
+      ),
+      BlocProvider(
+        create: (context)=>ForgetPasswordCubit() ,
+      ),
+      BlocProvider(create: (context) => LoginCubit(AuthService()),),
+    );
+  }
+}
+
+    ],
+
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         initialRoute: 'loginPage',
         routes: {
           'loginPage': (context) => const LoginPage(),
-          'home': (context) => const Home(),
+          'Register':(context)=>RegisterPage(),
+          'RegisterOtp':(context)=>RegisterOtp(),
+          'ForgetPassword':(context)=>ForgetPassword(),
+          /*'VerifyEmail':(context)=>  VerifyEmail(),*/
+          'NewpasswordPage':(context)=>NewpasswordPage()
+
+
         },
+      ),
+    );
+  }
+}
+
+class Home extends StatelessWidget {
+  Home({super.key});
+
+
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Padding(
+        padding: const EdgeInsets.all(30.0),
+        child: Center(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              MaterialButton(onPressed: (){
+                Navigator.pushNamed(context, 'Register');
+              },
+                child: Text("GO To Register Page "),
+
+              ),
+              SizedBox(height: 20,),
+              MaterialButton(onPressed: (){
+                Navigator.pushNamed(context, 'ForgetPassword');
+              },
+                child: Text("GO To Forget Password Page "),
+              )
+
+
+            ],
+          ),
+        ),
       ),
     );
   }
