@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:second/ChangePassword/ChangePassword_Cubit.dart';
+import 'package:second/components/home_app_bar.dart';
 
 import 'package:second/services/auth_service.dart';
 import 'package:second/views/login_view.dart';
+import 'package:second/views/profile_page_view.dart';
 
 import 'Bloc/Navigate_cubit.dart';
 import 'Bloc/selectRoute_Cubit.dart';
@@ -94,9 +96,8 @@ class MetroApp extends StatelessWidget {
         'Creditdetils': (context)=>Creditdetils(),
         'finish': (context)=>Paymentfinish(),
         'ChangePassword': (context)=>Changepassword(),
-    'Onbordingscreen': (context)=>Onbordingscreen(),
-
-
+        'Onbordingscreen': (context)=>Onbordingscreen(),
+        'Profile': (context) => ProfilePageView(),
       },
     )
     );
@@ -109,7 +110,7 @@ class test_page extends StatelessWidget {
 
    List<Widget>NavigationBarpage=[Home(),Tickets(),Wallet(),Setting()];
     List<PreferredSizeWidget> NavigationBarAppBar = [
-     AppBar(title: Text("Home"),automaticallyImplyLeading: false,),
+     AppBar(title: HomeAppBar(),automaticallyImplyLeading: false,),
      AppBar(title: Text("Ticket"),automaticallyImplyLeading: false,),
      AppBar(title: Text("Profile"),automaticallyImplyLeading: false,),
      AppBar(title: Text("Settings"),automaticallyImplyLeading: false,),
@@ -122,14 +123,14 @@ class test_page extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Color(0xffFCFCFD),
-      appBar: PreferredSize(
-        preferredSize: Size.fromHeight(kToolbarHeight),
-        child: BlocBuilder<Navigate_Cubit,int>(builder: (context,state){
+      // appBar: PreferredSize(
+      //   preferredSize: Size.fromHeight(kToolbarHeight),
+      //   child: BlocBuilder<Navigate_Cubit,int>(builder: (context,state){
         
-          return  NavigationBarAppBar.elementAt(state);
+      //     return  NavigationBarAppBar.elementAt(state);
         
-        }),
-      ) ,
+      //   }),
+      // ) ,
 
       body:BlocBuilder<Navigate_Cubit,int>(builder: (context,state){
         
@@ -144,8 +145,8 @@ class test_page extends StatelessWidget {
 
               onTap: (value){
                 CurrentIndex=value;
-               context.read<Navigate_Cubit>().ChangeIndex(value);
-               context.read<SelectRoute>().Hide();
+                context.read<Navigate_Cubit>().ChangeIndex(value);
+                context.read<SelectRoute>().Hide();
                 context.read<SelectRoute>().ClearSelection();
 
               },

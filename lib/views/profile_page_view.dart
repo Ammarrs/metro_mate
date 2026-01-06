@@ -71,7 +71,9 @@ class _ProfilePageState extends State<ProfilePage> {
                             Icons.arrow_back,
                             color: Colors.white,
                           ),
-                          onPressed: () {},
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
                         ),
                         IconButton(
                           icon: const Icon(

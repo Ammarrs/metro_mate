@@ -8,8 +8,7 @@ class QuickActions extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Container(
+    return Container(
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -30,7 +29,6 @@ class QuickActions extends StatelessWidget {
             ),
           ],
         ),
-      ),
-    );
+      );
   }
 }
