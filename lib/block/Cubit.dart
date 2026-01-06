@@ -1,5 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:metro_mate/block/state_cubit.dart';
+
+import 'package:second/block/state_cubit.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class OnBoardingCubit extends Cubit<OnBoardingState> {

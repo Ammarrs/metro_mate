@@ -102,7 +102,7 @@ class RegisterOtp extends StatelessWidget {
           listener: (context,state){
             if (state is RegisterSucsess){
               Navigator.pushNamed(
-                  context,'Home',
+                  context,'loginPage',
 
               );
 
@@ -151,7 +151,7 @@ class RegisterOtp extends StatelessWidget {
                               text: "We've sent a 5-digit verification code \nto ",
                               children: [
                                 TextSpan(
-                                  text: '$EmailData', style: TextStyle(fontWeight: FontWeight.bold,fontSize: 15),
+                                  text: '$EmailData', style: TextStyle(color: Colors.blue,fontWeight: FontWeight.bold,fontSize: 15),
                                 ),
                               ],
                             ),
@@ -188,11 +188,36 @@ class RegisterOtp extends StatelessWidget {
                           SizedBox(height: 45,),
                           Center(child: Text('Didn\'t receive the code?')),
                           Center(
-                            child: MaterialButton(onPressed: (){
-                              cubit.RsendOtp();
-                            },
-                            child: Text("Resend Code",style: TextStyle(color: Colors.blueAccent,fontWeight:FontWeight.bold),),),
+                            child: BlocBuilder<RegisterCubit, Register_State>(
+                              builder: (context, state) {
+                                bool enabled = true;
+                                String buttonText = "Resend Code";
+
+                                if (state is ButtonState) {
+                                  enabled = state.enable;
+                                  buttonText = state.enable
+                                      ? "Resend Code"
+                                      : "Resend Code (${state.time}s)";
+                                }
+
+                                return MaterialButton(
+                                  onPressed: enabled
+                                      ? () {
+                                    context.read<RegisterCubit>().resendOtpWithTimer();
+                                  }
+                                      : null,
+                                  child: Text(
+                                    buttonText,
+                                    style: TextStyle(
+                                      color: enabled ? Colors.blueAccent : Colors.grey,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                );
+                              },
+                            ),
                           )
+
 
                         ],
                       ),

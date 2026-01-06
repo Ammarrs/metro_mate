@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:metro_mate/components/build_header.dart';
-import 'package:metro_mate/components/build_map_area.dart';
-import 'package:metro_mate/components/build_station_info.dart';
+
+
+import 'build_header.dart';
+import 'build_map_area.dart';
+import 'build_station_info.dart';
 
 class NearestMetroStation extends StatelessWidget {
   const NearestMetroStation({super.key});

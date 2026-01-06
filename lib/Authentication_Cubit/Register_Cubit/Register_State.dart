@@ -43,12 +43,9 @@ class RegisterPickImage extends Register_State {
   RegisterPickImage({required this.image});
 }
 
-class ButtonState extends Register_State{
-  final bool Enable;
-  final int time ;
-  ButtonState({
-    required this.Enable,
-    required this.time
-  });
+class ButtonState extends Register_State {
+  final bool enable;
+  final int time;
+  ButtonState({required this.enable, required this.time});
 }
 

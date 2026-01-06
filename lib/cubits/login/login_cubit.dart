@@ -1,6 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:metro_mate/cubits/login/login_state.dart';
-import 'package:metro_mate/services/auth_service.dart';
+
+import '../../services/auth_service.dart';
+import 'login_state.dart';
 
 class LoginCubit extends Cubit<LoginState> {
   final AuthService _authService;

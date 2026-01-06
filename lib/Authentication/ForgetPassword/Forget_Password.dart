@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:second/Authentication_Cubit/ForgetPassword_Cubit/ForgetPassword_Cubit.dart';
-import 'package:second/Authentication_Cubit/ForgetPassword_Cubit/ForgetPassword_State.dart';
+
+import '../../Authentication_Cubit/ForgetPassword_Cubit/ForgetPassword_Cubit.dart';
+import '../../Authentication_Cubit/ForgetPassword_Cubit/ForgetPassword_State.dart';
+
 class ForgetPassword extends StatelessWidget {
    ForgetPassword();
 

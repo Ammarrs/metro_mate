@@ -5,6 +5,7 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 
 
@@ -12,7 +13,7 @@ import 'Register_State.dart';
 
 class RegisterCubit extends Cubit<Register_State>{
   RegisterCubit() :super(RegisterInitial());
-
+  String token="";
   String name = '';
   String email = '';
   String password = '';
@@ -22,7 +23,8 @@ class RegisterCubit extends Cubit<Register_State>{
   String Otp='';
   bool passwordVisable=false;
   bool ConfirmPasswordVisable=false;
-
+  int _resendTime = 30;
+  Timer? _timer;
 
   File? profileImage;
   String? base64Image;
@@ -31,6 +33,35 @@ class RegisterCubit extends Cubit<Register_State>{
 
   final ImagePicker picker = ImagePicker();
 
+  void startResendTimer() {
+    int time = _resendTime;
+    emit(ButtonState(enable: false, time: time));
+
+    _timer?.cancel();
+    _timer = Timer.periodic(Duration(seconds: 1), (timer) {
+      time--;
+      if (time <= 0) {
+        timer.cancel();
+        emit(ButtonState(enable: true, time: 0));
+      } else {
+        emit(ButtonState(enable: false, time: time));
+      }
+    });
+  }
+
+  void resendOtpWithTimer() async {
+
+    await RsendOtp();
+
+
+    startResendTimer();
+  }
+
+  @override
+  Future<void> close() {
+    _timer?.cancel();
+    return super.close();
+  }
 
 
   void ChangeName(String Name){
@@ -149,7 +180,13 @@ bool CheckGender(){
    return gender.isNotEmpty;
 }
 
-SignUp()async{
+  Future<void> setToken() async {
+    SharedPreferences shard = await SharedPreferences.getInstance();
+    await shard.setString('Token', token);
+  }
+
+
+  Future<void> SignUp()async{
 
   try {
     emit(RegisterLoading());
@@ -164,11 +201,22 @@ SignUp()async{
         "gender": gender,
         "photo": base64Image??DefaultImage
       },
+
       options: Options(
+
         validateStatus: (status) => true,
       ),
     );
+    if (response.data["token"] != null) {
+      token = response.data["token"];
+
+      await setToken();
+      print("Token: $token");
+    } else {
+      emit(RegisterError(Error: "Token not found in response"));
+    }
     emit(RegisterSucsess());
+
     print("Status: ${response.statusCode}");
     print("Data: ${response.data}");
   } catch (e) {
@@ -211,8 +259,9 @@ SignUp()async{
             "email":email
 
           }
-
       );
+      await setToken();
+      print("token= $token");
       print("Status: ${response.statusCode}");
       print("Data: ${response.data}");
 

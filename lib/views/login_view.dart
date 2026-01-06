@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:metro_mate/cubits/login/login_cubit.dart';
-import 'package:metro_mate/cubits/login/login_state.dart';
+
+import '../cubits/login/login_cubit.dart';
+import '../cubits/login/login_state.dart';
+
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -159,7 +161,9 @@ class _LoginPageState extends State<LoginPage> {
                           ),
                         ),
                         GestureDetector(
-                          onTap: _handleForgotPassword,
+                          onTap: (){
+                            Navigator.pushNamed(context, "ForgetPassword");
+                          },
                           child: Text(
                             "Forgot password?",
                             style: TextStyle(
@@ -223,7 +227,9 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                       SizedBox(width: 5),
                       GestureDetector(
-                        onTap: _handleSignUp,
+                        onTap: (){
+                          Navigator.pushNamed(context, "Register");
+                        },
                         child: Text(
                           "Sign Up",
                           style: TextStyle(
@@ -242,7 +248,7 @@ class _LoginPageState extends State<LoginPage> {
         },
         listener: (context, state) {
           if (state is LoginSuccess) {
-            Future.microtask(() => Navigator.pushNamed(context, 'home'));
+            Future.microtask(() => Navigator.pushNamed(context, 'test_page'));
           }
           if (state is LoginFailure) {
             ScaffoldMessenger.of(

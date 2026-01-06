@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:metro_mate/components/build_header.dart';
-import 'package:metro_mate/components/quick_action_card.dart';
+import 'package:second/components/quick_action_card.dart';
+
+import 'build_header.dart';
 
 class QuickActions extends StatelessWidget {
   const QuickActions({super.key});

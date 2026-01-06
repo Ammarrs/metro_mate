@@ -26,7 +26,7 @@ class NewpasswordPage extends StatelessWidget {
         listener: (context,state){
           if (state is ForgetPasswordSucsees) {
             Navigator.pushNamed(
-              context, 'Home',
+              context, 'loginPage',
 
             );
           }

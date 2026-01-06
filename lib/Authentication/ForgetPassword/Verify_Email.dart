@@ -4,8 +4,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:otp_text_field/otp_field.dart';
 import 'package:otp_text_field/otp_field_style.dart';
 import 'package:otp_text_field/style.dart';
-import 'package:second/Authentication_Cubit/ForgetPassword_Cubit/ForgetPassword_Cubit.dart';
-import 'package:second/Authentication_Cubit/ForgetPassword_Cubit/ForgetPassword_State.dart';
+
 /*class VerifyEmail extends StatelessWidget {
    VerifyEmail();
 

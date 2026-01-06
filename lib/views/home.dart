@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:metro_mate/components/wallet.dart';
+
+
+import '../components/wallet.dart';
 
 class Home extends StatelessWidget {
   const Home({super.key});

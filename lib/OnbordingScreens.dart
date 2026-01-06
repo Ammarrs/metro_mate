@@ -1,13 +1,15 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:second/views/login_view.dart';
 
 
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'package:metro_mate/block/state_cubit.dart';
+
 import 'block/Cubit.dart';
 import 'block/state_cubit.dart';
 import 'main.dart';
+
 
 class Onbordingscreen extends StatelessWidget {
   const Onbordingscreen({super.key});
@@ -19,7 +21,7 @@ class Onbordingscreen extends StatelessWidget {
         if (state is OnBordingIntial) {
           return Scaffold(body: Center(child: CircularProgressIndicator()));
         } else if (state is OnBordingSeen) {
-          return Home();
+          return LoginPage();
         } else {
           final controller=PageController();
           return Scaffold(
@@ -49,7 +51,7 @@ class Onbordingscreen extends StatelessWidget {
                                 await context.read<OnBoardingCubit>().SetSeen();
                                 Navigator.pushReplacement(
                                   context,
-                                  MaterialPageRoute(builder: (_) =>  Home()),
+                                  MaterialPageRoute(builder: (_) =>  LoginPage()),
                                 );
                               },
                               child: const Text(
@@ -140,7 +142,7 @@ class Onbordingscreen extends StatelessWidget {
                                 await context.read<OnBoardingCubit>().SetSeen();
                                 Navigator.pushReplacement(
                                   context,
-                                  MaterialPageRoute(builder: (_) =>  Home()),
+                                  MaterialPageRoute(builder: (_) =>  LoginPage()),
                                 );
                               },
                               child: const Text(
@@ -231,7 +233,7 @@ class Onbordingscreen extends StatelessWidget {
                                 await context.read<OnBoardingCubit>().SetSeen();
                                 Navigator.pushReplacement(
                                   context,
-                                  MaterialPageRoute(builder: (_) =>  Home()),
+                                  MaterialPageRoute(builder: (_) =>  LoginPage()),
                                 );
                               },
                               child: const Text(
@@ -285,7 +287,7 @@ class Onbordingscreen extends StatelessWidget {
                             await context.read<OnBoardingCubit>().SetSeen();
                             Navigator.pushReplacement(
                               context,
-                              MaterialPageRoute(builder: (_) =>  Home()),
+                              MaterialPageRoute(builder: (_) =>  LoginPage()),
                             );
                           },
                               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),

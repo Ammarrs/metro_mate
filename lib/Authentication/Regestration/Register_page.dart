@@ -27,7 +27,7 @@ class RegisterPage extends StatelessWidget {
             padding: const EdgeInsets.only(bottom: 150.0),
             child: TextButton.icon(
               onPressed: () {
-                Navigator.pushNamed(context, "Home");
+                Navigator.pushNamed(context, "loginPage");
               },
               icon: const Icon(
                 Icons.arrow_back,
@@ -306,7 +306,7 @@ class RegisterPage extends StatelessWidget {
                     children: [Text("Already have an account?"),
                       MaterialButton(onPressed: (){
                         Navigator.pushNamed(
-                          context,'Home');
+                          context,'loginPage');
                       },child: Text('Log in',style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold,color: Colors.blue),),)
                     ],
 

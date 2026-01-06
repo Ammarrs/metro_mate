@@ -1,6 +1,8 @@
 import 'package:dio/dio.dart';
-import 'package:metro_mate/config/api_config.dart';
-import 'package:metro_mate/services/storage_service.dart';
+import 'package:second/services/storage_service.dart';
+
+
+import '../config/api_config.dart';
 
 class ApiClient {
   final Dio _dio = Dio();

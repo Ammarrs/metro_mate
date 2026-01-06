@@ -1,8 +1,10 @@
 import 'package:dio/dio.dart';
-import 'package:metro_mate/config/api_config.dart';
-import 'package:metro_mate/models/user_model.dart';
-import 'package:metro_mate/services/api_client.dart';
-import 'package:metro_mate/services/storage_service.dart';
+
+import 'package:second/services/storage_service.dart';
+
+import '../config/api_config.dart';
+import '../models/user_model.dart';
+import 'api_client.dart';
 
 class AuthService {
   final ApiClient _apiClient = ApiClient();
