@@ -226,6 +226,7 @@ bool CheckGender(){
 
 }
   RsendOtp()async{
+  Future<void>RsendOtp()async{
     try{
       emit(RegisterLoadingOTP());
       final response=await Dio().post('https://metrodb-production.up.railway.app/api/v1/users/resendOTP',
@@ -234,6 +235,8 @@ bool CheckGender(){
           },
         options: Options(validateStatus: (_) => true),
           );
+      await setToken();
+      print("token= $token");
       print("Status: ${response.statusCode}");
       print("Data: ${response.data}");
       if (response.statusCode == 200 || response.statusCode == 201) {
@@ -250,7 +253,7 @@ bool CheckGender(){
 
 
   }
-  VerfiyOtp()async{
+  Future<void>VerfiyOtp()async{
     try{
       emit(RegisterLoading());
       final response= await Dio().post('https://metrodb-production.up.railway.app/api/v1/users/verifyOTP',
