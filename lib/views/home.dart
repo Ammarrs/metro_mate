@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-
 import '../components/wallet.dart';
 
 class Home extends StatelessWidget {

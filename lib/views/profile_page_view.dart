@@ -21,6 +21,8 @@ class ProfilePage extends StatefulWidget {
 class _ProfilePageState extends State<ProfilePage> {
   File? _profileImage;
   final ImagePicker _picker = ImagePicker();
+  String? username = "ammar";
+  String? email = "amarsamome@gmail.com";
 
   Future<void> _pickImageFromGallery() async {
     try {
@@ -46,197 +48,200 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        children: [
-          // Header Section with Gradient
-          Container(
-            decoration: const BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.centerLeft,
-                end: Alignment.centerRight,
-                colors: [Color(0xFF4A6FA5), Color(0xFF5BC8E8)],
+      body: Expanded(
+        child: Column(
+          children: [
+            // Header Section with Gradient
+            Container(
+              decoration: const BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.centerLeft,
+                  end: Alignment.centerRight,
+                  colors: [Color(0xFF4A6FA5), Color(0xFF5BC8E8)],
+                ),
               ),
-            ),
-            child: SafeArea(
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Column(
-                  children: [
-                    // Top Bar
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        IconButton(
-                          icon: const Icon(
-                            Icons.arrow_back,
-                            color: Colors.white,
-                          ),
-                          onPressed: () {
-                            Navigator.pop(context);
-                          },
-                        ),
-                        IconButton(
-                          icon: const Icon(
-                            Icons.settings_outlined,
-                            color: Colors.white,
-                          ),
-                          onPressed: () {},
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 8),
-                    // Title
-                    const Align(
-                      alignment: Alignment.centerLeft,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+              child: SafeArea(
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Column(
+                    children: [
+                      // Top Bar
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(
-                            'Profile',
-                            style: TextStyle(
+                          IconButton(
+                            icon: const Icon(
+                              Icons.arrow_back,
                               color: Colors.white,
-                              fontSize: 28,
-                              fontWeight: FontWeight.bold,
                             ),
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
                           ),
-                          SizedBox(height: 4),
-                          Text(
-                            'Manage your account',
-                            style: TextStyle(
-                              color: Colors.white70,
-                              fontSize: 16,
+                          IconButton(
+                            icon: const Icon(
+                              Icons.settings_outlined,
+                              color: Colors.white,
                             ),
+                            onPressed: () {},
                           ),
                         ],
                       ),
-                    ),
-                    const SizedBox(height: 24),
-                    // Profile Info
-                    Row(
-                      children: [
-                        GestureDetector(
-                          onTap: _pickImageFromGallery,
-                          child: Stack(
-                            children: [
-                              CircleAvatar(
-                                radius: 35,
-                                backgroundColor: Colors.white.withOpacity(0.3),
-                                backgroundImage: _profileImage != null
-                                    ? FileImage(_profileImage!)
-                                    : null,
-                                child: _profileImage == null
-                                    ? const Text(
-                                        'a',
-                                        style: TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 32,
-                                          fontWeight: FontWeight.w500,
-                                        ),
-                                      )
-                                    : null,
-                              ),
-                              Positioned(
-                                bottom: 0,
-                                right: 0,
-                                child: Container(
-                                  padding: const EdgeInsets.all(4),
-                                  decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    shape: BoxShape.circle,
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color: Colors.black.withOpacity(0.2),
-                                        blurRadius: 4,
-                                        offset: const Offset(0, 2),
-                                      ),
-                                    ],
-                                  ),
-                                  child: const Icon(
-                                    Icons.camera_alt,
-                                    size: 16,
-                                    color: Color(0xFF4A6FA5),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        const SizedBox(width: 16),
-                        const Column(
+                      const SizedBox(height: 8),
+                      // Title
+                      const Align(
+                        alignment: Alignment.centerLeft,
+                        child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              'ammarsmeshaal',
+                              'Profile',
                               style: TextStyle(
                                 color: Colors.white,
-                                fontSize: 20,
+                                fontSize: 28,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
                             SizedBox(height: 4),
                             Text(
-                              'ammarsmeshaal@gmail.com',
+                              'Manage your account',
                               style: TextStyle(
                                 color: Colors.white70,
-                                fontSize: 14,
+                                fontSize: 16,
                               ),
                             ),
                           ],
                         ),
-                      ],
-                    ),
-                    const SizedBox(height: 16),
-                  ],
-                ),
-              ),
-            ),
-          ),
-          // Menu Items
-          Expanded(
-            child: Container(
-              color: Colors.grey[50],
-              child: SingleChildScrollView(
-                child: Column(
-                  children: [
-                    const SizedBox(height: 16),
-                    Container(
-                      margin: const EdgeInsets.symmetric(horizontal: 16),
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(12),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black.withOpacity(0.05),
-                            blurRadius: 10,
-                            offset: const Offset(0, 2),
-                          ),
-                        ],
                       ),
-                      child: Column(
+                      const SizedBox(height: 24),
+                      // Profile Info
+                      Row(
                         children: [
-                          _buildMenuItem(
-                            icon: Icons.settings_outlined,
-                            title: 'Settings & Privacy',
-                            onTap: () {},
+                          GestureDetector(
+                            onTap: _pickImageFromGallery,
+                            child: Stack(
+                              children: [
+                                CircleAvatar(
+                                  radius: 35,
+                                  backgroundColor:
+                                      Colors.white.withOpacity(0.3),
+                                  backgroundImage: _profileImage != null
+                                      ? FileImage(_profileImage!)
+                                      : null,
+                                  child: _profileImage == null
+                                      ? const Text(
+                                          'a',
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 32,
+                                            fontWeight: FontWeight.w500,
+                                          ),
+                                        )
+                                      : null,
+                                ),
+                                Positioned(
+                                  bottom: 0,
+                                  right: 0,
+                                  child: Container(
+                                    padding: const EdgeInsets.all(4),
+                                    decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      shape: BoxShape.circle,
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: Colors.black.withOpacity(0.2),
+                                          blurRadius: 4,
+                                          offset: const Offset(0, 2),
+                                        ),
+                                      ],
+                                    ),
+                                    child: const Icon(
+                                      Icons.camera_alt,
+                                      size: 16,
+                                      color: Color(0xFF4A6FA5),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
-                          const Divider(height: 1),
-                          _buildMenuItem(
-                            icon: Icons.logout,
-                            title: 'Sign Out',
-                            titleColor: Colors.red,
-                            iconColor: Colors.red,
-                            onTap: () {},
+                          const SizedBox(width: 16),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                '$username',
+                                style: const TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              const SizedBox(height: 4),
+                              Text(
+                                '$email',
+                                style: TextStyle(
+                                  color: Colors.white70,
+                                  fontSize: 14,
+                                ),
+                              ),
+                            ],
                           ),
                         ],
                       ),
-                    ),
-                    const SizedBox(height: 16),
-                  ],
+                      const SizedBox(height: 16),
+                    ],
+                  ),
                 ),
               ),
             ),
-          ),
-        ],
+            // Menu Items
+            Expanded(
+              child: Container(
+                color: Colors.grey[50],
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      const SizedBox(height: 16),
+                      Container(
+                        margin: const EdgeInsets.symmetric(horizontal: 16),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(12),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black.withOpacity(0.05),
+                              blurRadius: 10,
+                              offset: const Offset(0, 2),
+                            ),
+                          ],
+                        ),
+                        child: Column(
+                          children: [
+                            _buildMenuItem(
+                              icon: Icons.settings_outlined,
+                              title: 'Settings & Privacy',
+                              onTap: () {},
+                            ),
+                            const Divider(height: 1),
+                            _buildMenuItem(
+                              icon: Icons.logout,
+                              title: 'Sign Out',
+                              titleColor: Colors.red,
+                              iconColor: Colors.red,
+                              onTap: () {},
+                            ),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(height: 16),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

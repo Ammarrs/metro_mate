@@ -61,51 +61,53 @@ class _LoginPageState extends State<LoginPage> {
               ),
             ),
             child: Center(
-              child: Column(
-                children: [
-                  Container(
-                    width: 70,
-                    height: 70,
-                    decoration: BoxDecoration(
-                      color: Colors.white.withOpacity(0.2),
-                      borderRadius: BorderRadius.circular(15),
-                      border: Border.all(
+              child: Expanded(
+                child: Column(
+                  children: [
+                    Container(
+                      width: 70,
+                      height: 70,
+                      decoration: BoxDecoration(
                         color: Colors.white.withOpacity(0.2),
-                        width: 1,
+                        borderRadius: BorderRadius.circular(15),
+                        border: Border.all(
+                          color: Colors.white.withOpacity(0.2),
+                          width: 1,
+                        ),
                       ),
-                    ),
-                    child: Align(
-                      alignment: Alignment.center,
-                      child: SizedBox(
-                        width: 40,
-                        height: 40,
-                        child: Image.asset(
-                          "assets/images/train_black.png",
-                          fit: BoxFit.contain,
+                      child: Align(
+                        alignment: Alignment.center,
+                        child: SizedBox(
+                          width: 40,
+                          height: 40,
+                          child: Image.asset(
+                            "assets/images/train_black.png",
+                            fit: BoxFit.contain,
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                  SizedBox(height: 30),
-                  Text(
-                    "Metro Mate",
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 26,
-                      color: Colors.white,
+                    SizedBox(height: 30),
+                    Text(
+                      "Metro Mate",
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 26,
+                        color: Colors.white,
+                      ),
                     ),
-                  ),
-                  Padding(padding: EdgeInsets.only(bottom: 2)),
-                  // SizedBox(height: 4,),
-                  Text(
-                    "Welcome back!",
-                    style: TextStyle(
-                      fontSize: 17,
-                      fontWeight: FontWeight.w300,
-                      color: Colors.white,
+                    Padding(padding: EdgeInsets.only(bottom: 2)),
+                    // SizedBox(height: 4,),
+                    Text(
+                      "Welcome back!",
+                      style: TextStyle(
+                        fontSize: 17,
+                        fontWeight: FontWeight.w300,
+                        color: Colors.white,
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           ),
