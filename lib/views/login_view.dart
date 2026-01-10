@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:second/cubits/user/user_cubit.dart';
 
 import '../cubits/login/login_cubit.dart';
 import '../cubits/login/login_state.dart';
+import '../cubits/user/user_cubit.dart';
+import '../utils/validators.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -16,6 +17,10 @@ class _LoginPageState extends State<LoginPage> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   bool _obsecurePassword = true;
+  
+  // Error state variables
+  String? _emailError;
+  String? _passwordError;
 
   @override
   void dispose() {
@@ -24,13 +29,26 @@ class _LoginPageState extends State<LoginPage> {
     super.dispose();
   }
 
+  void _validateAndSignIn() {
+    setState(() {
+      // Validate using Validators class
+      _emailError = Validators.validateEmail(_emailController.text.trim());
+      _passwordError = Validators.validatePassword(_passwordController.text);
+    });
+
+    // Only proceed if there are no errors
+    if (_emailError == null && _passwordError == null) {
+      context.read<LoginCubit>().signIn(
+        email: _emailController.text.trim(),
+        password: _passwordController.text,
+      );
+      print("Email: ${_emailController.text}");
+      print("Password: ${_passwordController.text}");
+    }
+  }
+
   void _handleSignIn() {
-    context.read<LoginCubit>().signIn(
-          email: _emailController.text.trim(),
-          password: _passwordController.text,
-        );
-    print("Email: ${_emailController.text}");
-    print("Password: ${_passwordController.text}");
+    _validateAndSignIn();
   }
 
   void _handleSignUp() {}
@@ -97,7 +115,6 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                     ),
                     Padding(padding: EdgeInsets.only(bottom: 2)),
-                    // SizedBox(height: 4,),
                     Text(
                       "Welcome back!",
                       style: TextStyle(
@@ -124,91 +141,196 @@ class _LoginPageState extends State<LoginPage> {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   SizedBox(height: 25),
-                  // Container(),
-                  Text(
-                    "Email",
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w600,
-                      color: Colors.black87,
-                    ),
-                  ),
-                  SizedBox(height: 8),
-                  TextField(
-                    controller: _emailController,
-                    keyboardType: TextInputType.emailAddress,
-                    decoration: InputDecoration(
-                      hintText: "Enter your email",
-                      prefixIcon: Icon(Icons.email_outlined),
-                      // filled: true,
-                      fillColor: Colors.grey[50],
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(50),
-                        borderSide: BorderSide(color: Colors.transparent),
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: 20),
-                  Container(
-                    constraints: BoxConstraints(minHeight: 0, maxHeight: 100),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          "Password",
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w600,
-                            color: Colors.black87,
-                          ),
+                  
+                  // Email Field
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "Email",
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w600,
+                          color: Colors.black87,
                         ),
-                        GestureDetector(
-                          onTap: () {
-                            Navigator.pushNamed(context, "ForgetPassword");
-                          },
-                          child: Text(
-                            "Forgot password?",
-                            style: TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w500,
-                              color: Colors.grey,
+                      ),
+                      SizedBox(height: 8),
+                      TextField(
+                        controller: _emailController,
+                        keyboardType: TextInputType.emailAddress,
+                        onChanged: (value) {
+                          // Clear error when user starts typing
+                          if (_emailError != null) {
+                            setState(() {
+                              _emailError = null;
+                            });
+                          }
+                        },
+                        decoration: InputDecoration(
+                          hintText: "Enter your email",
+                          prefixIcon: Icon(
+                            Icons.email_outlined,
+                            color: _emailError != null ? Colors.red : null,
+                          ),
+                          fillColor: Colors.grey[50],
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(50),
+                            borderSide: BorderSide(
+                              color: _emailError != null ? Colors.red : Colors.grey[300]!,
+                              width: _emailError != null ? 2 : 1,
+                            ),
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(50),
+                            borderSide: BorderSide(
+                              color: _emailError != null ? Colors.red : Colors.grey[300]!,
+                              width: _emailError != null ? 2 : 1,
+                            ),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(50),
+                            borderSide: BorderSide(
+                              color: _emailError != null ? Colors.red : Color(0xFF4a6190),
+                              width: 2,
                             ),
                           ),
                         ),
-                      ],
-                    ),
+                      ),
+                      // Show error message
+                      if (_emailError != null)
+                        Padding(
+                          padding: const EdgeInsets.only(left: 16, top: 8),
+                          child: Text(
+                            _emailError!,
+                            style: TextStyle(
+                              color: Colors.red,
+                              fontSize: 12,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        ),
+                    ],
                   ),
-                  TextField(
-                    controller: _passwordController,
-                    obscureText: _obsecurePassword,
-                    decoration: InputDecoration(
-                      hintText: "Enter your password",
-                      prefixIcon: Icon(Icons.lock_clock_outlined),
-                      suffixIcon: IconButton(
-                        onPressed: () {
-                          setState(() {
-                            _obsecurePassword = !_obsecurePassword;
-                          });
-                        },
-                        icon: Icon(
-                          _obsecurePassword
-                              ? Icons.visibility_outlined
-                              : Icons.visibility_off_outlined,
+                  
+                  SizedBox(height: 20),
+                  
+                  // Password Field
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Container(
+                        constraints: BoxConstraints(minHeight: 0, maxHeight: 100),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              "Password",
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w600,
+                                color: Colors.black87,
+                              ),
+                            ),
+                            GestureDetector(
+                              onTap: () {
+                                Navigator.pushNamed(context, "ForgetPassword");
+                              },
+                              child: Text(
+                                "Forgot password?",
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w500,
+                                  color: Colors.grey,
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
                       ),
-                      // filled: true,
-                      fillColor: Colors.grey[50],
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(50),
-                        borderSide: BorderSide(color: Colors.grey[300]!),
+                      TextField(
+                        controller: _passwordController,
+                        obscureText: _obsecurePassword,
+                        onChanged: (value) {
+                          // Clear error when user starts typing
+                          if (_passwordError != null) {
+                            setState(() {
+                              _passwordError = null;
+                            });
+                          }
+                        },
+                        decoration: InputDecoration(
+                          hintText: "Enter your password",
+                          prefixIcon: Icon(
+                            Icons.lock_clock_outlined,
+                            color: _passwordError != null ? Colors.red : null,
+                          ),
+                          suffixIcon: IconButton(
+                            onPressed: () {
+                              setState(() {
+                                _obsecurePassword = !_obsecurePassword;
+                              });
+                            },
+                            icon: Icon(
+                              _obsecurePassword
+                                  ? Icons.visibility_outlined
+                                  : Icons.visibility_off_outlined,
+                            ),
+                          ),
+                          fillColor: Colors.grey[50],
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(50),
+                            borderSide: BorderSide(
+                              color: _passwordError != null ? Colors.red : Colors.grey[300]!,
+                              width: _passwordError != null ? 2 : 1,
+                            ),
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(50),
+                            borderSide: BorderSide(
+                              color: _passwordError != null ? Colors.red : Colors.grey[300]!,
+                              width: _passwordError != null ? 2 : 1,
+                            ),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(50),
+                            borderSide: BorderSide(
+                              color: _passwordError != null ? Colors.red : Color(0xFF4a6190),
+                              width: 2,
+                            ),
+                          ),
+                        ),
                       ),
-                    ),
-                    // style: ,
+                      // Show error message
+                      if (_passwordError != null)
+                        Padding(
+                          padding: const EdgeInsets.only(left: 16, top: 8),
+                          child: Text(
+                            _passwordError!,
+                            style: TextStyle(
+                              color: Colors.red,
+                              fontSize: 12,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        ),
+                    ],
                   ),
+                  
                   SizedBox(height: 38),
+                  
+                  // Sign In Button
                   ElevatedButton(
-                    onPressed: _handleSignIn,
-                    child: Text("Sign In", style: TextStyle(fontSize: 16)),
+                    onPressed: state is LoginLoading ? null : _handleSignIn,
+                    child: state is LoginLoading
+                        ? SizedBox(
+                            height: 20,
+                            width: 20,
+                            child: CircularProgressIndicator(
+                              strokeWidth: 2,
+                              valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                            ),
+                          )
+                        : Text("Sign In", style: TextStyle(fontSize: 16)),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Color(0xFF4a6190),
                       foregroundColor: Colors.white,
@@ -219,7 +341,10 @@ class _LoginPageState extends State<LoginPage> {
                       elevation: 1,
                     ),
                   ),
+                  
                   SizedBox(height: 24),
+                  
+                  // Sign Up Link
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -250,13 +375,23 @@ class _LoginPageState extends State<LoginPage> {
         },
         listener: (context, state) {
           if (state is LoginSuccess) {
+            // Update the UserCubit with the logged-in user
             context.read<UserCubit>().setUser(state.user);
+            
             Future.microtask(() => Navigator.pushNamed(context, 'test_page'));
           }
           if (state is LoginFailure) {
-            ScaffoldMessenger.of(
-              context,
-            ).showSnackBar(SnackBar(content: Text(state.error)));
+            // Show error on password field for incorrect credentials
+            setState(() {
+              _passwordError = state.error;
+            });
+            
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text(state.error),
+                backgroundColor: Colors.red,
+              ),
+            );
           }
         },
       ),
