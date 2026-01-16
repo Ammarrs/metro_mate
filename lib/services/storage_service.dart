@@ -7,7 +7,7 @@ class StorageService {
     _prefs ??= await SharedPreferences.getInstance();
   }
 
-  static const String _tokenKey = 'auth_token';
+  static const String _tokenKey = 'Token';
   static const String _userIdKey = 'user_id';
   static const String _userEmailKey = 'user_email';
   static const String _userNameKey = 'user_name';
@@ -15,12 +15,13 @@ class StorageService {
 
   Future<void> saveToken(String token) async {
     await _init();
-    await _prefs!.setString('auth_token', token);
+    await _prefs!.setString(_tokenKey, token);
+    print("token is: $token");
   }
 
   Future<String?> getToken() async {
     await _init();
-    return _prefs?.getString('auth_token');
+    return _prefs?.getString(_tokenKey);
   }
 
   Future<String?> getUserName() async {

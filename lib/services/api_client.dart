@@ -82,9 +82,9 @@ class ApiClient {
     }
   }
 
-  Future<Response> put(String path, {dynamic data}) async {
+  Future<Response> put(String path, {dynamic data, dynamic options}) async {
     try {
-      return await _dio.put(path, data: data);
+      return await _dio.put(path, data: data, options: options);
     } catch (e) {
       print('PUT Error: $e');
       rethrow;

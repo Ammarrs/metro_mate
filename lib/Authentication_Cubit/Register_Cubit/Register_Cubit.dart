@@ -13,7 +13,7 @@ import 'Register_State.dart';
 
 class RegisterCubit extends Cubit<Register_State>{
   RegisterCubit() :super(RegisterInitial());
-  String token="";
+  String token = "";
   String name = '';
   String email = '';
   String password = '';
@@ -186,7 +186,7 @@ bool CheckGender(){
   }
 
 
-  Future<void> SignUp()async{
+  Future<void> SignUp() async {
 
   try {
     emit(RegisterLoading());
