@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import '../cubits/user/user_cubit.dart';
+import '../cubits/user/user_state.dart';
 
 class HomeAppBar extends StatelessWidget {
   final String greeting;
-  final String userName;
   final double balance;
   final int notificationCount;
   final VoidCallback? onDepositPressed;
@@ -11,7 +13,6 @@ class HomeAppBar extends StatelessWidget {
   const HomeAppBar({
     Key? key,
     this.greeting = 'Good afternoon!',
-    this.userName = 'ammar',
     this.balance = 150.50,
     this.notificationCount = 1,
     this.onDepositPressed,
@@ -32,7 +33,6 @@ class HomeAppBar extends StatelessWidget {
       padding: const EdgeInsets.only(top: 85.0, left: 30.0, right: 30.0),
       child: Column(
         children: [
-          // Header with profile and notification
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -42,40 +42,94 @@ class HomeAppBar extends StatelessWidget {
                     onTap: () {
                       Navigator.pushNamed(context, 'Profile');
                     },
-                    child: Container(
-                      width: 60,
-                      height: 60,
-                      decoration: BoxDecoration(
-                        color: Colors.white.withOpacity(0.3),
-                        shape: BoxShape.circle,
-                      ),
-                      child: const Icon(
-                        Icons.person_outline,
-                        color: Colors.white,
-                        size: 30,
-                      ),
+                    child: BlocBuilder<UserCubit, UserState>(
+                      builder: (context, state) {
+                        String? profileImageUrl;
+                        String displayName = 'Guest';
+
+                        if (state is UserLoaded) {
+                          profileImageUrl = state.user.profileImage;
+                          displayName = state.user.name;
+                        }
+
+                        return Container(
+                          width: 60,
+                          height: 60,
+                          decoration: BoxDecoration(
+                            color: Colors.white.withOpacity(0.3),
+                            shape: BoxShape.circle,
+                          ),
+                          child: profileImageUrl != null &&
+                                  profileImageUrl.isNotEmpty
+                              ? ClipOval(
+                                  child: Image.network(
+                                    profileImageUrl,
+                                    fit: BoxFit.cover,
+                                    width: 60,
+                                    height: 60,
+                                    errorBuilder: (context, error, stackTrace) {
+                                      // Fallback if image fails to load
+                                      return Center(
+                                        child: Text(
+                                          displayName.isNotEmpty
+                                              ? displayName[0].toUpperCase()
+                                              : 'G',
+                                          style: const TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 24,
+                                            fontWeight: FontWeight.w500,
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                  ),
+                                )
+                              : Center(
+                                  child: Text(
+                                    displayName.isNotEmpty
+                                        ? displayName[0].toUpperCase()
+                                        : 'G',
+                                    style: const TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 24,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ),
+                                ),
+                        );
+                      },
                     ),
                   ),
                   const SizedBox(width: 12),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        greeting,
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 20,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                      Text(
-                        userName,
-                        style: const TextStyle(
-                          color: Colors.white70,
-                          fontSize: 14,
-                        ),
-                      ),
-                    ],
+                  BlocBuilder<UserCubit, UserState>(
+                    builder: (context, state) {
+                      String displayName = 'Guest';
+
+                      if (state is UserLoaded) {
+                        displayName = state.user.name;
+                      }
+
+                      return Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            greeting,
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 20,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                          Text(
+                            displayName,
+                            style: const TextStyle(
+                              color: Colors.white70,
+                              fontSize: 14,
+                            ),
+                          ),
+                        ],
+                      );
+                    },
                   ),
                 ],
               ),
@@ -181,40 +235,3 @@ class HomeAppBar extends StatelessWidget {
     );
   }
 }
-
-// // Example usage:
-// class ExampleScreen extends StatelessWidget {
-//   const ExampleScreen({Key? key}) : super(key: key);
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       body: SafeArea(
-//         child: Column(
-//           children: [
-//             TransitHeaderComponent(
-//               greeting: 'Good afternoon!',
-//               userName: 'ammar',
-//               balance: 150.50,
-//               notificationCount: 1,
-//               onDepositPressed: () {
-//                 print('Deposit pressed');
-//               },
-//               onNotificationPressed: () {
-//                 print('Notification pressed');
-//               },
-//             ),
-//             Expanded(
-//               child: Container(
-//                 color: Colors.white,
-//                 child: const Center(
-//                   child: Text('Rest of your content here'),
-//                 ),
-//               ),
-//             ),
-//           ],
-//         ),
-//       ),
-//     );
-//   }
-// }

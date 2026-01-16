@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:second/cubits/user/user_cubit.dart';
 
 import '../cubits/login/login_cubit.dart';
 import '../cubits/login/login_state.dart';
-
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -26,9 +26,9 @@ class _LoginPageState extends State<LoginPage> {
 
   void _handleSignIn() {
     context.read<LoginCubit>().signIn(
-      email: _emailController.text.trim(),
-      password: _passwordController.text,
-    );
+          email: _emailController.text.trim(),
+          password: _passwordController.text,
+        );
     print("Email: ${_emailController.text}");
     print("Password: ${_passwordController.text}");
   }
@@ -163,7 +163,7 @@ class _LoginPageState extends State<LoginPage> {
                           ),
                         ),
                         GestureDetector(
-                          onTap: (){
+                          onTap: () {
                             Navigator.pushNamed(context, "ForgetPassword");
                           },
                           child: Text(
@@ -229,7 +229,7 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                       SizedBox(width: 5),
                       GestureDetector(
-                        onTap: (){
+                        onTap: () {
                           Navigator.pushNamed(context, "Register");
                         },
                         child: Text(
@@ -250,6 +250,7 @@ class _LoginPageState extends State<LoginPage> {
         },
         listener: (context, state) {
           if (state is LoginSuccess) {
+            context.read<UserCubit>().setUser(state.user);
             Future.microtask(() => Navigator.pushNamed(context, 'test_page'));
           }
           if (state is LoginFailure) {

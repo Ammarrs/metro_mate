@@ -84,7 +84,7 @@ class Changepassword extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      "OldPassword",
+                      "Old Password",
                       style: TextStyle(
                           fontSize: 15,
                           fontWeight: FontWeight.bold,
@@ -112,7 +112,7 @@ class Changepassword extends StatelessWidget {
                       height: 15,
                     ),
                     Text(
-                      "NewPassword",
+                      "New Password",
                       style: TextStyle(
                           fontSize: 15,
                           fontWeight: FontWeight.bold,
@@ -125,7 +125,7 @@ class Changepassword extends StatelessWidget {
                       decoration: InputDecoration(
                         border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(25)),
-                        hint: Text("Enter new Password"),
+                        hint: Text("Enter New Password"),
                         prefixIcon: Icon(Icons.lock),
                         suffixIcon: IconButton(
                             onPressed: () {
@@ -140,7 +140,7 @@ class Changepassword extends StatelessWidget {
                       height: 15,
                     ),
                     Text(
-                      "Confirm NewPassword",
+                      "Confirm Password",
                       style: TextStyle(
                           fontSize: 15,
                           fontWeight: FontWeight.bold,
@@ -153,7 +153,7 @@ class Changepassword extends StatelessWidget {
                       decoration: InputDecoration(
                         border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(25)),
-                        hint: Text("Re_enter new Password"),
+                        hint: Text("Reenter New Password"),
                         prefixIcon: Icon(Icons.lock),
                         suffixIcon: IconButton(
                             onPressed: () {
