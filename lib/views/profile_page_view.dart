@@ -1,13 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
+
+import '../cubits/profile/profile_cubit.dart';
+import '../cubits/profile/profile_state.dart';
+import '../cubits/user/user_cubit.dart';
+import '../cubits/user/user_state.dart';
 
 class ProfilePageView extends StatelessWidget {
   const ProfilePageView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return ProfilePage();
+    return BlocProvider(
+      create: (context) => ProfileCubit(ProfileService())..loadProfile(),
+      child: const ProfilePage(),
+    );
   }
 }
 
@@ -19,10 +28,8 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-  File? _profileImage;
+  File? _localImage; // Local image before upload
   final ImagePicker _picker = ImagePicker();
-  String? username = "ammar";
-  String? email = "amarsamome@gmail.com";
 
   Future<void> _pickImageFromGallery() async {
     try {
@@ -35,212 +42,288 @@ class _ProfilePageState extends State<ProfilePage> {
 
       if (image != null) {
         setState(() {
-          _profileImage = File(image.path);
+          _localImage = File(image.path);
         });
+        
+        // Upload the image immediately
+        context.read<ProfileCubit>().uploadProfileImage(image.path);
+        
+        // Update global user state
+        // This will be done in the BlocListener when upload succeeds
       }
     } catch (e) {
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(content: Text('Error picking image: $e')));
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Error picking image: $e')),
+      );
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Expanded(
-        child: Column(
-          children: [
-            // Header Section with Gradient
-            Container(
-              decoration: const BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.centerLeft,
-                  end: Alignment.centerRight,
-                  colors: [Color(0xFF4A6FA5), Color(0xFF5BC8E8)],
-                ),
+      body: BlocListener<ProfileCubit, ProfileState>(
+        listener: (context, state) {
+          if (state is ProfileImageUploaded) {
+            // Update global user state with new image
+            context.read<UserCubit>().updateProfileImage(
+              state.user.profileImage ?? '',
+            );
+            
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content: Text('Profile image updated successfully!'),
+                backgroundColor: Colors.green,
               ),
-              child: SafeArea(
-                child: Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Column(
-                    children: [
-                      // Top Bar
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            );
+          } else if (state is ProfileError) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text(state.message),
+                backgroundColor: Colors.red,
+              ),
+            );
+          }
+        },
+        child: BlocBuilder<ProfileCubit, ProfileState>(
+          builder: (context, profileState) {
+            // Get user data from global UserCubit
+            final userState = context.watch<UserCubit>().state;
+            
+            String displayName = 'Guest';
+            String displayEmail = '';
+            String? profileImageUrl;
+
+            if (userState is UserLoaded) {
+              displayName = userState.user.name;
+              displayEmail = userState.user.email;
+              profileImageUrl = userState.user.profileImage;
+            }
+
+            return Column(
+              children: [
+                // Header Section with Gradient
+                Container(
+                  decoration: const BoxDecoration(
+                    gradient: LinearGradient(
+                      begin: Alignment.centerLeft,
+                      end: Alignment.centerRight,
+                      colors: [Color(0xFF4A6FA5), Color(0xFF5BC8E8)],
+                    ),
+                  ),
+                  child: SafeArea(
+                    child: Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Column(
                         children: [
-                          IconButton(
-                            icon: const Icon(
-                              Icons.arrow_back,
-                              color: Colors.white,
-                            ),
-                            onPressed: () {
-                              Navigator.pop(context);
-                            },
-                          ),
-                          IconButton(
-                            icon: const Icon(
-                              Icons.settings_outlined,
-                              color: Colors.white,
-                            ),
-                            onPressed: () {},
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 8),
-                      // Title
-                      const Align(
-                        alignment: Alignment.centerLeft,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              'Profile',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 28,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            SizedBox(height: 4),
-                            Text(
-                              'Manage your account',
-                              style: TextStyle(
-                                color: Colors.white70,
-                                fontSize: 16,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      const SizedBox(height: 24),
-                      // Profile Info
-                      Row(
-                        children: [
-                          GestureDetector(
-                            onTap: _pickImageFromGallery,
-                            child: Stack(
-                              children: [
-                                CircleAvatar(
-                                  radius: 35,
-                                  backgroundColor:
-                                      Colors.white.withOpacity(0.3),
-                                  backgroundImage: _profileImage != null
-                                      ? FileImage(_profileImage!)
-                                      : null,
-                                  child: _profileImage == null
-                                      ? const Text(
-                                          'a',
-                                          style: TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 32,
-                                            fontWeight: FontWeight.w500,
-                                          ),
-                                        )
-                                      : null,
+                          // Top Bar
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              IconButton(
+                                icon: const Icon(
+                                  Icons.arrow_back,
+                                  color: Colors.white,
                                 ),
-                                Positioned(
-                                  bottom: 0,
-                                  right: 0,
-                                  child: Container(
-                                    padding: const EdgeInsets.all(4),
-                                    decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      shape: BoxShape.circle,
-                                      boxShadow: [
-                                        BoxShadow(
-                                          color: Colors.black.withOpacity(0.2),
-                                          blurRadius: 4,
-                                          offset: const Offset(0, 2),
-                                        ),
-                                      ],
-                                    ),
-                                    child: const Icon(
-                                      Icons.camera_alt,
-                                      size: 16,
-                                      color: Color(0xFF4A6FA5),
-                                    ),
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                },
+                              ),
+                              IconButton(
+                                icon: const Icon(
+                                  Icons.settings_outlined,
+                                  color: Colors.white,
+                                ),
+                                onPressed: () {},
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 8),
+                          // Title
+                          const Align(
+                            alignment: Alignment.centerLeft,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'Profile',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 28,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                SizedBox(height: 4),
+                                Text(
+                                  'Manage your account',
+                                  style: TextStyle(
+                                    color: Colors.white70,
+                                    fontSize: 16,
                                   ),
                                 ),
                               ],
                             ),
                           ),
-                          const SizedBox(width: 16),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
+                          const SizedBox(height: 24),
+                          // Profile Info
+                          Row(
                             children: [
-                              Text(
-                                '$username',
-                                style: const TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.bold,
+                              GestureDetector(
+                                onTap: profileState is ProfileImageUploading
+                                    ? null
+                                    : _pickImageFromGallery,
+                                child: Stack(
+                                  children: [
+                                    CircleAvatar(
+                                      radius: 35,
+                                      backgroundColor:
+                                          Colors.white.withOpacity(0.3),
+                                      backgroundImage: _localImage != null
+                                          ? FileImage(_localImage!)
+                                          : (profileImageUrl != null &&
+                                                  profileImageUrl.isNotEmpty
+                                              ? NetworkImage(profileImageUrl)
+                                              : null) as ImageProvider?,
+                                      child: _localImage == null &&
+                                              (profileImageUrl == null ||
+                                                  profileImageUrl.isEmpty)
+                                          ? Text(
+                                              displayName.isNotEmpty
+                                                  ? displayName[0]
+                                                      .toUpperCase()
+                                                  : 'G',
+                                              style: const TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 32,
+                                                fontWeight: FontWeight.w500,
+                                              ),
+                                            )
+                                          : null,
+                                    ),
+                                    Positioned(
+                                      bottom: 0,
+                                      right: 0,
+                                      child: Container(
+                                        padding: const EdgeInsets.all(4),
+                                        decoration: BoxDecoration(
+                                          color: Colors.white,
+                                          shape: BoxShape.circle,
+                                          boxShadow: [
+                                            BoxShadow(
+                                              color:
+                                                  Colors.black.withOpacity(0.2),
+                                              blurRadius: 4,
+                                              offset: const Offset(0, 2),
+                                            ),
+                                          ],
+                                        ),
+                                        child: profileState
+                                                is ProfileImageUploading
+                                            ? const SizedBox(
+                                                width: 16,
+                                                height: 16,
+                                                child:
+                                                    CircularProgressIndicator(
+                                                  strokeWidth: 2,
+                                                  color: Color(0xFF4A6FA5),
+                                                ),
+                                              )
+                                            : const Icon(
+                                                Icons.camera_alt,
+                                                size: 16,
+                                                color: Color(0xFF4A6FA5),
+                                              ),
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ),
-                              const SizedBox(height: 4),
-                              Text(
-                                '$email',
-                                style: TextStyle(
-                                  color: Colors.white70,
-                                  fontSize: 14,
-                                ),
+                              const SizedBox(width: 16),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    displayName,
+                                    style: const TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  const SizedBox(height: 4),
+                                  Text(
+                                    displayEmail,
+                                    style: const TextStyle(
+                                      color: Colors.white70,
+                                      fontSize: 14,
+                                    ),
+                                  ),
+                                ],
                               ),
                             ],
                           ),
+                          const SizedBox(height: 16),
                         ],
                       ),
-                      const SizedBox(height: 16),
-                    ],
+                    ),
                   ),
                 ),
-              ),
-            ),
-            // Menu Items
-            Expanded(
-              child: Container(
-                color: Colors.grey[50],
-                child: SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      const SizedBox(height: 16),
-                      Container(
-                        margin: const EdgeInsets.symmetric(horizontal: 16),
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(12),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.black.withOpacity(0.05),
-                              blurRadius: 10,
-                              offset: const Offset(0, 2),
+                // Menu Items
+                Expanded(
+                  child: Container(
+                    color: Colors.grey[50],
+                    child: SingleChildScrollView(
+                      child: Column(
+                        children: [
+                          const SizedBox(height: 16),
+                          Container(
+                            margin: const EdgeInsets.symmetric(horizontal: 16),
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(12),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.black.withOpacity(0.05),
+                                  blurRadius: 10,
+                                  offset: const Offset(0, 2),
+                                ),
+                              ],
                             ),
-                          ],
-                        ),
-                        child: Column(
-                          children: [
-                            _buildMenuItem(
-                              icon: Icons.settings_outlined,
-                              title: 'Settings & Privacy',
-                              onTap: () {},
+                            child: Column(
+                              children: [
+                                _buildMenuItem(
+                                  icon: Icons.settings_outlined,
+                                  title: 'Settings & Privacy',
+                                  onTap: () {},
+                                ),
+                                const Divider(height: 1),
+                                _buildMenuItem(
+                                  icon: Icons.logout,
+                                  title: 'Sign Out',
+                                  titleColor: Colors.red,
+                                  iconColor: Colors.red,
+                                  onTap: () async {
+                                    await context.read<UserCubit>().logout();
+                                    if (context.mounted) {
+                                      Navigator.pushNamedAndRemoveUntil(
+                                        context,
+                                        'Login',
+                                        (route) => false,
+                                      );
+                                    }
+                                  },
+                                ),
+                              ],
                             ),
-                            const Divider(height: 1),
-                            _buildMenuItem(
-                              icon: Icons.logout,
-                              title: 'Sign Out',
-                              titleColor: Colors.red,
-                              iconColor: Colors.red,
-                              onTap: () {},
-                            ),
-                          ],
-                        ),
+                          ),
+                          const SizedBox(height: 16),
+                        ],
                       ),
-                      const SizedBox(height: 16),
-                    ],
+                    ),
                   ),
                 ),
-              ),
-            ),
-          ],
+              ],
+            );
+          },
         ),
       ),
     );
