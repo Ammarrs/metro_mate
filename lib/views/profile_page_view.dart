@@ -49,36 +49,38 @@ class _ProfilePageState extends State<ProfilePage> {
       builder: (BuildContext context) {
         return AlertDialog(
           title: const Text('Update Profile Photo'),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              const Text(
-                'Enter the URL of your new profile photo:',
-                style: TextStyle(fontSize: 14),
-              ),
-              const SizedBox(height: 16),
-              TextField(
-                controller: _photoUrlController,
-                decoration: const InputDecoration(
-                  hintText: 'https://example.com/photo.jpg',
-                  border: OutlineInputBorder(),
-                  prefixIcon: Icon(Icons.link),
+          content: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const Text(
+                  'Enter the URL of your new profile photo:',
+                  style: TextStyle(fontSize: 14),
                 ),
-                keyboardType: TextInputType.url,
-              ),
-              const SizedBox(height: 8),
-              const Text(
-                'Or use this sample URL for testing:',
-                style: TextStyle(fontSize: 12, color: Colors.grey),
-              ),
-              TextButton(
-                onPressed: () {
-                  _photoUrlController.text = 
-                      'https://t4.ftcdn.net/jpg/09/64/89/19/360_F_964891988_aeRrD7Ee7IhmKQhYkCrkrfE6UHtILfPp.jpg';
-                },
-                child: const Text('Use Sample Image'),
-              ),
-            ],
+                const SizedBox(height: 16),
+                TextField(
+                  controller: _photoUrlController,
+                  decoration: const InputDecoration(
+                    hintText: 'https://example.com/photo.jpg',
+                    border: OutlineInputBorder(),
+                    prefixIcon: Icon(Icons.link),
+                  ),
+                  keyboardType: TextInputType.url,
+                ),
+                const SizedBox(height: 8),
+                const Text(
+                  'Or use this sample URL for testing:',
+                  style: TextStyle(fontSize: 12, color: Colors.grey),
+                ),
+                TextButton(
+                  onPressed: () {
+                    _photoUrlController.text = 
+                        'https://t4.ftcdn.net/jpg/09/64/89/19/360_F_964891988_aeRrD7Ee7IhmKQhYkCrkrfE6UHtILfPp.jpg';
+                  },
+                  child: const Text('Use Sample Image'),
+                ),
+              ],
+            ),
           ),
           actions: [
             TextButton(
@@ -115,6 +117,9 @@ class _ProfilePageState extends State<ProfilePage> {
 
   @override
   Widget build(BuildContext context) {
+    final screenHeight = MediaQuery.of(context).size.height;
+    final screenWidth = MediaQuery.of(context).size.width;
+
     return Scaffold(
       body: BlocListener<ProfileCubit, ProfileState>(
         listener: (context, state) {
@@ -172,6 +177,10 @@ class _ProfilePageState extends State<ProfilePage> {
               children: [
                 // Header Section with Gradient
                 Container(
+                  constraints: BoxConstraints(
+                    minHeight: screenHeight * 0.28,
+                    maxHeight: screenHeight * 0.35,
+                  ),
                   decoration: const BoxDecoration(
                     gradient: LinearGradient(
                       begin: Alignment.centerLeft,
@@ -181,8 +190,12 @@ class _ProfilePageState extends State<ProfilePage> {
                   ),
                   child: SafeArea(
                     child: Padding(
-                      padding: const EdgeInsets.all(16.0),
+                      padding: EdgeInsets.symmetric(
+                        horizontal: screenWidth * 0.04,
+                        vertical: 16,
+                      ),
                       child: Column(
+                        mainAxisSize: MainAxisSize.min,
                         children: [
                           // Top Bar
                           Row(
@@ -207,6 +220,7 @@ class _ProfilePageState extends State<ProfilePage> {
                             ],
                           ),
                           const SizedBox(height: 8),
+                          
                           // Title
                           const Align(
                             alignment: Alignment.centerLeft,
@@ -232,10 +246,13 @@ class _ProfilePageState extends State<ProfilePage> {
                               ],
                             ),
                           ),
-                          const SizedBox(height: 24),
+                          
+                          SizedBox(height: screenHeight * 0.02),
+                          
                           // Profile Info
                           Row(
                             children: [
+                              // Profile Image with Camera Icon
                               GestureDetector(
                                 onTap: profileState is ProfileImageUploading
                                     ? null
@@ -299,9 +316,12 @@ class _ProfilePageState extends State<ProfilePage> {
                                 ),
                               ),
                               const SizedBox(width: 16),
+                              
+                              // Name and Email - With overflow protection
                               Expanded(
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisSize: MainAxisSize.min,
                                   children: [
                                     Text(
                                       displayName,
@@ -311,6 +331,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                         fontWeight: FontWeight.bold,
                                       ),
                                       overflow: TextOverflow.ellipsis,
+                                      maxLines: 1,
                                     ),
                                     const SizedBox(height: 4),
                                     Text(
@@ -320,6 +341,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                         fontSize: 14,
                                       ),
                                       overflow: TextOverflow.ellipsis,
+                                      maxLines: 1,
                                     ),
                                   ],
                                 ),
@@ -332,6 +354,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     ),
                   ),
                 ),
+                
                 // Loading Indicator
                 if (profileState is ProfileLoading)
                   const Expanded(
@@ -425,6 +448,8 @@ class _ProfilePageState extends State<ProfilePage> {
                   color: titleColor ?? Colors.black87,
                   fontWeight: FontWeight.w500,
                 ),
+                overflow: TextOverflow.ellipsis,
+                maxLines: 1,
               ),
             ),
             if (titleColor == null)
