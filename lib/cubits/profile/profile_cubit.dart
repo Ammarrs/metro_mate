@@ -7,7 +7,13 @@ class ProfileCubit extends Cubit<ProfileState> {
 
   ProfileCubit(this._profileService) : super(ProfileInitial());
 
-  // Load user profile from backend
+  /// Loads the user profile from the backend
+  /// 
+  /// Flow:
+  /// 1. Emit ProfileLoading state
+  /// 2. Call ProfileService.getProfile() which fetches username, email, and photo
+  /// 3. If successful, emit ProfileLoaded with user data
+  /// 4. If failed, emit ProfileError with error message
   Future<void> loadProfile() async {
     try {
       emit(ProfileLoading());
@@ -29,13 +35,26 @@ class ProfileCubit extends Cubit<ProfileState> {
     }
   }
 
-  // Upload new profile image
-  Future<void> uploadProfileImage(String imagePath) async {
+  /// Updates the profile image with a new photo URL
+  /// 
+  /// Note: The API expects a photo URL string, not a file path
+  /// If you're uploading from gallery, you'll need to upload the file
+  /// to a storage service first and get the URL
+  /// 
+  /// @param photoUrl: The URL of the new profile photo
+  /// 
+  /// Flow:
+  /// 1. Emit ProfileImageUploading state (shows loading indicator)
+  /// 2. Call ProfileService.updateProfileImage() with the photo URL
+  /// 3. If successful, emit ProfileImageUploaded (shows success message)
+  /// 4. After 500ms, transition to ProfileLoaded with updated user data
+  /// 5. If failed, emit ProfileError
+  Future<void> uploadProfileImage(String photoUrl) async {
     try {
       emit(ProfileImageUploading());
-      print('ProfileCubit: Uploading image from $imagePath');
+      print('ProfileCubit: Uploading image: $photoUrl');
 
-      final result = await _profileService.updateProfileImage(imagePath);
+      final result = await _profileService.updateProfileImage(photoUrl);
       print('ProfileCubit: Upload result = ${result.success}');
 
       if (result.success && result.user != null) {
@@ -55,6 +74,8 @@ class ProfileCubit extends Cubit<ProfileState> {
     }
   }
 
+  /// Resets the profile state to initial
+  /// Useful when logging out or navigating away from profile
   void reset() {
     emit(ProfileInitial());
   }

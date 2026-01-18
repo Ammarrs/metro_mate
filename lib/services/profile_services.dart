@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
+import 'package:second/models/profile_result.dart';
 import 'package:second/services/storage_service.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import '../models/user_model.dart';
 import 'api_client.dart';
 
@@ -8,41 +8,111 @@ class ProfileService {
   final ApiClient _apiClient = ApiClient();
   final StorageService _storage = StorageService();
 
-  // Get user profile from backend
+  /// Fetches the complete user profile by calling all three endpoints
+  /// This combines username, email, and photo into a single User object
+  /// 
+  /// Flow:
+  /// 1. Get username from /api/v1/users/profile/username
+  /// 2. Get email from /api/v1/users/profile/email
+  /// 3. Get photo from /api/v1/users/profile/photo
+  /// 4. Combine all data into a User object
+  /// 5. Save to local storage
   Future<ProfileResult> getProfile() async {
     try {
-      print('Fetching user profile...');
+      print('ProfileService: Fetching complete user profile...');
 
-      final response = await _apiClient.get('/api/v1/users/profile');
+      String? userId;
+      String userName = '';
+      String userEmail = '';
+      String? userPhoto;
 
-      print('Profile response status: ${response.statusCode}');
-      print('Profile response data: ${response.data}');
+      // Step 1: Get Username
+      try {
+        final nameResponse = await _apiClient.get('/api/v1/users/profile/username');
+        print('Username response status: ${nameResponse.statusCode}');
+        print('Username response data: ${nameResponse.data}');
 
-      if (response.statusCode == 200) {
-        final data = response.data;
-        final user = User.fromJson(data['data']['user']);
-
-        // Save updated user data to storage
-        await _storage.saveUserData(
-          id: user.id,
-          email: user.email,
-          name: user.name,
-          profileImage: user.profileImage,
-        );
-
-        return ProfileResult(
-          success: true,
-          message: 'Profile loaded successfully',
-          user: user,
-        );
-      } else {
+        if (nameResponse.statusCode == 200 && nameResponse.data['status'] == 'success') {
+          userName = nameResponse.data['data']['name'] ?? 'Guest';
+        } else {
+          return ProfileResult(
+            success: false,
+            message: 'Failed to fetch username',
+          );
+        }
+      } catch (e) {
+        print('Error fetching username: $e');
         return ProfileResult(
           success: false,
-          message: response.data['message'] ?? 'Failed to load profile',
+          message: 'Failed to fetch username: $e',
         );
       }
+
+      // Step 2: Get Email
+      try {
+        final emailResponse = await _apiClient.get('/api/v1/users/profile/email');
+        print('Email response status: ${emailResponse.statusCode}');
+        print('Email response data: ${emailResponse.data}');
+
+        if (emailResponse.statusCode == 200 && emailResponse.data['status'] == 'success') {
+          userEmail = emailResponse.data['data']['email'] ?? '';
+        } else {
+          return ProfileResult(
+            success: false,
+            message: 'Failed to fetch email',
+          );
+        }
+      } catch (e) {
+        print('Error fetching email: $e');
+        return ProfileResult(
+          success: false,
+          message: 'Failed to fetch email: $e',
+        );
+      }
+
+      // Step 3: Get Photo
+      try {
+        final photoResponse = await _apiClient.get('/api/v1/users/profile/photo');
+        print('Photo response status: ${photoResponse.statusCode}');
+        print('Photo response data: ${photoResponse.data}');
+
+        if (photoResponse.statusCode == 200 && photoResponse.data['status'] == 'success') {
+          userPhoto = photoResponse.data['data']['photo'];
+        }
+        // Photo is optional, so we don't fail if it's not available
+      } catch (e) {
+        print('Error fetching photo (continuing anyway): $e');
+        // Continue without photo
+      }
+
+      // Get user ID from storage (should be saved during login)
+      userId = await _storage.getUserId();
+
+      // Create User object with all collected data
+      final user = User(
+        id: userId ?? '', // Use stored ID or empty string
+        email: userEmail,
+        name: userName,
+        profileImage: userPhoto,
+      );
+
+      // Save updated user data to local storage
+      await _storage.saveUserData(
+        id: userId ?? '',
+        email: userEmail,
+        name: userName,
+        profileImage: userPhoto,
+      );
+
+      print('ProfileService: Profile loaded successfully');
+      return ProfileResult(
+        success: true,
+        message: 'Profile loaded successfully',
+        user: user,
+      );
+
     } on DioException catch (e) {
-      print('DioException: ${e.type}');
+      print('DioException in getProfile: ${e.type}');
       print('DioException message: ${e.message}');
       print('DioException response: ${e.response?.data}');
 
@@ -67,56 +137,58 @@ class ProfileService {
         message: 'Network error: ${e.message}',
       );
     } catch (e) {
-      print('Unknown error: $e');
+      print('Unknown error in getProfile: $e');
       return ProfileResult(
         success: false,
-        message: 'An unexpected error occurred',
+        message: 'An unexpected error occurred: $e',
       );
     }
   }
 
-  // Update profile image
-  Future<ProfileResult> updateProfileImage(String imagePath) async {
+  /// Updates the user's profile photo
+  /// 
+  /// @param photoUrl: The URL of the new photo (as a string)
+  /// 
+  /// Flow:
+  /// 1. Send PATCH request to /api/v1/users/profile/updateuserphoto
+  /// 2. Include the photo URL in the request body
+  /// 3. Save the updated photo to local storage
+  /// 4. Fetch the complete profile again to ensure consistency
+  Future<ProfileResult> updateProfileImage(String photoUrl) async {
     try {
-      SharedPreferences _pref = await SharedPreferences.getInstance();
-      final String? token = _pref.getString("Token");
+      print('ProfileService: Updating profile photo to: $photoUrl');
 
-      print('Uploading profile image: $imagePath');
-
-      // Create FormData for file upload
-      FormData formData = FormData.fromMap({
-        'profileImage': await MultipartFile.fromFile(
-          imagePath,
-          filename: imagePath.split('/').last,
-        ),
-      });
-
-      final response = await _apiClient.put(
-        '/api/v1/users/profile/image',
-        data: {formData},
-        options: Options(
-          validateStatus: (status) => true,
-          headers: {
-            "Authorization": "Bearer $token",
-          },
-        ),
+      // Send PATCH request with photo URL
+      final response = await _apiClient.patch(
+        '/api/v1/users/profile/updateuserphoto',
+        data: {
+          'photo': photoUrl,
+        },
       );
 
-      print('Upload response status: ${response.statusCode}');
-      print('Upload response data: ${response.data}');
+      print('Update photo response status: ${response.statusCode}');
+      print('Update photo response data: ${response.data}');
 
-      if (response.statusCode == 200) {
-        final data = response.data;
-        final user = User.fromJson(data['data']['user']);
+      if (response.statusCode == 200 && response.data['status'] == 'success') {
+        // Save the photo URL to local storage
+        await _storage.saveProfileImage(photoUrl);
 
-        // Save updated profile image
-        await _storage.saveProfileImage(user.profileImage ?? '');
-
-        return ProfileResult(
-          success: true,
-          message: 'Profile image updated successfully',
-          user: user,
-        );
+        // Fetch the complete profile to get updated user data
+        final profileResult = await getProfile();
+        
+        if (profileResult.success && profileResult.user != null) {
+          return ProfileResult(
+            success: true,
+            message: 'Profile image updated successfully',
+            user: profileResult.user,
+          );
+        } else {
+          // Even if fetching fails, the update was successful
+          return ProfileResult(
+            success: true,
+            message: 'Profile image updated successfully',
+          );
+        }
       } else {
         return ProfileResult(
           success: false,
@@ -124,7 +196,7 @@ class ProfileService {
         );
       }
     } on DioException catch (e) {
-      print('DioException: ${e.type}');
+      print('DioException in updateProfileImage: ${e.type}');
       print('DioException response: ${e.response?.data}');
 
       return ProfileResult(
@@ -132,24 +204,56 @@ class ProfileService {
         message: 'Failed to upload image: ${e.message}',
       );
     } catch (e) {
-      print('Unknown error: $e');
+      print('Unknown error in updateProfileImage: $e');
       return ProfileResult(
         success: false,
-        message: 'An unexpected error occurred',
+        message: 'An unexpected error occurred: $e',
       );
+    }
+  }
+
+  /// Helper method to get just the username
+  Future<String?> getUsername() async {
+    try {
+      final response = await _apiClient.get('/api/v1/users/profile/username');
+      if (response.statusCode == 200 && response.data['status'] == 'success') {
+        return response.data['data']['name'];
+      }
+      return null;
+    } catch (e) {
+      print('Error getting username: $e');
+      return null;
+    }
+  }
+
+  /// Helper method to get just the email
+  Future<String?> getEmail() async {
+    try {
+      final response = await _apiClient.get('/api/v1/users/profile/email');
+      if (response.statusCode == 200 && response.data['status'] == 'success') {
+        return response.data['data']['email'];
+      }
+      return null;
+    } catch (e) {
+      print('Error getting email: $e');
+      return null;
+    }
+  }
+
+  /// Helper method to get just the photo URL
+  Future<String?> getPhoto() async {
+    try {
+      final response = await _apiClient.get('/api/v1/users/profile/photo');
+      if (response.statusCode == 200 && response.data['status'] == 'success') {
+        return response.data['data']['photo'];
+      }
+      return null;
+    } catch (e) {
+      print('Error getting photo: $e');
+      return null;
     }
   }
 }
 
-// Result class for profile operations
-class ProfileResult {
-  final bool success;
-  final String message;
-  final User? user;
-
-  ProfileResult({
-    required this.success,
-    required this.message,
-    this.user,
-  });
-}
+/// Result class for profile operations
+/// Contains success status, message, and optional user data
