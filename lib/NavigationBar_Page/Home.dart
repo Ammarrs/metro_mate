@@ -15,6 +15,8 @@ class Home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final cubit = context.read<SelectRoute>();
+    final screenHeight = MediaQuery.of(context).size.height;
+    final screenWidth = MediaQuery.of(context).size.width;
 
     return BlocConsumer<SelectRoute, RouteState>(
       listener: (context, state) {
@@ -35,7 +37,7 @@ class Home extends StatelessWidget {
       builder: (context, state) {
         return Column(
           children: [
-            // Home App Bar with gradient
+            // Home App Bar with gradient (now responsive)
             HomeAppBar(
               onNotificationPressed: () {
                 print("Notifications pressed");
@@ -52,24 +54,37 @@ class Home extends StatelessWidget {
               child: Container(
                 color: Colors.grey[50],
                 child: ListView(
-                  padding: const EdgeInsets.only(top: 20, bottom: 30),
+                  padding: EdgeInsets.only(
+                    top: screenHeight * 0.025,
+                    bottom: screenHeight * 0.04,
+                  ),
                   children: [
                     // 1. Plan Your Route
                     Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 30.0, vertical: 10),
+                      padding: EdgeInsets.symmetric(
+                        horizontal: screenWidth * 0.06,
+                        vertical: screenHeight * 0.012,
+                      ),
                       child: PlanYorRoute(cubit: cubit),
                     ),
                     
-                    const SizedBox(height: 20),
+                    SizedBox(height: screenHeight * 0.025),
                     
                     // 2. Quick Actions
-                    QuickActions(),
+                    Padding(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: screenWidth * 0.06,
+                      ),
+                      child: QuickActions(),
+                    ),
                     
-                    const SizedBox(height: 20),
+                    SizedBox(height: screenHeight * 0.025),
                     
                     // 3. Nearest Metro Station
                     Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 30.0),
+                      padding: EdgeInsets.symmetric(
+                        horizontal: screenWidth * 0.06,
+                      ),
                       child: NearestMetroStation(),
                     ),
                   ],
@@ -82,67 +97,3 @@ class Home extends StatelessWidget {
     );
   }
 }
-
-
-
-
-
-
-
-
-// import 'package:dropdown_search/dropdown_search.dart';
-// import 'package:flutter/material.dart';
-// import 'package:flutter_bloc/flutter_bloc.dart';
-// import 'package:second/components/nearest_metro_station.dart';
-// import 'package:second/components/plan_your_rote.dart';
-// import 'package:second/components/quick_actions.dart';
-
-
-
-
-// import '../Bloc/SelectRoute_State.dart';
-// import '../Bloc/selectRoute_Cubit.dart';
-// import 'Tickets.dart';
-
-// class Home extends StatelessWidget {
-//   Home({super.key});
-
-
-//   @override
-//   Widget build(BuildContext context) {
-//     final cubit= context.read<SelectRoute>();
-
-//     return  BlocConsumer<SelectRoute,RouteState>(
-//       listener: (context,state){
-//         if (state is InfoErorrState) {
-//           ScaffoldMessenger.of(context).showSnackBar(
-//             SnackBar(
-//               content: Text(state.Error),
-//               backgroundColor: Colors.red,
-//             ),
-//           );
-//         }
-
-//         if (state is InfoSucessState) {
-//           cubit.ClearSelection();
-//           Navigator.pushNamed(context, "detalis");
-//         }
-
-
-//       },
-//       builder: (context,state) {
-//         return Padding(
-//           padding: const EdgeInsets.all(30.0),
-//           child: ListView(
-//             children: [
-//               PlanYorRoute(cubit: cubit),
-//               QuickActions(),
-//               NearestMetroStation(),
-//             ],
-//           ),
-//         );
-//       }
-//     );
-//   }
-// }
-

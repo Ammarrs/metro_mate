@@ -102,7 +102,6 @@ ChangeNewPassword()async{
         validateStatus: (status) => true,
         headers: {
           "Authorization":  "Bearer $token",
-
         },
 
       ),

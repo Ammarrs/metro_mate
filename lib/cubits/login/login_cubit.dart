@@ -1,4 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../services/auth_service.dart';
 import 'login_state.dart';
@@ -7,6 +8,7 @@ class LoginCubit extends Cubit<LoginState> {
   final AuthService _authService;
 
   LoginCubit(this._authService) : super(LoginInitial());
+
 
   Future<void> signIn({required String email, required String password}) async {
     emit(LoginLoading());
