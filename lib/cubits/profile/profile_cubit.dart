@@ -1,37 +1,63 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../services/profile_services.dart';
+import '../../services/storage_service.dart';
+import '../../models/user_model.dart';
 import 'profile_state.dart';
 
 class ProfileCubit extends Cubit<ProfileState> {
   final ProfileService _profileService;
+  final StorageService _storageService = StorageService();
 
   ProfileCubit(this._profileService) : super(ProfileInitial());
 
   /// Loads the user profile from the backend
   /// 
+  /// KEY CHANGE: Load cached data first (no loading state), then refresh from API
+  /// This prevents the loading indicator from showing on page entry
+  /// 
   /// Flow:
-  /// 1. Emit ProfileLoading state
-  /// 2. Call ProfileService.getProfile() which fetches username, email, and photo
-  /// 3. If successful, emit ProfileLoaded with user data
-  /// 4. If failed, emit ProfileError with error message
+  /// 1. Load cached data from storage immediately (ProfileLoaded)
+  /// 2. Fetch fresh data from API in the background
+  /// 3. Update state with fresh data when available
   Future<void> loadProfile() async {
     try {
-      emit(ProfileLoading());
       print('ProfileCubit: Loading profile...');
 
+      // KEY CHANGE: Try to load from cache first - NO LOADING STATE
+      final cachedData = await _storageService.getUserData();
+      if (cachedData != null) {
+        print('ProfileCubit: Using cached data');
+        final cachedUser = User(
+          id: cachedData['id'] ?? '',
+          email: cachedData['email'] ?? '',
+          name: cachedData['name'] ?? '',
+          profileImage: cachedData['profileImage'],
+        );
+        // Emit cached data immediately - page shows instantly
+        emit(ProfileLoaded(cachedUser));
+      }
+
+      // Now fetch fresh data in the background (no loading state emitted)
+      print('ProfileCubit: Fetching fresh data from API...');
       final result = await _profileService.getProfile();
       print('ProfileCubit: Result success = ${result.success}');
 
       if (result.success && result.user != null) {
-        print('ProfileCubit: Emitting ProfileLoaded');
+        print('ProfileCubit: Emitting ProfileLoaded with fresh data');
+        // Update with fresh data from API
         emit(ProfileLoaded(result.user!));
-      } else {
+      } else if (cachedData == null) {
+        // Only show error if we don't have cached data
         print('ProfileCubit: Emitting ProfileError');
         emit(ProfileError(result.message));
       }
+      // If we have cached data but API fails, keep showing cached data
     } catch (e) {
       print('ProfileCubit: Exception = $e');
-      emit(ProfileError('Failed to load profile: $e'));
+      // Only emit error if we don't have any data loaded
+      if (state is! ProfileLoaded) {
+        emit(ProfileError('Failed to load profile: $e'));
+      }
     }
   }
 

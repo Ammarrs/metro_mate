@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:second/services/profile_services.dart';
+import 'package:image_picker/image_picker.dart';
+import 'dart:io';
+import 'dart:convert';
+import 'dart:typed_data';
 
 import '../cubits/profile/profile_cubit.dart';
 import '../cubits/profile/profile_state.dart';
@@ -27,92 +31,168 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-  final TextEditingController _photoUrlController = TextEditingController();
+  final ImagePicker _picker = ImagePicker();
 
   @override
   void dispose() {
-    _photoUrlController.dispose();
     super.dispose();
   }
 
-  /// Shows a dialog to input a photo URL
-  /// Since the API expects a URL string, not a file upload
-  /// 
-  /// For actual file upload from gallery, you would need to:
-  /// 1. Pick image from gallery
-  /// 2. Upload it to a storage service (e.g., Firebase Storage, AWS S3)
-  /// 3. Get the URL from the storage service
-  /// 4. Send that URL to the API
-  Future<void> _showPhotoUrlDialog() async {
-    return showDialog(
+  // KEY CHANGE: Helper function to check if string is base64 data URI
+  bool _isBase64DataUri(String? imageString) {
+    if (imageString == null || imageString.isEmpty) return false;
+    return imageString.startsWith('data:image/');
+  }
+
+  // KEY CHANGE: Helper function to decode base64 data URI to bytes
+  Uint8List? _decodeBase64Image(String? base64String) {
+    if (base64String == null || base64String.isEmpty) return null;
+    
+    try {
+      // Check if it's a data URI (data:image/jpeg;base64,...)
+      if (base64String.startsWith('data:image/')) {
+        // Extract the base64 part after the comma
+        final base64Data = base64String.split(',').last;
+        return base64Decode(base64Data);
+      }
+      // If it's just base64 without the data URI prefix
+      return base64Decode(base64String);
+    } catch (e) {
+      print('Error decoding base64 image: $e');
+      return null;
+    }
+  }
+
+  /// Pick image from gallery and convert to base64 string
+  Future<void> _pickImageFromGallery() async {
+    try {
+      // Pick image from gallery
+      final XFile? image = await _picker.pickImage(
+        source: ImageSource.gallery,
+        maxWidth: 1080,
+        maxHeight: 1080,
+        imageQuality: 85, // Compress image to reduce size
+      );
+
+      if (image != null) {
+        // Read image as bytes
+        final bytes = await image.readAsBytes();
+        
+        // Convert to base64 string
+        final base64String = base64Encode(bytes);
+        
+        // Create data URI with image type
+        final imageExtension = image.path.split('.').last.toLowerCase();
+        String mimeType = 'image/jpeg';
+        
+        if (imageExtension == 'png') {
+          mimeType = 'image/png';
+        } else if (imageExtension == 'jpg' || imageExtension == 'jpeg') {
+          mimeType = 'image/jpeg';
+        }
+        
+        // Format: data:image/jpeg;base64,/9j/4AAQSkZJRg...
+        final base64Image = 'data:$mimeType;base64,$base64String';
+        
+        // Upload to backend (backend should store this string and return URL)
+        if (mounted) {
+          context.read<ProfileCubit>().uploadProfileImage(base64Image);
+        }
+      }
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Error picking image: ${e.toString()}'),
+            backgroundColor: Colors.red,
+          ),
+        );
+      }
+    }
+  }
+
+  /// Show options: Gallery or Camera
+  Future<void> _showImageSourceOptions() async {
+    return showModalBottomSheet(
       context: context,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
       builder: (BuildContext context) {
-        return AlertDialog(
-          title: const Text('Update Profile Photo'),
-          content: SingleChildScrollView(
+        return SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 20),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
                 const Text(
-                  'Enter the URL of your new profile photo:',
-                  style: TextStyle(fontSize: 14),
-                ),
-                const SizedBox(height: 16),
-                TextField(
-                  controller: _photoUrlController,
-                  decoration: const InputDecoration(
-                    hintText: 'https://example.com/photo.jpg',
-                    border: OutlineInputBorder(),
-                    prefixIcon: Icon(Icons.link),
+                  'Choose Profile Photo',
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
                   ),
-                  keyboardType: TextInputType.url,
                 ),
-                const SizedBox(height: 8),
-                const Text(
-                  'Or use this sample URL for testing:',
-                  style: TextStyle(fontSize: 12, color: Colors.grey),
-                ),
-                TextButton(
-                  onPressed: () {
-                    _photoUrlController.text = 
-                        'https://t4.ftcdn.net/jpg/09/64/89/19/360_F_964891988_aeRrD7Ee7IhmKQhYkCrkrfE6UHtILfPp.jpg';
+                const SizedBox(height: 20),
+                ListTile(
+                  leading: const Icon(Icons.photo_library, color: Color(0xFF4A6FA5)),
+                  title: const Text('Choose from Gallery'),
+                  onTap: () {
+                    Navigator.pop(context);
+                    _pickImageFromGallery();
                   },
-                  child: const Text('Use Sample Image'),
+                ),
+                ListTile(
+                  leading: const Icon(Icons.camera_alt, color: Color(0xFF4A6FA5)),
+                  title: const Text('Take a Photo'),
+                  onTap: () {
+                    Navigator.pop(context);
+                    _pickImageFromCamera();
+                  },
+                ),
+                ListTile(
+                  leading: const Icon(Icons.close, color: Colors.grey),
+                  title: const Text('Cancel'),
+                  onTap: () {
+                    Navigator.pop(context);
+                  },
                 ),
               ],
             ),
           ),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-                _photoUrlController.clear();
-              },
-              child: const Text('Cancel'),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                final url = _photoUrlController.text.trim();
-                if (url.isNotEmpty) {
-                  Navigator.of(context).pop();
-                  // Update the photo with the URL
-                  context.read<ProfileCubit>().uploadProfileImage(url);
-                  _photoUrlController.clear();
-                } else {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      content: Text('Please enter a valid URL'),
-                      backgroundColor: Colors.red,
-                    ),
-                  );
-                }
-              },
-              child: const Text('Update'),
-            ),
-          ],
         );
       },
     );
+  }
+
+  /// Pick image from camera
+  Future<void> _pickImageFromCamera() async {
+    try {
+      final XFile? image = await _picker.pickImage(
+        source: ImageSource.camera,
+        maxWidth: 1080,
+        maxHeight: 1080,
+        imageQuality: 85,
+      );
+
+      if (image != null) {
+        final bytes = await image.readAsBytes();
+        final base64String = base64Encode(bytes);
+        final base64Image = 'data:image/jpeg;base64,$base64String';
+        
+        if (mounted) {
+          context.read<ProfileCubit>().uploadProfileImage(base64Image);
+        }
+      }
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Error taking photo: ${e.toString()}'),
+            backgroundColor: Colors.red,
+          ),
+        );
+      }
+    }
   }
 
   @override
@@ -125,10 +205,9 @@ class _ProfilePageState extends State<ProfilePage> {
         listener: (context, state) {
           if (state is ProfileLoaded) {
             // Synchronize profile data with global UserCubit
-            // This ensures home app bar shows updated name and photo
             context.read<UserCubit>().setUser(state.user);
           } else if (state is ProfileImageUploaded) {
-            // Update global user state with new image
+            // Update global user state with new image URL from backend
             context.read<UserCubit>().updateProfileImage(
               state.user.profileImage ?? '',
             );
@@ -150,7 +229,6 @@ class _ProfilePageState extends State<ProfilePage> {
         },
         child: BlocBuilder<ProfileCubit, ProfileState>(
           builder: (context, profileState) {
-            // Priority: Use ProfileLoaded state if available, otherwise fall back to UserCubit
             String displayName = 'Guest';
             String displayEmail = '';
             String? profileImageUrl;
@@ -164,7 +242,6 @@ class _ProfilePageState extends State<ProfilePage> {
               displayEmail = profileState.user.email;
               profileImageUrl = profileState.user.profileImage;
             } else {
-              // Fall back to global UserCubit state
               final userState = context.watch<UserCubit>().state;
               if (userState is UserLoaded) {
                 displayName = userState.user.name;
@@ -172,6 +249,10 @@ class _ProfilePageState extends State<ProfilePage> {
                 profileImageUrl = userState.user.profileImage;
               }
             }
+
+            // KEY CHANGE: Decode base64 image if needed
+            final isBase64 = _isBase64DataUri(profileImageUrl);
+            final imageBytes = isBase64 ? _decodeBase64Image(profileImageUrl) : null;
 
             return Column(
               children: [
@@ -252,22 +333,25 @@ class _ProfilePageState extends State<ProfilePage> {
                           // Profile Info
                           Row(
                             children: [
-                              // Profile Image with Camera Icon
+                              // KEY CHANGE: Profile Image with Base64 support
                               GestureDetector(
                                 onTap: profileState is ProfileImageUploading
                                     ? null
-                                    : _showPhotoUrlDialog,
+                                    : _showImageSourceOptions,
                                 child: Stack(
                                   children: [
                                     CircleAvatar(
                                       radius: 35,
                                       backgroundColor: Colors.white.withOpacity(0.3),
-                                      backgroundImage: (profileImageUrl != null &&
-                                              profileImageUrl.isNotEmpty)
-                                          ? NetworkImage(profileImageUrl)
-                                          : null,
-                                      child: (profileImageUrl == null ||
-                                              profileImageUrl.isEmpty)
+                                      // KEY CHANGE: Use MemoryImage for base64, NetworkImage for URLs
+                                      backgroundImage: isBase64 && imageBytes != null
+                                          ? MemoryImage(imageBytes) as ImageProvider
+                                          : (profileImageUrl != null && profileImageUrl.isNotEmpty && !isBase64)
+                                              ? NetworkImage(profileImageUrl)
+                                              : null,
+                                      child: (profileImageUrl == null || 
+                                              profileImageUrl.isEmpty ||
+                                              (isBase64 && imageBytes == null))
                                           ? Text(
                                               displayName.isNotEmpty
                                                   ? displayName[0].toUpperCase()
@@ -355,68 +439,61 @@ class _ProfilePageState extends State<ProfilePage> {
                   ),
                 ),
                 
-                // Loading Indicator
-                if (profileState is ProfileLoading)
-                  const Expanded(
-                    child: Center(
-                      child: CircularProgressIndicator(),
-                    ),
-                  )
-                else
-                  // Menu Items
-                  Expanded(
-                    child: Container(
-                      color: Colors.grey[50],
-                      child: SingleChildScrollView(
-                        child: Column(
-                          children: [
-                            const SizedBox(height: 16),
-                            Container(
-                              margin: const EdgeInsets.symmetric(horizontal: 16),
-                              decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(12),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.black.withOpacity(0.05),
-                                    blurRadius: 10,
-                                    offset: const Offset(0, 2),
-                                  ),
-                                ],
-                              ),
-                              child: Column(
-                                children: [
-                                  _buildMenuItem(
-                                    icon: Icons.settings_outlined,
-                                    title: 'Settings & Privacy',
-                                    onTap: () {},
-                                  ),
-                                  const Divider(height: 1),
-                                  _buildMenuItem(
-                                    icon: Icons.logout,
-                                    title: 'Sign Out',
-                                    titleColor: Colors.red,
-                                    iconColor: Colors.red,
-                                    onTap: () async {
-                                      await context.read<UserCubit>().logout();
-                                      if (context.mounted) {
-                                        Navigator.pushNamedAndRemoveUntil(
-                                          context,
-                                          'Login',
-                                          (route) => false,
-                                        );
-                                      }
-                                    },
-                                  ),
-                                ],
-                              ),
+                // KEY CHANGE: Removed loading indicator check
+                // Menu Items - Always visible
+                Expanded(
+                  child: Container(
+                    color: Colors.grey[50],
+                    child: SingleChildScrollView(
+                      child: Column(
+                        children: [
+                          const SizedBox(height: 16),
+                          Container(
+                            margin: const EdgeInsets.symmetric(horizontal: 16),
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(12),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.black.withOpacity(0.05),
+                                  blurRadius: 10,
+                                  offset: const Offset(0, 2),
+                                ),
+                              ],
                             ),
-                            const SizedBox(height: 16),
-                          ],
-                        ),
+                            child: Column(
+                              children: [
+                                _buildMenuItem(
+                                  icon: Icons.settings_outlined,
+                                  title: 'Settings & Privacy',
+                                  onTap: () {},
+                                ),
+                                const Divider(height: 1),
+                                _buildMenuItem(
+                                  icon: Icons.logout,
+                                  title: 'Sign Out',
+                                  titleColor: Colors.red,
+                                  iconColor: Colors.red,
+                                  onTap: () async {
+                                    await context.read<UserCubit>().logout();
+                                    if (context.mounted) {
+                                      Navigator.pushNamedAndRemoveUntil(
+                                        context,
+                                        'Login',
+                                        (route) => false,
+                                      );
+                                    }
+                                  },
+                                ),
+                              ],
+                            ),
+                          ),
+                          const SizedBox(height: 16),
+                        ],
                       ),
                     ),
                   ),
+                ),
               ],
             );
           },

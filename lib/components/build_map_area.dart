@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 
 class buildMapArea extends StatelessWidget {
@@ -6,11 +5,12 @@ class buildMapArea extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final screenHeight = MediaQuery.of(context).size.height;
+    
     return Container(
-      height: 200,
+      height: screenHeight * 0.20, // Responsive height
       width: double.infinity,
-      // margin: const EdgeInsets.symmetric(horizontal: 20),
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         color: Color.fromARGB(255, 233, 230, 230),
         borderRadius: BorderRadius.only(
           topLeft: Radius.circular(16),
@@ -18,20 +18,30 @@ class buildMapArea extends StatelessWidget {
         ),
       ),
       child: ClipRRect(
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: const BorderRadius.only(
+          topLeft: Radius.circular(16),
+          topRight: Radius.circular(16),
+        ),
         child: Stack(
           children: [
+            // Center location icon
             Center(
               child: Container(
                 width: 50,
                 height: 50,
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   color: Color(0xFF5B7C99),
                   shape: BoxShape.circle,
                 ),
-                child: Icon(Icons.location_on, color: Colors.white, size: 30),
+                child: const Icon(
+                  Icons.location_on,
+                  color: Colors.white,
+                  size: 30,
+                ),
               ),
             ),
+            
+            // Live location badge
             Positioned(
               top: 12,
               right: 12,
@@ -44,13 +54,21 @@ class buildMapArea extends StatelessWidget {
                   color: const Color(0xFFF4F4F4),
                   borderRadius: BorderRadius.circular(12),
                 ),
-                child: Row(
+                child: const Row(
+                  mainAxisSize: MainAxisSize.min,
                   children: [
-                    Icon(Icons.location_on, size: 14, color: Color(0xFF6B7280)),
+                    Icon(
+                      Icons.location_on,
+                      size: 14,
+                      color: Color(0xFF6B7280),
+                    ),
                     SizedBox(width: 4),
                     Text(
                       "Live Location",
-                      style: TextStyle(fontSize: 12, color: Color(0xFF6B7280)),
+                      style: TextStyle(
+                        fontSize: 12,
+                        color: Color(0xFF6B7280),
+                      ),
                     ),
                   ],
                 ),

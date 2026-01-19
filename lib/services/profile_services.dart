@@ -33,7 +33,9 @@ class ProfileService {
         print('Username response data: ${nameResponse.data}');
 
         if (nameResponse.statusCode == 200 && nameResponse.data['status'] == 'success') {
-          userName = nameResponse.data['data']['name'] ?? 'Guest';
+          // KEY CHANGE: Ensure we're getting the name from the correct path
+          userName = nameResponse.data['data']['name']?.toString() ?? 'Guest';
+          print('ProfileService: Extracted username = $userName'); // Debug log
         } else {
           return ProfileResult(
             success: false,
@@ -96,15 +98,16 @@ class ProfileService {
         profileImage: userPhoto,
       );
 
-      // Save updated user data to local storage
+      // KEY CHANGE: Clear old data first, then save fresh data
+      // This ensures we're not keeping stale cached values
       await _storage.saveUserData(
         id: userId ?? '',
         email: userEmail,
-        name: userName,
+        name: userName, // This will now be the fresh "ammar" value
         profileImage: userPhoto,
       );
 
-      print('ProfileService: Profile loaded successfully');
+      print('ProfileService: Profile loaded successfully with name: $userName');
       return ProfileResult(
         success: true,
         message: 'Profile loaded successfully',

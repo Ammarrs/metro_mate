@@ -41,11 +41,9 @@ class Home extends StatelessWidget {
             HomeAppBar(
               onNotificationPressed: () {
                 print("Notifications pressed");
-                // You can navigate to notifications page here
               },
               onDepositPressed: () {
                 print("Deposit pressed");
-                // You can navigate to deposit page here
               },
             ),
             
@@ -53,41 +51,31 @@ class Home extends StatelessWidget {
             Expanded(
               child: Container(
                 color: Colors.grey[50],
-                child: ListView(
+                child: SingleChildScrollView(
                   padding: EdgeInsets.only(
-                    top: screenHeight * 0.025,
-                    bottom: screenHeight * 0.04,
+                    top: screenHeight * 0.02,
+                    bottom: screenHeight * 0.03,
+                    left: screenWidth * 0.05,
+                    right: screenWidth * 0.05,
                   ),
-                  children: [
-                    // 1. Plan Your Route
-                    Padding(
-                      padding: EdgeInsets.symmetric(
-                        horizontal: screenWidth * 0.06,
-                        vertical: screenHeight * 0.012,
-                      ),
-                      child: PlanYorRoute(cubit: cubit),
-                    ),
-                    
-                    SizedBox(height: screenHeight * 0.025),
-                    
-                    // 2. Quick Actions
-                    Padding(
-                      padding: EdgeInsets.symmetric(
-                        horizontal: screenWidth * 0.06,
-                      ),
-                      child: QuickActions(),
-                    ),
-                    
-                    SizedBox(height: screenHeight * 0.025),
-                    
-                    // 3. Nearest Metro Station
-                    Padding(
-                      padding: EdgeInsets.symmetric(
-                        horizontal: screenWidth * 0.06,
-                      ),
-                      child: NearestMetroStation(),
-                    ),
-                  ],
+                  child: Column(
+                    children: [
+                      // 1. Plan Your Route
+                      PlanYorRoute(cubit: cubit),
+                      
+                      SizedBox(height: screenHeight * 0.025),
+                      
+                      // 2. Quick Actions
+                      QuickActions(),
+                      
+                      SizedBox(height: screenHeight * 0.025),
+                      
+                      // 3. Nearest Metro Station
+                      NearestMetroStation(),
+                      
+                      SizedBox(height: screenHeight * 0.02),
+                    ],
+                  ),
                 ),
               ),
             ),

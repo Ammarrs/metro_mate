@@ -8,27 +8,52 @@ class QuickActions extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            buildHeader(title: "Quick Actions",),
-            Container(
-              width: double.infinity,
-              height: 220,
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 30),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    QuickActionCard(mainTitle: "Buy Daily Ticket", subTitle: "Quick Purchase"),
-                    QuickActionCard(mainTitle: "Get Subscribtion", subTitle: "Monthly Passes", type: "calendar",),
-                  ],
-                ),
-              ),
-            ),
-          ],
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
+
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        buildHeader(title: "Quick Actions"),
+        
+        // Responsive container
+        Container(
+          width: double.infinity,
+          padding: EdgeInsets.symmetric(
+            horizontal: screenWidth * 0.04,
+          ),
+          child: LayoutBuilder(
+            builder: (context, constraints) {
+              // Calculate card width based on available space
+              final cardWidth = (constraints.maxWidth - 20) / 2; // 20 for gap
+              final cardHeight = cardWidth * 1.17; // Maintain aspect ratio
+              
+              return Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  SizedBox(
+                    width: cardWidth,
+                    height: cardHeight,
+                    child: QuickActionCard(
+                      mainTitle: "Buy Daily Ticket",
+                      subTitle: "Quick Purchase",
+                    ),
+                  ),
+                  SizedBox(
+                    width: cardWidth,
+                    height: cardHeight,
+                    child: QuickActionCard(
+                      mainTitle: "Get Subscribtion",
+                      subTitle: "Monthly Passes",
+                      type: "calendar",
+                    ),
+                  ),
+                ],
+              );
+            },
+          ),
         ),
-      );
+      ],
+    );
   }
 }
