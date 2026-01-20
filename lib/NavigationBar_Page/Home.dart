@@ -8,9 +8,23 @@ import 'package:second/components/home_app_bar.dart';
 
 import '../Bloc/SelectRoute_State.dart';
 import '../Bloc/selectRoute_Cubit.dart';
+import '../cubits/user/user_cubit.dart';
 
-class Home extends StatelessWidget {
-  Home({super.key});
+class Home extends StatefulWidget {
+  const Home({super.key});
+
+  @override
+  State<Home> createState() => _HomeState();
+}
+
+class _HomeState extends State<Home> {
+  @override
+  void initState() {
+    super.initState();
+    // Load user data when home screen initializes
+    // This will fetch the profile photo and user info
+    context.read<UserCubit>().loadUser();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -38,6 +52,8 @@ class Home extends StatelessWidget {
         return Column(
           children: [
             // Home App Bar with gradient (now responsive)
+            // The HomeAppBar will automatically listen to UserCubit
+            // and display the profile photo when available
             HomeAppBar(
               onNotificationPressed: () {
                 print("Notifications pressed");

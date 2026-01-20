@@ -26,7 +26,6 @@ class HomeAppBar extends StatelessWidget {
     final safeAreaTop = MediaQuery.of(context).padding.top;
 
     return Container(
-      // Use constraints instead of fixed height
       constraints: BoxConstraints(
         minHeight: screenHeight * 0.28,
         maxHeight: screenHeight * 0.35,
@@ -68,6 +67,8 @@ class HomeAppBar extends StatelessWidget {
                           if (state is UserLoaded) {
                             profileImageUrl = state.user.profileImage;
                             displayName = state.user.name;
+                            print('HomeAppBar: Profile image URL = $profileImageUrl');
+                            print('HomeAppBar: Display name = $displayName');
                           }
 
                           return Container(
@@ -85,7 +86,23 @@ class HomeAppBar extends StatelessWidget {
                                       fit: BoxFit.cover,
                                       width: 60,
                                       height: 60,
+                                      loadingBuilder: (context, child, loadingProgress) {
+                                        if (loadingProgress == null) {
+                                          return child;
+                                        }
+                                        return Center(
+                                          child: CircularProgressIndicator(
+                                            value: loadingProgress.expectedTotalBytes != null
+                                                ? loadingProgress.cumulativeBytesLoaded /
+                                                    loadingProgress.expectedTotalBytes!
+                                                : null,
+                                            valueColor: const AlwaysStoppedAnimation<Color>(Colors.white),
+                                            strokeWidth: 2,
+                                          ),
+                                        );
+                                      },
                                       errorBuilder: (context, error, stackTrace) {
+                                        print('HomeAppBar: Error loading image - $error');
                                         return Center(
                                           child: Text(
                                             displayName.isNotEmpty
