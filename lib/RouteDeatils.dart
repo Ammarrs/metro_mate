@@ -268,6 +268,23 @@ class Routedeatils extends StatelessWidget {
                                   ],
                                 ),
                                 const SizedBox(height: 20),
+                                Row(mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                CircleAvatar(backgroundColor: Colors.blue,radius: 10,),
+                                  SizedBox(width: 5,),
+                                Text('Line 1'),
+                                SizedBox(width: 15,),
+
+                                CircleAvatar(backgroundColor: Colors.redAccent,radius: 10,),
+                                  SizedBox(width: 5,),
+                                Text('Line 2'),
+                                SizedBox(width: 15,),
+                                CircleAvatar(backgroundColor: Colors.greenAccent,radius: 10,),
+                                  SizedBox(width: 5,),
+                                Text('Line 3'),
+
+
+                            ],),
 
 
 
