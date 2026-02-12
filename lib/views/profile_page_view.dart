@@ -95,13 +95,7 @@ class _ProfilePageState extends State<ProfilePage> {
                               Navigator.pop(context);
                             },
                           ),
-                          IconButton(
-                            icon: const Icon(
-                              Icons.settings_outlined,
-                              color: Colors.white,
-                            ),
-                            onPressed: () {},
-                          ),
+                          
                         ],
                       ),
                       const SizedBox(height: 8),
