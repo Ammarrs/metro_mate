@@ -291,13 +291,6 @@ class _ProfilePageState extends State<ProfilePage> {
                                   Navigator.pop(context);
                                 },
                               ),
-                              IconButton(
-                                icon: const Icon(
-                                  Icons.settings_outlined,
-                                  color: Colors.white,
-                                ),
-                                onPressed: () {},
-                              ),
                             ],
                           ),
                           const SizedBox(height: 8),
@@ -479,7 +472,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                     if (context.mounted) {
                                       Navigator.pushNamedAndRemoveUntil(
                                         context,
-                                        'Login',
+                                        'loginPage',
                                         (route) => false,
                                       );
                                     }
