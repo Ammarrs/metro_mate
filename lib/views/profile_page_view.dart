@@ -1,13 +1,30 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
+
+import 'package:second/cubits/logout/logout_cubit.dart';
+import 'package:second/cubits/logout/logout_state.dart';
 
 class ProfilePageView extends StatelessWidget {
   const ProfilePageView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return ProfilePage();
+    return BlocListener<LogOutCubit, LogOutState>(
+      listener: (context, state) {
+        print("ProfilePageView - State changed: $state");
+        if (state is LogOutSuccessful) {
+          print("Logout successful! Navigating to login...");
+          Navigator.pushNamedAndRemoveUntil(
+            context,
+            'loginPage',
+            (route) => false,
+          );
+        }
+      },
+      child: ProfilePage(),
+    );
   }
 }
 
@@ -229,7 +246,10 @@ class _ProfilePageState extends State<ProfilePage> {
                               title: 'Sign Out',
                               titleColor: Colors.red,
                               iconColor: Colors.red,
-                              onTap: () {},
+                              onTap: () {
+                                print("Sign Out button tapped!");
+                                context.read<LogOutCubit>().logout();
+                              },
                             ),
                           ],
                         ),
