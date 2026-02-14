@@ -1,0 +1,81 @@
+lib/
+┣ Authentication/
+┃ ┣ ForgetPassword/
+┃ ┃ ┣ Forget_Password.dart
+┃ ┃ ┣ NewPassword_Page.dart
+┃ ┃ ┗ Verify_Email.dart
+┃ ┗ Regestration/
+┃   ┣ Register_Otp.dart
+┃   ┗ Register_page.dart
+┣ Authentication_Cubit/
+┃ ┣ ForgetPassword_Cubit/
+┃ ┃ ┣ ForgetPassword_Cubit.dart
+┃ ┃ ┗ ForgetPassword_State.dart
+┃ ┗ Register_Cubit/
+┃   ┣ Register_Cubit.dart
+┃   ┗ Register_State.dart
+┣ Bloc/
+┃ ┣ Navigate_cubit.dart
+┃ ┣ selectRoute_Cubit.dart
+┃ ┗ SelectRoute_State.dart
+┣ block/
+┃ ┣ Cubit.dart
+┃ ┗ state_cubit.dart
+┣ Buy_Ticket/
+┃ ┣ ChosePaymentMethod.dart
+┃ ┣ CreditDetils.dart
+┃ ┣ PaymentFinish.dart
+┃ ┗ Select Quantity.dart
+┣ ChangePassword/
+┃ ┣ ChangePassword.dart
+┃ ┣ ChangePassword_Cubit.dart
+┃ ┗ ChangePassword_State.dart
+┣ components/
+┃ ┣ build_header.dart
+┃ ┣ build_map_area.dart
+┃ ┣ build_station_info.dart
+┃ ┣ gradient_button.dart
+┃ ┣ home_app_bar.dart
+┃ ┣ home_component_key.dart
+┃ ┣ logout_button.dart
+┃ ┣ nearest_metro_station.dart
+┃ ┣ plan_your_rote.dart
+┃ ┣ quick_actions.dart
+┃ ┣ quick_action_card.dart
+┃ ┗ wallet.dart
+┣ config/
+┃ ┗ api_config.dart
+┣ cubits/
+┃ ┣ home/
+┃ ┃ ┣ home_cubit.dart
+┃ ┃ ┗ home_state.dart
+┃ ┣ login/
+┃ ┃ ┣ login_cubit.dart
+┃ ┃ ┗ login_state.dart
+┃ ┣ logout/
+┃ ┃ ┣ logout_cubit.dart
+┃ ┃ ┗ logout_state.dart
+┃ ┗ user/
+┃   ┣ user_cubit.dart
+┃   ┗ user_state.dart
+┣ models/
+┃ ┗ user_model.dart
+┣ NavigationBar_Page/
+┃ ┣ Home.dart
+┃ ┣ setting.dart
+┃ ┣ Tickets.dart
+┃ ┗ wallet.dart
+┣ services/
+┃ ┣ api_client.dart
+┃ ┣ auth_service.dart
+┃ ┗ storage_service.dart
+┣ utils/
+┃ ┗ validators.dart
+┣ views/
+┃ ┣ home.dart
+┃ ┣ login_view.dart
+┃ ┗ profile_page_view.dart
+┣ main.dart
+┣ OnbordingScreens.dart
+┣ RouteDeatils.dart
+┗ VerticalStepsLine.dart
