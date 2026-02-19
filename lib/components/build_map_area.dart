@@ -23,6 +23,7 @@ class _buildMapAreaState extends State<buildMapArea> {
   void _onMapCreated(GoogleMapController controller) {
     _mapController = controller;
     context.read<NearestMetroCubit>().setMapController(controller);
+    print('✅ Map controller created');
   }
 
   @override
@@ -57,19 +58,22 @@ class _buildMapAreaState extends State<buildMapArea> {
   }
 
   Widget _buildMap(NearestMetroLoaded state) {
+    print('🗺️ Building Google Map widget');
     return Stack(
       children: [
         GoogleMap(
           onMapCreated: _onMapCreated,
           initialCameraPosition: state.initialCameraPosition,
           markers: state.markers,
-          myLocationEnabled: true,
+          myLocationEnabled: false,
           myLocationButtonEnabled: false,
           zoomControlsEnabled: false,
           mapToolbarEnabled: false,
-          compassEnabled: true,
+          compassEnabled: false,
           mapType: MapType.normal,
+          liteModeEnabled: false,
           padding: const EdgeInsets.only(top: 40, bottom: 20),
+          minMaxZoomPreference: const MinMaxZoomPreference(10, 20),
         ),
         Positioned(
           top: 12,

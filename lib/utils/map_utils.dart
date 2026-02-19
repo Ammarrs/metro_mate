@@ -13,20 +13,19 @@ class MapUtils {
     final destination = '$destLat,$destLng';
 
     if (Platform.isAndroid) {
-      final Uri nativeUri =
-          Uri.parse('google.navigation:q=$destination&mode=$travelMode');
+      final Uri nativeUri = Uri.parse('google.navigation:q=$destination&mode=w');
       if (await canLaunchUrl(nativeUri)) {
         await launchUrl(nativeUri, mode: LaunchMode.externalApplication);
         return;
       }
       await launchUrl(
         Uri.parse(
-            'https://www.google.com/maps/dir/?api=1&origin=$origin&destination=$destination&travelmode=$travelMode'),
+            'https://www.google.com/maps/dir/?api=1&origin=$origin&destination=$destination&travelmode=walking'),
         mode: LaunchMode.externalApplication,
       );
     } else if (Platform.isIOS) {
       final Uri googleUri = Uri.parse(
-          'comgooglemaps://?saddr=$origin&daddr=$destination&directionsmode=$travelMode');
+          'comgooglemaps://?saddr=$origin&daddr=$destination&directionsmode=walking');
       if (await canLaunchUrl(googleUri)) {
         await launchUrl(googleUri, mode: LaunchMode.externalApplication);
         return;
@@ -39,7 +38,7 @@ class MapUtils {
     } else {
       await launchUrl(
         Uri.parse(
-            'https://www.google.com/maps/dir/?api=1&origin=$origin&destination=$destination&travelmode=$travelMode'),
+            'https://www.google.com/maps/dir/?api=1&origin=$origin&destination=$destination&travelmode=walking'),
         mode: LaunchMode.externalApplication,
       );
     }

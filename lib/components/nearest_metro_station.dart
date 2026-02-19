@@ -64,7 +64,7 @@ class _NearestMetroContent extends StatelessWidget {
           child: const Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              buildMapArea(),
+              // buildMapArea(),
               buildStationInfo(),
             ],
           ),

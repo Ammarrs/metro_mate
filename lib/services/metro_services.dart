@@ -51,7 +51,12 @@ class MetroService {
       final endpoint =
           '${ApiConfig.nearestStationBaseEndpoint}/$userLatitude/$userLongitude';
 
+      print('🌐 API Request: $endpoint');
+
       final response = await _dio.get(endpoint);
+
+      print('📡 API Response Status: ${response.statusCode}');
+      print('📡 API Response Data: ${response.data}');
 
       if (response.statusCode == 200 && response.data != null) {
         final data = response.data;
@@ -70,9 +75,13 @@ class MetroService {
             'Failed to load nearest station. Status: ${response.statusCode}');
       }
     } on DioException catch (e) {
+      print('❌ Dio Error Type: ${e.type}');
+      print('❌ Dio Error Message: ${e.message}');
+      print('❌ Dio Response: ${e.response?.data}');
       _handleDioError(e);
       rethrow;
     } catch (e) {
+      print('❌ General Error: $e');
       throw Exception('Error fetching nearest metro station: $e');
     }
   }
