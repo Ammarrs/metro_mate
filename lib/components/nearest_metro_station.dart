@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-
+import '../cubits/nearest_metro/nearest_metro_cubit.dart';
+import '../services/location_services.dart';
+import '../services/metro_services.dart';
 import 'build_header.dart';
 import 'build_map_area.dart';
 import 'build_station_info.dart';
@@ -10,33 +13,63 @@ class NearestMetroStation extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
+    return BlocProvider(
+      create: (context) => NearestMetroCubit(
+        locationService: LocationService(),
+        metroService: MetroService(),
+      )..loadNearestMetro(),
+      child: const _NearestMetroContent(),
+    );
+  }
+}
+
+class _NearestMetroContent extends StatelessWidget {
+  const _NearestMetroContent();
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Row(
           children: [
-            buildHeader(title: "Nearest Metro Station",),
-            Container(
-              width: 500,
-              height: 390,
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(20),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withAlpha(80),
-                    blurRadius: 20,
-                    spreadRadius: 0,
-                    offset: const Offset(0, 4),
-                  ),
-                ],
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [buildMapArea(), buildStationInfo()],
+            const Expanded(
+              child: buildHeader(title: "Nearest Metro Station"),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(right: 20),
+              child: IconButton(
+                icon: const Icon(Icons.refresh, color: Color(0xFF5B7C99)),
+                onPressed: () => context.read<NearestMetroCubit>().refresh(),
+                tooltip: 'Refresh',
               ),
             ),
           ],
         ),
-      );
+        Container(
+          width: 500,
+          height: 410,
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(20),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withAlpha(80),
+                blurRadius: 20,
+                spreadRadius: 0,
+                offset: const Offset(0, 4),
+              ),
+            ],
+          ),
+          child: const Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              buildMapArea(),
+              buildStationInfo(),
+            ],
+          ),
+        ),
+      ],
+    );
   }
 }
