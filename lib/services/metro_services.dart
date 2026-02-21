@@ -15,10 +15,8 @@ class MetroService {
   Future<List<MetroStationModel>> getAllMetroStations() async {
     try {
       final response = await _dio.get(ApiConfig.allStationsEndpoint);
-
       if (response.statusCode == 200 && response.data != null) {
         final data = response.data;
-
         List<dynamic> stationsJson;
         if (data is Map && data.containsKey('data')) {
           stationsJson = data['data'] as List;
@@ -27,11 +25,7 @@ class MetroService {
         } else {
           throw Exception('Unexpected response format');
         }
-
-        return stationsJson
-            .map((json) => MetroStationModel.fromAllStationsJson(
-                json as Map<String, dynamic>))
-            .toList();
+        return stationsJson.map((json) => MetroStationModel.fromAllStationsJson(json as Map<String, dynamic>)).toList();
       } else {
         throw Exception('Failed to load stations. Status: ${response.statusCode}');
       }
@@ -48,36 +42,24 @@ class MetroService {
     required double userLongitude,
   }) async {
     try {
-      final endpoint =
-          '${ApiConfig.nearestStationBaseEndpoint}/$userLatitude/$userLongitude';
-
+      final endpoint = '${ApiConfig.nearestStationBaseEndpoint}/$userLatitude/$userLongitude';
       print('🌐 API Request: $endpoint');
-
       final response = await _dio.get(endpoint);
-
       print('📡 API Response Status: ${response.statusCode}');
-      print('📡 API Response Data: ${response.data}');
 
       if (response.statusCode == 200 && response.data != null) {
         final data = response.data;
-
-        if (data is Map &&
-            data.containsKey('data') &&
-            data['data'].containsKey('nearestStation')) {
-          final stationJson =
-              data['data']['nearestStation'] as Map<String, dynamic>;
+        if (data is Map && data.containsKey('data') && data['data'].containsKey('nearestStation')) {
+          final stationJson = data['data']['nearestStation'] as Map<String, dynamic>;
           return MetroStationModel.fromNearestStationJson(stationJson);
         } else {
           throw Exception('Unexpected response format');
         }
       } else {
-        throw Exception(
-            'Failed to load nearest station. Status: ${response.statusCode}');
+        throw Exception('Failed to load nearest station. Status: ${response.statusCode}');
       }
     } on DioException catch (e) {
-      print('❌ Dio Error Type: ${e.type}');
-      print('❌ Dio Error Message: ${e.message}');
-      print('❌ Dio Response: ${e.response?.data}');
+      print('❌ Dio Error: ${e.type} - ${e.message}');
       _handleDioError(e);
       rethrow;
     } catch (e) {

@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 import '../cubits/nearest_metro/nearest_metro_cubit.dart';
 import '../services/location_services.dart';
 import '../services/metro_services.dart';
+import '../services/routing_service.dart';
 import 'build_header.dart';
-import 'build_map_area.dart';
 import 'build_station_info.dart';
 
 class NearestMetroStation extends StatelessWidget {
@@ -17,6 +16,7 @@ class NearestMetroStation extends StatelessWidget {
       create: (context) => NearestMetroCubit(
         locationService: LocationService(),
         metroService: MetroService(),
+        routingService: RoutingService(),
       )..loadNearestMetro(),
       child: const _NearestMetroContent(),
     );
@@ -48,7 +48,6 @@ class _NearestMetroContent extends StatelessWidget {
         ),
         Container(
           width: 500,
-          height: 410,
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(20),
@@ -61,13 +60,7 @@ class _NearestMetroContent extends StatelessWidget {
               ),
             ],
           ),
-          child: const Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // buildMapArea(),
-              buildStationInfo(),
-            ],
-          ),
+          child: const buildStationInfo(),
         ),
       ],
     );

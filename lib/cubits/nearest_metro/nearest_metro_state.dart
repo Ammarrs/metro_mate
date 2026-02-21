@@ -1,5 +1,4 @@
 import 'package:equatable/equatable.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 import '../../models/metro_staton_model.dart';
 
 abstract class NearestMetroState extends Equatable {
@@ -23,21 +22,17 @@ class NearestMetroLoading extends NearestMetroState {
 
 class NearestMetroLoaded extends NearestMetroState {
   final MetroStationModel nearestStation;
-  final LatLng userLocation;
-  final Set<Marker> markers;
+  final double userLatitude;
+  final double userLongitude;
 
   const NearestMetroLoaded({
     required this.nearestStation,
-    required this.userLocation,
-    required this.markers,
+    required this.userLatitude,
+    required this.userLongitude,
   });
 
   @override
-  List<Object?> get props => [nearestStation, userLocation, markers];
-
-  CameraPosition get initialCameraPosition {
-    return CameraPosition(target: userLocation, zoom: 14.0);
-  }
+  List<Object?> get props => [nearestStation, userLatitude, userLongitude];
 }
 
 class NearestMetroError extends NearestMetroState {

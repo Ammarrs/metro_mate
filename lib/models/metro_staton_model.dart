@@ -30,9 +30,7 @@ class MetroStationModel {
       lineNumber: (json['line_number'] ?? 0) as int,
       position: (json['position'] ?? 0) as int,
       isTransfer: json['is_transfer'] ?? false,
-      transferTo: json['transfer_to'] != null
-          ? List<int>.from(json['transfer_to'])
-          : [],
+      transferTo: json['transfer_to'] != null ? List<int>.from(json['transfer_to']) : [],
       lat: null,
       lng: null,
     );

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 import '../cubits/nearest_metro/nearest_metro_cubit.dart';
 import '../cubits/nearest_metro/nearest_metro_state.dart';
 
@@ -12,19 +11,19 @@ class buildMapArea extends StatefulWidget {
 }
 
 class _buildMapAreaState extends State<buildMapArea> {
-  GoogleMapController? _mapController;
+  // GoogleMapController? _mapController;
 
   @override
   void dispose() {
-    _mapController?.dispose();
+    // _mapController?.dispose();
     super.dispose();
   }
 
-  void _onMapCreated(GoogleMapController controller) {
-    _mapController = controller;
-    context.read<NearestMetroCubit>().setMapController(controller);
-    print('✅ Map controller created');
-  }
+  // void _onMapCreated(GoogleMapController controller) {
+  //   _mapController = controller;
+  //   context.read<NearestMetroCubit>().setMapController(controller);
+  //   print('✅ Map controller created');
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -61,20 +60,20 @@ class _buildMapAreaState extends State<buildMapArea> {
     print('🗺️ Building Google Map widget');
     return Stack(
       children: [
-        GoogleMap(
-          onMapCreated: _onMapCreated,
-          initialCameraPosition: state.initialCameraPosition,
-          markers: state.markers,
-          myLocationEnabled: false,
-          myLocationButtonEnabled: false,
-          zoomControlsEnabled: false,
-          mapToolbarEnabled: false,
-          compassEnabled: false,
-          mapType: MapType.normal,
-          liteModeEnabled: false,
-          padding: const EdgeInsets.only(top: 40, bottom: 20),
-          minMaxZoomPreference: const MinMaxZoomPreference(10, 20),
-        ),
+        // GoogleMap(
+        //   onMapCreated: _onMapCreated,
+        //   initialCameraPosition: state.initialCameraPosition,
+        //   markers: state.markers,
+        //   myLocationEnabled: false,
+        //   myLocationButtonEnabled: false,
+        //   zoomControlsEnabled: false,
+        //   mapToolbarEnabled: false,
+        //   compassEnabled: false,
+        //   mapType: MapType.normal,
+        //   liteModeEnabled: false,
+        //   padding: const EdgeInsets.only(top: 40, bottom: 20),
+        //   minMaxZoomPreference: const MinMaxZoomPreference(10, 20),
+        // ),
         Positioned(
           top: 12,
           right: 12,

@@ -1,26 +1,24 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:geolocator/geolocator.dart';
 import '../../models/metro_staton_model.dart';
 import '../../services/location_services.dart';
 import '../../services/metro_services.dart';
+import '../../services/routing_service.dart';
 import 'nearest_metro_state.dart';
 
 class NearestMetroCubit extends Cubit<NearestMetroState> {
   final LocationService _locationService;
   final MetroService _metroService;
-  GoogleMapController? _mapController;
+  final RoutingService _routingService;
 
   NearestMetroCubit({
     LocationService? locationService,
     MetroService? metroService,
+    RoutingService? routingService,
   })  : _locationService = locationService ?? LocationService(),
         _metroService = metroService ?? MetroService(),
+        _routingService = routingService ?? RoutingService(),
         super(const NearestMetroInitial());
-
-  void setMapController(GoogleMapController controller) {
-    _mapController = controller;
-  }
 
   Future<void> loadNearestMetro() async {
     try {
@@ -47,8 +45,6 @@ class NearestMetroCubit extends Cubit<NearestMetroState> {
         }
         rethrow;
       }
-
-      final userLatLng = LatLng(userPosition.latitude, userPosition.longitude);
 
       emit(const NearestMetroLoading(message: 'Finding nearest metro...'));
 
@@ -78,33 +74,47 @@ class NearestMetroCubit extends Cubit<NearestMetroState> {
         return;
       }
 
-      print('📏 Calculating distance...');
-      final double distance = _locationService.calculateDistance(
-        startLatitude: userPosition.latitude,
-        startLongitude: userPosition.longitude,
-        endLatitude: nearestStation.lat!,
-        endLongitude: nearestStation.lng!,
+      emit(const NearestMetroLoading(message: 'Calculating walking route...'));
+
+      print('🗺️ Getting real walking route...');
+      final routeResult = await _routingService.getWalkingRoute(
+        startLat: userPosition.latitude,
+        startLng: userPosition.longitude,
+        endLat: nearestStation.lat!,
+        endLng: nearestStation.lng!,
       );
 
-      final int walkingTime = _locationService.calculateWalkingTime(distance);
-      print('✅ Distance: ${distance.toStringAsFixed(2)} km, Time: $walkingTime min');
+      double distance;
+      int walkingTime;
+
+      if (routeResult['success'] == true) {
+        distance = routeResult['distance_km'];
+        walkingTime = routeResult['walking_time_minutes'];
+        print('✅ Using REAL route: ${distance.toStringAsFixed(2)} km, $walkingTime min');
+      } else {
+        print('⚠️ Routing failed, using estimate...');
+        distance = _locationService.calculateDistance(
+          startLatitude: userPosition.latitude,
+          startLongitude: userPosition.longitude,
+          endLatitude: nearestStation.lat!,
+          endLongitude: nearestStation.lng!,
+        );
+        
+        distance = distance * 1.3;
+        walkingTime = _locationService.calculateWalkingTime(distance);
+        print('📏 Using estimate: ${distance.toStringAsFixed(2)} km, $walkingTime min');
+      }
 
       nearestStation.distanceInKm = distance;
       nearestStation.walkingTimeInMinutes = walkingTime;
 
-      final Set<Marker> markers = _createMarkers(
-        userLocation: userLatLng,
-        nearestStation: nearestStation,
-      );
-
       print('✅ Emitting loaded state');
       emit(NearestMetroLoaded(
         nearestStation: nearestStation,
-        userLocation: userLatLng,
-        markers: markers,
+        userLatitude: userPosition.latitude,
+        userLongitude: userPosition.longitude,
       ));
 
-      _animateCameraToFitBoth(userLatLng, nearestStation);
       print('✅ loadNearestMetro completed successfully');
     } catch (e, stackTrace) {
       print('❌ Unexpected error in loadNearestMetro: $e');
@@ -116,67 +126,6 @@ class NearestMetroCubit extends Cubit<NearestMetroState> {
     }
   }
 
-  Set<Marker> _createMarkers({
-    required LatLng userLocation,
-    required MetroStationModel nearestStation,
-  }) {
-    return {
-      Marker(
-        markerId: const MarkerId('user_location'),
-        position: userLocation,
-        icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueBlue),
-        infoWindow: const InfoWindow(
-          title: 'Your Location',
-          snippet: 'You are here',
-        ),
-      ),
-      Marker(
-        markerId: MarkerId('metro_${nearestStation.id}'),
-        position: LatLng(nearestStation.lat!, nearestStation.lng!),
-        icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueGreen),
-        infoWindow: InfoWindow(
-          title: nearestStation.name,
-          snippet:
-              '${nearestStation.distanceInKm?.toStringAsFixed(1)} km • ${nearestStation.lineLabel}',
-        ),
-      ),
-    };
-  }
-
-  void _animateCameraToFitBoth(
-    LatLng userLocation,
-    MetroStationModel nearestStation,
-  ) {
-    if (_mapController == null) return;
-
-    try {
-      final stationLatLng = LatLng(nearestStation.lat!, nearestStation.lng!);
-
-      final double southLat = userLocation.latitude < stationLatLng.latitude
-          ? userLocation.latitude
-          : stationLatLng.latitude;
-      final double northLat = userLocation.latitude > stationLatLng.latitude
-          ? userLocation.latitude
-          : stationLatLng.latitude;
-      final double westLng = userLocation.longitude < stationLatLng.longitude
-          ? userLocation.longitude
-          : stationLatLng.longitude;
-      final double eastLng = userLocation.longitude > stationLatLng.longitude
-          ? userLocation.longitude
-          : stationLatLng.longitude;
-
-      const double padding = 0.003;
-      final bounds = LatLngBounds(
-        southwest: LatLng(southLat - padding, westLng - padding),
-        northeast: LatLng(northLat + padding, eastLng + padding),
-      );
-
-      _mapController!.animateCamera(CameraUpdate.newLatLngBounds(bounds, 50));
-    } catch (e) {
-      print('⚠️ Camera animation error (non-critical): $e');
-    }
-  }
-
   Future<void> refresh() async {
     print('🔄 Refresh button pressed');
     await loadNearestMetro();
@@ -184,10 +133,4 @@ class NearestMetroCubit extends Cubit<NearestMetroState> {
 
   Future<void> openLocationSettings() async =>
       await _locationService.openLocationSettings();
-
-  @override
-  Future<void> close() {
-    _mapController?.dispose();
-    return super.close();
-  }
 }

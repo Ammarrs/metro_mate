@@ -19,26 +19,22 @@ class MapUtils {
         return;
       }
       await launchUrl(
-        Uri.parse(
-            'https://www.google.com/maps/dir/?api=1&origin=$origin&destination=$destination&travelmode=walking'),
+        Uri.parse('https://www.google.com/maps/dir/?api=1&origin=$origin&destination=$destination&travelmode=walking'),
         mode: LaunchMode.externalApplication,
       );
     } else if (Platform.isIOS) {
-      final Uri googleUri = Uri.parse(
-          'comgooglemaps://?saddr=$origin&daddr=$destination&directionsmode=walking');
+      final Uri googleUri = Uri.parse('comgooglemaps://?saddr=$origin&daddr=$destination&directionsmode=walking');
       if (await canLaunchUrl(googleUri)) {
         await launchUrl(googleUri, mode: LaunchMode.externalApplication);
         return;
       }
       await launchUrl(
-        Uri.parse(
-            'https://maps.apple.com/?saddr=$origin&daddr=$destination&dirflg=w'),
+        Uri.parse('https://maps.apple.com/?saddr=$origin&daddr=$destination&dirflg=w'),
         mode: LaunchMode.externalApplication,
       );
     } else {
       await launchUrl(
-        Uri.parse(
-            'https://www.google.com/maps/dir/?api=1&origin=$origin&destination=$destination&travelmode=walking'),
+        Uri.parse('https://www.google.com/maps/dir/?api=1&origin=$origin&destination=$destination&travelmode=walking'),
         mode: LaunchMode.externalApplication,
       );
     }

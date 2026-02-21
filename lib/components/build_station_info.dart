@@ -11,21 +11,21 @@ class buildStationInfo extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<NearestMetroCubit, NearestMetroState>(
       builder: (context, state) {
-        if (state is NearestMetroLoaded) return _buildLoaded(context, state);
         if (state is NearestMetroLoading) return _buildLoading(state.message);
-        if (state is NearestMetroError) return _buildError(state.message);
-        return _buildPlaceholder();
+        if (state is NearestMetroLoaded) return _buildLoaded(context, state);
+        if (state is NearestMetroError) return _buildError(context, state.message);
+        if (state is NearestMetroPermissionDenied) return _buildPermissionDenied(context, state);
+        if (state is NearestMetroLocationDisabled) return _buildLocationDisabled(context, state.message);
+        return _buildInitial();
       },
     );
   }
 
   Widget _buildLoaded(BuildContext context, NearestMetroLoaded state) {
     final station = state.nearestStation;
-
     final distanceText = station.distanceInKm != null
         ? '${station.distanceInKm!.toStringAsFixed(1)} km'
         : 'N/A';
-
     final walkingTimeText = station.walkingTimeInMinutes != null
         ? '${station.walkingTimeInMinutes} min walk'
         : 'N/A';
@@ -43,7 +43,7 @@ class buildStationInfo extends StatelessWidget {
               color: Color(0xFF2D3142),
             ),
           ),
-          const SizedBox(height: 6),
+          const SizedBox(height: 8),
           Row(
             children: [
               Container(
@@ -88,18 +88,16 @@ class buildStationInfo extends StatelessWidget {
               ],
             ],
           ),
-          const SizedBox(height: 12),
+          const SizedBox(height: 16),
           Row(
             children: [
               const Icon(Icons.location_on_outlined, size: 18, color: Color(0xFF6B7280)),
               const SizedBox(width: 4),
-              Text(distanceText,
-                  style: const TextStyle(fontSize: 14, color: Color(0xFF6B7280))),
+              Text(distanceText, style: const TextStyle(fontSize: 14, color: Color(0xFF6B7280))),
               const SizedBox(width: 16),
               const Icon(Icons.directions_walk, size: 18, color: Color(0xFF6B7280)),
               const SizedBox(width: 4),
-              Text(walkingTimeText,
-                  style: const TextStyle(fontSize: 14, color: Color(0xFF6B7280))),
+              Text(walkingTimeText, style: const TextStyle(fontSize: 14, color: Color(0xFF6B7280))),
             ],
           ),
           const SizedBox(height: 20),
@@ -142,8 +140,7 @@ class buildStationInfo extends StatelessWidget {
     );
   }
 
-  Future<void> _onGetDirections(
-      BuildContext context, NearestMetroLoaded state) async {
+  Future<void> _onGetDirections(BuildContext context, NearestMetroLoaded state) async {
     try {
       showDialog(
         context: context,
@@ -166,8 +163,8 @@ class buildStationInfo extends StatelessWidget {
       );
 
       await MapUtils.openGoogleMapsDirections(
-        originLat: state.userLocation.latitude,
-        originLng: state.userLocation.longitude,
+        originLat: state.userLatitude,
+        originLng: state.userLongitude,
         destLat: state.nearestStation.lat!,
         destLng: state.nearestStation.lng!,
         travelMode: 'walking',
@@ -189,72 +186,147 @@ class buildStationInfo extends StatelessWidget {
 
   Widget _buildLoading(String? message) {
     return Padding(
-      padding: const EdgeInsets.all(20),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Container(
-            width: 200, height: 28,
-            decoration: BoxDecoration(
-              color: Colors.grey[300],
-              borderRadius: BorderRadius.circular(4),
+      padding: const EdgeInsets.all(40),
+      child: Center(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const CircularProgressIndicator(
+              valueColor: AlwaysStoppedAnimation<Color>(Color(0xFF5B7C99)),
             ),
-          ),
-          const SizedBox(height: 12),
-          Container(
-            width: 150, height: 16,
-            decoration: BoxDecoration(
-              color: Colors.grey[300],
-              borderRadius: BorderRadius.circular(4),
-            ),
-          ),
-          const SizedBox(height: 20),
-          Container(
-            width: double.infinity, height: 50,
-            decoration: BoxDecoration(
-              color: Colors.grey[300],
-              borderRadius: BorderRadius.circular(37),
-            ),
-          ),
-        ],
+            if (message != null) ...[
+              const SizedBox(height: 16),
+              Text(
+                message,
+                style: const TextStyle(fontSize: 14, color: Color(0xFF6B7280)),
+              ),
+            ],
+          ],
+        ),
       ),
     );
   }
 
-  Widget _buildError(String message) {
+  Widget _buildError(BuildContext context, String message) {
     return Padding(
-      padding: const EdgeInsets.all(20),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const Text("Error Loading Station",
-              style: TextStyle(
-                  fontSize: 22,
-                  fontWeight: FontWeight.w600,
-                  color: Colors.red)),
-          const SizedBox(height: 12),
-          Text(message,
-              style: const TextStyle(fontSize: 14, color: Color(0xFF6B7280))),
-        ],
+      padding: const EdgeInsets.all(40),
+      child: Center(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const Icon(Icons.error_outline, size: 48, color: Colors.red),
+            const SizedBox(height: 16),
+            Text(
+              'Error Loading Station',
+              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w600, color: Color(0xFF2D3142)),
+            ),
+            const SizedBox(height: 8),
+            Text(
+              message,
+              textAlign: TextAlign.center,
+              style: const TextStyle(fontSize: 14, color: Color(0xFF6B7280)),
+            ),
+            const SizedBox(height: 20),
+            ElevatedButton.icon(
+              onPressed: () => context.read<NearestMetroCubit>().refresh(),
+              icon: const Icon(Icons.refresh, size: 18),
+              label: const Text('Try Again'),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: const Color(0xFF5B7C99),
+                foregroundColor: Colors.white,
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
 
-  Widget _buildPlaceholder() {
+  Widget _buildPermissionDenied(BuildContext context, NearestMetroPermissionDenied state) {
+    return Padding(
+      padding: const EdgeInsets.all(40),
+      child: Center(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const Icon(Icons.location_off, size: 48, color: Colors.orange),
+            const SizedBox(height: 16),
+            const Text(
+              'Location Permission Required',
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600, color: Color(0xFF2D3142)),
+            ),
+            const SizedBox(height: 8),
+            Text(
+              state.isPermanentlyDenied
+                  ? 'Please enable location permission in settings'
+                  : 'We need your location to find nearest metro',
+              textAlign: TextAlign.center,
+              style: const TextStyle(fontSize: 14, color: Color(0xFF6B7280)),
+            ),
+            const SizedBox(height: 20),
+            ElevatedButton.icon(
+              onPressed: () => state.isPermanentlyDenied
+                  ? context.read<NearestMetroCubit>().openLocationSettings()
+                  : context.read<NearestMetroCubit>().refresh(),
+              icon: Icon(state.isPermanentlyDenied ? Icons.settings : Icons.refresh, size: 18),
+              label: Text(state.isPermanentlyDenied ? 'Open Settings' : 'Grant Permission'),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: const Color(0xFF5B7C99),
+                foregroundColor: Colors.white,
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildLocationDisabled(BuildContext context, String message) {
+    return Padding(
+      padding: const EdgeInsets.all(40),
+      child: Center(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const Icon(Icons.location_disabled, size: 48, color: Colors.orange),
+            const SizedBox(height: 16),
+            const Text(
+              'Location Services Disabled',
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600, color: Color(0xFF2D3142)),
+            ),
+            const SizedBox(height: 8),
+            Text(
+              message,
+              textAlign: TextAlign.center,
+              style: const TextStyle(fontSize: 14, color: Color(0xFF6B7280)),
+            ),
+            const SizedBox(height: 20),
+            ElevatedButton.icon(
+              onPressed: () => context.read<NearestMetroCubit>().openLocationSettings(),
+              icon: const Icon(Icons.settings, size: 18),
+              label: const Text('Enable Location'),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: const Color(0xFF5B7C99),
+                foregroundColor: Colors.white,
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildInitial() {
     return const Padding(
-      padding: EdgeInsets.all(20),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text("Nearest Metro Station",
-              style: TextStyle(
-                  fontSize: 22,
-                  fontWeight: FontWeight.w600,
-                  color: Color(0xFF2D3142))),
-          SizedBox(height: 12),
-          Text("Finding nearest station...",
-              style: TextStyle(fontSize: 14, color: Color(0xFF6B7280))),
-        ],
+      padding: EdgeInsets.all(40),
+      child: Center(
+        child: Text(
+          'Finding nearest station...',
+          style: TextStyle(fontSize: 14, color: Color(0xFF6B7280)),
+        ),
       ),
     );
   }
