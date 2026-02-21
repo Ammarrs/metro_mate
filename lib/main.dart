@@ -13,9 +13,13 @@ import 'package:second/views/profile_page_view.dart';
 import 'Bloc/Navigate_cubit.dart';
 import 'Bloc/selectRoute_Cubit.dart';
 import 'Buy_Ticket/ChosePaymentMethod.dart';
+import 'Buy_Ticket/Confirm_FawryPage.dart';
+import 'Buy_Ticket/Confirm_VisaCard_Page.dart';
 import 'Buy_Ticket/CreditDetils.dart';
+import 'Buy_Ticket/Fawry_Page.dart';
 import 'Buy_Ticket/PaymentFinish.dart';
 import 'Buy_Ticket/Select Quantity.dart';
+import 'Buy_Ticket/VisaCard_Page.dart';
 import 'ChangePassword/ChangePassword.dart';
 import 'NavigationBar_Page/Home.dart';
 import 'NavigationBar_Page/Tickets.dart';
@@ -35,6 +39,7 @@ import 'Authentication_Cubit/Register_Cubit/Register_Cubit.dart';
 
 import 'components/wallet.dart';
 import 'cubits/login/login_cubit.dart';
+
 
 void main() {
   runApp(MetroApp());
@@ -92,6 +97,10 @@ class MetroApp extends StatelessWidget {
             'ChangePassword': (context) => Changepassword(),
             'Onbordingscreen': (context) => Onbordingscreen(),
             'Profile': (context) => ProfilePageView(),
+            'Fawry': (context) =>  FawryPage(),
+            'ConfirmVisacardPage': (context) =>  ConfirmVisacardPage(),
+            ' VisacardPage': (context) =>   VisacardPage(),
+            'ConfirmFawrypage': (context) =>  ConfirmFawrypage(),
           },
         ));
   }

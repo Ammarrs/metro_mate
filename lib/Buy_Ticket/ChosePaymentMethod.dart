@@ -9,9 +9,24 @@ class Chosepaymentmethod extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final cubit= context.read<SelectRoute>();
+
+
     return BlocConsumer <SelectRoute,RouteState>(
         listener: (context,state){
-          if (state is PaymentErorrState) {
+
+            if (state is SelectPaymentMethodSucessState) {
+
+
+              if (cubit.PaymentMethod == "fawry") {
+                Navigator.pushNamed(context, "ConfirmFawrypage");
+              }
+              else if (cubit.PaymentMethod == "visa card") {
+                Navigator.pushNamed(context, "ConfirmVisacardPage");
+              }
+            }
+
+
+          if (state is SelectPaymentMethodErorrState) {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
                 content: Text(state.Error),
@@ -20,14 +35,7 @@ class Chosepaymentmethod extends StatelessWidget {
             );
           }
 
-          if (state is PaymentSucessState) {
-            if(cubit.PaymentMethod=="MetroWallet") {
-              Navigator.pushNamed(context, "finish");
-            }
-            else if(cubit.PaymentMethod=="Credit") {
-              Navigator.pushNamed(context, "Creditdetils");
-            }
-          }
+
 
         },
         builder: (context,state) {
@@ -169,7 +177,7 @@ class Chosepaymentmethod extends StatelessWidget {
 
                             ),
                             child: Center(
-                              child: RadioListTile(value: "MetroWallet", groupValue: cubit.PaymentMethod, onChanged: (v){
+                              child: RadioListTile(value: "fawry", groupValue: cubit.PaymentMethod, onChanged: (v){
 
                                 if (v!=null){
                                   cubit.GetPaymentMethod(v);
@@ -178,46 +186,15 @@ class Chosepaymentmethod extends StatelessWidget {
                               },
                               title: Row(
                                 children: [
-                                 Container(
-                                   width: 50,
-                                   height: 50,
-                                   decoration: BoxDecoration(
 
-                                     gradient: LinearGradient(
-                                       begin: Alignment.topLeft,
-                                       end: Alignment.bottomRight,
-                                       colors: [
-                                         Color(0xFF4A6BAA),
-                                         Color(0xFF47C7E0),
-                                       ],
-                                     ),
-
-                                     borderRadius: BorderRadius.circular(18),
-                                   ),
-                                   child: Icon(Icons.account_balance_wallet,color: Colors.white,size: 30,),
-                                 ),
                                   SizedBox(width: 8,),
-                                  Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Text("Metro Mate \nWallet",
-                                        textAlign: TextAlign.start,
-                                          style: TextStyle(fontSize: 14,fontWeight: FontWeight.bold),
-                                      ),
-                                      Text("Balance EGP \n 150",
-                                        textAlign: TextAlign.start,
-                                        style: TextStyle(fontSize: 13,color: Colors.grey),
-                                      )
-                                    ],
+                                  Image.network("https://forexawy.com/wp-content/uploads/2024/06/Fawry-Logo.jpg",
+                                  width: 110,
+                                    height: 70,
                                   ),
-                                  Container(
-                                      width: 60,
-                                      height: 20,
-                                      decoration: BoxDecoration(
-                                        color: Colors.green,
-                                        borderRadius: BorderRadius.circular(5)
-                                      ),
-                                      child: Center(child: Text("Available",style: TextStyle(fontSize: 10,color: Colors.white),)))
+
+                                  
+
 
                                 ],
                               ),
@@ -233,7 +210,7 @@ class Chosepaymentmethod extends StatelessWidget {
 
                                 color: Colors.grey.shade50
                             ),
-                            child:RadioListTile(value: "Credit", groupValue: cubit.PaymentMethod, onChanged: (v){
+                            child:RadioListTile(value: "visa card", groupValue: cubit.PaymentMethod, onChanged: (v){
                               if (v!=null){
                                 cubit.GetPaymentMethod(v);
                                 print(cubit.PaymentMethod);
@@ -305,6 +282,7 @@ class Chosepaymentmethod extends StatelessWidget {
                           return;
                         }
                         cubit.MakePayment();
+                        cubit.ticketpaymentkey();
 
 
                         
@@ -315,7 +293,7 @@ class Chosepaymentmethod extends StatelessWidget {
                         minWidth: 320,
                         color: Color(0xff5A72A0),
                         hoverColor: Colors.blue.shade900,
-                        child:state is PaymentLodingState
+                        child:state is SelectPaymentMethodLodingState
                             ? CircularProgressIndicator(color: Colors.white)
                             :  Text(" Pay EG ${(cubit.price)!*(cubit.ticket)}",style: TextStyle(color: Colors.white),),
                       ),
