@@ -11,7 +11,7 @@ class VisacardPage extends StatefulWidget {
 
 class _VisacardPageState extends State<VisacardPage> {
   late WebViewController controller;
-  bool isLoading = true; // <-- اللودينج
+  bool isLoading = true;
 
   @override
   void initState() {
@@ -19,50 +19,41 @@ class _VisacardPageState extends State<VisacardPage> {
 
     controller = WebViewController()
       ..setJavaScriptMode(JavaScriptMode.unrestricted)
-      ..setBackgroundColor(Colors.white)
+      ..setBackgroundColor(const Color(0x00000000))
+      ..enableZoom(false)
       ..setNavigationDelegate(
         NavigationDelegate(
-          onPageStarted: (_) {
-            setState(() => isLoading = true);
-          },
-          onPageFinished: (_) {
-            setState(() => isLoading = false);
-          },
+          onPageStarted: (_) => setState(() => isLoading = true),
+          onPageFinished: (_) => setState(() => isLoading = false),
         ),
       );
 
-    // تحميل الـ iframe بعد قليل
-    Future.delayed(const Duration(milliseconds: 80), () {
+    Future.delayed(const Duration(milliseconds: 50), () {
       controller.loadRequest(Uri.parse(widget.iframeUrl));
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    return PopScope(
-      canPop: false,
-      child: Scaffold(
-        backgroundColor: const Color(0x000000ff),
-        body: Stack(
-          children: [
-            /// الـ WebView
-            SizedBox.expand(
+    return Scaffold(
+      backgroundColor: const Color(0x000000ff),
+      body: Stack(
+        children: [
+          Positioned.fill(
+            child: IgnorePointer(
+              ignoring: isLoading,
               child: WebViewWidget(controller: controller),
             ),
+          ),
 
-            /// اللودينج فوقه
-            if (isLoading)
-              Container(
-                color: Colors.white, // خلفية بسيطة
-                child: Center(
-                  child: CircularProgressIndicator(
-                    strokeWidth: 3,
-                    valueColor: AlwaysStoppedAnimation<Color>(Colors.blue),
-                  ),
-                ),
+          if (isLoading)
+            Container(
+              color: Colors.white,
+              child: const Center(
+                child: CircularProgressIndicator(),
               ),
-          ],
-        ),
+            ),
+        ],
       ),
     );
   }
