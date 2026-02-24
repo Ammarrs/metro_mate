@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -9,6 +11,9 @@ import 'package:second/services/auth_service.dart';
 import 'package:second/services/storage_service.dart';
 import 'package:second/views/login_view.dart';
 import 'package:second/views/profile_page_view.dart';
+import 'package:webview_flutter/webview_flutter.dart';
+import 'package:webview_flutter_android/webview_flutter_android.dart';
+import 'package:webview_flutter_wkwebview/webview_flutter_wkwebview.dart';
 
 import 'Bloc/Navigate_cubit.dart';
 import 'Bloc/selectRoute_Cubit.dart';
@@ -41,7 +46,16 @@ import 'components/wallet.dart';
 import 'cubits/login/login_cubit.dart';
 
 
+
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  if (Platform.isAndroid) {
+    WebViewPlatform.instance = AndroidWebViewPlatform();
+  } else if (Platform.isIOS) {
+    WebViewPlatform.instance = WebKitWebViewPlatform();
+  }
+
   runApp(MetroApp());
 }
 
@@ -99,7 +113,7 @@ class MetroApp extends StatelessWidget {
             'Profile': (context) => ProfilePageView(),
             'Fawry': (context) =>  FawryPage(),
             'ConfirmVisacardPage': (context) =>  ConfirmVisacardPage(),
-            ' VisacardPage': (context) =>   VisacardPage(),
+
             'ConfirmFawrypage': (context) =>  ConfirmFawrypage(),
           },
         ));

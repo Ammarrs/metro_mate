@@ -94,7 +94,7 @@ class ConfirmFawrypage extends StatelessWidget {
                                         SizedBox(height: 6),
                                         Text("${cubit.PaymentMethod}", style: TextStyle(fontWeight: FontWeight.bold,fontSize: 16,color: Color(0xff5A72A0))),
                                         SizedBox(height: 6),
-                                        Text("EGP  ${cubit.totalPrice}", style: TextStyle(fontWeight: FontWeight.bold,fontSize: 16,color: Color(0xff5A72A0))),
+                                        Text("EGP  ${(cubit.price)!*(cubit.ticket)}", style: TextStyle(fontWeight: FontWeight.bold,fontSize: 16,color: Color(0xff5A72A0))),
                                         SizedBox(height: 6),
                                         Text("${cubit.Date}", style: TextStyle(fontWeight: FontWeight.bold,fontSize: 16,color: Color(0xff5A72A0))),
                                       ],

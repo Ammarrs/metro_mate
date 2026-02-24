@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:url_launcher/url_launcher.dart';
+
 
 import '../Bloc/SelectRoute_State.dart';
 import '../Bloc/selectRoute_Cubit.dart';
+import 'VisaCard_Page.dart';
 class ConfirmVisacardPage extends StatelessWidget {
   ConfirmVisacardPage();
 
@@ -14,7 +15,21 @@ class ConfirmVisacardPage extends StatelessWidget {
         listener: (context,state){
 
           if (state is VisaCardPaymentSucessState) {
-            launchUrl(Uri.parse(cubit.Iframe_Url!));
+            if (cubit.Iframe_Url != null) {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => VisacardPage(iframeUrl: cubit.Iframe_Url!),
+                ),
+              );
+            } else {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text("Iframe URL is null"),
+                  backgroundColor: Colors.red,
+                ),
+              );
+            }
           }
           if (state is VisaCardPaymentErorrState) {
             ScaffoldMessenger.of(context).showSnackBar(
@@ -98,7 +113,7 @@ class ConfirmVisacardPage extends StatelessWidget {
                                         SizedBox(height: 6),
                                         Text("${cubit.PaymentMethod}", style: TextStyle(fontWeight: FontWeight.bold,fontSize: 16,color: Color(0xff5A72A0))),
                                         SizedBox(height: 6),
-                                        Text("EGP  ${cubit.totalPrice}", style: TextStyle(fontWeight: FontWeight.bold,fontSize: 16,color: Color(0xff5A72A0))),
+                                        Text("EGP  ${(cubit.price)!*(cubit.ticket)}", style: TextStyle(fontWeight: FontWeight.bold,fontSize: 16,color: Color(0xff5A72A0))),
                                         SizedBox(height: 6),
                                         Text("${cubit.Date}", style: TextStyle(fontWeight: FontWeight.bold,fontSize: 16,color: Color(0xff5A72A0))),
                                       ],
