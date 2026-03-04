@@ -12,22 +12,7 @@ class SelectQuantity extends StatelessWidget {
   Widget build(BuildContext context) {
     final cubit= context.read<SelectRoute>();
     return BlocConsumer <SelectRoute,RouteState>(
-      listener: (context,state){
-        if (state is PaymentErorrState) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(state.Error),
-              backgroundColor: Colors.red,
-            ),
-          );
-        }
-
-        if (state is PaymentSucessState) {
-
-
-          Navigator.pushNamed(context,"Chosepaymentmethod");
-          }
-      },
+      listener: (context,state){},
       builder: (context,state) {
         return Scaffold(
           backgroundColor: Color(0xffFCFCFD),
@@ -296,7 +281,7 @@ class SelectQuantity extends StatelessWidget {
                                               child: Text(
                                                 "${cubit.time} min • ${cubit.distance} km",
                                                 style: TextStyle(color: Colors.grey, fontSize: 15),
-                                                overflow: TextOverflow.ellipsis,
+                                                overflow: TextOverflow.ellipsis, // لمنع overflow
                                               ),
                                             )
                                           ],
@@ -336,19 +321,13 @@ class SelectQuantity extends StatelessWidget {
                   padding: const EdgeInsets.only(bottom: 30.0),
                   child: Center(
                     child: MaterialButton(onPressed: (){
-                      cubit.getTicketIdByPrice();
-                      cubit.paymentconfirmation();
-
-
-
+                      Navigator.pushNamed(context,"Chosepaymentmethod");
                     },
                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)) ,
                       minWidth: 320,
                       color: Color(0xff5A72A0),
                       hoverColor: Colors.blue.shade900,
-                      child:state is PaymentLodingState
-                          ? CircularProgressIndicator(color: Colors.white)
-                          : Text(" Continue To Payment",style: TextStyle(color: Colors.white),),
+                      child: Text(" Continue To Payment",style: TextStyle(color: Colors.white),),
                     ),
                   ),
                 ),
