@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
-
+import 'package:flutter_bloc/flutter_bloc.dart';
+import '../cubits/nearest_metro/nearest_metro_cubit.dart';
+import '../services/location_services.dart';
+import '../services/metro_services.dart';
+import '../services/routing_service.dart';
 import 'build_header.dart';
-import 'build_map_area.dart';
 import 'build_station_info.dart';
 
 class NearestMetroStation extends StatelessWidget {
@@ -9,20 +12,50 @@ class NearestMetroStation extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final screenWidth = MediaQuery.of(context).size.width;
-    final screenHeight = MediaQuery.of(context).size.height;
+    return BlocProvider(
+      create: (context) => NearestMetroCubit(
+        locationService: LocationService(),
+        metroService: MetroService(),
+        routingService: RoutingService(),
+      )..loadNearestMetro(),
+      child: const _NearestMetroContent(),
+    );
+  }
+}
 
+class _NearestMetroContent extends StatelessWidget {
+  const _NearestMetroContent();
+
+  @override
+  Widget build(BuildContext context) {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        buildHeader(title: "Nearest Metro Station"),
-        
-        Container(
-          width: double.infinity,
-          constraints: BoxConstraints(
-            maxWidth: 500,
-            minHeight: screenHeight * 0.35,
+        Row(
+          children: [
+            const Expanded(
+              child: buildHeader(title: "Nearest Metro Station"),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(right: 20),
+              child: IconButton(
+                icon: const Icon(Icons.refresh, color: Color(0xFF5B7C99)),
+                onPressed: () => context.read<NearestMetroCubit>().refresh(),
+                tooltip: 'Refresh',
+              ),
+            ],
           ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              buildMapArea(),
+              buildStationInfo(),
+            ],
+          ),
+        ),
+        Container(
+          width: 500,
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(20),
@@ -35,14 +68,7 @@ class NearestMetroStation extends StatelessWidget {
               ),
             ],
           ),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              buildMapArea(),
-              buildStationInfo(),
-            ],
-          ),
+          child: const buildStationInfo(),
         ),
       ],
     );
