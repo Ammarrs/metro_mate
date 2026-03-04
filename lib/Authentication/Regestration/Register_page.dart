@@ -304,7 +304,7 @@ class RegisterPage extends StatelessWidget {
                           ),
                         ),
                         RadioListTile(
-                            value: 'femal',
+                            value: 'female',
                             groupValue: cubit.gender,
                             onChanged: (value) {
                               if (value != null) {

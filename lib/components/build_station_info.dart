@@ -34,6 +34,7 @@ class buildStationInfo extends StatelessWidget {
       padding: const EdgeInsets.all(20),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
         children: [
           Text(
             station.name,
@@ -42,6 +43,8 @@ class buildStationInfo extends StatelessWidget {
               fontWeight: FontWeight.w600,
               color: Color(0xFF2D3142),
             ),
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
           ),
           const SizedBox(height: 8),
           Row(
@@ -118,7 +121,10 @@ class buildStationInfo extends StatelessWidget {
                 icon: const Icon(Icons.navigation, size: 20),
                 label: const Text(
                   "Get Directions",
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w600,
+                  ),
                 ),
                 style: ElevatedButton.styleFrom(
                   foregroundColor: Colors.white,

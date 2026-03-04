@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:second/models/auth_result.dart';
 
 import 'package:second/services/storage_service.dart';
 

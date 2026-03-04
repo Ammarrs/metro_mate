@@ -5,10 +5,8 @@
     <application
         android:label="Metro Mate"
         android:name="${applicationName}"
-        android:icon="@mipmap/launcher_icon">
-        <meta-data
-        android:name="com.google.android.geo.API_KEY"
-        android:value="YOUR_ANDROID_API_KEY_HERE"/>
+        android:icon="@mipmap/launcher_icon"
+        android:hardwareAccelerated="true">
         <activity
             android:name=".MainActivity"
             android:exported="true"
