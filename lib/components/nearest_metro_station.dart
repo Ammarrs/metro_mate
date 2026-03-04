@@ -43,16 +43,8 @@ class _NearestMetroContent extends StatelessWidget {
                 onPressed: () => context.read<NearestMetroCubit>().refresh(),
                 tooltip: 'Refresh',
               ),
-            ],
-          ),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              buildMapArea(),
-              buildStationInfo(),
-            ],
-          ),
+            ),
+          ],
         ),
         Container(
           width: 500,
