@@ -1,25 +1,39 @@
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-
-
-
+import 'package:second/components/nearest_metro_station.dart';
+import 'package:second/components/plan_your_rote.dart';
+import 'package:second/components/quick_actions.dart';
+import 'package:second/components/home_app_bar.dart';
 
 import '../Bloc/SelectRoute_State.dart';
 import '../Bloc/selectRoute_Cubit.dart';
-import 'Tickets.dart';
+import '../cubits/user/user_cubit.dart';
 
-class Home extends StatelessWidget {
-  Home({super.key});
+class Home extends StatefulWidget {
+  const Home({super.key});
 
+  @override
+  State<Home> createState() => _HomeState();
+}
+
+class _HomeState extends State<Home> {
+  @override
+  void initState() {
+    super.initState();
+    // Load user data when home screen initializes
+    // This will fetch the profile photo and user info
+    context.read<UserCubit>().loadUser();
+  }
 
   @override
   Widget build(BuildContext context) {
-    final cubit= context.read<SelectRoute>();
+    final cubit = context.read<SelectRoute>();
+    final screenHeight = MediaQuery.of(context).size.height;
+    final screenWidth = MediaQuery.of(context).size.width;
 
-    return  BlocConsumer<SelectRoute,RouteState>(
-      listener: (context,state){
+    return BlocConsumer<SelectRoute, RouteState>(
+      listener: (context, state) {
         if (state is InfoErorrState) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
@@ -33,263 +47,57 @@ class Home extends StatelessWidget {
           cubit.ClearSelection();
           Navigator.pushNamed(context, "detalis");
         }
-
-
       },
-      builder: (context,state) {
-        return Padding(
-          padding: const EdgeInsets.all(30.0),
-          child: Container(
-            width: 400,
-            height: 340,
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(15),
-                boxShadow: [BoxShadow(
-                  color: Colors.black26,
-                  spreadRadius: 2,
-                  blurRadius: 5,
-                  offset:Offset(1, 2),
-                )],
-                color: Colors.white
+      builder: (context, state) {
+        return Column(
+          children: [
+            // Home App Bar with gradient (now responsive)
+            // The HomeAppBar will automatically listen to UserCubit
+            // and display the profile photo when available
+            HomeAppBar(
+              onNotificationPressed: () {
+                print("Notifications pressed");
+              },
+              onDepositPressed: () {
+                print("Deposit pressed");
+              },
             ),
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 10.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-
-                  SizedBox(height: 30,),
-                  Text(" Plane Your Route  ",style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold),),
-                  SizedBox(height: 20,),
-                  Padding(
-                    padding: const EdgeInsets.symmetric( horizontal: 15.0),
-                    child: DropdownSearch<String>(
-                      asyncItems: (String?filter)async{
-                        return await cubit.getStations();
-                      },
-
-
-
-
-                        popupProps: PopupProps.menu(
-
-                          itemBuilder: (context, item, isSelected) {
-                          return Container(
-                            padding: EdgeInsets.symmetric(horizontal: 15, vertical: 12),
-                            decoration: BoxDecoration(
-                              color:  Colors.white,
-                              border: Border(
-                                bottom: BorderSide(color: Colors.grey.shade300),
-                              ),
-                            ),
-                            child: Text(
-                              item,
-                              style: TextStyle(
-                                fontSize: 17,
-                                color: Colors.black87,
-                                fontWeight:  FontWeight.bold ,
-                              ),
-                            ),
-                          );
-                        },
-
-                          menuProps: MenuProps(
-
-
-                            borderRadius: BorderRadius.circular(15),
-                            elevation: 8,
-                            shadowColor: Colors.black54,
-                          ),
-                          searchFieldProps: TextFieldProps(
-                            decoration: InputDecoration(
-                              hintText: "Search station...",
-                              prefixIcon: Icon(Icons.search),
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(12),
-                              ),
-                            ),
-                          ),
-
-                          showSearchBox: true,
-                          showSelectedItems: true,
-                        ),
-
-                        dropdownDecoratorProps: DropDownDecoratorProps(
-                          dropdownSearchDecoration: InputDecoration(
-                            labelText: "Select Station",
-                            hintText: "Choose Metro Station",
-                            labelStyle: TextStyle(
-                              fontSize: 12,
-                              color: Colors.black26,
-                              fontWeight: FontWeight.bold,
-                            ),
-                            hintStyle: TextStyle(
-                              fontSize: 12,
-                              color: Colors.grey,
-                            ),
-                            filled: true,
-                            fillColor: Color(0xffF8F9FB),
-                            contentPadding: EdgeInsets.symmetric(horizontal: 15, vertical: 12),
-                            enabledBorder: OutlineInputBorder(
-                              borderSide: BorderSide(color: Colors.black26, width: 1.5),
-                              borderRadius: BorderRadius.circular(15),
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                              borderSide: BorderSide(color: Colors.blueAccent, width: 2),
-                              borderRadius: BorderRadius.circular(15),
-                            ),
-
-                          ),
-
-                        ),
-
-
-
-
-                        onChanged:(v){
-                          cubit.setStation1(v!);
-                          print(cubit.Station1); },
-
-                        selectedItem: cubit.Station1),
+            
+            // Scrollable content
+            Expanded(
+              child: Container(
+                color: Colors.grey[50],
+                child: SingleChildScrollView(
+                  padding: EdgeInsets.only(
+                    top: screenHeight * 0.02,
+                    bottom: screenHeight * 0.03,
+                    left: screenWidth * 0.05,
+                    right: screenWidth * 0.05,
                   ),
-                  SizedBox(height: 20,),
-                  Row(mainAxisAlignment: MainAxisAlignment.center,
+                  child: Column(
                     children: [
-                      Icon(Icons.arrow_upward),
-                      Icon(Icons.arrow_downward),
+                      // 1. Plan Your Route
+                      PlanYorRoute(cubit: cubit),
+                      
+                      SizedBox(height: screenHeight * 0.025),
+                      
+                      // 2. Quick Actions
+                      QuickActions(),
+                      
+                      SizedBox(height: screenHeight * 0.025),
+                      
+                      // 3. Nearest Metro Station
+                      NearestMetroStation(),
+                      
+                      SizedBox(height: screenHeight * 0.02),
                     ],
                   ),
-                  SizedBox(height: 20,),
-                  Padding(
-                    padding: const EdgeInsets.symmetric( horizontal: 15.0),
-                    child: DropdownSearch<String>(
-                        asyncItems: (String?filter)async{
-                          return await cubit.getStations();
-                        },
-
-
-
-
-                        popupProps: PopupProps.menu(
-
-                          itemBuilder: (context, item, isSelected) {
-                            return Container(
-                              padding: EdgeInsets.symmetric(horizontal: 15, vertical: 12),
-                              decoration: BoxDecoration(
-                                color:  Colors.white,
-                                border: Border(
-                                  bottom: BorderSide(color: Colors.grey.shade300),
-                                ),
-                              ),
-                              child: Text(
-                                item,
-                                style: TextStyle(
-                                  fontSize: 17,
-                                  color: Colors.black87,
-                                  fontWeight:  FontWeight.bold ,
-                                ),
-                              ),
-                            );
-                          },
-
-                          menuProps: MenuProps(
-
-
-                            borderRadius: BorderRadius.circular(15),
-                            elevation: 8,
-                            shadowColor: Colors.black54,
-                          ),
-                          searchFieldProps: TextFieldProps(
-                            decoration: InputDecoration(
-                              hintText: "Search station...",
-                              prefixIcon: Icon(Icons.search),
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(12),
-                              ),
-                            ),
-                          ),
-
-                          showSearchBox: true,
-                          showSelectedItems: true,
-                        ),
-
-                        dropdownDecoratorProps: DropDownDecoratorProps(
-                          dropdownSearchDecoration: InputDecoration(
-                            labelText: "Select Station",
-                            hintText: "Choose Metro Station",
-                            labelStyle: TextStyle(
-                              fontSize: 12,
-                              color: Colors.black26,
-                              fontWeight: FontWeight.bold,
-                            ),
-                            hintStyle: TextStyle(
-                              fontSize: 12,
-                              color: Colors.grey,
-                            ),
-                            filled: true,
-                            fillColor: Color(0xffF8F9FB),
-                            contentPadding: EdgeInsets.symmetric(horizontal: 15, vertical: 12),
-                            enabledBorder: OutlineInputBorder(
-                              borderSide: BorderSide(color: Colors.black26, width: 1.5),
-                              borderRadius: BorderRadius.circular(15),
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                              borderSide: BorderSide(color: Colors.blueAccent, width: 2),
-                              borderRadius: BorderRadius.circular(15),
-                            ),
-
-                          ),
-
-                        ),
-
-                        onChanged:(v){
-                          cubit.setStation2(v!);
-                          print(cubit.Station2); },
-
-                        selectedItem: cubit.Station2),
-                  ),
-                  SizedBox(height: 30,),
-                  Center(
-                    child: MaterialButton(onPressed: (){
-                      if (cubit.ValidateStation() != null) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: Text(cubit.ValidateStation()),
-                            backgroundColor: Colors.red,
-                          ),
-                        );
-                        return;
-                      }
-
-
-
-
-                      cubit.getInfoStation();
-                      cubit.ShowStations();
-
-
-                    },
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)) ,
-                      minWidth: 230,
-                      color: Color(0xff5A72A0),
-                      hoverColor: Colors.blue.shade900,
-                      child:state is InfoLodingState
-                          ? CircularProgressIndicator(color: Colors.white)
-                          : Row(mainAxisSize: MainAxisSize.min,
-                        children: [Icon(Icons.search,color: Colors.white,),
-                          Text("\t Search Route",style: TextStyle(color: Colors.white),),
-                        ],
-                      ),
-                    ),
-                  ),
-
-
-                ],
+                ),
               ),
             ),
-          ),
+          ],
         );
-      }
+      },
     );
   }
 }

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-
 import '../components/wallet.dart';
 
 class Home extends StatelessWidget {
@@ -10,6 +9,7 @@ class Home extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: TransitHeaderComponent(),
+      
     );
   }
 }
