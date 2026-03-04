@@ -1,5 +1,7 @@
 abstract class LogOutState {}
 
-class LogoutIntial extends LogOutState {}
+class LoginOutIntial extends LogOutState {}
 
-class LogOut
+class LogOutSuccessful extends LogOutState {}
+
+class LogoutLoading extends LogOutState {}

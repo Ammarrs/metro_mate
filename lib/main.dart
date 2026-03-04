@@ -3,6 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:second/ChangePassword/ChangePassword_Cubit.dart';
 import 'package:second/components/home_app_bar.dart';
+import 'package:second/cubits/logout/logout_cubit.dart';
+import 'package:second/cubits/logout/logout_state.dart';
 import 'package:second/cubits/user/user_cubit.dart';
 
 import 'package:second/services/auth_service.dart';
@@ -46,54 +48,69 @@ class MetroApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
-        providers: [
-          BlocProvider(
-            create: (context) => ChangePasswordCubit(),
-          ),
-          BlocProvider(
-            create: (context) => RegisterCubit(),
-          ),
-          BlocProvider(
-            create: (context) => ForgetPasswordCubit(),
-          ),
-          BlocProvider(
-            create: (context) => LoginCubit(AuthService()),
-          ),
-          BlocProvider(
-            create: (context) => Navigate_Cubit(),
-          ),
-          BlocProvider(
-            create: (context) => SelectRoute(),
-          ),
-          BlocProvider(
-            create: (context) => OnBoardingCubit()..CheckSeen(),
-          ),
-          BlocProvider(
-            create: (context) => UserCubit(StorageService())..loadUser(),
-          ),
-        ],
-        child: MaterialApp(
-          debugShowCheckedModeBanner: false,
-          home: Onbordingscreen(),
-          routes: {
-            'test_page': (context) => test_page(),
-            'Home': (context) => Home(),
-            'loginPage': (context) => const LoginPage(),
-            'Register': (context) => RegisterPage(),
-            'RegisterOtp': (context) => RegisterOtp(),
-            'ForgetPassword': (context) => ForgetPassword(),
-            /*'VerifyEmail':(context)=>  VerifyEmail(),*/
-            'NewpasswordPage': (context) => NewpasswordPage(),
-            'detalis': (context) => Routedeatils(),
-            'SelectQuantity': (context) => SelectQuantity(),
-            'Chosepaymentmethod': (context) => Chosepaymentmethod(),
-            'Creditdetils': (context) => Creditdetils(),
-            'finish': (context) => Paymentfinish(),
-            'ChangePassword': (context) => Changepassword(),
-            'Onbordingscreen': (context) => Onbordingscreen(),
-            'Profile': (context) => ProfilePageView(),
-          },
-        ));
+      providers: [
+        BlocProvider(
+          create: (context) => ChangePasswordCubit(),
+        ),
+        BlocProvider(
+          create: (context) => RegisterCubit(),
+        ),
+        BlocProvider(
+          create: (context) => ForgetPasswordCubit(),
+        ),
+        BlocProvider(
+          create: (context) => LoginCubit(AuthService()),
+        ),
+        BlocProvider(
+          create: (context) => Navigate_Cubit(),
+        ),
+        BlocProvider(
+          create: (context) => SelectRoute(),
+        ),
+        BlocProvider(
+          create: (context) => OnBoardingCubit()..CheckSeen(),
+        ),
+        BlocProvider(
+          create: (context) => UserCubit(StorageService())..loadUser(),
+        ),
+        BlocProvider(create: (context) => LogOutCubit()),
+      ],
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        home: Onbordingscreen(),
+        routes: {
+          'test_page': (context) => test_page(),
+          'Home': (context) => Home(),
+          'loginPage': (context) => const LoginPage(),
+          'Register': (context) => RegisterPage(),
+          'RegisterOtp': (context) => RegisterOtp(),
+          'ForgetPassword': (context) => ForgetPassword(),
+          /*'VerifyEmail':(context)=>  VerifyEmail(),*/
+          'NewpasswordPage': (context) => NewpasswordPage(),
+          'detalis': (context) => Routedeatils(),
+          'SelectQuantity': (context) => SelectQuantity(),
+          'Chosepaymentmethod': (context) => Chosepaymentmethod(),
+          'Creditdetils': (context) => Creditdetils(),
+          'finish': (context) => Paymentfinish(),
+          'ChangePassword': (context) => Changepassword(),
+          'Onbordingscreen': (context) => Onbordingscreen(),
+          'Profile': (context) => ProfilePageView(),
+        },
+        builder: (context, child) {
+          return BlocListener<LogOutCubit, LogOutState>(
+            listener: (context, state) {
+              if (state is LogOutSuccessful) {
+                Navigator.pushAndRemoveUntil(
+                    context,
+                    MaterialPageRoute(builder: (context) => const LoginPage()),
+                    (route) => false);
+              }
+            },
+            child: child!,
+          );
+        },
+      ),
+    );
   }
 }
 
