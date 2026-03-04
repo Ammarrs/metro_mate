@@ -355,4 +355,3 @@ class Routedeatils extends StatelessWidget {
     );
   }
 }
-

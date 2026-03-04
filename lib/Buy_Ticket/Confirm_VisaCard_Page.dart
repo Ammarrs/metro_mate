@@ -1,58 +1,39 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-
 import '../Bloc/SelectRoute_State.dart';
 import '../Bloc/selectRoute_Cubit.dart';
-import 'VisaCard_Page.dart';
-class ConfirmVisacardPage extends StatelessWidget {
-  ConfirmVisacardPage();
+class ConfirmFawrypage extends StatelessWidget {
+  ConfirmFawrypage();
 
   @override
   Widget build(BuildContext context) {
     final cubit= context.read<SelectRoute>();
     return BlocConsumer <SelectRoute,RouteState>(
         listener: (context,state){
-
-          if (state is VisaCardPaymentSucessState) {
-            if (cubit.Iframe_Url != null) {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (_) => VisacardPage(iframeUrl: cubit.Iframe_Url!),
-                ),
-              );
-            } else {
+          if (state is FawryPaymentSucessState) {
+            Navigator.pushNamed(context, "Fawry");
+          }
+            if (state is FawryPaymentErorrState) {
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
-                  content: Text("Iframe URL is null"),
+                  content: Text(state.Error),
                   backgroundColor: Colors.red,
                 ),
               );
             }
-          }
-          if (state is VisaCardPaymentErorrState) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Text(state.Error),
-                backgroundColor: Colors.red,
-              ),
-            );
-          }
 
-
-
-        },
+          },
         builder: (context,state) {
           return Scaffold(
-            backgroundColor: Colors.white,
+            backgroundColor: Color(0xffFFD504),
             body: Padding(
               padding: const EdgeInsets.only(top: 30.0),
               child: Center(
                 child: Column(
 
                   children: [
-                    Image.network("https://thumbs.dreamstime.com/b/web-183282979.jpg",width: 250,height: 200,),
+                    Image.network("https://forexawy.com/wp-content/uploads/2024/06/Fawry-Logo.jpg",width: 250,height: 200,),
                     Container(
                       width: 300,
                       height: 450,
@@ -215,15 +196,15 @@ class ConfirmVisacardPage extends StatelessWidget {
 
                               children: [
                                 MaterialButton(onPressed: (){
-                                  cubit.ticketvisapayment();
+                                 cubit.ticketfawrypayment();
                                 },
                                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)) ,
                                   minWidth: 110,
                                   color: Color(0xff5A72A0),
                                   hoverColor: Colors.blue.shade900,
-                                  child: state is VisaCardPaymentLodingState
+                                  child:state is FawryPaymentLodingState
                                       ? CircularProgressIndicator(color: Colors.white)
-                                      : Text(" Pay",style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold),),
+                                      :  Text(" Pay",style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold),),
                                 ),
                                 SizedBox(height: 10,),
                                 MaterialButton(onPressed: (){

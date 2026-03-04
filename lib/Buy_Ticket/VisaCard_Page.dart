@@ -11,7 +11,8 @@ class VisacardPage extends StatefulWidget {
 
 class _VisacardPageState extends State<VisacardPage> {
   late WebViewController controller;
-  bool isLoading = true; 
+  bool isLoading = true;
+  bool hasNavigated = false;
 
   @override
   void initState() {
@@ -25,12 +26,26 @@ class _VisacardPageState extends State<VisacardPage> {
           onPageStarted: (_) {
             setState(() => isLoading = true);
           },
-          onPageFinished: (_) {
+          onPageFinished: (url) {
             setState(() => isLoading = false);
+
+
+            if (!hasNavigated) {
+              if (url.contains("success=true")) {
+                hasNavigated = true;
+                Future.delayed(Duration(seconds: 5), () {
+                  Navigator.pushReplacementNamed(context, "test_page");
+                });
+              } else if (url.contains("success=false")) {
+                hasNavigated = true;
+                Future.delayed(Duration(seconds: 5), () {
+                  Navigator.pushReplacementNamed(context, "Chosepaymentmethod");
+                });
+              }
+            }
           },
         ),
       );
-
 
     Future.delayed(const Duration(milliseconds: 20), () {
       controller.loadRequest(Uri.parse(widget.iframeUrl));
@@ -45,12 +60,9 @@ class _VisacardPageState extends State<VisacardPage> {
         backgroundColor: const Color(0x000000ff),
         body: Stack(
           children: [
-
             SizedBox.expand(
               child: WebViewWidget(controller: controller),
             ),
-
-
             if (isLoading)
               Container(
                 color: Colors.white,

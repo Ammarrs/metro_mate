@@ -28,7 +28,7 @@ class _buildMapAreaState extends State<buildMapArea> {
   @override
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
-    
+
     return Container(
       height: screenHeight * 0.20, // Responsive height
       width: double.infinity,
@@ -44,39 +44,38 @@ class _buildMapAreaState extends State<buildMapArea> {
           topLeft: Radius.circular(16),
           topRight: Radius.circular(16),
         ),
-        child: Stack(
-          children: [
-            // Center location icon
-            Center(
-              child: Container(
-                width: 50,
-                height: 50,
-                decoration: const BoxDecoration(
-                  color: Color(0xFF5B7C99),
-                  shape: BoxShape.circle,
-                ),
-                child: const Icon(
-                  Icons.location_on,
-                  color: Colors.white,
-                  size: 30,
-                ),
+        child: Stack(children: [
+          // Center location icon
+          Center(
+            child: Container(
+              width: 50,
+              height: 50,
+              decoration: const BoxDecoration(
+                color: Color(0xFF5B7C99),
+                shape: BoxShape.circle,
+              ),
+              child: const Icon(
+                Icons.location_on,
+                color: Colors.white,
+                size: 30,
               ),
             ),
-            
-            // Live location badge
-            Positioned(
-              top: 12,
-              right: 12,
-              child: Container(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 12,
-                  vertical: 6,
-                ),
-              ],
+          ),
+
+          // Live location badge
+          Positioned(
+            top: 12,
+            right: 12,
+            child: Container(
+              padding: const EdgeInsets.symmetric(
+                horizontal: 12,
+                vertical: 6,
+              ),
             ),
           ),
+        ]
         ),
-      ],
+      ),
     );
   }
 
@@ -93,7 +92,8 @@ class _buildMapAreaState extends State<buildMapArea> {
             if (message != null) ...[
               const SizedBox(height: 12),
               Text(message,
-                  style: const TextStyle(fontSize: 12, color: Color(0xFF6B7280))),
+                  style:
+                      const TextStyle(fontSize: 12, color: Color(0xFF6B7280))),
             ],
           ],
         ),
@@ -114,7 +114,8 @@ class _buildMapAreaState extends State<buildMapArea> {
               const SizedBox(height: 12),
               Text(message,
                   textAlign: TextAlign.center,
-                  style: const TextStyle(fontSize: 14, color: Color(0xFF6B7280))),
+                  style:
+                      const TextStyle(fontSize: 14, color: Color(0xFF6B7280))),
               const SizedBox(height: 16),
               ElevatedButton.icon(
                 onPressed: () => context.read<NearestMetroCubit>().refresh(),

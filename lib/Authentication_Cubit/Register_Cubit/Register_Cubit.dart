@@ -9,7 +9,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 
 
-import 'Register_State.dart';
+import '../Register_Cubit/Register_State.dart';
 
 class RegisterCubit extends Cubit<Register_State>{
   RegisterCubit() :super(RegisterInitial());

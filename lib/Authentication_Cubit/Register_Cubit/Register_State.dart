@@ -48,4 +48,3 @@ class ButtonState extends Register_State {
   final int time;
   ButtonState({required this.enable, required this.time});
 }
-
