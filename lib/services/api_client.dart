@@ -1,7 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:second/services/storage_service.dart';
 
-
 import '../config/api_config.dart';
 
 class ApiClient {
@@ -14,20 +13,20 @@ class ApiClient {
 
   void _setupBaseOptions() {
     String baseUrl = ApiConfig.baseUrl;
-    
+
     // IMPORTANT: Only use CORS proxy if you're actually getting CORS errors
     // For now, let's try without it since it might be causing the 401
     // if (kIsWeb) {
     //   baseUrl = 'https://corsproxy.io/?${Uri.encodeComponent(ApiConfig.baseUrl)}';
     // }
-    
+
     _dio.options = BaseOptions(
       baseUrl: baseUrl,
       connectTimeout: ApiConfig.connectTimeout,
       receiveTimeout: ApiConfig.receiveTimeout,
       headers: {
         'Content-Type': 'application/json',
-        'Accept': 'application/json',
+        'Accept': '*/*',
       },
       validateStatus: (status) {
         // Accept all status codes so we can handle them manually
@@ -42,7 +41,7 @@ class ApiClient {
         onRequest: (options, handler) async {
           print('REQUEST[${options.method}] => PATH: ${options.path}');
           print('REQUEST DATA: ${options.data}');
-          
+
           final token = await StorageService().getToken();
           if (token != null && token.isNotEmpty) {
             options.headers['Authorization'] = 'Bearer $token';
@@ -55,7 +54,8 @@ class ApiClient {
           return handler.next(response);
         },
         onError: (DioException error, handler) {
-          print('ERROR[${error.response?.statusCode}] => MESSAGE: ${error.message}');
+          print(
+              'ERROR[${error.response?.statusCode}] => MESSAGE: ${error.message}');
           print('ERROR RESPONSE: ${error.response?.data}');
           print('ERROR TYPE: ${error.type}');
           return handler.next(error);
@@ -64,36 +64,46 @@ class ApiClient {
     );
   }
 
-  Future<Response> get(String path, {Map<String, dynamic>? query}) async {
+  Future<Response> get(String path,
+      {Map<String, dynamic>? query, Options? options}) async {
     try {
-      return await _dio.get(path, queryParameters: query);
+      return await _dio.get(path, queryParameters: query, options: options);
     } catch (e) {
       print('GET Error: $e');
       rethrow;
     }
   }
 
-  Future<Response> post(String path, {dynamic data}) async {
+  Future<Response> post(String path, {dynamic data, Options? options}) async {
     try {
-      return await _dio.post(path, data: data);
+      return await _dio.post(path, data: data, options: options);
     } catch (e) {
       print('POST Error: $e');
       rethrow;
     }
   }
 
-  Future<Response> put(String path, {dynamic data}) async {
+  Future<Response> put(String path, {dynamic data, dynamic options}) async {
     try {
-      return await _dio.put(path, data: data);
+      return await _dio.put(path, data: data, options: options);
     } catch (e) {
       print('PUT Error: $e');
       rethrow;
     }
   }
 
-  Future<Response> delete(String path, {dynamic data}) async {
+  Future<Response> patch(String path, {dynamic data, Options? options}) async {
     try {
-      return await _dio.delete(path, data: data);
+      return await _dio.patch(path, data: data, options: options);
+    } catch (e) {
+      print("PATCH Error: $e");
+      rethrow;
+    }
+  }
+
+  Future<Response> delete(String path, {dynamic data, Options? options}) async {
+    try {
+      return await _dio.delete(path, data: data, options: options);
     } catch (e) {
       print('DELETE Error: $e');
       rethrow;

@@ -23,7 +23,7 @@ class Changepassword extends StatelessWidget {
           if (state is ChangePasswordSucsees) {
             Navigator.pushNamed(
               context,
-              'test_page',
+              'loginPage',
             );
           } else if (state is ChangePasswordError) {
             ScaffoldMessenger.of(context)

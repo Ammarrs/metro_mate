@@ -5,42 +5,60 @@ class buildStationInfo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
+    
     return Padding(
-      padding: EdgeInsets.all(20),
+      padding: EdgeInsets.all(screenWidth * 0.05),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
         children: [
-          Text(
+          // Station name
+          const Text(
             "Sadat Station",
             style: TextStyle(
               fontSize: 22,
               fontWeight: FontWeight.w600,
               color: Color(0xFF2D3142),
             ),
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
           ),
-          SizedBox(height: 12),
+          SizedBox(height: screenHeight * 0.012),
+          
+          // Distance and time info
           Row(
             children: [
-              Icon(
+              const Icon(
                 Icons.location_on_outlined,
                 size: 18,
                 color: Color(0xFF6B7280),
               ),
-              SizedBox(width: 4),
-              Text(
+              const SizedBox(width: 4),
+              const Text(
                 "0.8km",
                 style: TextStyle(fontSize: 14, color: Color(0xFF6B7280)),
               ),
-              SizedBox(width: 16),
-              Icon(Icons.directions_walk, size: 18, color: Color(0xFF6B7280)),
-              SizedBox(width: 4),
-              Text(
-                "10 min walk",
-                style: TextStyle(fontSize: 14, color: Color(0xFF6B7280)),
+              const SizedBox(width: 16),
+              const Icon(
+                Icons.directions_walk,
+                size: 18,
+                color: Color(0xFF6B7280),
+              ),
+              const SizedBox(width: 4),
+              const Flexible(
+                child: Text(
+                  "10 min walk",
+                  style: TextStyle(fontSize: 14, color: Color(0xFF6B7280)),
+                  overflow: TextOverflow.ellipsis,
+                ),
               ),
             ],
           ),
-          SizedBox(height: 20),
+          SizedBox(height: screenHeight * 0.02),
+          
+          // Get Directions button
           SizedBox(
             width: double.infinity,
             height: 50,
@@ -55,10 +73,13 @@ class buildStationInfo extends StatelessWidget {
               ),
               child: ElevatedButton.icon(
                 onPressed: () {},
-                icon: Icon(Icons.navigation, size: 20),
-                label: Text(
+                icon: const Icon(Icons.navigation, size: 20),
+                label: const Text(
                   "Get Directions",
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w600,
+                  ),
                 ),
                 style: ElevatedButton.styleFrom(
                   foregroundColor: Colors.white,
