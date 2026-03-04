@@ -2,8 +2,7 @@
     <application
         android:label="Metro Mate"
         android:name="${applicationName}"
-        android:icon="@mipmap/launcher_icon"
-        android:hardwareAccelerated="true">
+        android:icon="@mipmap/launcher_icon">
         <activity
             android:name=".MainActivity"
             android:exported="true"

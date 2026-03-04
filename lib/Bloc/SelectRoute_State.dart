@@ -43,21 +43,3 @@ class ShowPrice extends RouteState{
 }
 class ClearState extends RouteState {}
 
-class SelectPaymentMethodSucessState extends RouteState{}
-class SelectPaymentMethodLodingState extends RouteState{}
-class SelectPaymentMethodErorrState extends RouteState{
-  final String Error;
-  SelectPaymentMethodErorrState({required this.Error});
-}
-class FawryPaymentSucessState extends RouteState{}
-class FawryPaymentLodingState extends RouteState{}
-class FawryPaymentErorrState extends RouteState{
-  final String Error;
-  FawryPaymentErorrState({required this.Error});
-}
-class VisaCardPaymentSucessState extends RouteState{}
-class VisaCardPaymentLodingState extends RouteState{}
-class VisaCardPaymentErorrState extends RouteState{
-  final String Error;
-  VisaCardPaymentErorrState({required this.Error});
-}

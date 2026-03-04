@@ -1,6 +1,5 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import 'SelectRoute_State.dart';
 
@@ -30,13 +29,7 @@ int LineStation1=0;
   String PaymentMethod="";
   bool Selected=false;
   int? totalPrice;
-  String? TicketId;
-String? PaymentKey;
-String? UserName;
-int? PaymentId;
-String? Date;
-String? BillRefrance;
-String? Iframe_Url;
+
 
   int StationLine(String Station){
 
@@ -140,7 +133,7 @@ bool CheckMethod(){
 
 }
   void MakePayment() {
-
+    emit(PaymentLodingState());
 
     try {
 
@@ -149,52 +142,18 @@ bool CheckMethod(){
         return;
       }
 
-
+      Future.delayed(Duration(seconds: 2), () {
+        emit(PaymentSucessState());
+      });
 
     } catch (e) {
       emit(PaymentErorrState(Error: e.toString()));
     }
   }
 
-  Future<void> setToken() async {
-    SharedPreferences shard = await SharedPreferences.getInstance();
-    await shard.setInt('totalPrice', totalPrice! );
-    await shard.setString('TicketId', TicketId!);
 
 
-
-  }
-  Future<void> setPaymentKey() async {
-    SharedPreferences shard = await SharedPreferences.getInstance();
-
-    await shard.setString("PaymentKey", PaymentKey!);
-
-  }
-
-  Future<void> setTokenConfermation() async {
-    SharedPreferences shard = await SharedPreferences.getInstance();
-    await shard.setInt('totalPrice', totalPrice! );
-    await shard.setString('PaymentMethod', PaymentMethod!);
-    await shard.setInt("PaymentId", PaymentId!);
-    await shard.setString("Date", Date!);
-    await shard.setString("UserName", UserName!);
-
-  }
-  Future<void> setBillRefrance() async {
-    SharedPreferences shard = await SharedPreferences.getInstance();
-
-    await shard.setString("BillRefrance", BillRefrance!);
-
-  }
-  Future<void> setUrl() async {
-    SharedPreferences shard = await SharedPreferences.getInstance();
-
-    await shard.setString("Iframe_Url", Iframe_Url!);
-
-  }
-
-
-  getStations()async{
+getStations()async{
   try {
 
   } on DioException catch (e) {
@@ -271,242 +230,4 @@ getInfoStation()async{
 }
 
 
-  getTicketIdByPrice()async{
-
-    try{
-      SharedPreferences shard = await SharedPreferences.getInstance();
-      String? token = shard.getString('Token');
-
-        emit(PaymentLodingState());
-      final response=await Dio().post('https://metrodb-production.up.railway.app/api/v1/tickets/getTicketIdByPrice',
-        data: {
-        "ticketPrice": price,
-        "numberOfTickets": ticket
-      },
-        options: Options(
-          validateStatus: (status) => true,
-          headers: {
-            "Authorization":  "Bearer $token",
-          },
-
-        ),
-      );
-
-       final Status=response.statusCode as int  ;
-      totalPrice = response.data["data"]["totalPrice"];
-      TicketId   = response.data["data"]["ticketId"].toString();
-      await setToken();
-      print('************************************Ticket Id ************************************');
-      print("Status: ${Status}");
-      print("Token= $token");
-      print("Ticket= $ticket");
-      print("Price= $price");
-      print("total Price=$totalPrice");
-      print("Ticket Id = $TicketId");
-
-      print("Response Data: ${response.data}");
-
-
-      emit(PaymentSucessState());
-
-    } catch (e) {
-      emit(PaymentErorrState(Error: e.toString()));
-      print("Dio Error: $e");
-    }
-
-  }
-
-
-  ticketpaymentkey()async{
-
-    try{
-      SharedPreferences shard = await SharedPreferences.getInstance();
-      String? token = shard.getString('Token');
-
-      emit(SelectPaymentMethodLodingState());
-      final response=await Dio().post('https://metrodb-production.up.railway.app/api/v1/ticketpay/ticketpaymentkey',
-        data: {
-
-            "ticketId": TicketId,
-            "totalPrice": totalPrice ,
-            "paymentmethod": PaymentMethod
-
-        },
-        options: Options(
-          validateStatus: (status) => true,
-          headers: {
-            "Authorization":  "Bearer $token",
-          },
-
-        ),
-      );
-
-      final Status=response.statusCode as int  ;
-      PaymentKey=response.data['paymentKey'];
-      setPaymentKey();
-      print('************************************Payment Key ************************************');
-
-      print("Status: ${Status}");
-      print("Token= $token");
-
-      print("total Price=$totalPrice");
-      print("Ticket Id = $TicketId");
-      print("Paymen Method=$PaymentMethod");
-      print("Paymen Key=$PaymentKey");
-
-      print("Response Data: ${response.data}");
-
-
-      emit(SelectPaymentMethodSucessState());
-
-
-    } catch (e) {
-      emit(SelectPaymentMethodErorrState(Error: e.toString()));
-      print("Dio Error: $e");
-    }
-
-  }
-
-  paymentconfirmation()async{
-
-    try{
-      SharedPreferences shard = await SharedPreferences.getInstance();
-      String? token = shard.getString('Token');
-
-      emit(PaymentLodingState());
-      final response=await Dio().get('https://metrodb-production.up.railway.app/api/v1/ticketpay/paymentconfirmation',
-
-        options: Options(
-          validateStatus: (status) => true,
-          headers: {
-            "Authorization":  "Bearer $token",
-          },
-
-        ),
-      );
-
-      final Status=response.statusCode as int  ;
-      UserName=response.data["data"]["userName"];
-      PaymentId=response.data["data"]["payment"]["invoice_number"];
-      PaymentMethod=response.data["data"]["payment"]["payment_method"];
-      Date=response.data["data"]["payment"]["issuing_date"];
-      totalPrice=response.data["data"]["payment"]["amount_paid"];
-
-      setTokenConfermation();
-      print("Status: ${Status}");
-      print("Token= $token");
-      print('************************************User Information ************************************');
-      print('User Name= $UserName');
-      print('Payment Id= $PaymentId');
-      print(' Payment Method= $PaymentMethod');
-      print('Date= $Date');
-      print('Total Price = $totalPrice');
-
-
-      print("Response Data: ${response.data}");
-
-
-      emit(PaymentSucessState());
-
-    } catch (e) {
-      emit(PaymentErorrState(Error: e.toString()));
-      print("Dio Error: $e");
-    }
-
-  }
-
-  ticketfawrypayment()async{
-
-    try{
-      SharedPreferences shard = await SharedPreferences.getInstance();
-      String? token = shard.getString('Token');
-
-      emit(FawryPaymentLodingState());
-      final response=await Dio().post('https://metrodb-production.up.railway.app/api/v1/ticketpay/ticketfawrypayment',
-        data: {
-
-
-          "paymentkey": PaymentKey,
-          "paymentmethod": PaymentMethod
-
-        },
-        options: Options(
-          validateStatus: (status) => true,
-          headers: {
-            "Authorization":  "Bearer $token",
-          },
-
-        ),
-      );
-
-      final Status=response.statusCode as int  ;
-      BillRefrance=response.data["bill_reference"].toString();
-      setBillRefrance();
-
-      print('************************************Fawry Code ************************************');
-
-      print("Status: ${Status}");
-
-      print("Paymen Key=$PaymentKey");
-
-      print("Response Data: ${response.data}");
-
-
-      emit(FawryPaymentSucessState());
-
-
-    } catch (e) {
-      emit(FawryPaymentErorrState(Error: e.toString()));
-      print("Dio Error: $e");
-    }
-
-  }
-
-  ticketvisapayment()async{
-
-    try{
-      SharedPreferences shard = await SharedPreferences.getInstance();
-      String? token = shard.getString('Token');
-
-      emit(VisaCardPaymentLodingState());
-      final response=await Dio().post('https://metrodb-production.up.railway.app/api/v1/ticketpay/ticketvisapayment',
-        data: {
-
-
-          "paymentkey": PaymentKey,
-          "paymentmethod": PaymentMethod
-
-        },
-        options: Options(
-          validateStatus: (status) => true,
-          headers: {
-            "Authorization":  "Bearer $token",
-          },
-
-        ),
-      );
-
-      final Status=response.statusCode as int  ;
-      Iframe_Url=response.data["iframe_url"];
-     setUrl();
-
-      print('************************************  Visa Card  Code  ************************************');
-
-      print("Status: ${Status}");
-
-      print("Paymen Key=$PaymentKey");
-
-      print("Response Data: ${response.data}");
-
-      print(" Iframe = $Iframe_Url");
-
-      emit(VisaCardPaymentSucessState());
-
-
-    } catch (e) {
-      emit(VisaCardPaymentErorrState(Error: e.toString()));
-      print("Dio Error: $e");
-    }
-
-  }
 }
