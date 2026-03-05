@@ -114,6 +114,10 @@ class MetroApp extends StatelessWidget {
           'ChangePassword': (context) => Changepassword(),
           'Onbordingscreen': (context) => Onbordingscreen(),
           'Profile': (context) => ProfilePageView(),
+          'ConfirmFawrypage': (context) => ConfirmFawrypage(),
+          'ConfirmVisacardPage': (context) => ConfirmVisacardPage(),
+          'Fawry': (context) => FawryPage(),
+
         },
         builder: (context, child) {
           return BlocListener<LogOutCubit, LogOutState>(
