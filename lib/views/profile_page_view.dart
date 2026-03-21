@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:second/services/profile_services.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:second/views/settings.dart';
 import 'dart:io';
 import 'dart:convert';
 import 'dart:typed_data';
@@ -47,7 +48,7 @@ class _ProfilePageState extends State<ProfilePage> {
   // KEY CHANGE: Helper function to decode base64 data URI to bytes
   Uint8List? _decodeBase64Image(String? base64String) {
     if (base64String == null || base64String.isEmpty) return null;
-    
+
     try {
       // Check if it's a data URI (data:image/jpeg;base64,...)
       if (base64String.startsWith('data:image/')) {
@@ -77,23 +78,23 @@ class _ProfilePageState extends State<ProfilePage> {
       if (image != null) {
         // Read image as bytes
         final bytes = await image.readAsBytes();
-        
+
         // Convert to base64 string
         final base64String = base64Encode(bytes);
-        
+
         // Create data URI with image type
         final imageExtension = image.path.split('.').last.toLowerCase();
         String mimeType = 'image/jpeg';
-        
+
         if (imageExtension == 'png') {
           mimeType = 'image/png';
         } else if (imageExtension == 'jpg' || imageExtension == 'jpeg') {
           mimeType = 'image/jpeg';
         }
-        
+
         // Format: data:image/jpeg;base64,/9j/4AAQSkZJRg...
         final base64Image = 'data:$mimeType;base64,$base64String';
-        
+
         // Upload to backend (backend should store this string and return URL)
         if (mounted) {
           context.read<ProfileCubit>().uploadProfileImage(base64Image);
@@ -134,7 +135,8 @@ class _ProfilePageState extends State<ProfilePage> {
                 ),
                 const SizedBox(height: 20),
                 ListTile(
-                  leading: const Icon(Icons.photo_library, color: Color(0xFF4A6FA5)),
+                  leading:
+                      const Icon(Icons.photo_library, color: Color(0xFF4A6FA5)),
                   title: const Text('Choose from Gallery'),
                   onTap: () {
                     Navigator.pop(context);
@@ -142,7 +144,8 @@ class _ProfilePageState extends State<ProfilePage> {
                   },
                 ),
                 ListTile(
-                  leading: const Icon(Icons.camera_alt, color: Color(0xFF4A6FA5)),
+                  leading:
+                      const Icon(Icons.camera_alt, color: Color(0xFF4A6FA5)),
                   title: const Text('Take a Photo'),
                   onTap: () {
                     Navigator.pop(context);
@@ -178,7 +181,7 @@ class _ProfilePageState extends State<ProfilePage> {
         final bytes = await image.readAsBytes();
         final base64String = base64Encode(bytes);
         final base64Image = 'data:image/jpeg;base64,$base64String';
-        
+
         if (mounted) {
           context.read<ProfileCubit>().uploadProfileImage(base64Image);
         }
@@ -209,9 +212,9 @@ class _ProfilePageState extends State<ProfilePage> {
           } else if (state is ProfileImageUploaded) {
             // Update global user state with new image URL from backend
             context.read<UserCubit>().updateProfileImage(
-              state.user.profileImage ?? '',
-            );
-            
+                  state.user.profileImage ?? '',
+                );
+
             ScaffoldMessenger.of(context).showSnackBar(
               const SnackBar(
                 content: Text('Profile image updated successfully!'),
@@ -252,7 +255,8 @@ class _ProfilePageState extends State<ProfilePage> {
 
             // KEY CHANGE: Decode base64 image if needed
             final isBase64 = _isBase64DataUri(profileImageUrl);
-            final imageBytes = isBase64 ? _decodeBase64Image(profileImageUrl) : null;
+            final imageBytes =
+                isBase64 ? _decodeBase64Image(profileImageUrl) : null;
 
             return Column(
               children: [
@@ -294,7 +298,7 @@ class _ProfilePageState extends State<ProfilePage> {
                             ],
                           ),
                           const SizedBox(height: 8),
-                          
+
                           // Title
                           const Align(
                             alignment: Alignment.centerLeft,
@@ -320,9 +324,9 @@ class _ProfilePageState extends State<ProfilePage> {
                               ],
                             ),
                           ),
-                          
+
                           SizedBox(height: screenHeight * 0.02),
-                          
+
                           // Profile Info
                           Row(
                             children: [
@@ -335,14 +339,19 @@ class _ProfilePageState extends State<ProfilePage> {
                                   children: [
                                     CircleAvatar(
                                       radius: 35,
-                                      backgroundColor: Colors.white.withOpacity(0.3),
+                                      backgroundColor:
+                                          Colors.white.withOpacity(0.3),
                                       // KEY CHANGE: Use MemoryImage for base64, NetworkImage for URLs
-                                      backgroundImage: isBase64 && imageBytes != null
-                                          ? MemoryImage(imageBytes) as ImageProvider
-                                          : (profileImageUrl != null && profileImageUrl.isNotEmpty && !isBase64)
+                                      backgroundImage: isBase64 &&
+                                              imageBytes != null
+                                          ? MemoryImage(imageBytes)
+                                              as ImageProvider
+                                          : (profileImageUrl != null &&
+                                                  profileImageUrl.isNotEmpty &&
+                                                  !isBase64)
                                               ? NetworkImage(profileImageUrl)
                                               : null,
-                                      child: (profileImageUrl == null || 
+                                      child: (profileImageUrl == null ||
                                               profileImageUrl.isEmpty ||
                                               (isBase64 && imageBytes == null))
                                           ? Text(
@@ -367,17 +376,20 @@ class _ProfilePageState extends State<ProfilePage> {
                                           shape: BoxShape.circle,
                                           boxShadow: [
                                             BoxShadow(
-                                              color: Colors.black.withOpacity(0.2),
+                                              color:
+                                                  Colors.black.withOpacity(0.2),
                                               blurRadius: 4,
                                               offset: const Offset(0, 2),
                                             ),
                                           ],
                                         ),
-                                        child: profileState is ProfileImageUploading
+                                        child: profileState
+                                                is ProfileImageUploading
                                             ? const SizedBox(
                                                 width: 16,
                                                 height: 16,
-                                                child: CircularProgressIndicator(
+                                                child:
+                                                    CircularProgressIndicator(
                                                   strokeWidth: 2,
                                                   color: Color(0xFF4A6FA5),
                                                 ),
@@ -393,7 +405,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                 ),
                               ),
                               const SizedBox(width: 16),
-                              
+
                               // Name and Email - With overflow protection
                               Expanded(
                                 child: Column(
@@ -431,7 +443,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     ),
                   ),
                 ),
-                
+
                 // KEY CHANGE: Removed loading indicator check
                 // Menu Items - Always visible
                 Expanded(
@@ -459,7 +471,14 @@ class _ProfilePageState extends State<ProfilePage> {
                                 _buildMenuItem(
                                   icon: Icons.settings_outlined,
                                   title: 'Settings & Privacy',
-                                  onTap: () {},
+                                  onTap: () => Navigator.of(
+                                    context,
+                                    rootNavigator: true,
+                                  ).push(
+                                    MaterialPageRoute(
+                                      builder: (_) => const SettingsPage(),
+                                    ),
+                                  ),
                                 ),
                                 const Divider(height: 1),
                                 _buildMenuItem(
