@@ -11,7 +11,8 @@ class StorageService {
   static const String _userIdKey = 'user_id';
   static const String _userEmailKey = 'user_email';
   static const String _userNameKey = 'user_name';
-  static const String _profileImageKey = 'profile_image'; // NEW
+  static const String _profileImageKey = 'profile_image';
+  static const String _onboardingSeenKey = 'onboarding_seen';
 
   Future<void> saveToken(String token) async {
     await _init();
@@ -63,9 +64,27 @@ class StorageService {
     return null;
   }
 
+  /// Called once when the user finishes onboarding for the first time.
+  Future<void> markOnboardingSeen() async {
+    await _init();
+    await _prefs!.setBool(_onboardingSeenKey, true);
+  }
+
+  Future<bool> hasSeenOnboarding() async {
+    await _init();
+    return _prefs?.getBool(_onboardingSeenKey) ?? false;
+  }
+
+  /// Clears auth data only — intentionally keeps onboarding flag so
+  /// the splash screen never shows again after the first install.
   Future<void> clearAll() async {
     await _init();
-    await _prefs?.clear();
+    await _prefs?.remove(_tokenKey);
+    await _prefs?.remove(_userIdKey);
+    await _prefs?.remove(_userEmailKey);
+    await _prefs?.remove(_userNameKey);
+    await _prefs?.remove(_profileImageKey);
+    // _onboardingSeenKey is deliberately NOT removed
   }
 
   bool isLoggedIn() {
