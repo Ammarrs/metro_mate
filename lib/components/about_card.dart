@@ -3,6 +3,7 @@ import 'settings_card.dart';
 
 class AboutCard extends StatelessWidget {
   final String version;
+  // kept for future use
   final VoidCallback? onTermsOfService;
   final VoidCallback? onPrivacyPolicy;
 
@@ -50,41 +51,22 @@ class AboutCard extends StatelessWidget {
                 color: Color(0xFF8FA8BE),
               ),
             ),
-            const SizedBox(height: 16),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                GestureDetector(
-                  onTap: onTermsOfService,
-                  child: const Text(
-                    'Terms of Service',
-                    style: TextStyle(
-                      fontSize: 13,
-                      color: kPrimaryBlue,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                ),
-                const Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 8),
-                  child: Text(
-                    '•',
-                    style: TextStyle(color: Color(0xFF8FA8BE), fontSize: 13),
-                  ),
-                ),
-                GestureDetector(
-                  onTap: onPrivacyPolicy,
-                  child: const Text(
-                    'Privacy Policy',
-                    style: TextStyle(
-                      fontSize: 13,
-                      color: kPrimaryBlue,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                ),
-              ],
-            ),
+            // Terms of Service & Privacy Policy — hidden for now
+            // const SizedBox(height: 16),
+            // Row(
+            //   mainAxisAlignment: MainAxisAlignment.center,
+            //   children: [
+            //     GestureDetector(
+            //       onTap: onTermsOfService,
+            //       child: const Text('Terms of Service', style: TextStyle(fontSize: 13, color: kPrimaryBlue, fontWeight: FontWeight.w500)),
+            //     ),
+            //     const Padding(padding: EdgeInsets.symmetric(horizontal: 8), child: Text('•', style: TextStyle(color: Color(0xFF8FA8BE), fontSize: 13))),
+            //     GestureDetector(
+            //       onTap: onPrivacyPolicy,
+            //       child: const Text('Privacy Policy', style: TextStyle(fontSize: 13, color: kPrimaryBlue, fontWeight: FontWeight.w500)),
+            //     ),
+            //   ],
+            // ),
           ],
         ),
       ),
