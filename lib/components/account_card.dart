@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../views/history.dart';
 import 'settings_card.dart';
 
 class AccountCard extends StatelessWidget {
@@ -15,7 +16,10 @@ class AccountCard extends StatelessWidget {
           title: 'History',
           subtitle: 'View your recent trips',
           leadingIcon: Icons.history,
-          onTap: onHistory,
+          onTap: onHistory ??
+              () => Navigator.of(context, rootNavigator: true).push(
+                    MaterialPageRoute(builder: (_) => const HistoryPage()),
+                  ),
           showDivider: true,
         ),
       ],

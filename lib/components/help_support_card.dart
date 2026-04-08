@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'settings_card.dart';
 
 class HelpSupportCard extends StatelessWidget {
-  final VoidCallback? onHelpCenter;
+  final VoidCallback? onAbout;           // was onHelpCenter
   final VoidCallback? onContactSupport;
 
   const HelpSupportCard({
     super.key,
-    this.onHelpCenter,
+    this.onAbout,
     this.onContactSupport,
   });
 
@@ -16,22 +16,19 @@ class HelpSupportCard extends StatelessWidget {
     return SettingsCard(
       sectionTitle: 'Help & Support',
       children: [
-        // Help Center – highlighted (as in the screenshot)
         const Divider(height: 1, thickness: 0.8, indent: 20, endIndent: 20),
         _HelpNavRow(
-          title: 'Help Center',
+          title: 'About',                // was 'Help Center'
           subtitle: 'FAQs and guides',
-          leadingIcon: Icons.help_outline,
-          onTap: onHelpCenter,
+          leadingIcon: Icons.info_outline,
+          onTap: onAbout,
           isHighlighted: true,
-          isFirst: true,
         ),
         _HelpNavRow(
           title: 'Contact Support',
           subtitle: 'Get help from our team',
           leadingIcon: Icons.chat_bubble_outline,
           onTap: onContactSupport,
-          isHighlighted: false,
         ),
       ],
     );
@@ -44,7 +41,6 @@ class _HelpNavRow extends StatelessWidget {
   final IconData leadingIcon;
   final VoidCallback? onTap;
   final bool isHighlighted;
-  final bool isFirst;
 
   const _HelpNavRow({
     required this.title,
@@ -52,7 +48,6 @@ class _HelpNavRow extends StatelessWidget {
     required this.leadingIcon,
     this.onTap,
     this.isHighlighted = false,
-    this.isFirst = false,
   });
 
   @override
@@ -71,27 +66,15 @@ class _HelpNavRow extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      title,
-                      style: const TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w600,
-                        color: Color(0xFF1A2E3D),
-                      ),
-                    ),
+                    Text(title,
+                        style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: Color(0xFF1A2E3D))),
                     const SizedBox(height: 2),
-                    Text(
-                      subtitle,
-                      style: const TextStyle(
-                        fontSize: 12,
-                        color: Color(0xFF8FA8BE),
-                      ),
-                    ),
+                    Text(subtitle,
+                        style: const TextStyle(fontSize: 12, color: Color(0xFF8FA8BE))),
                   ],
                 ),
               ),
-              const Icon(Icons.chevron_right,
-                  color: Color(0xFF8FA8BE), size: 22),
+              const Icon(Icons.chevron_right, color: Color(0xFF8FA8BE), size: 22),
             ],
           ),
         ),
