@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "14608649806",
+    "project_id": "metro-mate-72bba",
+    "storage_bucket": "metro-mate-72bba.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:14608649806:android:ed0836f33164bfcd527d1f",
+        "android_client_info": {
+          "package_name": "com.example.metro_mate"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAsxUNwdYbsju5JxT0E4F9GmAB14ttXLnA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
