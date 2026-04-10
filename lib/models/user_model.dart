@@ -18,7 +18,8 @@ class User extends Equatable {
 
   factory User.fromJson(Map<String, dynamic> json) {
     return User(
-      id: json['_id'] ?? json['id'] ?? '',
+      // API may return _id as int (e.g. 123) or String — toString() handles both
+      id: (json['_id'] ?? json['id'] ?? '').toString(),
       email: json['email'] ?? '',
       name: json['name'] ?? '',
       profileImage: json['photo'],

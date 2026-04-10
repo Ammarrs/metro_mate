@@ -10,6 +10,7 @@ import '../cubits/profile/profile_cubit.dart';
 import '../cubits/profile/profile_state.dart';
 import '../cubits/user/user_cubit.dart';
 import '../cubits/user/user_state.dart';
+import 'settings.dart';
 
 class ProfilePageView extends StatelessWidget {
   const ProfilePageView({Key? key}) : super(key: key);
@@ -33,85 +34,111 @@ class ProfilePage extends StatefulWidget {
 class _ProfilePageState extends State<ProfilePage> {
   final ImagePicker _picker = ImagePicker();
 
+  // Handles: local file path, base64 data URI (old), or remote URL
+  // Uses Stack+ClipOval instead of CircleAvatar.backgroundImage
+  // so the fallback letter always shows on error
+  Widget _buildProfileImage(String? imageString, String displayName) {
+    final String initial = displayName.isNotEmpty ? displayName[0].toUpperCase() : 'G';
+
+    Widget fallbackCircle() => Container(
+          width: 70,
+          height: 70,
+          decoration: BoxDecoration(
+            color: Colors.white.withOpacity(0.3),
+            shape: BoxShape.circle,
+          ),
+          child: Center(
+            child: Text(initial,
+                style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 32,
+                    fontWeight: FontWeight.w500)),
+          ),
+        );
+
+    if (imageString == null || imageString.isEmpty) return fallbackCircle();
+
+    Widget imageWidget;
+
+    // Local file path
+    if (imageString.startsWith('/')) {
+      final file = File(imageString);
+      if (!file.existsSync()) return fallbackCircle();
+      imageWidget = Image.file(file,
+          width: 70, height: 70, fit: BoxFit.cover,
+          errorBuilder: (_, __, ___) => fallbackCircle());
+    }
+    // Old base64 data URI
+    else if (imageString.startsWith('data:image/')) {
+      try {
+        final bytes = base64Decode(imageString.split(',').last);
+        imageWidget = Image.memory(bytes,
+            width: 70, height: 70, fit: BoxFit.cover,
+            errorBuilder: (_, __, ___) => fallbackCircle());
+      } catch (_) {
+        return fallbackCircle();
+      }
+    }
+    // Remote URL
+    else {
+      imageWidget = Image.network(imageString,
+          width: 70, height: 70, fit: BoxFit.cover,
+          errorBuilder: (_, __, ___) => fallbackCircle(),
+          loadingBuilder: (_, child, progress) =>
+              progress == null ? child : fallbackCircle());
+    }
+
+    return ClipOval(child: imageWidget);
+  }
+
   @override
   void dispose() {
     super.dispose();
   }
 
-  // KEY CHANGE: Helper function to check if string is base64 data URI
-  bool _isBase64DataUri(String? imageString) {
-    if (imageString == null || imageString.isEmpty) return false;
-    return imageString.startsWith('data:image/');
-  }
+  // ── Image picking ──────────────────────────────────────────────────────────
 
-  // KEY CHANGE: Helper function to decode base64 data URI to bytes
-  Uint8List? _decodeBase64Image(String? base64String) {
-    if (base64String == null || base64String.isEmpty) return null;
-    
-    try {
-      // Check if it's a data URI (data:image/jpeg;base64,...)
-      if (base64String.startsWith('data:image/')) {
-        // Extract the base64 part after the comma
-        final base64Data = base64String.split(',').last;
-        return base64Decode(base64Data);
-      }
-      // If it's just base64 without the data URI prefix
-      return base64Decode(base64String);
-    } catch (e) {
-      print('Error decoding base64 image: $e');
-      return null;
-    }
-  }
-
-  /// Pick image from gallery and convert to base64 string
+  /// Pick image from gallery and upload as multipart (no base64)
   Future<void> _pickImageFromGallery() async {
     try {
-      // Pick image from gallery
       final XFile? image = await _picker.pickImage(
         source: ImageSource.gallery,
-        maxWidth: 1080,
-        maxHeight: 1080,
-        imageQuality: 85, // Compress image to reduce size
+        maxWidth: 400,
+        maxHeight: 400,
+        imageQuality: 60,
       );
-
-      if (image != null) {
-        // Read image as bytes
-        final bytes = await image.readAsBytes();
-        
-        // Convert to base64 string
-        final base64String = base64Encode(bytes);
-        
-        // Create data URI with image type
-        final imageExtension = image.path.split('.').last.toLowerCase();
-        String mimeType = 'image/jpeg';
-        
-        if (imageExtension == 'png') {
-          mimeType = 'image/png';
-        } else if (imageExtension == 'jpg' || imageExtension == 'jpeg') {
-          mimeType = 'image/jpeg';
-        }
-        
-        // Format: data:image/jpeg;base64,/9j/4AAQSkZJRg...
-        final base64Image = 'data:$mimeType;base64,$base64String';
-        
-        // Upload to backend (backend should store this string and return URL)
-        if (mounted) {
-          context.read<ProfileCubit>().uploadProfileImage(base64Image);
-        }
+      if (image != null && mounted) {
+        context.read<ProfileCubit>().uploadProfileImage(image.path);
       }
     } catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('Error picking image: ${e.toString()}'),
-            backgroundColor: Colors.red,
-          ),
+          SnackBar(content: Text('Error picking image: $e'), backgroundColor: Colors.red),
         );
       }
     }
   }
 
-  /// Show options: Gallery or Camera
+  Future<void> _pickImageFromCamera() async {
+    try {
+      final XFile? image = await _picker.pickImage(
+        source: ImageSource.camera,
+        maxWidth: 400,
+        maxHeight: 400,
+        imageQuality: 60,
+      );
+      if (image != null && mounted) {
+        context.read<ProfileCubit>().uploadProfileImage(image.path);
+      }
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Error taking photo: $e'), backgroundColor: Colors.red),
+        );
+      }
+    }
+  }
+
   Future<void> _showImageSourceOptions() async {
     return showModalBottomSheet(
       context: context,
@@ -165,35 +192,6 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   /// Pick image from camera
-  Future<void> _pickImageFromCamera() async {
-    try {
-      final XFile? image = await _picker.pickImage(
-        source: ImageSource.camera,
-        maxWidth: 1080,
-        maxHeight: 1080,
-        imageQuality: 85,
-      );
-
-      if (image != null) {
-        final bytes = await image.readAsBytes();
-        final base64String = base64Encode(bytes);
-        final base64Image = 'data:image/jpeg;base64,$base64String';
-        
-        if (mounted) {
-          context.read<ProfileCubit>().uploadProfileImage(base64Image);
-        }
-      }
-    } catch (e) {
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('Error taking photo: ${e.toString()}'),
-            backgroundColor: Colors.red,
-          ),
-        );
-      }
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -204,14 +202,11 @@ class _ProfilePageState extends State<ProfilePage> {
       body: BlocListener<ProfileCubit, ProfileState>(
         listener: (context, state) {
           if (state is ProfileLoaded) {
-            // Synchronize profile data with global UserCubit
+            // Sync fresh profile data to global UserCubit
             context.read<UserCubit>().setUser(state.user);
           } else if (state is ProfileImageUploaded) {
-            // Update global user state with new image URL from backend
-            context.read<UserCubit>().updateProfileImage(
-              state.user.profileImage ?? '',
-            );
-            
+            // Use setUser — NOT updateProfileImage (which would re-trigger upload)
+            context.read<UserCubit>().setUser(state.user);
             ScaffoldMessenger.of(context).showSnackBar(
               const SnackBar(
                 content: Text('Profile image updated successfully!'),
@@ -251,8 +246,8 @@ class _ProfilePageState extends State<ProfilePage> {
             }
 
             // KEY CHANGE: Decode base64 image if needed
-            final isBase64 = _isBase64DataUri(profileImageUrl);
-            final imageBytes = isBase64 ? _decodeBase64Image(profileImageUrl) : null;
+            final isBase64 = false; // no longer used
+            final imageBytes = null; // no longer used
 
             return Column(
               children: [
@@ -333,30 +328,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                     : _showImageSourceOptions,
                                 child: Stack(
                                   children: [
-                                    CircleAvatar(
-                                      radius: 35,
-                                      backgroundColor: Colors.white.withOpacity(0.3),
-                                      // KEY CHANGE: Use MemoryImage for base64, NetworkImage for URLs
-                                      backgroundImage: isBase64 && imageBytes != null
-                                          ? MemoryImage(imageBytes) as ImageProvider
-                                          : (profileImageUrl != null && profileImageUrl.isNotEmpty && !isBase64)
-                                              ? NetworkImage(profileImageUrl)
-                                              : null,
-                                      child: (profileImageUrl == null || 
-                                              profileImageUrl.isEmpty ||
-                                              (isBase64 && imageBytes == null))
-                                          ? Text(
-                                              displayName.isNotEmpty
-                                                  ? displayName[0].toUpperCase()
-                                                  : 'G',
-                                              style: const TextStyle(
-                                                color: Colors.white,
-                                                fontSize: 32,
-                                                fontWeight: FontWeight.w500,
-                                              ),
-                                            )
-                                          : null,
-                                    ),
+                                    _buildProfileImage(profileImageUrl, displayName),
                                     Positioned(
                                       bottom: 0,
                                       right: 0,
@@ -459,7 +431,12 @@ class _ProfilePageState extends State<ProfilePage> {
                                 _buildMenuItem(
                                   icon: Icons.settings_outlined,
                                   title: 'Settings & Privacy',
-                                  onTap: () {},
+                                  onTap: () => Navigator.of(
+                                    context,
+                                    rootNavigator: true,
+                                  ).push(MaterialPageRoute(
+                                    builder: (_) => const SettingsPage(),
+                                  )),
                                 ),
                                 const Divider(height: 1),
                                 _buildMenuItem(
