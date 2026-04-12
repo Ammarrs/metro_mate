@@ -9,6 +9,7 @@ class ApiConfig {
   static const String allStationsEndpoint = '/api/v1/trips/station';
 
   static const String nearestStationBaseEndpoint = '/api/v1/neareststation';
+  static const String userTripHistoryEndpoint = '/api/v1/trips/usertriphistory';
 
 
   static Map<String, String> get headers => {
