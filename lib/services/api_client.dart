@@ -24,6 +24,7 @@ class ApiClient {
       baseUrl: baseUrl,
       connectTimeout: ApiConfig.connectTimeout,
       receiveTimeout: ApiConfig.receiveTimeout,
+      sendTimeout: const Duration(seconds: 60), // allow time for file uploads
       headers: {
         'Content-Type': 'application/json',
         'Accept': '*/*',

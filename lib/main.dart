@@ -32,6 +32,7 @@ import 'NavigationBar_Page/Home.dart';
 import 'NavigationBar_Page/Tickets.dart';
 import 'NavigationBar_Page/setting.dart';
 import 'NavigationBar_Page/wallet.dart';
+import 'views/settings.dart';
 import 'package:dropdown_search/dropdown_search.dart';
 
 import 'RouteDeatils.dart';
@@ -49,7 +50,7 @@ import 'cubits/login/login_cubit.dart';
 
 
 
-void main() {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   if (Platform.isAndroid) {
@@ -96,7 +97,7 @@ class MetroApp extends StatelessWidget {
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
-        home: Onbordingscreen(),
+        home: const SplashRouter(),
         routes: {
           'test_page': (context) => test_page(),
           'Home': (context) => Home(),
@@ -137,10 +138,64 @@ class MetroApp extends StatelessWidget {
   }
 }
 
+/// Checks for a saved token on startup.
+/// → Token found  : go straight to [test_page] (main app shell)
+/// → No token     : go to [Onbordingscreen] (normal first-launch flow)
+class SplashRouter extends StatefulWidget {
+  const SplashRouter({super.key});
+
+  @override
+  State<SplashRouter> createState() => _SplashRouterState();
+}
+
+class _SplashRouterState extends State<SplashRouter> {
+  @override
+  void initState() {
+    super.initState();
+    _route();
+  }
+
+  Future<void> _route() async {
+    final token = await StorageService().getToken();
+    if (!mounted) return;
+
+    if (token != null && token.isNotEmpty) {
+      // Logged in → go straight to the full app shell
+      context.read<UserCubit>().loadUser();
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (_) => test_page()),
+      );
+    } else {
+      // No token → hand off to Onbordingscreen.
+      // OnBoardingCubit.CheckSeen() already handles:
+      //   OnBordingSeen   → LoginPage  (seen before, just logged out)
+      //   not seen        → onboarding slides (first install)
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (_) => Onbordingscreen()),
+      );
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    // Minimal splash while the async check runs
+    return const Scaffold(
+      backgroundColor: Color(0xFF5B8FB9),
+      body: Center(
+        child: CircularProgressIndicator(
+          valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+        ),
+      ),
+    );
+  }
+}
+
 class test_page extends StatelessWidget {
   test_page({super.key});
 
-  List<Widget> NavigationBarpage = [Home(), Tickets(), Wallet(), Setting()];
+  List<Widget> NavigationBarpage = [Home(), Tickets(), Wallet(), SettingsTab()];
   List<PreferredSizeWidget> NavigationBarAppBar = [
     AppBar(
       title: HomeAppBar(),

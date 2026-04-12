@@ -1,3 +1,6 @@
+import 'dart:convert';
+import 'dart:io';
+import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../cubits/user/user_cubit.dart';
@@ -18,6 +21,53 @@ class HomeAppBar extends StatelessWidget {
     this.onDepositPressed,
     this.onNotificationPressed,
   }) : super(key: key);
+
+  // Handles: local file path, base64 data URI (old), or remote URL
+  Widget _buildProfileImage(String? imageString, String displayName) {
+    final String initial = displayName.isNotEmpty ? displayName[0].toUpperCase() : 'G';
+
+    Widget fallbackCircle() => Center(
+          child: Text(initial,
+              style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 24,
+                  fontWeight: FontWeight.w500)),
+        );
+
+    if (imageString == null || imageString.isEmpty) return fallbackCircle();
+
+    Widget imageWidget;
+
+    // Local file path
+    if (imageString.startsWith('/')) {
+      final file = File(imageString);
+      if (!file.existsSync()) return fallbackCircle();
+      imageWidget = Image.file(file,
+          width: 60, height: 60, fit: BoxFit.cover,
+          errorBuilder: (_, __, ___) => fallbackCircle());
+    }
+    // Old base64 data URI
+    else if (imageString.startsWith('data:image/')) {
+      try {
+        final Uint8List bytes = base64Decode(imageString.split(',').last);
+        imageWidget = Image.memory(bytes,
+            width: 60, height: 60, fit: BoxFit.cover,
+            errorBuilder: (_, __, ___) => fallbackCircle());
+      } catch (_) {
+        return fallbackCircle();
+      }
+    }
+    // Remote URL
+    else {
+      imageWidget = Image.network(imageString,
+          width: 60, height: 60, fit: BoxFit.cover,
+          errorBuilder: (_, __, ___) => fallbackCircle(),
+          loadingBuilder: (_, child, progress) =>
+              progress == null ? child : fallbackCircle());
+    }
+
+    return ClipOval(child: imageWidget);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -78,58 +128,7 @@ class HomeAppBar extends StatelessWidget {
                               color: Colors.white.withOpacity(0.3),
                               shape: BoxShape.circle,
                             ),
-                            child: profileImageUrl != null &&
-                                    profileImageUrl.isNotEmpty
-                                ? ClipOval(
-                                    child: Image.network(
-                                      profileImageUrl,
-                                      fit: BoxFit.cover,
-                                      width: 60,
-                                      height: 60,
-                                      loadingBuilder: (context, child, loadingProgress) {
-                                        if (loadingProgress == null) {
-                                          return child;
-                                        }
-                                        return Center(
-                                          child: CircularProgressIndicator(
-                                            value: loadingProgress.expectedTotalBytes != null
-                                                ? loadingProgress.cumulativeBytesLoaded /
-                                                    loadingProgress.expectedTotalBytes!
-                                                : null,
-                                            valueColor: const AlwaysStoppedAnimation<Color>(Colors.white),
-                                            strokeWidth: 2,
-                                          ),
-                                        );
-                                      },
-                                      errorBuilder: (context, error, stackTrace) {
-                                        print('HomeAppBar: Error loading image - $error');
-                                        return Center(
-                                          child: Text(
-                                            displayName.isNotEmpty
-                                                ? displayName[0].toUpperCase()
-                                                : 'G',
-                                            style: const TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 24,
-                                              fontWeight: FontWeight.w500,
-                                            ),
-                                          ),
-                                        );
-                                      },
-                                    ),
-                                  )
-                                : Center(
-                                    child: Text(
-                                      displayName.isNotEmpty
-                                          ? displayName[0].toUpperCase()
-                                          : 'G',
-                                      style: const TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 24,
-                                        fontWeight: FontWeight.w500,
-                                      ),
-                                    ),
-                                  ),
+                            child: _buildProfileImage(profileImageUrl, displayName),
                           );
                         },
                       ),
