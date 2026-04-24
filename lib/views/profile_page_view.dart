@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:second/generated/l10n.dart';
 import 'package:second/services/profile_services.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
@@ -38,7 +39,8 @@ class _ProfilePageState extends State<ProfilePage> {
   // Uses Stack+ClipOval instead of CircleAvatar.backgroundImage
   // so the fallback letter always shows on error
   Widget _buildProfileImage(String? imageString, String displayName) {
-    final String initial = displayName.isNotEmpty ? displayName[0].toUpperCase() : 'G';
+    final String initial =
+        displayName.isNotEmpty ? displayName[0].toUpperCase() : 'G';
 
     Widget fallbackCircle() => Container(
           width: 70,
@@ -65,7 +67,9 @@ class _ProfilePageState extends State<ProfilePage> {
       final file = File(imageString);
       if (!file.existsSync()) return fallbackCircle();
       imageWidget = Image.file(file,
-          width: 70, height: 70, fit: BoxFit.cover,
+          width: 70,
+          height: 70,
+          fit: BoxFit.cover,
           errorBuilder: (_, __, ___) => fallbackCircle());
     }
     // Old base64 data URI
@@ -73,7 +77,9 @@ class _ProfilePageState extends State<ProfilePage> {
       try {
         final bytes = base64Decode(imageString.split(',').last);
         imageWidget = Image.memory(bytes,
-            width: 70, height: 70, fit: BoxFit.cover,
+            width: 70,
+            height: 70,
+            fit: BoxFit.cover,
             errorBuilder: (_, __, ___) => fallbackCircle());
       } catch (_) {
         return fallbackCircle();
@@ -82,7 +88,9 @@ class _ProfilePageState extends State<ProfilePage> {
     // Remote URL
     else {
       imageWidget = Image.network(imageString,
-          width: 70, height: 70, fit: BoxFit.cover,
+          width: 70,
+          height: 70,
+          fit: BoxFit.cover,
           errorBuilder: (_, __, ___) => fallbackCircle(),
           loadingBuilder: (_, child, progress) =>
               progress == null ? child : fallbackCircle());
@@ -113,7 +121,9 @@ class _ProfilePageState extends State<ProfilePage> {
     } catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Error picking image: $e'), backgroundColor: Colors.red),
+          SnackBar(
+              content: Text('${S.of(context).errorPickingImage}: $e'),
+              backgroundColor: Colors.red),
         );
       }
     }
@@ -133,7 +143,9 @@ class _ProfilePageState extends State<ProfilePage> {
     } catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Error taking photo: $e'), backgroundColor: Colors.red),
+          SnackBar(
+              content: Text('${S.of(context).errorTakingPhoto}: $e'),
+              backgroundColor: Colors.red),
         );
       }
     }
@@ -152,8 +164,8 @@ class _ProfilePageState extends State<ProfilePage> {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                const Text(
-                  'Choose Profile Photo',
+                Text(
+                  S.of(context).chooseProfilePhoto,
                   style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
@@ -161,16 +173,18 @@ class _ProfilePageState extends State<ProfilePage> {
                 ),
                 const SizedBox(height: 20),
                 ListTile(
-                  leading: const Icon(Icons.photo_library, color: Color(0xFF4A6FA5)),
-                  title: const Text('Choose from Gallery'),
+                  leading:
+                      const Icon(Icons.photo_library, color: Color(0xFF4A6FA5)),
+                  title: Text(S.of(context).chooseFromGallery),
                   onTap: () {
                     Navigator.pop(context);
                     _pickImageFromGallery();
                   },
                 ),
                 ListTile(
-                  leading: const Icon(Icons.camera_alt, color: Color(0xFF4A6FA5)),
-                  title: const Text('Take a Photo'),
+                  leading:
+                      const Icon(Icons.camera_alt, color: Color(0xFF4A6FA5)),
+                  title: Text(S.of(context).takePhoto),
                   onTap: () {
                     Navigator.pop(context);
                     _pickImageFromCamera();
@@ -178,7 +192,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 ),
                 ListTile(
                   leading: const Icon(Icons.close, color: Colors.grey),
-                  title: const Text('Cancel'),
+                  title: Text(S.of(context).cancel),
                   onTap: () {
                     Navigator.pop(context);
                   },
@@ -208,8 +222,8 @@ class _ProfilePageState extends State<ProfilePage> {
             // Use setUser — NOT updateProfileImage (which would re-trigger upload)
             context.read<UserCubit>().setUser(state.user);
             ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(
-                content: Text('Profile image updated successfully!'),
+              SnackBar(
+                content: Text(S.current.profileUpdated),
                 backgroundColor: Colors.green,
               ),
             );
@@ -289,25 +303,25 @@ class _ProfilePageState extends State<ProfilePage> {
                             ],
                           ),
                           const SizedBox(height: 8),
-                          
+
                           // Title
-                          const Align(
+                          Align(
                             alignment: Alignment.centerLeft,
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  'Profile',
+                                  S.of(context).profile,
                                   style: TextStyle(
                                     color: Colors.white,
                                     fontSize: 28,
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
-                                SizedBox(height: 4),
+                                const SizedBox(height: 4),
                                 Text(
-                                  'Manage your account',
-                                  style: TextStyle(
+                                  S.current.manageAccount,
+                                  style: const TextStyle(
                                     color: Colors.white70,
                                     fontSize: 16,
                                   ),
@@ -315,9 +329,9 @@ class _ProfilePageState extends State<ProfilePage> {
                               ],
                             ),
                           ),
-                          
+
                           SizedBox(height: screenHeight * 0.02),
-                          
+
                           // Profile Info
                           Row(
                             children: [
@@ -328,7 +342,8 @@ class _ProfilePageState extends State<ProfilePage> {
                                     : _showImageSourceOptions,
                                 child: Stack(
                                   children: [
-                                    _buildProfileImage(profileImageUrl, displayName),
+                                    _buildProfileImage(
+                                        profileImageUrl, displayName),
                                     Positioned(
                                       bottom: 0,
                                       right: 0,
@@ -339,17 +354,20 @@ class _ProfilePageState extends State<ProfilePage> {
                                           shape: BoxShape.circle,
                                           boxShadow: [
                                             BoxShadow(
-                                              color: Colors.black.withOpacity(0.2),
+                                              color:
+                                                  Colors.black.withOpacity(0.2),
                                               blurRadius: 4,
                                               offset: const Offset(0, 2),
                                             ),
                                           ],
                                         ),
-                                        child: profileState is ProfileImageUploading
+                                        child: profileState
+                                                is ProfileImageUploading
                                             ? const SizedBox(
                                                 width: 16,
                                                 height: 16,
-                                                child: CircularProgressIndicator(
+                                                child:
+                                                    CircularProgressIndicator(
                                                   strokeWidth: 2,
                                                   color: Color(0xFF4A6FA5),
                                                 ),
@@ -365,7 +383,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                 ),
                               ),
                               const SizedBox(width: 16),
-                              
+
                               // Name and Email - With overflow protection
                               Expanded(
                                 child: Column(
@@ -403,7 +421,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     ),
                   ),
                 ),
-                
+
                 // KEY CHANGE: Removed loading indicator check
                 // Menu Items - Always visible
                 Expanded(
@@ -430,7 +448,7 @@ class _ProfilePageState extends State<ProfilePage> {
                               children: [
                                 _buildMenuItem(
                                   icon: Icons.settings_outlined,
-                                  title: 'Settings & Privacy',
+                                  title: S.of(context).settingsPrivacy,
                                   onTap: () => Navigator.of(
                                     context,
                                     rootNavigator: true,
@@ -441,7 +459,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                 const Divider(height: 1),
                                 _buildMenuItem(
                                   icon: Icons.logout,
-                                  title: 'Sign Out',
+                                  title: S.of(context).signOut,
                                   titleColor: Colors.red,
                                   iconColor: Colors.red,
                                   onTap: () async {

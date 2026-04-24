@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:second/generated/l10n.dart';
 import '../cubits/nearest_metro/nearest_metro_cubit.dart';
 import '../services/location_services.dart';
 import '../services/metro_services.dart';
@@ -33,8 +34,8 @@ class _NearestMetroContent extends StatelessWidget {
       children: [
         Row(
           children: [
-            const Expanded(
-              child: buildHeader(title: "Nearest Metro Station"),
+            Expanded(
+              child: buildHeader(title: S.of(context).NearestMetroStation),
             ),
             Padding(
               padding: const EdgeInsets.only(right: 20),

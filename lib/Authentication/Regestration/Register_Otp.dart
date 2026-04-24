@@ -4,6 +4,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:otp_text_field/otp_field_style.dart';
 import 'package:otp_text_field/otp_field.dart';
 import 'package:otp_text_field/style.dart';
+import 'package:second/generated/l10n.dart';
 
 import '../../Authentication_Cubit/Register_Cubit/Register_Cubit.dart';
 import '../../Authentication_Cubit/Register_Cubit/Register_State.dart';
@@ -30,8 +31,8 @@ class RegisterOtp extends StatelessWidget {
                 Icons.arrow_back,
                 color: Colors.white54,
               ),
-              label: const Text(
-                "Back",
+              label: Text(
+                S.of(context).Back,
                 style: TextStyle(color: Colors.white54),
               ),
               style: TextButton.styleFrom(
@@ -70,8 +71,8 @@ class RegisterOtp extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 20),
-              const Text(
-                "Verify Your Email",
+              Text(
+                S.of(context).VerifyEmail,
                 style: TextStyle(
                   fontSize: 25,
                   fontWeight: FontWeight.bold,
@@ -79,8 +80,8 @@ class RegisterOtp extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 10),
-              const Text(
-                "Enter the code we sent to your email",
+              Text(
+                S.of(context).EnterCode,
                 style: TextStyle(
                   fontSize: 15,
                   color: Colors.white54,
@@ -99,15 +100,15 @@ class RegisterOtp extends StatelessWidget {
               'loginPage',
             );
           } else if (state is RegisterError) {
-            ScaffoldMessenger.of(context)
-                .showSnackBar(SnackBar(content: Text(" Enter Valid Otp")));
+            ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(content: Text(S.of(context).InvalidOtp)));
           }
           if (state is RegisterSucsessOTP) {
             ScaffoldMessenger.of(context)
-                .showSnackBar(SnackBar(content: Text("  Otp Resend")));
+                .showSnackBar(SnackBar(content: Text(S.of(context).OtpResent)));
           } else if (state is RegisterErrorOTP) {
-            ScaffoldMessenger.of(context)
-                .showSnackBar(SnackBar(content: Text(" Enter Valid Otp")));
+            ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(content: Text(S.of(context).InvalidOtp)));
           }
         }, builder: (context, state) {
           return ListView(children: [
@@ -134,16 +135,16 @@ class RegisterOtp extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Verification Code',
+                        S.of(context).VerificationCode,
                         style: TextStyle(
                             fontSize: 20, fontWeight: FontWeight.bold),
                       ),
                       Text.rich(
                         TextSpan(
-                          text: "We've sent a 5-digit verification code \nto ",
+                          text: "${S.of(context).OtpMessagePrefix}",
                           children: [
                             TextSpan(
-                              text: '$EmailData',
+                              text: EmailData.toString(),
                               style: TextStyle(
                                   color: Colors.blue,
                                   fontWeight: FontWeight.bold,
@@ -184,7 +185,7 @@ class RegisterOtp extends StatelessWidget {
                       SizedBox(
                         height: 45,
                       ),
-                      Center(child: Text('Didn\'t receive the code?')),
+                      Center(child: Text(S.of(context).DidntReceive)),
                       Center(
                         child: BlocBuilder<RegisterCubit, Register_State>(
                           builder: (context, state) {
@@ -246,7 +247,7 @@ class RegisterOtp extends StatelessWidget {
                 child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Text(
-                      "Tip: Check your spam folder if you don't see the email in your inbox.",
+                      S.of(context).TipMessage,
                       style: TextStyle(fontSize: 18, color: Color(0xff1C398D)),
                     )),
               ),

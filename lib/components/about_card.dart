@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:second/generated/l10n.dart';
 import 'settings_card.dart';
 
 class AboutCard extends StatelessWidget {
@@ -34,8 +35,8 @@ class AboutCard extends StatelessWidget {
         padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 20),
         child: Column(
           children: [
-            const Text(
-              'Metro Mate',
+            Text(
+              S.of(context).AppName,
               style: TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.w700,
@@ -44,7 +45,7 @@ class AboutCard extends StatelessWidget {
             ),
             const SizedBox(height: 4),
             Text(
-              'Version $version',
+              '${S.of(context).Version} $version',
               style: const TextStyle(
                 fontSize: 13,
                 color: Color(0xFF8FA8BE),
@@ -56,8 +57,8 @@ class AboutCard extends StatelessWidget {
               children: [
                 GestureDetector(
                   onTap: onTermsOfService,
-                  child: const Text(
-                    'Terms of Service',
+                  child: Text(
+                    S.of(context).TermsOfService,
                     style: TextStyle(
                       fontSize: 13,
                       color: kPrimaryBlue,
@@ -74,8 +75,8 @@ class AboutCard extends StatelessWidget {
                 ),
                 GestureDetector(
                   onTap: onPrivacyPolicy,
-                  child: const Text(
-                    'Privacy Policy',
+                  child: Text(
+                    S.of(context).PrivacyPolicy,
                     style: TextStyle(
                       fontSize: 13,
                       color: kPrimaryBlue,

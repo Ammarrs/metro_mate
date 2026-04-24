@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:second/generated/l10n.dart';
 
 import '../../Authentication_Cubit/ForgetPassword_Cubit/ForgetPassword_Cubit.dart';
 import '../../Authentication_Cubit/ForgetPassword_Cubit/ForgetPassword_State.dart';
@@ -23,8 +24,8 @@ class ForgetPassword extends StatelessWidget {
             Navigator.pushNamed(context, 'NewpasswordPage',
                 arguments: EmailControllerPassword.text);
           } else if (state is ForgetPasswordError) {
-            ScaffoldMessenger.of(context)
-                .showSnackBar(SnackBar(content: Text("Enter Valid Email")));
+            ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(content: Text(S.of(context).InvalidEmail)));
           }
         }, builder: (context, state) {
           final cubit = context.read<ForgetPasswordCubit>();
@@ -58,7 +59,7 @@ class ForgetPassword extends StatelessWidget {
                 ),
                 Center(
                     child: Text(
-                  "Forgot Password?",
+                  S.of(context).ForgotPasswordTitle,
                   style: TextStyle(
                       fontSize: 25,
                       fontWeight: FontWeight.bold,
@@ -69,7 +70,7 @@ class ForgetPassword extends StatelessWidget {
                 ),
                 Center(
                     child: Text(
-                  'Don\'t worry! Enter your email address and\n we\'ll send you a code to reset your\n password.',
+                  S.of(context).ForgotPasswordDescription,
                   style: TextStyle(fontSize: 17, color: Colors.grey),
                   textAlign: TextAlign.center,
                 )),
@@ -78,7 +79,7 @@ class ForgetPassword extends StatelessWidget {
                 height: 30,
               ),
               Text(
-                "Email Address",
+                S.of(context).EmailAddress,
                 style: TextStyle(
                     fontSize: 15,
                     fontWeight: FontWeight.bold,
@@ -93,7 +94,7 @@ class ForgetPassword extends StatelessWidget {
                   decoration: InputDecoration(
                     border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(25)),
-                    hint: Text("Enter your Email Address"),
+                    hint: Text(S.of(context).EnterEmail),
                     prefixIcon: Icon(Icons.email),
                   ),
                 ),
@@ -120,7 +121,7 @@ class ForgetPassword extends StatelessWidget {
                         minWidth: double.infinity,
                         height: 45,
                         child: Text(
-                          "Send Code ",
+                          S.of(context).SendCode,
                           style: TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 20,
