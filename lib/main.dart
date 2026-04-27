@@ -230,7 +230,7 @@ class test_page extends StatelessWidget {
       backgroundColor: const Color(0xffFCFCFD),
       body: BlocBuilder<Navigate_Cubit, int>(
         builder: (context, state) {
-          return pages[state];
+          return NavigationBarpage[state];
         },
       ),
       bottomNavigationBar: BlocBuilder<Navigate_Cubit, int>(

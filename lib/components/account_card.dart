@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:second/generated/l10n.dart';
+import 'package:second/views/history.dart';
 import 'settings_card.dart';
 
 class AccountCard extends StatelessWidget {

@@ -3,13 +3,13 @@ import 'package:second/generated/l10n.dart';
 import 'settings_card.dart';
 
 class HelpSupportCard extends StatelessWidget {
-  final VoidCallback? onAbout;           // was onHelpCenter
   final VoidCallback? onContactSupport;
+  final VoidCallback? onHelpCenter;
 
   const HelpSupportCard({
     super.key,
-    this.onAbout,
     this.onContactSupport,
+    this.onHelpCenter,
   });
 
   @override
@@ -68,14 +68,19 @@ class _HelpNavRow extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(title,
-                        style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: Color(0xFF1A2E3D))),
+                        style: const TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w600,
+                            color: Color(0xFF1A2E3D))),
                     const SizedBox(height: 2),
                     Text(subtitle,
-                        style: const TextStyle(fontSize: 12, color: Color(0xFF8FA8BE))),
+                        style: const TextStyle(
+                            fontSize: 12, color: Color(0xFF8FA8BE))),
                   ],
                 ),
               ),
-              const Icon(Icons.chevron_right, color: Color(0xFF8FA8BE), size: 22),
+              const Icon(Icons.chevron_right,
+                  color: Color(0xFF8FA8BE), size: 22),
             ],
           ),
         ),
