@@ -9,6 +9,8 @@ import 'package:second/components/home_app_bar.dart';
 import 'package:second/cubits/logout/logout_cubit.dart';
 import 'package:second/cubits/logout/logout_state.dart';
 import 'package:second/cubits/user/user_cubit.dart';
+import './cubits/subscription/subscription_cubit.dart';
+
 import 'package:second/generated/l10n.dart';
 import 'package:second/services/auth_service.dart';
 import 'package:second/services/storage_service.dart';
@@ -35,6 +37,7 @@ import 'NavigationBar_Page/setting.dart';
 import 'NavigationBar_Page/wallet.dart';
 import 'views/settings.dart';
 import 'package:dropdown_search/dropdown_search.dart';
+import './views/subscription.dart';
 
 import 'RouteDeatils.dart';
 import 'OnbordingScreens.dart';
@@ -80,6 +83,9 @@ class MetroApp extends StatelessWidget {
             create: (context) => UserCubit(StorageService())..loadUser()),
         BlocProvider(create: (context) => LogOutCubit()),
         BlocProvider(create: (context) => LocaleCubit()),
+        BlocProvider(
+          create: (context) => SubscriptionCubit(),
+        ),
       ],
       child: BlocBuilder<LocaleCubit, LocaleState>(
         builder: (context, state) {
@@ -196,7 +202,27 @@ class _SplashRouterState extends State<SplashRouter> {
 class test_page extends StatelessWidget {
   test_page({super.key});
 
-  final List<Widget> pages = [Home(), Tickets(), Wallet(), SettingsTab()];
+  List<Widget> NavigationBarpage = [Home(), Tickets(), Wallet(), SubscriptionPage()];
+  List<PreferredSizeWidget> NavigationBarAppBar = [
+    AppBar(
+      title: HomeAppBar(),
+      automaticallyImplyLeading: false,
+    ),
+    AppBar(
+      title: Text("Ticket"),
+      automaticallyImplyLeading: false,
+    ),
+    AppBar(
+      title: Text("Profile"),
+      automaticallyImplyLeading: false,
+    ),
+    AppBar(
+      title: Text("Subscribtion"),
+      automaticallyImplyLeading: false,
+    ),
+  ];
+
+  int CurrentIndex = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -230,11 +256,9 @@ class test_page extends StatelessWidget {
                   icon: Icon(Icons.account_balance_wallet),
                   label: S.of(context).wallet),
               BottomNavigationBarItem(
-                  icon: Icon(Icons.settings), label: S.of(context).settings),
-            ],
-          );
-        },
-      ),
+                  icon: Icon(Icons.card_membership_rounded), label: "Subscribe"),
+            ]);
+      }),
     );
   }
 }
