@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:second/generated/l10n.dart';
 
 import 'ChangePassword_Cubit.dart';
 import 'ChangePassword_State.dart';
@@ -59,7 +60,7 @@ class Changepassword extends StatelessWidget {
                 ),
                 Center(
                     child: Text(
-                  "Create New Password",
+                  S.of(context).CreateNewPassword,
                   style: TextStyle(
                       fontSize: 25,
                       fontWeight: FontWeight.bold,
@@ -70,7 +71,7 @@ class Changepassword extends StatelessWidget {
                 ),
                 Center(
                     child: Text(
-                  'Your new password must be different from \npreviously used passwords.',
+                  S.of(context).PasswordInstruction,
                   style: TextStyle(fontSize: 17, color: Colors.grey),
                   textAlign: TextAlign.center,
                 )),
@@ -84,7 +85,7 @@ class Changepassword extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      "Old Password",
+                      S.of(context).OldPassword,
                       style: TextStyle(
                           fontSize: 15,
                           fontWeight: FontWeight.bold,
@@ -97,7 +98,7 @@ class Changepassword extends StatelessWidget {
                       decoration: InputDecoration(
                         border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(25)),
-                        hint: Text("Enter Old Password"),
+                        hint: Text(S.of(context).EnterOldPassword),
                         prefixIcon: Icon(Icons.lock),
                         suffixIcon: IconButton(
                             onPressed: () {
@@ -112,7 +113,7 @@ class Changepassword extends StatelessWidget {
                       height: 15,
                     ),
                     Text(
-                      "New Password",
+                      S.of(context).NewPassword,
                       style: TextStyle(
                           fontSize: 15,
                           fontWeight: FontWeight.bold,
@@ -125,7 +126,7 @@ class Changepassword extends StatelessWidget {
                       decoration: InputDecoration(
                         border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(25)),
-                        hint: Text("Enter New Password"),
+                        hint: Text(S.of(context).EnterNewPassword),
                         prefixIcon: Icon(Icons.lock),
                         suffixIcon: IconButton(
                             onPressed: () {
@@ -140,7 +141,7 @@ class Changepassword extends StatelessWidget {
                       height: 15,
                     ),
                     Text(
-                      "Confirm Password",
+                      S.of(context).ConfirmPassword,
                       style: TextStyle(
                           fontSize: 15,
                           fontWeight: FontWeight.bold,
@@ -153,7 +154,7 @@ class Changepassword extends StatelessWidget {
                       decoration: InputDecoration(
                         border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(25)),
-                        hint: Text("Reenter New Password"),
+                        hint: Text(S.of(context).ReenterNewPassword),
                         prefixIcon: Icon(Icons.lock),
                         suffixIcon: IconButton(
                             onPressed: () {
@@ -192,7 +193,7 @@ class Changepassword extends StatelessWidget {
                         minWidth: double.infinity,
                         height: 45,
                         child: Text(
-                          "Send New Password ",
+                          S.of(context).SendNewPassword,
                           style: TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 20,

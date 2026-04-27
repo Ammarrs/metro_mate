@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../views/history.dart';
+import 'package:second/generated/l10n.dart';
 import 'settings_card.dart';
 
 class AccountCard extends StatelessWidget {
@@ -10,11 +10,11 @@ class AccountCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SettingsCard(
-      sectionTitle: 'Account',
+      sectionTitle: S.of(context).Account,
       children: [
         SettingsNavRow(
-          title: 'History',
-          subtitle: 'View your recent trips',
+          title: S.of(context).History,
+          subtitle: S.of(context).ViewYourRecentTrips,
           leadingIcon: Icons.history,
           onTap: onHistory ??
               () => Navigator.of(context, rootNavigator: true).push(

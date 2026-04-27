@@ -23,6 +23,7 @@ class NearestMetroCubit extends Cubit<NearestMetroState> {
   Future<void> loadNearestMetro() async {
     try {
       print('🔄 Starting loadNearestMetro...');
+      if (isClosed) return;
       emit(const NearestMetroLoading(message: 'Getting your location...'));
 
       Position userPosition;
@@ -32,6 +33,7 @@ class NearestMetroCubit extends Cubit<NearestMetroState> {
         print('✅ Got location: ${userPosition.latitude}, ${userPosition.longitude}');
       } on Exception catch (e) {
         print('❌ Location error: $e');
+        if (isClosed) return;
         final msg = e.toString();
         if (msg.contains('disabled')) {
           emit(const NearestMetroLocationDisabled());
@@ -46,6 +48,7 @@ class NearestMetroCubit extends Cubit<NearestMetroState> {
         rethrow;
       }
 
+      if (isClosed) return;
       emit(const NearestMetroLoading(message: 'Finding nearest metro...'));
 
       print('🚇 Calling nearest station API...');
@@ -58,6 +61,7 @@ class NearestMetroCubit extends Cubit<NearestMetroState> {
         print('✅ Got nearest station: ${nearestStation.name}');
       } catch (e) {
         print('❌ API Error: $e');
+        if (isClosed) return;
         emit(NearestMetroError(
           message: 'Failed to load nearest metro station',
           details: 'API Error: ${e.toString()}',
@@ -67,6 +71,7 @@ class NearestMetroCubit extends Cubit<NearestMetroState> {
 
       if (nearestStation.lat == null || nearestStation.lng == null) {
         print('❌ Station has no coordinates');
+        if (isClosed) return;
         emit(const NearestMetroError(
           message: 'Failed to load nearest metro station',
           details: 'Station coordinates not available',
@@ -74,6 +79,7 @@ class NearestMetroCubit extends Cubit<NearestMetroState> {
         return;
       }
 
+      if (isClosed) return;
       emit(const NearestMetroLoading(message: 'Calculating walking route...'));
 
       print('🗺️ Getting real walking route...');
@@ -99,7 +105,6 @@ class NearestMetroCubit extends Cubit<NearestMetroState> {
           endLatitude: nearestStation.lat!,
           endLongitude: nearestStation.lng!,
         );
-        
         distance = distance * 1.3;
         walkingTime = _locationService.calculateWalkingTime(distance);
         print('📏 Using estimate: ${distance.toStringAsFixed(2)} km, $walkingTime min');
@@ -108,6 +113,7 @@ class NearestMetroCubit extends Cubit<NearestMetroState> {
       nearestStation.distanceInKm = distance;
       nearestStation.walkingTimeInMinutes = walkingTime;
 
+      if (isClosed) return;
       print('✅ Emitting loaded state');
       emit(NearestMetroLoaded(
         nearestStation: nearestStation,
@@ -119,6 +125,7 @@ class NearestMetroCubit extends Cubit<NearestMetroState> {
     } catch (e, stackTrace) {
       print('❌ Unexpected error in loadNearestMetro: $e');
       print('Stack trace: $stackTrace');
+      if (isClosed) return;
       emit(NearestMetroError(
         message: 'Failed to load nearest metro station',
         details: e.toString(),

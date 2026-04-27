@@ -1,0 +1,306 @@
+{
+    "@@locale": "en",
+    
+    "welcomeMessage": "Welcome to Metro Mate!",
+    "loginButton": "Login",
+    "signupButton": "Sign Up",
+    "emailLabel": "Email",
+    "passwordLabel": "Password",
+    "confirmPasswordLabel": "Confirm Password",
+    "logoutButton": "Logout",
+    "homeScreenTitle": "Home",
+    "profileScreenTitle": "Profile",
+    "settingsScreenTitle": "Settings",
+    "Back": "Back",
+    "MetroMate": "Metro Mate ",
+      "CreateAccount": "Create Account",
+  "ProfilePicture": "Profile Picture",
+  "UploadProfilePicture": "Click to upload a profile picture",
+  "FullName": "Full Name",
+  "EnterFullName": "Enter your Full Name",
+  "EmailAddress": "Email Address",
+  "EnterEmail": "Enter your Email Address",
+  "Password": "Password",
+  "EnterPassword": "Enter your Password",
+  "ConfirmPassword": "Confirm Password",
+  "EnterConfirmPassword": "Confirm Your Password",
+  "PhoneNumber": "Phone Number",
+  "EnterPhone": "Enter your Phone number",
+  "Gender": "Gender",
+  "Male": "Male",
+  "Female": "Female",
+  "ChooseGender": "Choose Type Of Gender",
+  "SignUp": "Sign Up",
+  "AlreadyHaveAccount": "Already have an account?",
+  "Login": "Log in",
+  "Camera": "Camera",
+  "Gallery": "Gallery",
+
+"VerifyEmail": "Verify Your Email",
+  "EnterCode": "Enter the code we sent to your email",
+  "InvalidOtp": "Enter Valid Otp",
+  "OtpResent": "Otp Resend",
+  "VerificationCode": "Verification Code",
+ "OtpMessagePrefix": "We've sent a 5-digit verification code to ",
+  "DidntReceive": "Didn't receive the code?",
+  "ResendCode": "Resend Code",
+  "TipMessage": "Tip: Check your spam folder if you don't see the email in your inbox.",
+
+  "ForgotPasswordTitle": "Forgot Password?",
+  "ForgotPasswordDescription": "Don't worry! Enter your email address and we'll send you a code to reset your password.",
+  "EmailAddress": "Email Address",
+  "EnterEmail": "Enter your Email Address",
+  "SendCode": "Send Code",
+  "InvalidEmail": "Enter Valid Email",
+
+  "CreateNewPassword": "Create New Password",
+  "PasswordInstruction": "Your new password must be different from previously used passwords.",
+  "NewPassword": "New Password",
+  "EnterNewPassword": "Enter New Password",
+  "ConfirmNewPassword": "Confirm New Password",
+  "ReenterNewPassword": "Reenter New Password",
+  "VerifyEmail": "Verify Your Email",
+  "OtpInstruction": "Enter the 5-digit code we sent to",
+  "VerifyIdentity": "to verify your identity.",
+
+
+ "CreateNewPassword": "Create New Password",
+  "PasswordInstruction": "Your new password must be different from previously used passwords.",
+  
+  "OldPassword": "Old Password",
+  "EnterOldPassword": "Enter Old Password",
+  
+  "NewPassword": "New Password",
+  "EnterNewPassword": "Enter New Password",
+  
+  "ConfirmPassword": "Confirm Password",
+  "ReenterNewPassword": "Reenter New Password",
+  
+  "SendNewPassword": "Send New Password",
+
+
+
+   "AppName": "Metro Mate",
+  "WelcomeBack": "Welcome back!",
+  
+  "Email": "Email",
+  "EnterEmail": "Enter your email",
+  "InvalidEmail": "Enter a valid email",
+  
+  "Password": "Password",
+  "EnterPassword": "Enter your password",
+  "PasswordTooShort": "Password must be at least 8 characters",
+  
+  "ForgotPassword": "Forgot password?",
+  
+  "SignIn": "Sign In",
+  
+  "NoAccount": "Don't have an account?",
+  "SignUp": "Sign Up",
+
+
+ "Skip": "Skip",
+  "Next": "Next >",
+  "GetStarted": "Get Started  >",
+
+  "OnboardingTitle1": "Find Your Way",
+  "OnboardingDesc1": "Easily check metro routes and directions from one station to another.",
+
+  "OnboardingTitle2": "Buy Tickets",
+  "OnboardingDesc2": "Purchase daily tickets instantly with your card or wallet.",
+
+  "OnboardingTitle3": "Student Discounts",
+  "OnboardingDesc3": "Get metro subscriptions at discounted prices for students.",
+
+
+
+ 
+  "routeDetails": "Route Details",
+  "tripInformation": "Trip Information",
+  "duration": "Duration",
+  "minutes": "Minutes",
+  "distance": "Distance",
+  "transfer": "Transfer",
+  "ticketPrice": "Ticket Price",
+  "buyTicketRoute": "Buy Ticket For This Route",
+  "Line1": "Line 1",
+  "Line2": "Line 2",
+  "Line3": "Line 3",
+  "FastestRoute": "Fastest Route",
+  "BestRoute": "Best Route",
+  "minutes": "min",
+  "KM": "KM",
+  "EGP": "EGP",
+
+
+
+
+ "profile": "Profile",
+  "manageAccount": "Manage your account",
+  "profileUpdated": "Profile image updated successfully!",
+  "chooseProfilePhoto": "Choose Profile Photo",
+  "chooseFromGallery": "Choose from Gallery",
+  "takePhoto": "Take a Photo",
+  "cancel": "Cancel",
+  "settingsPrivacy": "Settings & Privacy",
+  "signOut": "Sign Out",
+  "errorPickingImage": "Error picking image:",
+  "errorTakingPhoto": "Error taking photo:",
+
+
+
+  "Settings": "Settings",
+"ManageAccount": "Manage your account",
+"SignOut": "Sign Out",
+"SettingsPrivacy": "Settings & Privacy",
+
+
+"AppName": "Metro Mate",
+"Version": "Version ",
+"TermsOfService": "Terms of Service",
+"PrivacyPolicy": "Privacy Policy",
+
+"Account": "Account",
+"History": "History",
+"ViewYourRecentTrips": "View your recent trips",
+
+
+
+
+"AppPreferences": "App Preferences",
+"Language": "Language",
+"ChooseLanguage": "Choose your preferred language",
+"DarkMode": "Dark Mode",
+"SwitchDarkTheme": "Switch to dark theme",
+"SoundEffects": "Sound Effects",
+"EnableSounds": "Enable app sounds",
+"English": "English",
+"Arabic": "Arabic",
+"tryAgain": "Try Again",
+
+
+
+
+
+"GetDirections": "Get Directions",
+"OpeningMaps": "Opening Maps...",
+"ErrorLoadingStation": "Error Loading Station",
+"TryAgain": "Try Again",
+"LocationPermissionRequired": "Location Permission Required",
+"EnableLocationFromSettings": "Please enable location permission in settings",
+"NeedLocation": "We need your location to find nearest metro",
+"OpenSettings": "Open Settings",
+"GrantPermission": "Grant Permission",
+"LocationServicesDisabled": "Location Services Disabled",
+"EnableLocation": "Enable Location",
+"FindingStation": "Finding nearest station...",
+"CouldNotOpenMaps": "Could not open maps",
+"MinWalk": " min walk",
+"NotAvailable": "N/A",
+"walking": "Walking",
+
+
+
+
+"HelpSupport": "Help & Support",
+"HelpCenter": "Help Center",
+"FAQsGuides": "FAQs and guides",
+"ContactSupport": "Contact Support",
+"GetHelpFromTeam": "Get help from our team",
+
+
+
+ "buyTickets": "Buy Tickets",
+  "choosePaymentMethod": "Choose Payment Method",
+  "creditDebitCard": "Credit / Debit Card",
+  "visaMastercardAccepted": "Visa, Mastercard accepted",
+  "choosePaymentError": "Choose Type Of Payment Method",
+  "payEg": "Pay EG",
+
+
+
+
+
+
+  "paymentSummary": "Payment Process Summary",
+  "userName": "User Name",
+  "paymentId": "Payment ID",
+  "paymentMethod": "Payment Method",
+  "totalPaid": "Total Paid",
+  "date": "Date",
+  "payButton": "Pay",
+  "back": "Back",
+  "iframeNullError": "Something went wrong. Please try again.",
+
+
+  "billReference": "Bill Reference",
+  "backToHome": "Back To Home",
+
+   "buyTickets": "Buy Tickets",
+  "selectQuantity": "Select Quantity",
+  "each": "each",
+ 
+  "ticket": "ticket",
+  "totalAmount": "Total Amount",
+  "routeSummary": "Route Summary",
+  "continueToPayment": "Continue To Payment",
+ "securityPrivacy": "Security & Privacy",
+  "biometricLogin": "Biometric Login",
+  "biometricDesc": "Use fingerprint or face ID",
+  "changePassword": "Change Password",
+  "changePasswordDesc": "Update your account password",
+
+
+  "securityPrivacy": "Security & Privacy",
+"biometricLogin": "Biometric Login",
+"biometricSubtitle": "Use fingerprint or face ID",
+"changePassword": "Change Password",
+"updatePassword": "Update your account password",
+
+"notifications": "Notifications",
+"pushNotifications": "Push Notifications",
+"receiveNotifications": "Receive app notifications",
+"emailNotifications": "Email Notifications",
+"receiveEmailUpdates": "Receive updates via email",
+"smsAlerts": "SMS Alerts",
+"smsUpdates": "Important updates via SMS",
+"marketing": "Marketing",
+"offersPromotions": "Promotions and offers",
+"language": "English",
+"ChangeAppLanguage": "Change App Language",
+"Wallet": "Wallet Balance",
+"DepositMoney": "Deposit Money",
+
+"QuickActions": "Quick Actions",
+"BuyDailyTicket": "Buy Daily Ticket",
+"QuickPurchase": "Quick Purchase",
+"GetSubscription": "Get Subscription",
+"MonthlyPasses": "Monthly Passes",
+"NearestMetroStation": "Nearest Metro Station",
+ "planYourRoute": "Plan Your Route",
+  "searchStation": "Search station...",
+  "selectStation": "Select Station",
+  "chooseMetroStation": "Choose Metro Station",
+  "searchRoute": "Search Route",
+  "home": "Home",
+  "tickets": "Tickets", 
+  "wallet": "Wallet",
+  "settings": "Settings",
+  "ticket_price": "Ticket Price",
+  "search_station": "Search station...",
+  "select_station": "Select Station",
+  "choose_station": "Choose Metro Station",
+  "select_persons": "Select persons",
+  "choose_persons": "Choose Number of Persons",
+  "calculate_price": "Calculate Price",
+  "trip_information": "Trip Information",
+  "duration": "Duration",
+  "distance": "Distance",
+  "transfer": "Transfer",
+  "total_price": "Total Price"
+
+
+}
+
+
+

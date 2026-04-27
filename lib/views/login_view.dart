@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:second/cubits/user/user_cubit.dart';
+import 'package:second/generated/l10n.dart';
 
 import '../cubits/login/login_cubit.dart';
 import '../cubits/login/login_state.dart';
@@ -120,17 +121,17 @@ class _LoginPageState extends State<LoginPage> {
                               ),
                             ),
                             SizedBox(height: screenHeight * 0.03),
-                            const Text(
-                              "Metro Mate",
-                              style: TextStyle(
+                            Text(
+                              S.current.AppName,
+                              style: const TextStyle(
                                 fontWeight: FontWeight.bold,
                                 fontSize: 26,
                                 color: Colors.white,
                               ),
                             ),
                             const SizedBox(height: 4),
-                            const Text(
-                              "Welcome back!",
+                            Text(
+                              S.current.welcomeMessage,
                               style: TextStyle(
                                 fontSize: 17,
                                 fontWeight: FontWeight.w300,
@@ -154,8 +155,8 @@ class _LoginPageState extends State<LoginPage> {
                           SizedBox(height: screenHeight * 0.015),
 
                           // Email Field
-                          const Text(
-                            "Email",
+                          Text(
+                            S.current.Email,
                             style: TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.w600,
@@ -168,17 +169,19 @@ class _LoginPageState extends State<LoginPage> {
                             keyboardType: TextInputType.emailAddress,
                             validator: _validateEmail,
                             decoration: InputDecoration(
-                              hintText: "Enter your email",
+                              hintText: S.current.EnterEmail,
                               prefixIcon: const Icon(Icons.email_outlined),
                               fillColor: Colors.grey[50],
                               filled: true,
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(50),
-                                borderSide: BorderSide(color: Colors.grey[300]!),
+                                borderSide:
+                                    BorderSide(color: Colors.grey[300]!),
                               ),
                               enabledBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(50),
-                                borderSide: BorderSide(color: Colors.grey[300]!),
+                                borderSide:
+                                    BorderSide(color: Colors.grey[300]!),
                               ),
                               focusedBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(50),
@@ -210,8 +213,8 @@ class _LoginPageState extends State<LoginPage> {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              const Text(
-                                "Password",
+                              Text(
+                                S.current.Password,
                                 style: TextStyle(
                                   fontSize: 16,
                                   fontWeight: FontWeight.w600,
@@ -220,8 +223,8 @@ class _LoginPageState extends State<LoginPage> {
                               ),
                               GestureDetector(
                                 onTap: _handleForgotPassword,
-                                child: const Text(
-                                  "Forgot password?",
+                                child: Text(
+                                  S.current.ForgotPassword,
                                   style: TextStyle(
                                     fontSize: 14,
                                     fontWeight: FontWeight.w500,
@@ -239,7 +242,7 @@ class _LoginPageState extends State<LoginPage> {
                             obscureText: _obscurePassword,
                             validator: _validatePassword,
                             decoration: InputDecoration(
-                              hintText: "Enter your password",
+                              hintText: S.current.EnterPassword,
                               prefixIcon: const Icon(Icons.lock_outline),
                               suffixIcon: IconButton(
                                 onPressed: () {
@@ -257,11 +260,13 @@ class _LoginPageState extends State<LoginPage> {
                               filled: true,
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(50),
-                                borderSide: BorderSide(color: Colors.grey[300]!),
+                                borderSide:
+                                    BorderSide(color: Colors.grey[300]!),
                               ),
                               enabledBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(50),
-                                borderSide: BorderSide(color: Colors.grey[300]!),
+                                borderSide:
+                                    BorderSide(color: Colors.grey[300]!),
                               ),
                               focusedBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(50),
@@ -301,14 +306,15 @@ class _LoginPageState extends State<LoginPage> {
                                   style: ElevatedButton.styleFrom(
                                     backgroundColor: const Color(0xFF4a6190),
                                     foregroundColor: Colors.white,
-                                    padding: const EdgeInsets.symmetric(vertical: 16),
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 16),
                                     shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(50),
                                     ),
                                     elevation: 1,
                                   ),
-                                  child: const Text(
-                                    "Sign In",
+                                  child: Text(
+                                    S.current.SignIn,
                                     style: TextStyle(
                                       fontSize: 16,
                                       fontWeight: FontWeight.w600,
@@ -322,15 +328,16 @@ class _LoginPageState extends State<LoginPage> {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              const Text(
-                                "Don't have an account?",
-                                style: TextStyle(fontSize: 16, color: Colors.black54),
+                              Text(
+                                S.current.NoAccount,
+                                style: TextStyle(
+                                    fontSize: 16, color: Colors.black54),
                               ),
                               const SizedBox(width: 5),
                               GestureDetector(
                                 onTap: _handleSignUp,
-                                child: const Text(
-                                  "Sign Up",
+                                child: Text(
+                                  S.current.SignUp,
                                   style: TextStyle(
                                     fontSize: 16,
                                     color: Color(0xFF4a6190),

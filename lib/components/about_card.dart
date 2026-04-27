@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:second/generated/l10n.dart';
 import 'settings_card.dart';
 
 class AboutCard extends StatelessWidget {
@@ -35,8 +36,8 @@ class AboutCard extends StatelessWidget {
         padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 20),
         child: Column(
           children: [
-            const Text(
-              'Metro Mate',
+            Text(
+              S.of(context).AppName,
               style: TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.w700,
@@ -45,28 +46,47 @@ class AboutCard extends StatelessWidget {
             ),
             const SizedBox(height: 4),
             Text(
-              'Version $version',
+              '${S.of(context).Version} $version',
               style: const TextStyle(
                 fontSize: 13,
                 color: Color(0xFF8FA8BE),
               ),
             ),
-            // Terms of Service & Privacy Policy — hidden for now
-            // const SizedBox(height: 16),
-            // Row(
-            //   mainAxisAlignment: MainAxisAlignment.center,
-            //   children: [
-            //     GestureDetector(
-            //       onTap: onTermsOfService,
-            //       child: const Text('Terms of Service', style: TextStyle(fontSize: 13, color: kPrimaryBlue, fontWeight: FontWeight.w500)),
-            //     ),
-            //     const Padding(padding: EdgeInsets.symmetric(horizontal: 8), child: Text('•', style: TextStyle(color: Color(0xFF8FA8BE), fontSize: 13))),
-            //     GestureDetector(
-            //       onTap: onPrivacyPolicy,
-            //       child: const Text('Privacy Policy', style: TextStyle(fontSize: 13, color: kPrimaryBlue, fontWeight: FontWeight.w500)),
-            //     ),
-            //   ],
-            // ),
+            const SizedBox(height: 16),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                GestureDetector(
+                  onTap: onTermsOfService,
+                  child: Text(
+                    S.of(context).TermsOfService,
+                    style: TextStyle(
+                      fontSize: 13,
+                      color: kPrimaryBlue,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                ),
+                const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 8),
+                  child: Text(
+                    '•',
+                    style: TextStyle(color: Color(0xFF8FA8BE), fontSize: 13),
+                  ),
+                ),
+                GestureDetector(
+                  onTap: onPrivacyPolicy,
+                  child: Text(
+                    S.of(context).PrivacyPolicy,
+                    style: TextStyle(
+                      fontSize: 13,
+                      color: kPrimaryBlue,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ],
         ),
       ),

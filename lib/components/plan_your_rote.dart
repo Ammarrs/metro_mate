@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:second/Bloc/SelectRoute_State.dart';
 import 'package:second/Bloc/selectRoute_Cubit.dart';
-import 'package:bloc/bloc.dart';
+import 'package:second/generated/l10n.dart';
 
 class PlanYorRoute extends StatelessWidget {
   const PlanYorRoute({
@@ -46,15 +46,16 @@ class PlanYorRoute extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             SizedBox(height: screenHeight * 0.01),
-            
+
             // Title
-            const Text(
-              " Plan Your Route  ",
-              style: TextStyle(
+            Text(
+              S.of(context).planYourRoute,
+              style: const TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
               ),
             ),
+
             SizedBox(height: screenHeight * 0.02),
 
             // First dropdown - From Station
@@ -94,7 +95,7 @@ class PlanYorRoute extends StatelessWidget {
                   ),
                   searchFieldProps: TextFieldProps(
                     decoration: InputDecoration(
-                      hintText: "Search station...",
+                      hintText: S.of(context).searchStation,
                       prefixIcon: const Icon(Icons.search),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12),
@@ -104,10 +105,10 @@ class PlanYorRoute extends StatelessWidget {
                   showSearchBox: true,
                   showSelectedItems: true,
                 ),
-                dropdownDecoratorProps: const DropDownDecoratorProps(
+                dropdownDecoratorProps: DropDownDecoratorProps(
                   dropdownSearchDecoration: InputDecoration(
-                    labelText: "Select Station",
-                    hintText: "Choose Metro Station",
+                    labelText: S.of(context).selectStation,
+                    hintText: S.of(context).chooseMetroStation,
                     labelStyle: TextStyle(
                       fontSize: 12,
                       color: Colors.black26,
@@ -141,7 +142,6 @@ class PlanYorRoute extends StatelessWidget {
                 ),
                 onChanged: (v) {
                   cubit.setStation1(v!);
-                  print(cubit.Station1);
                 },
                 selectedItem: cubit.Station1,
               ),
@@ -197,7 +197,7 @@ class PlanYorRoute extends StatelessWidget {
                   ),
                   searchFieldProps: TextFieldProps(
                     decoration: InputDecoration(
-                      hintText: "Search station...",
+                      hintText: S.of(context).searchStation,
                       prefixIcon: const Icon(Icons.search),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12),
@@ -207,10 +207,10 @@ class PlanYorRoute extends StatelessWidget {
                   showSearchBox: true,
                   showSelectedItems: true,
                 ),
-                dropdownDecoratorProps: const DropDownDecoratorProps(
+                dropdownDecoratorProps: DropDownDecoratorProps(
                   dropdownSearchDecoration: InputDecoration(
-                    labelText: "Select Station",
-                    hintText: "Choose Metro Station",
+                    labelText: S.of(context).selectStation,
+                    hintText: S.of(context).chooseMetroStation,
                     labelStyle: TextStyle(
                       fontSize: 12,
                       color: Colors.black26,
@@ -244,7 +244,6 @@ class PlanYorRoute extends StatelessWidget {
                 ),
                 onChanged: (v) {
                   cubit.setStation2(v!);
-                  print(cubit.Station2);
                 },
                 selectedItem: cubit.Station2,
               ),
@@ -282,16 +281,16 @@ class PlanYorRoute extends StatelessWidget {
                         ? const CircularProgressIndicator(
                             color: Colors.white,
                           )
-                        : const Row(
+                        : Row(
                             mainAxisSize: MainAxisSize.min,
                             children: [
-                              Icon(
+                              const Icon(
                                 Icons.search,
                                 color: Colors.white,
                               ),
                               Text(
-                                "\t Search Route",
-                                style: TextStyle(color: Colors.white),
+                                "\t ${S.of(context).searchRoute}",
+                                style: const TextStyle(color: Colors.white),
                               ),
                             ],
                           ),
@@ -299,6 +298,7 @@ class PlanYorRoute extends StatelessWidget {
                 },
               ),
             ),
+
             SizedBox(height: screenHeight * 0.01),
           ],
         ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:second/generated/l10n.dart';
 import 'settings_card.dart';
 
 class HelpSupportCard extends StatelessWidget {
@@ -14,19 +15,19 @@ class HelpSupportCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SettingsCard(
-      sectionTitle: 'Help & Support',
+      sectionTitle: S.of(context).HelpSupport,
       children: [
         const Divider(height: 1, thickness: 0.8, indent: 20, endIndent: 20),
         _HelpNavRow(
-          title: 'About',                // was 'Help Center'
-          subtitle: 'FAQs and guides',
-          leadingIcon: Icons.info_outline,
-          onTap: onAbout,
+          title: S.of(context).HelpCenter,
+          subtitle: S.of(context).FAQsGuides,
+          leadingIcon: Icons.help_outline,
+          onTap: onHelpCenter,
           isHighlighted: true,
         ),
         _HelpNavRow(
-          title: 'Contact Support',
-          subtitle: 'Get help from our team',
+          title: S.of(context).ContactSupport,
+          subtitle: S.of(context).GetHelpFromTeam,
           leadingIcon: Icons.chat_bubble_outline,
           onTap: onContactSupport,
         ),

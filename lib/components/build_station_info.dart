@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:second/generated/l10n.dart';
 import '../cubits/nearest_metro/nearest_metro_cubit.dart';
 import '../cubits/nearest_metro/nearest_metro_state.dart';
 import '../utils/map_utils.dart';
@@ -13,9 +14,12 @@ class buildStationInfo extends StatelessWidget {
       builder: (context, state) {
         if (state is NearestMetroLoading) return _buildLoading(state.message);
         if (state is NearestMetroLoaded) return _buildLoaded(context, state);
-        if (state is NearestMetroError) return _buildError(context, state.message);
-        if (state is NearestMetroPermissionDenied) return _buildPermissionDenied(context, state);
-        if (state is NearestMetroLocationDisabled) return _buildLocationDisabled(context, state.message);
+        if (state is NearestMetroError)
+          return _buildError(context, state.message);
+        if (state is NearestMetroPermissionDenied)
+          return _buildPermissionDenied(context, state);
+        if (state is NearestMetroLocationDisabled)
+          return _buildLocationDisabled(context, state.message);
         return _buildInitial();
       },
     );
@@ -24,11 +28,11 @@ class buildStationInfo extends StatelessWidget {
   Widget _buildLoaded(BuildContext context, NearestMetroLoaded state) {
     final station = state.nearestStation;
     final distanceText = station.distanceInKm != null
-        ? '${station.distanceInKm!.toStringAsFixed(1)} km'
-        : 'N/A';
+        ? '${station.distanceInKm!.toStringAsFixed(1)} ${S.current.KM}'
+        : S.current.NotAvailable;
     final walkingTimeText = station.walkingTimeInMinutes != null
-        ? '${station.walkingTimeInMinutes} min walk'
-        : 'N/A';
+        ? '${station.walkingTimeInMinutes} ${S.current.MinWalk}'
+        : S.current.NotAvailable;
 
     return Padding(
       padding: const EdgeInsets.all(20),
@@ -67,7 +71,8 @@ class buildStationInfo extends StatelessWidget {
               if (station.isTransfer && station.transferLabel.isNotEmpty) ...[
                 const SizedBox(width: 8),
                 Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                   decoration: BoxDecoration(
                     color: const Color(0xFF4ECDC4).withOpacity(0.15),
                     borderRadius: BorderRadius.circular(4),
@@ -75,7 +80,8 @@ class buildStationInfo extends StatelessWidget {
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      const Icon(Icons.swap_horiz, size: 12, color: Color(0xFF4ECDC4)),
+                      const Icon(Icons.swap_horiz,
+                          size: 12, color: Color(0xFF4ECDC4)),
                       const SizedBox(width: 4),
                       Text(
                         station.transferLabel,
@@ -94,13 +100,19 @@ class buildStationInfo extends StatelessWidget {
           const SizedBox(height: 16),
           Row(
             children: [
-              const Icon(Icons.location_on_outlined, size: 18, color: Color(0xFF6B7280)),
+              const Icon(Icons.location_on_outlined,
+                  size: 18, color: Color(0xFF6B7280)),
               const SizedBox(width: 4),
-              Text(distanceText, style: const TextStyle(fontSize: 14, color: Color(0xFF6B7280))),
+              Text(distanceText,
+                  style:
+                      const TextStyle(fontSize: 14, color: Color(0xFF6B7280))),
               const SizedBox(width: 16),
-              const Icon(Icons.directions_walk, size: 18, color: Color(0xFF6B7280)),
+              const Icon(Icons.directions_walk,
+                  size: 18, color: Color(0xFF6B7280)),
               const SizedBox(width: 4),
-              Text(walkingTimeText, style: const TextStyle(fontSize: 14, color: Color(0xFF6B7280))),
+              Text(walkingTimeText,
+                  style:
+                      const TextStyle(fontSize: 14, color: Color(0xFF6B7280))),
             ],
           ),
           const SizedBox(height: 20),
@@ -119,8 +131,8 @@ class buildStationInfo extends StatelessWidget {
               child: ElevatedButton.icon(
                 onPressed: () => _onGetDirections(context, state),
                 icon: const Icon(Icons.navigation, size: 20),
-                label: const Text(
-                  "Get Directions",
+                label: Text(
+                  S.current.GetDirections,
                   style: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.w600,
@@ -146,21 +158,22 @@ class buildStationInfo extends StatelessWidget {
     );
   }
 
-  Future<void> _onGetDirections(BuildContext context, NearestMetroLoaded state) async {
+  Future<void> _onGetDirections(
+      BuildContext context, NearestMetroLoaded state) async {
     try {
       showDialog(
         context: context,
         barrierDismissible: false,
-        builder: (_) => const Center(
+        builder: (_) => Center(
           child: Card(
             child: Padding(
-              padding: EdgeInsets.all(20),
+              padding: const EdgeInsets.all(20),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  CircularProgressIndicator(),
-                  SizedBox(height: 16),
-                  Text('Opening Maps...'),
+                  const CircularProgressIndicator(),
+                  const SizedBox(height: 16),
+                  Text(S.current.OpeningMaps),
                 ],
               ),
             ),
@@ -173,7 +186,7 @@ class buildStationInfo extends StatelessWidget {
         originLng: state.userLongitude,
         destLat: state.nearestStation.lat!,
         destLng: state.nearestStation.lng!,
-        travelMode: 'walking',
+        travelMode: S.current.walking,
       );
 
       if (context.mounted) Navigator.of(context).pop();
@@ -182,7 +195,7 @@ class buildStationInfo extends StatelessWidget {
         Navigator.of(context).pop();
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('Could not open maps: ${e.toString()}'),
+            content: Text('${S.current.CouldNotOpenMaps}: ${e.toString()}'),
             backgroundColor: Colors.red,
           ),
         );
@@ -223,8 +236,11 @@ class buildStationInfo extends StatelessWidget {
             const Icon(Icons.error_outline, size: 48, color: Colors.red),
             const SizedBox(height: 16),
             Text(
-              'Error Loading Station',
-              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w600, color: Color(0xFF2D3142)),
+              S.current.ErrorLoadingStation,
+              style: const TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w600,
+                  color: Color(0xFF2D3142)),
             ),
             const SizedBox(height: 8),
             Text(
@@ -236,11 +252,12 @@ class buildStationInfo extends StatelessWidget {
             ElevatedButton.icon(
               onPressed: () => context.read<NearestMetroCubit>().refresh(),
               icon: const Icon(Icons.refresh, size: 18),
-              label: const Text('Try Again'),
+              label: Text(S.current.TryAgain),
               style: ElevatedButton.styleFrom(
                 backgroundColor: const Color(0xFF5B7C99),
                 foregroundColor: Colors.white,
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8)),
               ),
             ),
           ],
@@ -249,7 +266,8 @@ class buildStationInfo extends StatelessWidget {
     );
   }
 
-  Widget _buildPermissionDenied(BuildContext context, NearestMetroPermissionDenied state) {
+  Widget _buildPermissionDenied(
+      BuildContext context, NearestMetroPermissionDenied state) {
     return Padding(
       padding: const EdgeInsets.all(40),
       child: Center(
@@ -258,15 +276,18 @@ class buildStationInfo extends StatelessWidget {
           children: [
             const Icon(Icons.location_off, size: 48, color: Colors.orange),
             const SizedBox(height: 16),
-            const Text(
-              'Location Permission Required',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600, color: Color(0xFF2D3142)),
+            Text(
+              S.current.LocationPermissionRequired,
+              style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w600,
+                  color: Color(0xFF2D3142)),
             ),
             const SizedBox(height: 8),
             Text(
               state.isPermanentlyDenied
-                  ? 'Please enable location permission in settings'
-                  : 'We need your location to find nearest metro',
+                  ? S.current.EnableLocationFromSettings
+                  : S.current.NeedLocation,
               textAlign: TextAlign.center,
               style: const TextStyle(fontSize: 14, color: Color(0xFF6B7280)),
             ),
@@ -275,12 +296,17 @@ class buildStationInfo extends StatelessWidget {
               onPressed: () => state.isPermanentlyDenied
                   ? context.read<NearestMetroCubit>().openLocationSettings()
                   : context.read<NearestMetroCubit>().refresh(),
-              icon: Icon(state.isPermanentlyDenied ? Icons.settings : Icons.refresh, size: 18),
-              label: Text(state.isPermanentlyDenied ? 'Open Settings' : 'Grant Permission'),
+              icon: Icon(
+                  state.isPermanentlyDenied ? Icons.settings : Icons.refresh,
+                  size: 18),
+              label: Text(state.isPermanentlyDenied
+                  ? S.current.OpenSettings
+                  : S.current.GrantPermission),
               style: ElevatedButton.styleFrom(
                 backgroundColor: const Color(0xFF5B7C99),
                 foregroundColor: Colors.white,
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8)),
               ),
             ),
           ],
@@ -298,9 +324,12 @@ class buildStationInfo extends StatelessWidget {
           children: [
             const Icon(Icons.location_disabled, size: 48, color: Colors.orange),
             const SizedBox(height: 16),
-            const Text(
-              'Location Services Disabled',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600, color: Color(0xFF2D3142)),
+            Text(
+              S.current.LocationServicesDisabled,
+              style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w600,
+                  color: Color(0xFF2D3142)),
             ),
             const SizedBox(height: 8),
             Text(
@@ -310,13 +339,15 @@ class buildStationInfo extends StatelessWidget {
             ),
             const SizedBox(height: 20),
             ElevatedButton.icon(
-              onPressed: () => context.read<NearestMetroCubit>().openLocationSettings(),
+              onPressed: () =>
+                  context.read<NearestMetroCubit>().openLocationSettings(),
               icon: const Icon(Icons.settings, size: 18),
-              label: const Text('Enable Location'),
+              label: Text(S.current.EnableLocation),
               style: ElevatedButton.styleFrom(
                 backgroundColor: const Color(0xFF5B7C99),
                 foregroundColor: Colors.white,
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8)),
               ),
             ),
           ],
@@ -326,11 +357,11 @@ class buildStationInfo extends StatelessWidget {
   }
 
   Widget _buildInitial() {
-    return const Padding(
+    return Padding(
       padding: EdgeInsets.all(40),
       child: Center(
         child: Text(
-          'Finding nearest station...',
+          S.current.FindingStation,
           style: TextStyle(fontSize: 14, color: Color(0xFF6B7280)),
         ),
       ),

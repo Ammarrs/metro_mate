@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:second/Bloc/LocaliztionCubit/Localization_Cubit.dart';
 import 'package:second/ChangePassword/ChangePassword_Cubit.dart';
 import 'package:second/components/home_app_bar.dart';
 import 'package:second/cubits/logout/logout_cubit.dart';
@@ -10,6 +11,7 @@ import 'package:second/cubits/logout/logout_state.dart';
 import 'package:second/cubits/user/user_cubit.dart';
 import './cubits/subscription/subscription_cubit.dart';
 
+import 'package:second/generated/l10n.dart';
 import 'package:second/services/auth_service.dart';
 import 'package:second/services/storage_service.dart';
 import 'package:second/views/login_view.dart';
@@ -49,6 +51,7 @@ import 'Authentication_Cubit/Register_Cubit/Register_Cubit.dart';
 
 import 'components/wallet.dart';
 import 'cubits/login/login_cubit.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -59,7 +62,7 @@ void main() async {
     WebViewPlatform.instance = WebKitWebViewPlatform();
   }
 
-  runApp(MetroApp());
+  runApp(const MetroApp());
 }
 
 class MetroApp extends StatelessWidget {
@@ -69,70 +72,79 @@ class MetroApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
+        BlocProvider(create: (context) => ChangePasswordCubit()),
+        BlocProvider(create: (context) => RegisterCubit()),
+        BlocProvider(create: (context) => ForgetPasswordCubit()),
+        BlocProvider(create: (context) => LoginCubit(AuthService())),
+        BlocProvider(create: (context) => Navigate_Cubit()),
+        BlocProvider(create: (context) => SelectRoute()),
+        BlocProvider(create: (context) => OnBoardingCubit()..CheckSeen()),
         BlocProvider(
-          create: (context) => ChangePasswordCubit(),
-        ),
-        BlocProvider(
-          create: (context) => RegisterCubit(),
-        ),
-        BlocProvider(
-          create: (context) => ForgetPasswordCubit(),
-        ),
-        BlocProvider(
-          create: (context) => LoginCubit(AuthService()),
-        ),
-        BlocProvider(
-          create: (context) => Navigate_Cubit(),
-        ),
-        BlocProvider(
-          create: (context) => SelectRoute(),
-        ),
-        BlocProvider(
-          create: (context) => OnBoardingCubit()..CheckSeen(),
-        ),
-        BlocProvider(
-          create: (context) => UserCubit(StorageService())..loadUser(),
-        ),
+            create: (context) => UserCubit(StorageService())..loadUser()),
         BlocProvider(create: (context) => LogOutCubit()),
+        BlocProvider(create: (context) => LocaleCubit()),
         BlocProvider(
           create: (context) => SubscriptionCubit(),
         ),
       ],
-      child: MaterialApp(
-        debugShowCheckedModeBanner: false,
-        home: const SplashRouter(),
-        routes: {
-          'test_page': (context) => test_page(),
-          'Home': (context) => Home(),
-          'loginPage': (context) => const LoginPage(),
-          'Register': (context) => RegisterPage(),
-          'RegisterOtp': (context) => RegisterOtp(),
-          'ForgetPassword': (context) => ForgetPassword(),
-          /*'VerifyEmail':(context)=>  VerifyEmail(),*/
-          'NewpasswordPage': (context) => NewpasswordPage(),
-          'detalis': (context) => Routedeatils(),
-          'SelectQuantity': (context) => SelectQuantity(),
-          'Chosepaymentmethod': (context) => Chosepaymentmethod(),
-          'Creditdetils': (context) => Creditdetils(),
-          'finish': (context) => Paymentfinish(),
-          'ChangePassword': (context) => Changepassword(),
-          'Onbordingscreen': (context) => Onbordingscreen(),
-          'Profile': (context) => ProfilePageView(),
-          'ConfirmFawrypage': (context) => ConfirmFawrypage(),
-          'ConfirmVisacardPage': (context) => ConfirmVisacardPage(),
-          'Fawry': (context) => FawryPage(),
-        },
-        builder: (context, child) {
-          return BlocListener<LogOutCubit, LogOutState>(
-            listener: (context, state) {
-              if (state is LogOutSuccessful) {
-                Navigator.pushAndRemoveUntil(
-                    context,
-                    MaterialPageRoute(builder: (context) => const LoginPage()),
-                    (route) => false);
-              }
+      child: BlocBuilder<LocaleCubit, LocaleState>(
+        builder: (context, state) {
+          Locale currentLocale = const Locale('en');
+
+          if (state is ChangeLocaleState) {
+            currentLocale = state.locale;
+          }
+
+          return MaterialApp(
+            locale: currentLocale,
+            supportedLocales: const [
+              Locale('en'),
+              Locale('ar'),
+            ],
+            localizationsDelegates: const [
+              S.delegate,
+              GlobalMaterialLocalizations.delegate,
+              GlobalWidgetsLocalizations.delegate,
+              GlobalCupertinoLocalizations.delegate,
+            ],
+            debugShowCheckedModeBanner: false,
+            home: const SplashRouter(),
+            routes: {
+              'test_page': (context) => test_page(),
+              'Home': (context) => Home(),
+              'loginPage': (context) => const LoginPage(),
+              'Register': (context) => RegisterPage(),
+              'RegisterOtp': (context) => RegisterOtp(),
+              'ForgetPassword': (context) => ForgetPassword(),
+              'NewpasswordPage': (context) => NewpasswordPage(),
+              'detalis': (context) => Routedeatils(),
+              'SelectQuantity': (context) => SelectQuantity(),
+              'Chosepaymentmethod': (context) => Chosepaymentmethod(),
+              'Creditdetils': (context) => Creditdetils(),
+              'finish': (context) => Paymentfinish(),
+              'ChangePassword': (context) => Changepassword(),
+              'Onbordingscreen': (context) => Onbordingscreen(),
+              'Profile': (context) => ProfilePageView(),
+              'ConfirmFawrypage': (context) => ConfirmFawrypage(),
+              'ConfirmVisacardPage': (context) => ConfirmVisacardPage(),
+              'Fawry': (context) => FawryPage(),
             },
-            child: child!,
+            builder: (context, child) {
+              return BlocListener<LogOutCubit, LogOutState>(
+                listener: (context, state) {
+                  if (state is LogOutSuccessful) {
+                    Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const LoginPage(),
+                      ),
+                      (route) => false,
+                    );
+                  }
+                },
+                child: child!,
+              );
+            },
           );
         },
       ),
@@ -140,9 +152,7 @@ class MetroApp extends StatelessWidget {
   }
 }
 
-/// Checks for a saved token on startup.
-/// → Token found  : go straight to [test_page] (main app shell)
-/// → No token     : go to [Onbordingscreen] (normal first-launch flow)
+/// Splash Router
 class SplashRouter extends StatefulWidget {
   const SplashRouter({super.key});
 
@@ -162,17 +172,12 @@ class _SplashRouterState extends State<SplashRouter> {
     if (!mounted) return;
 
     if (token != null && token.isNotEmpty) {
-      // Logged in → go straight to the full app shell
       context.read<UserCubit>().loadUser();
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (_) => test_page()),
       );
     } else {
-      // No token → hand off to Onbordingscreen.
-      // OnBoardingCubit.CheckSeen() already handles:
-      //   OnBordingSeen   → LoginPage  (seen before, just logged out)
-      //   not seen        → onboarding slides (first install)
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (_) => Onbordingscreen()),
@@ -182,7 +187,6 @@ class _SplashRouterState extends State<SplashRouter> {
 
   @override
   Widget build(BuildContext context) {
-    // Minimal splash while the async check runs
     return const Scaffold(
       backgroundColor: Color(0xFF5B8FB9),
       body: Center(
@@ -194,6 +198,7 @@ class _SplashRouterState extends State<SplashRouter> {
   }
 }
 
+/// Main App Shell
 class test_page extends StatelessWidget {
   test_page({super.key});
 
@@ -212,7 +217,7 @@ class test_page extends StatelessWidget {
       automaticallyImplyLeading: false,
     ),
     AppBar(
-      title: Text("Settings"),
+      title: Text("Subscribtion"),
       automaticallyImplyLeading: false,
     ),
   ];
@@ -222,41 +227,34 @@ class test_page extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xffFCFCFD),
-      // appBar: PreferredSize(
-      //   preferredSize: Size.fromHeight(kToolbarHeight),
-      //   child: BlocBuilder<Navigate_Cubit,int>(builder: (context,state){
-
-      //     return  NavigationBarAppBar.elementAt(state);
-
-      //   }),
-      // ) ,
-
-      body: BlocBuilder<Navigate_Cubit, int>(builder: (context, state) {
-        return NavigationBarpage.elementAt(state);
-      }),
-
-      bottomNavigationBar:
-          BlocBuilder<Navigate_Cubit, int>(builder: (context, state) {
-        return BottomNavigationBar(
+      backgroundColor: const Color(0xffFCFCFD),
+      body: BlocBuilder<Navigate_Cubit, int>(
+        builder: (context, state) {
+          return pages[state];
+        },
+      ),
+      bottomNavigationBar: BlocBuilder<Navigate_Cubit, int>(
+        builder: (context, state) {
+          return BottomNavigationBar(
+            currentIndex: state,
+            type: BottomNavigationBarType.fixed,
+            selectedItemColor: Colors.blue.shade300,
+            unselectedItemColor: Colors.grey,
             onTap: (value) {
-              CurrentIndex = value;
               context.read<Navigate_Cubit>().ChangeIndex(value);
               context.read<SelectRoute>().Hide();
               context.read<SelectRoute>().ClearSelection();
             },
-            type: BottomNavigationBarType.fixed,
-            backgroundColor: Colors.white,
-            currentIndex: state,
-            selectedItemColor: Colors.blue.shade300,
-            unselectedItemColor: Colors.grey,
             items: [
               BottomNavigationBarItem(
-                  icon: Icon(Icons.location_on_outlined), label: "Home"),
+                  icon: Icon(Icons.location_on_outlined),
+                  label: S.of(context).home),
               BottomNavigationBarItem(
-                  icon: Icon(FontAwesomeIcons.ticket), label: "Tickets"),
+                  icon: Icon(FontAwesomeIcons.ticket),
+                  label: S.of(context).tickets),
               BottomNavigationBarItem(
-                  icon: Icon(Icons.account_balance_wallet), label: "Wallet"),
+                  icon: Icon(Icons.account_balance_wallet),
+                  label: S.of(context).wallet),
               BottomNavigationBarItem(
                   icon: Icon(Icons.card_membership_rounded), label: "Subscribe"),
             ]);
