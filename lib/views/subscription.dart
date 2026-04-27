@@ -16,71 +16,73 @@ class SubscriptionPage extends StatelessWidget {
   }
 }
 
+// ─── Category metadata (no prices — those come from API) ─────────────────────
+class _CategoryMeta {
+  final IconData icon;
+  final String description;
+  final Color color;
+  final List<String> features;
+
+  const _CategoryMeta({
+    required this.icon,
+    required this.description,
+    required this.color,
+    required this.features,
+  });
+}
+
+const _categoryMeta = {
+  'students': _CategoryMeta(
+    icon: Icons.school_rounded,
+    description: 'Active enrollment in recognized Egyptian universities or schools required.',
+    color: Color(0xFF5B8FB9),
+    features: ['Up to 180 trips', 'Valid across multiple zones'],
+  ),
+  'military': _CategoryMeta(
+    icon: Icons.military_tech_rounded,
+    description: 'Dedicated rates for the Armed Forces, Police, and Veterans.',
+    color: Color(0xFF4A7B6F),
+    features: ['Multiple duration options', 'Family companion discount'],
+  ),
+  'public': _CategoryMeta(
+    icon: Icons.people_rounded,
+    description: 'Standard subscription for private and public sector professionals.',
+    color: Color(0xFF7B6FA4),
+    features: ['Monthly & quarterly plans', 'Digital receipt tracking'],
+  ),
+  'elderly': _CategoryMeta(
+    icon: Icons.elderly_rounded,
+    description: 'Special rates for senior citizens aged 60 and above.',
+    color: Color(0xFFB07D4A),
+    features: ['Priority boarding', 'Valid across all zones'],
+  ),
+  'special': _CategoryMeta(
+    icon: Icons.favorite_rounded,
+    description: 'Exclusive support for families of martyrs and special cases.',
+    color: Color(0xFFB94A4A),
+    features: ['Quarterly plans available', 'Government-backed subsidy'],
+  ),
+  'special needs': _CategoryMeta(
+    icon: Icons.accessible_rounded,
+    description: 'Tailored access for individuals with special needs.',
+    color: Color(0xFF4A8FB9),
+    features: ['Quarterly plans available', 'Accessible boarding support'],
+  ),
+};
+
+_CategoryMeta _getMeta(String key) {
+  return _categoryMeta[key.toLowerCase()] ??
+      const _CategoryMeta(
+        icon: Icons.card_membership_rounded,
+        description: 'Subsidized subscription plan for eligible commuters.',
+        color: Color(0xFF5B8FB9),
+        features: ['Valid on all lines', 'Digital pass included'],
+      );
+}
+
+// ─── Step 1: Category selection ───────────────────────────────────────────────
 class _SubscriptionCategoryScreen extends StatelessWidget {
   const _SubscriptionCategoryScreen();
-
-  static const _categoryMeta = {
-    'students': _CategoryMeta(
-      icon: Icons.school_rounded,
-      description: 'Active enrollment in recognized Egyptian universities or schools required.',
-      color: Color(0xFF5B8FB9),
-      price: '33',
-      period: 'qtr',
-      features: ['Up to 180 trips', 'Valid across 3 zones'],
-    ),
-    'military': _CategoryMeta(
-      icon: Icons.military_tech_rounded,
-      description: 'Dedicated rates for the Armed Forces, Police, and Veterans.',
-      color: Color(0xFF4A7B6F),
-      price: '75',
-      period: 'qtr',
-      features: ['Unlimited zone access', 'Family companion discount'],
-    ),
-    'public': _CategoryMeta(
-      icon: Icons.people_rounded,
-      description: 'Standard subscription for private and public sector professionals.',
-      color: Color(0xFF7B6FA4),
-      price: '150',
-      period: 'mo',
-      features: ['Auto-renew monthly', 'Digital receipt tracking'],
-    ),
-    'elderly': _CategoryMeta(
-      icon: Icons.elderly_rounded,
-      description: 'Special rates for senior citizens aged 60 and above.',
-      color: Color(0xFFB07D4A),
-      price: '25',
-      period: 'mo',
-      features: ['Priority boarding', 'Valid across all zones'],
-    ),
-    'special': _CategoryMeta(
-      icon: Icons.favorite_rounded,
-      description: 'Exclusive support for families of martyrs and special cases.',
-      color: Color(0xFFB94A4A),
-      price: '20',
-      period: 'mo',
-      features: ['Free zone access', 'Government-backed subsidy'],
-    ),
-    'special needs': _CategoryMeta(
-      icon: Icons.accessible_rounded,
-      description: 'Tailored access for individuals with special needs.',
-      color: Color(0xFF4A8FB9),
-      price: '15',
-      period: 'mo',
-      features: ['Unlimited trips', 'Accessible boarding support'],
-    ),
-  };
-
-  _CategoryMeta _getMeta(String categoryKey) {
-    return _categoryMeta[categoryKey.toLowerCase()] ??
-        const _CategoryMeta(
-          icon: Icons.card_membership_rounded,
-          description: 'Subsidized subscription plan for eligible commuters.',
-          color: Color(0xFF5B8FB9),
-          price: '50',
-          period: 'mo',
-          features: ['Valid on all lines', 'Digital pass included'],
-        );
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -94,21 +96,15 @@ class _SubscriptionCategoryScreen extends StatelessWidget {
                 child: CircularProgressIndicator(color: Color(0xFF1D3557)),
               );
             }
-
             if (state is SubscriptionCategoriesError) {
               return _ErrorView(
                 message: state.message,
                 onRetry: () => context.read<SubscriptionCubit>().loadCategories(),
               );
             }
-
             if (state is SubscriptionCategoriesLoaded) {
-              return _CategoryList(
-                categories: state.categories,
-                getMeta: _getMeta,
-              );
+              return _CategoryList(categories: state.categories);
             }
-
             return const SizedBox.shrink();
           },
         ),
@@ -119,9 +115,7 @@ class _SubscriptionCategoryScreen extends StatelessWidget {
 
 class _CategoryList extends StatelessWidget {
   final List<SubscriptionCategory> categories;
-  final _CategoryMeta Function(String) getMeta;
-
-  const _CategoryList({required this.categories, required this.getMeta});
+  const _CategoryList({required this.categories});
 
   @override
   Widget build(BuildContext context) {
@@ -134,24 +128,25 @@ class _CategoryList extends StatelessWidget {
             delegate: SliverChildBuilderDelegate(
               (context, index) {
                 final cat = categories[index];
-                final meta = getMeta(cat.en);
+                final meta = _getMeta(cat.en);
                 return Padding(
                   padding: const EdgeInsets.only(bottom: 16),
                   child: _CategoryCard(
                     category: cat,
                     meta: meta,
-                    onSelect: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (_) => BlocProvider(
-                            create: (_) => SubscriptionCubit()
-                              ..loadPlansByCategory(cat.en),
-                            child: SubscriptionPlansScreen(category: cat, meta: meta),
+                    onSelect: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => BlocProvider(
+                          create: (_) => SubscriptionCubit()
+                            ..loadPlansByCategory(cat.en),
+                          child: SubscriptionPlansScreen(
+                            category: cat,
+                            meta: meta,
                           ),
                         ),
-                      );
-                    },
+                      ),
+                    ),
                   ),
                 );
               },
@@ -179,7 +174,8 @@ class _CategoryList extends StatelessWidget {
                 _FaqTile(
                   icon: Icons.verified_rounded,
                   text: 'Secure Subsidies',
-                  subtitle: 'Government-backed discounts are directly applied to your wallet.',
+                  subtitle:
+                      'Government-backed discounts are directly applied to your wallet.',
                   iconColor: Color(0xFF2D7D46),
                 ),
               ],
@@ -244,6 +240,7 @@ class _Header extends StatelessWidget {
   }
 }
 
+// No prices on this card — just icon, name, description, features, and Select button
 class _CategoryCard extends StatelessWidget {
   final SubscriptionCategory category;
   final _CategoryMeta meta;
@@ -254,6 +251,9 @@ class _CategoryCard extends StatelessWidget {
     required this.meta,
     required this.onSelect,
   });
+
+  String _capitalize(String s) =>
+      s.isEmpty ? s : s[0].toUpperCase() + s.substring(1);
 
   @override
   Widget build(BuildContext context) {
@@ -301,38 +301,7 @@ class _CategoryCard extends StatelessWidget {
                 height: 1.45,
               ),
             ),
-            const SizedBox(height: 16),
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                Text(
-                  'EGP',
-                  style: TextStyle(
-                    fontSize: 13,
-                    fontWeight: FontWeight.w600,
-                    color: Colors.grey.shade600,
-                  ),
-                ),
-                const SizedBox(width: 4),
-                Text(
-                  meta.price,
-                  style: const TextStyle(
-                    fontSize: 30,
-                    fontWeight: FontWeight.w800,
-                    color: Color(0xFF1D2939),
-                    height: 1,
-                  ),
-                ),
-                Text(
-                  ' /${meta.period}',
-                  style: TextStyle(
-                    fontSize: 13,
-                    color: Colors.grey.shade500,
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 12),
+            const SizedBox(height: 14),
             ...meta.features.map(
               (f) => Padding(
                 padding: const EdgeInsets.only(bottom: 6),
@@ -377,9 +346,6 @@ class _CategoryCard extends StatelessWidget {
       ),
     );
   }
-
-  String _capitalize(String s) =>
-      s.isEmpty ? s : s[0].toUpperCase() + s.substring(1);
 }
 
 class _SmartVerificationCard extends StatelessWidget {
@@ -419,7 +385,8 @@ class _SmartVerificationCard extends StatelessWidget {
               _AvatarStack(),
               const SizedBox(width: 12),
               Container(
-                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                 decoration: BoxDecoration(
                   color: Colors.white.withOpacity(0.15),
                   borderRadius: BorderRadius.circular(20),
@@ -442,7 +409,11 @@ class _SmartVerificationCard extends StatelessWidget {
 }
 
 class _AvatarStack extends StatelessWidget {
-  final _colors = const [Color(0xFF5B8FB9), Color(0xFF4A7B6F), Color(0xFF7B6FA4)];
+  final _colors = const [
+    Color(0xFF5B8FB9),
+    Color(0xFF4A7B6F),
+    Color(0xFF7B6FA4)
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -459,9 +430,11 @@ class _AvatarStack extends StatelessWidget {
               decoration: BoxDecoration(
                 color: _colors[i],
                 shape: BoxShape.circle,
-                border: Border.all(color: const Color(0xFF1D3557), width: 2),
+                border:
+                    Border.all(color: const Color(0xFF1D3557), width: 2),
               ),
-              child: const Icon(Icons.person, color: Colors.white, size: 16),
+              child:
+                  const Icon(Icons.person, color: Colors.white, size: 16),
             ),
           );
         }),
@@ -525,10 +498,7 @@ class _FaqTile extends StatelessWidget {
                 const SizedBox(height: 3),
                 Text(
                   subtitle,
-                  style: TextStyle(
-                    fontSize: 12,
-                    color: Colors.grey.shade500,
-                  ),
+                  style: TextStyle(fontSize: 12, color: Colors.grey.shade500),
                 ),
               ],
             ),
@@ -555,9 +525,9 @@ class _ErrorView extends StatelessWidget {
           children: [
             const Icon(Icons.wifi_off_rounded, size: 52, color: Colors.grey),
             const SizedBox(height: 16),
-            Text(
+            const Text(
               'Could not load plans',
-              style: const TextStyle(
+              style: TextStyle(
                 fontSize: 17,
                 fontWeight: FontWeight.w600,
                 color: Color(0xFF1D2939),
@@ -589,28 +559,7 @@ class _ErrorView extends StatelessWidget {
   }
 }
 
-class _CategoryMeta {
-  final IconData icon;
-  final String description;
-  final Color color;
-  final String price;
-  final String period;
-  final List<String> features;
-
-  const _CategoryMeta({
-    required this.icon,
-    required this.description,
-    required this.color,
-    required this.price,
-    required this.period,
-    required this.features,
-  });
-}
-
-
-// ─────────────────────────────────────────────────────────────────────────────
-// Step 2: Plan selection screen
-// ─────────────────────────────────────────────────────────────────────────────
+// ─── Step 2: Plan selection (prices from API) ─────────────────────────────────
 
 class SubscriptionPlansScreen extends StatelessWidget {
   final SubscriptionCategory category;
@@ -653,18 +602,21 @@ class SubscriptionPlansScreen extends StatelessWidget {
               child: CircularProgressIndicator(color: Color(0xFF1D3557)),
             );
           }
-
           if (state is SubscriptionPlansError) {
-            return _PlansErrorView(message: state.message);
-          }
-
-          if (state is SubscriptionPlansLoaded) {
-            return _PlansList(
-              result: state.result,
-              meta: meta,
+            return Center(
+              child: Padding(
+                padding: const EdgeInsets.all(32),
+                child: Text(
+                  state.message,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(color: Colors.grey.shade500),
+                ),
+              ),
             );
           }
-
+          if (state is SubscriptionPlansLoaded) {
+            return _PlansList(result: state.result, meta: meta);
+          }
           return const SizedBox.shrink();
         },
       ),
@@ -685,9 +637,38 @@ class _PlansList extends StatefulWidget {
 class _PlansListState extends State<_PlansList> {
   int? _selectedIndex;
 
+  // Groups plans by duration label for sectioned display
+  Map<String, List<MapEntry<int, SubscriptionPlan>>> _grouped() {
+    final map = <String, List<MapEntry<int, SubscriptionPlan>>>{};
+    for (var i = 0; i < widget.result.plans.length; i++) {
+      final plan = widget.result.plans[i];
+      final key = _capitalize(plan.durationEn);
+      map.putIfAbsent(key, () => []).add(MapEntry(i, plan));
+    }
+    return map;
+  }
+
+  String _capitalize(String s) =>
+      s.isEmpty ? s : s[0].toUpperCase() + s.substring(1);
+
+  String _durationShort(String duration) {
+    switch (duration.toLowerCase()) {
+      case 'monthly':
+        return 'mo';
+      case 'quarterly':
+        return 'qtr';
+      case 'half yearly':
+        return '6mo';
+      case 'yearly':
+        return 'yr';
+      default:
+        return duration;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    final plans = widget.result.plans;
+    final grouped = _grouped();
 
     return Column(
       children: [
@@ -695,6 +676,7 @@ class _PlansListState extends State<_PlansList> {
           child: ListView(
             padding: const EdgeInsets.fromLTRB(20, 8, 20, 20),
             children: [
+              // Header
               Padding(
                 padding: const EdgeInsets.only(bottom: 20),
                 child: Column(
@@ -720,7 +702,7 @@ class _PlansListState extends State<_PlansList> {
                     ),
                     const SizedBox(height: 6),
                     Text(
-                      'Select the zone coverage that matches your daily commute.',
+                      'Select the zone coverage and duration that fits your commute.',
                       style: TextStyle(
                         fontSize: 13.5,
                         color: Colors.grey.shade500,
@@ -730,99 +712,182 @@ class _PlansListState extends State<_PlansList> {
                   ],
                 ),
               ),
-              ...List.generate(plans.length, (index) {
-                final plan = plans[index];
-                final isSelected = _selectedIndex == index;
-                return GestureDetector(
-                  onTap: () => setState(() => _selectedIndex = index),
-                  child: AnimatedContainer(
-                    duration: const Duration(milliseconds: 200),
-                    margin: const EdgeInsets.only(bottom: 14),
-                    decoration: BoxDecoration(
-                      color: isSelected
-                          ? const Color(0xFF1D3557)
-                          : Colors.white,
-                      borderRadius: BorderRadius.circular(18),
-                      border: Border.all(
-                        color: isSelected
-                            ? const Color(0xFF1D3557)
-                            : Colors.transparent,
-                        width: 2,
-                      ),
-                      boxShadow: [
-                        BoxShadow(
-                          color: isSelected
-                              ? const Color(0xFF1D3557).withOpacity(0.18)
-                              : Colors.black.withOpacity(0.05),
-                          blurRadius: 12,
-                          offset: const Offset(0, 4),
+
+              // Grouped plan cards
+              ...grouped.entries.map((entry) {
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 10, top: 4),
+                      child: Text(
+                        entry.key,
+                        style: const TextStyle(
+                          fontSize: 13,
+                          fontWeight: FontWeight.w700,
+                          color: Color(0xFF1D2939),
+                          letterSpacing: 0.4,
                         ),
-                      ],
+                      ),
                     ),
-                    padding: const EdgeInsets.all(20),
-                    child: Row(
-                      children: [
-                        Container(
-                          width: 44,
-                          height: 44,
+                    ...entry.value.map((indexedPlan) {
+                      final globalIndex = indexedPlan.key;
+                      final plan = indexedPlan.value;
+                      final isSelected = _selectedIndex == globalIndex;
+
+                      return GestureDetector(
+                        onTap: () =>
+                            setState(() => _selectedIndex = globalIndex),
+                        child: AnimatedContainer(
+                          duration: const Duration(milliseconds: 200),
+                          margin: const EdgeInsets.only(bottom: 12),
                           decoration: BoxDecoration(
                             color: isSelected
-                                ? Colors.white.withOpacity(0.15)
-                                : widget.meta.color.withOpacity(0.12),
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          child: Center(
-                            child: Text(
-                              '${plan.zones}',
-                              style: TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.w800,
-                                color: isSelected
-                                    ? Colors.white
-                                    : widget.meta.color,
-                              ),
+                                ? const Color(0xFF1D3557)
+                                : Colors.white,
+                            borderRadius: BorderRadius.circular(16),
+                            border: Border.all(
+                              color: isSelected
+                                  ? const Color(0xFF1D3557)
+                                  : Colors.transparent,
+                              width: 2,
                             ),
-                          ),
-                        ),
-                        const SizedBox(width: 16),
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                '${plan.zones} Zone${plan.zones > 1 ? 's' : ''}',
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w700,
-                                  color: isSelected
-                                      ? Colors.white
-                                      : const Color(0xFF1D2939),
-                                ),
-                              ),
-                              const SizedBox(height: 3),
-                              Text(
-                                '${plan.durationEn.substring(0, 1).toUpperCase()}${plan.durationEn.substring(1)} subscription',
-                                style: TextStyle(
-                                  fontSize: 13,
-                                  color: isSelected
-                                      ? Colors.white.withOpacity(0.7)
-                                      : Colors.grey.shade500,
-                                ),
+                            boxShadow: [
+                              BoxShadow(
+                                color: isSelected
+                                    ? const Color(0xFF1D3557).withOpacity(0.18)
+                                    : Colors.black.withOpacity(0.05),
+                                blurRadius: 10,
+                                offset: const Offset(0, 3),
                               ),
                             ],
                           ),
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 18, vertical: 16),
+                          child: Row(
+                            children: [
+                              // Zone badge
+                              Container(
+                                width: 44,
+                                height: 44,
+                                decoration: BoxDecoration(
+                                  color: isSelected
+                                      ? Colors.white.withOpacity(0.15)
+                                      : widget.meta.color.withOpacity(0.12),
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
+                                child: Center(
+                                  child: plan.zones != null
+                                      ? Text(
+                                          '${plan.zones}',
+                                          style: TextStyle(
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.w800,
+                                            color: isSelected
+                                                ? Colors.white
+                                                : widget.meta.color,
+                                          ),
+                                        )
+                                      : Icon(
+                                          Icons.all_inclusive_rounded,
+                                          color: isSelected
+                                              ? Colors.white
+                                              : widget.meta.color,
+                                          size: 22,
+                                        ),
+                                ),
+                              ),
+                              const SizedBox(width: 14),
+                              // Label
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      plan.zones != null
+                                          ? '${plan.zones} Zone${plan.zones! > 1 ? 's' : ''}'
+                                          : 'All Zones',
+                                      style: TextStyle(
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.w700,
+                                        color: isSelected
+                                            ? Colors.white
+                                            : const Color(0xFF1D2939),
+                                      ),
+                                    ),
+                                    const SizedBox(height: 2),
+                                    Text(
+                                      _capitalize(plan.durationEn),
+                                      style: TextStyle(
+                                        fontSize: 12,
+                                        color: isSelected
+                                            ? Colors.white.withOpacity(0.65)
+                                            : Colors.grey.shade400,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              // Price from API
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.end,
+                                children: [
+                                  RichText(
+                                    text: TextSpan(
+                                      style: TextStyle(
+                                        color: isSelected
+                                            ? Colors.white
+                                            : const Color(0xFF1D2939),
+                                      ),
+                                      children: [
+                                        TextSpan(
+                                          text: 'EGP ',
+                                          style: TextStyle(
+                                            fontSize: 11,
+                                            fontWeight: FontWeight.w500,
+                                            color: isSelected
+                                                ? Colors.white.withOpacity(0.7)
+                                                : Colors.grey.shade500,
+                                          ),
+                                        ),
+                                        TextSpan(
+                                          text: '${plan.prices.toInt()}',
+                                          style: const TextStyle(
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.w800,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  Text(
+                                    '/${_durationShort(plan.durationEn)}',
+                                    style: TextStyle(
+                                      fontSize: 11,
+                                      color: isSelected
+                                          ? Colors.white.withOpacity(0.6)
+                                          : Colors.grey.shade400,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(width: 8),
+                              if (isSelected)
+                                const Icon(Icons.check_circle_rounded,
+                                    color: Colors.white, size: 20),
+                            ],
+                          ),
                         ),
-                        if (isSelected)
-                          const Icon(Icons.check_circle_rounded,
-                              color: Colors.white, size: 22),
-                      ],
-                    ),
-                  ),
+                      );
+                    }),
+                    const SizedBox(height: 6),
+                  ],
                 );
               }),
             ],
           ),
         ),
+        // Continue button
         Padding(
           padding: const EdgeInsets.fromLTRB(20, 0, 20, 24),
           child: SizedBox(
@@ -831,10 +896,11 @@ class _PlansListState extends State<_PlansList> {
               onPressed: _selectedIndex == null
                   ? null
                   : () {
+                      final plan = widget.result.plans[_selectedIndex!];
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
                           content: Text(
-                            'Plan selected: ${widget.result.plans[_selectedIndex!].zones} zone(s)',
+                            'Selected: ${plan.zones != null ? "${plan.zones} zone(s)" : "All Zones"} — EGP ${plan.prices.toInt()}/${_durationShort(plan.durationEn)}',
                           ),
                           backgroundColor: const Color(0xFF1D3557),
                         ),
@@ -858,30 +924,6 @@ class _PlansListState extends State<_PlansList> {
           ),
         ),
       ],
-    );
-  }
-}
-
-class _PlansErrorView extends StatelessWidget {
-  final String message;
-
-  const _PlansErrorView({required this.message});
-
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          const Icon(Icons.error_outline_rounded, size: 48, color: Colors.grey),
-          const SizedBox(height: 12),
-          Text(
-            message,
-            textAlign: TextAlign.center,
-            style: TextStyle(color: Colors.grey.shade500),
-          ),
-        ],
-      ),
     );
   }
 }

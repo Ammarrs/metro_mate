@@ -16,13 +16,15 @@ class SubscriptionPlan {
   final String id;
   final String durationEn;
   final String durationAr;
-  final int zones;
+  final int? zones;
+  final num prices;
 
   SubscriptionPlan({
     required this.id,
     required this.durationEn,
     required this.durationAr,
-    required this.zones,
+    this.zones,
+    required this.prices,
   });
 
   factory SubscriptionPlan.fromJson(Map<String, dynamic> json) {
@@ -30,7 +32,8 @@ class SubscriptionPlan {
       id: json['_id'] ?? '',
       durationEn: json['duration']?['en'] ?? '',
       durationAr: json['duration']?['ar'] ?? '',
-      zones: json['zones'] ?? 1,
+      zones: json['zones'] as int?,
+      prices: json['prices'] ?? 0,
     );
   }
 }
