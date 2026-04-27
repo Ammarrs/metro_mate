@@ -8,6 +8,7 @@ import 'package:second/components/home_app_bar.dart';
 import 'package:second/cubits/logout/logout_cubit.dart';
 import 'package:second/cubits/logout/logout_state.dart';
 import 'package:second/cubits/user/user_cubit.dart';
+import './cubits/subscription/subscription_cubit.dart';
 
 import 'package:second/services/auth_service.dart';
 import 'package:second/services/storage_service.dart';
@@ -34,6 +35,7 @@ import 'NavigationBar_Page/setting.dart';
 import 'NavigationBar_Page/wallet.dart';
 import 'views/settings.dart';
 import 'package:dropdown_search/dropdown_search.dart';
+import './views/subscription.dart';
 
 import 'RouteDeatils.dart';
 import 'OnbordingScreens.dart';
@@ -47,8 +49,6 @@ import 'Authentication_Cubit/Register_Cubit/Register_Cubit.dart';
 
 import 'components/wallet.dart';
 import 'cubits/login/login_cubit.dart';
-
-
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -94,6 +94,9 @@ class MetroApp extends StatelessWidget {
           create: (context) => UserCubit(StorageService())..loadUser(),
         ),
         BlocProvider(create: (context) => LogOutCubit()),
+        BlocProvider(
+          create: (context) => SubscriptionCubit(),
+        ),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -118,7 +121,6 @@ class MetroApp extends StatelessWidget {
           'ConfirmFawrypage': (context) => ConfirmFawrypage(),
           'ConfirmVisacardPage': (context) => ConfirmVisacardPage(),
           'Fawry': (context) => FawryPage(),
-
         },
         builder: (context, child) {
           return BlocListener<LogOutCubit, LogOutState>(
@@ -195,7 +197,7 @@ class _SplashRouterState extends State<SplashRouter> {
 class test_page extends StatelessWidget {
   test_page({super.key});
 
-  List<Widget> NavigationBarpage = [Home(), Tickets(), Wallet(), SettingsTab()];
+  List<Widget> NavigationBarpage = [Home(), Tickets(), Wallet(), SubscriptionPage()];
   List<PreferredSizeWidget> NavigationBarAppBar = [
     AppBar(
       title: HomeAppBar(),
@@ -256,7 +258,7 @@ class test_page extends StatelessWidget {
               BottomNavigationBarItem(
                   icon: Icon(Icons.account_balance_wallet), label: "Wallet"),
               BottomNavigationBarItem(
-                  icon: Icon(Icons.settings), label: "Settings"),
+                  icon: Icon(Icons.card_membership_rounded), label: "Subscribe"),
             ]);
       }),
     );
