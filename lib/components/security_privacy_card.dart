@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../cubits/settings/settings_cubit.dart';
 import '../cubits/settings/settings_state.dart';
 import 'settings_card.dart';
+import '../generated/l10n.dart';
 
 class SecurityPrivacyCard extends StatelessWidget {
   final VoidCallback? onChangePassword;
@@ -11,37 +12,61 @@ class SecurityPrivacyCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final s = S.of(context); // 🔥 ده أهم سطر
+
     return BlocBuilder<SettingsCubit, SettingsState>(
       builder: (context, state) {
-        // final cubit = context.read<SettingsCubit>(); // kept for biometric when re-enabled
+        final cubit = context.read<SettingsCubit>();
+
         return SettingsCard(
-          sectionTitle: 'Security & Privacy',
+          sectionTitle: s.securityPrivacy,
           sectionIcon: Icons.shield_outlined,
           children: [
-            // ── Biometric Login — hidden for now ──
-            // const Divider(height: 1, thickness: 0.8, indent: 20, endIndent: 20),
-            // Padding(
-            //   padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
-            //   child: Row(
-            //     children: [
-            //       const Icon(Icons.phone_android_outlined, color: kPrimaryBlue, size: 20),
-            //       const SizedBox(width: 12),
-            //       const Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            //         Text('Biometric Login', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: Color(0xFF1A2E3D))),
-            //         SizedBox(height: 2),
-            //         Text('Use fingerprint or face ID', style: TextStyle(fontSize: 12, color: Color(0xFF8FA8BE))),
-            //       ])),
-            //       Switch(value: state.isBiometricEnabled, onChanged: cubit.toggleBiometric,
-            //         activeColor: Colors.white, activeTrackColor: kPrimaryBlue,
-            //         inactiveThumbColor: Colors.white, inactiveTrackColor: const Color(0xFFCDD8E3)),
-            //     ],
-            //   ),
-            // ),
-
-            // ── Change Password ──
+            const Divider(height: 1, thickness: 0.8, indent: 20, endIndent: 20),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
+              child: Row(
+                children: [
+                  const Icon(Icons.phone_android_outlined,
+                      color: kPrimaryBlue, size: 20),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          s.biometricLogin,
+                          style: const TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w600,
+                            color: Color(0xFF1A2E3D),
+                          ),
+                        ),
+                        const SizedBox(height: 2),
+                        Text(
+                          s.biometricDesc,
+                          style: const TextStyle(
+                            fontSize: 12,
+                            color: Color(0xFF8FA8BE),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Switch(
+                    value: state.isBiometricEnabled,
+                    onChanged: cubit.toggleBiometric,
+                    activeColor: Colors.white,
+                    activeTrackColor: kPrimaryBlue,
+                    inactiveThumbColor: Colors.white,
+                    inactiveTrackColor: const Color(0xFFCDD8E3),
+                  ),
+                ],
+              ),
+            ),
             SettingsNavRow(
-              title: 'Change Password',
-              subtitle: 'Update your account password',
+              title: s.changePassword,
+              subtitle: s.changePasswordDesc,
               leadingIcon: Icons.lock_outline,
               onTap: onChangePassword ??
                   () => Navigator.pushNamed(context, 'ChangePassword'),

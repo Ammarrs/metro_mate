@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:second/generated/l10n.dart' show S;
 
 import '../../Authentication_Cubit/Register_Cubit/Register_Cubit.dart';
 import '../../Authentication_Cubit/Register_Cubit/Register_State.dart';
@@ -27,8 +28,8 @@ class RegisterPage extends StatelessWidget {
                 Icons.arrow_back,
                 color: Colors.white54,
               ),
-              label: const Text(
-                "Back",
+              label: Text(
+                S.of(context).Back,
                 style: TextStyle(color: Colors.white54),
               ),
               style: TextButton.styleFrom(
@@ -69,7 +70,7 @@ class RegisterPage extends StatelessWidget {
                 height: 20,
               ),
               Text(
-                "Metro Mate ",
+                S.of(context).MetroMate,
                 style: TextStyle(
                     fontSize: 30,
                     fontWeight: FontWeight.bold,
@@ -79,7 +80,7 @@ class RegisterPage extends StatelessWidget {
                 height: 10,
               ),
               Text(
-                "Creat Accont",
+                S.of(context).CreateAccount,
                 style: TextStyle(
                     fontSize: 20,
                     color: Colors.white54,
@@ -108,7 +109,9 @@ class RegisterPage extends StatelessWidget {
                 padding: const EdgeInsets.all(20.0),
                 child: Column(
                   children: [
-                    Text('Profial Picture'),
+                    Text(S.of(context).ProfilePicture,
+                        style: TextStyle(
+                            fontSize: 16, fontWeight: FontWeight.bold)),
                     SizedBox(
                       height: 20,
                     ),
@@ -135,7 +138,7 @@ class RegisterPage extends StatelessWidget {
                             icon: Icon(Icons.camera_alt, color: Colors.white),
                             itemBuilder: (context) => [
                               PopupMenuItem(
-                                child: Text("Camera"),
+                                child: Text(S.of(context).Camera),
                                 onTap: () {
                                   Future.delayed(Duration.zero, () {
                                     cubit.pickImage(ImageSource.camera);
@@ -143,7 +146,7 @@ class RegisterPage extends StatelessWidget {
                                 },
                               ),
                               PopupMenuItem(
-                                child: Text("Gallery"),
+                                child: Text(S.of(context).Gallery),
                                 onTap: () {
                                   Future.delayed(Duration.zero, () {
                                     cubit.pickImage(ImageSource.gallery);
@@ -158,7 +161,7 @@ class RegisterPage extends StatelessWidget {
                     SizedBox(
                       height: 20,
                     ),
-                    Text('Click to upload a profile picture')
+                    Text(S.of(context).UploadProfilePicture)
                   ],
                 ),
               ),
@@ -170,7 +173,7 @@ class RegisterPage extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          "Full Name",
+                          S.of(context).FullName,
                           style: TextStyle(
                               fontSize: 16, fontWeight: FontWeight.bold),
                         ),
@@ -182,7 +185,7 @@ class RegisterPage extends StatelessWidget {
                             filled: true,
                             border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(25)),
-                            hint: Text("Enter your Full Name"),
+                            hint: Text(S.of(context).EnterFullName),
                             prefixIcon: Icon(FontAwesomeIcons.user),
                           ),
                         ),
@@ -190,7 +193,7 @@ class RegisterPage extends StatelessWidget {
                           height: 15,
                         ),
                         Text(
-                          "Email Address",
+                          S.of(context).EmailAddress,
                           style: TextStyle(
                               fontSize: 16, fontWeight: FontWeight.bold),
                         ),
@@ -203,7 +206,7 @@ class RegisterPage extends StatelessWidget {
                             filled: true,
                             border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(25)),
-                            hint: Text("Enter your Email Address"),
+                            hint: Text(S.of(context).EnterEmail),
                             prefixIcon: Icon(Icons.email),
                           ),
                         ),
@@ -211,7 +214,7 @@ class RegisterPage extends StatelessWidget {
                           height: 15,
                         ),
                         Text(
-                          "Password",
+                          S.of(context).Password,
                           style: TextStyle(
                               fontSize: 16, fontWeight: FontWeight.bold),
                         ),
@@ -224,7 +227,7 @@ class RegisterPage extends StatelessWidget {
                               filled: true,
                               border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(25)),
-                              hint: Text("Enter your Password "),
+                              hint: Text(S.of(context).EnterPassword),
                               prefixIcon: Icon(Icons.lock),
                               suffixIcon: IconButton(
                                   onPressed: () {
@@ -238,7 +241,7 @@ class RegisterPage extends StatelessWidget {
                           height: 15,
                         ),
                         Text(
-                          "Confirm Password",
+                          S.of(context).ConfirmPassword,
                           style: TextStyle(
                               fontSize: 16, fontWeight: FontWeight.bold),
                         ),
@@ -251,7 +254,7 @@ class RegisterPage extends StatelessWidget {
                               filled: true,
                               border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(25)),
-                              hint: Text("Confirm Your Password"),
+                              hint: Text(S.of(context).EnterConfirmPassword),
                               prefixIcon: Icon(Icons.lock),
                               suffixIcon: IconButton(
                                   onPressed: () {
@@ -265,7 +268,7 @@ class RegisterPage extends StatelessWidget {
                           height: 15,
                         ),
                         Text(
-                          "Phone Number",
+                          S.of(context).PhoneNumber,
                           style: TextStyle(
                               fontSize: 16, fontWeight: FontWeight.bold),
                         ),
@@ -277,7 +280,7 @@ class RegisterPage extends StatelessWidget {
                             filled: true,
                             border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(25)),
-                            hint: Text("Enter your Phone number"),
+                            hint: Text(S.of(context).EnterPhone),
                             prefixIcon: Icon(Icons.phone),
                           ),
                         ),
@@ -285,7 +288,7 @@ class RegisterPage extends StatelessWidget {
                           height: 15,
                         ),
                         Text(
-                          "Gender",
+                          S.of(context).Gender,
                           style: TextStyle(
                               fontSize: 16, fontWeight: FontWeight.bold),
                         ),
@@ -298,7 +301,7 @@ class RegisterPage extends StatelessWidget {
                             }
                           },
                           title: Text(
-                            "Male",
+                            S.of(context).Male,
                             style: TextStyle(
                                 fontSize: 15, fontWeight: FontWeight.bold),
                           ),
@@ -312,7 +315,7 @@ class RegisterPage extends StatelessWidget {
                               }
                             },
                             title: Text(
-                              "Female",
+                              S.of(context).Female,
                               style: TextStyle(
                                   fontSize: 15, fontWeight: FontWeight.bold),
                             ))
@@ -332,7 +335,8 @@ class RegisterPage extends StatelessWidget {
                             if (!cubit.CheckGender()) {
                               ScaffoldMessenger.of(context).showSnackBar(
                                   SnackBar(
-                                      content: Text(" Choose Type Of Gender")));
+                                      content:
+                                          Text(S.of(context).ChooseGender)));
                             } else {
                               cubit.SignUp();
                             }
@@ -344,7 +348,7 @@ class RegisterPage extends StatelessWidget {
                         minWidth: double.infinity,
                         height: 45,
                         child: Text(
-                          "Sing Up ",
+                          S.of(context).SignUp,
                           style: TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 20,
@@ -355,13 +359,13 @@ class RegisterPage extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text("Already have an account?"),
+                  Text(S.of(context).AlreadyHaveAccount),
                   MaterialButton(
                     onPressed: () {
                       Navigator.pushNamed(context, 'loginPage');
                     },
                     child: Text(
-                      'Log in',
+                      S.of(context).Login,
                       style: TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.bold,

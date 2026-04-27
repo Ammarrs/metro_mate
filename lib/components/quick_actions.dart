@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:second/components/quick_action_card.dart';
+import 'package:second/generated/l10n.dart';
 
 import 'build_header.dart';
 
@@ -8,15 +9,14 @@ class QuickActions extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final s = S.of(context);
+
     final screenWidth = MediaQuery.of(context).size.width;
-    final screenHeight = MediaQuery.of(context).size.height;
 
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        buildHeader(title: "Quick Actions"),
-        
-        // Responsive container
+        buildHeader(title: s.QuickActions),
         Container(
           width: double.infinity,
           padding: EdgeInsets.symmetric(
@@ -24,10 +24,9 @@ class QuickActions extends StatelessWidget {
           ),
           child: LayoutBuilder(
             builder: (context, constraints) {
-              // Calculate card width based on available space
-              final cardWidth = (constraints.maxWidth - 20) / 2; // 20 for gap
-              final cardHeight = cardWidth * 1.17; // Maintain aspect ratio
-              
+              final cardWidth = (constraints.maxWidth - 20) / 2;
+              final cardHeight = cardWidth * 1.17;
+
               return Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -35,16 +34,16 @@ class QuickActions extends StatelessWidget {
                     width: cardWidth,
                     height: cardHeight,
                     child: QuickActionCard(
-                      mainTitle: "Buy Daily Ticket",
-                      subTitle: "Quick Purchase",
+                      mainTitle: s.BuyDailyTicket,
+                      subTitle: s.QuickPurchase,
                     ),
                   ),
                   SizedBox(
                     width: cardWidth,
                     height: cardHeight,
                     child: QuickActionCard(
-                      mainTitle: "Get Subscribtion",
-                      subTitle: "Monthly Passes",
+                      mainTitle: s.GetSubscription,
+                      subTitle: s.MonthlyPasses,
                       type: "calendar",
                     ),
                   ),

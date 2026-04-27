@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:second/generated/l10n.dart';
 import '../cubits/nearest_metro/nearest_metro_cubit.dart';
 import '../cubits/nearest_metro/nearest_metro_state.dart';
 
@@ -73,8 +74,7 @@ class _buildMapAreaState extends State<buildMapArea> {
               ),
             ),
           ),
-        ]
-        ),
+        ]),
       ),
     );
   }
@@ -120,14 +120,14 @@ class _buildMapAreaState extends State<buildMapArea> {
               ElevatedButton.icon(
                 onPressed: () => context.read<NearestMetroCubit>().refresh(),
                 icon: const Icon(Icons.refresh, size: 18),
-                label: const Text('Try Again'),
+                label: Text(S.of(context).tryAgain),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: const Color(0xFF5B7C99),
                   foregroundColor: Colors.white,
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(8)),
                 ),
-                child: const Row(
+                /*child: const Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Icon(
@@ -145,6 +145,7 @@ class _buildMapAreaState extends State<buildMapArea> {
                     ),
                   ],
                 ),
+              */
               ),
             ],
           ),

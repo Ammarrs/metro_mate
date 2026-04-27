@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:otp_text_field/otp_field.dart';
 import 'package:otp_text_field/otp_field_style.dart';
 import 'package:otp_text_field/style.dart';
+import 'package:second/generated/l10n.dart';
 
 import '../../Authentication_Cubit/ForgetPassword_Cubit/ForgetPassword_Cubit.dart';
 import '../../Authentication_Cubit/ForgetPassword_Cubit/ForgetPassword_State.dart';
@@ -64,7 +65,7 @@ class NewpasswordPage extends StatelessWidget {
                 ),
                 Center(
                     child: Text(
-                  "Create New Password",
+                  S.of(context).CreateNewPassword,
                   style: TextStyle(
                       fontSize: 25,
                       fontWeight: FontWeight.bold,
@@ -75,7 +76,7 @@ class NewpasswordPage extends StatelessWidget {
                 ),
                 Center(
                     child: Text(
-                  'Your new password must be different from \npreviously used passwords.',
+                  S.of(context).PasswordInstruction,
                   style: TextStyle(fontSize: 17, color: Colors.grey),
                   textAlign: TextAlign.center,
                 )),
@@ -89,7 +90,7 @@ class NewpasswordPage extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      "New Password",
+                      S.of(context).NewPassword,
                       style: TextStyle(
                           fontSize: 15,
                           fontWeight: FontWeight.bold,
@@ -102,7 +103,7 @@ class NewpasswordPage extends StatelessWidget {
                       decoration: InputDecoration(
                         border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(25)),
-                        hint: Text("Enter New Password"),
+                        hint: Text(S.of(context).EnterNewPassword),
                         prefixIcon: Icon(Icons.lock),
                         suffixIcon: IconButton(
                             onPressed: () {
@@ -117,7 +118,7 @@ class NewpasswordPage extends StatelessWidget {
                       height: 15,
                     ),
                     Text(
-                      "Confirm New Password",
+                      S.of(context).ConfirmNewPassword,
                       style: TextStyle(
                           fontSize: 15,
                           fontWeight: FontWeight.bold,
@@ -130,7 +131,7 @@ class NewpasswordPage extends StatelessWidget {
                       decoration: InputDecoration(
                         border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(25)),
-                        hint: Text("Reenter New Password"),
+                        hint: Text(S.of(context).ReenterNewPassword),
                         prefixIcon: Icon(Icons.lock),
                         suffixIcon: IconButton(
                             onPressed: () {
@@ -150,7 +151,7 @@ class NewpasswordPage extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           Text(
-                            'Verify Your Email',
+                            S.of(context).VerifyEmail,
                             style: TextStyle(
                                 fontSize: 25, fontWeight: FontWeight.bold),
                           ),
@@ -161,7 +162,7 @@ class NewpasswordPage extends StatelessWidget {
                             textAlign: TextAlign.center,
                             style: TextStyle(fontSize: 15, color: Colors.grey),
                             TextSpan(
-                              text: "Enter the 5-digit code we sent to \n ",
+                              text: S.of(context).OtpInstruction,
                               children: [
                                 TextSpan(
                                   text: '$EmailData',
@@ -170,7 +171,7 @@ class NewpasswordPage extends StatelessWidget {
                                       fontSize: 18,
                                       color: Colors.blueAccent),
                                 ),
-                                TextSpan(text: "to verify your \nidentity.")
+                                TextSpan(text: S.of(context).VerifyIdentity)
                               ],
                             ),
                           ),
@@ -228,7 +229,7 @@ class NewpasswordPage extends StatelessWidget {
                         minWidth: double.infinity,
                         height: 45,
                         child: Text(
-                          "Send Code ",
+                          S.of(context).SendCode,
                           style: TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 20,

@@ -3,11 +3,12 @@ import 'dart:io';
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:second/generated/l10n.dart';
 import '../cubits/user/user_cubit.dart';
 import '../cubits/user/user_state.dart';
 
 class HomeAppBar extends StatelessWidget {
-  final String greeting;
+  final String? greeting;
   final double balance;
   final int notificationCount;
   final VoidCallback? onDepositPressed;
@@ -15,16 +16,16 @@ class HomeAppBar extends StatelessWidget {
 
   const HomeAppBar({
     Key? key,
-    this.greeting = 'Good afternoon!',
+    this.greeting,
     this.balance = 150.50,
     this.notificationCount = 1,
     this.onDepositPressed,
     this.onNotificationPressed,
   }) : super(key: key);
 
-  // Handles: local file path, base64 data URI (old), or remote URL
   Widget _buildProfileImage(String? imageString, String displayName) {
-    final String initial = displayName.isNotEmpty ? displayName[0].toUpperCase() : 'G';
+    final String initial =
+        displayName.isNotEmpty ? displayName[0].toUpperCase() : 'G';
 
     Widget fallbackCircle() => Center(
           child: Text(initial,
@@ -38,29 +39,30 @@ class HomeAppBar extends StatelessWidget {
 
     Widget imageWidget;
 
-    // Local file path
     if (imageString.startsWith('/')) {
       final file = File(imageString);
       if (!file.existsSync()) return fallbackCircle();
       imageWidget = Image.file(file,
-          width: 60, height: 60, fit: BoxFit.cover,
+          width: 60,
+          height: 60,
+          fit: BoxFit.cover,
           errorBuilder: (_, __, ___) => fallbackCircle());
-    }
-    // Old base64 data URI
-    else if (imageString.startsWith('data:image/')) {
+    } else if (imageString.startsWith('data:image/')) {
       try {
         final Uint8List bytes = base64Decode(imageString.split(',').last);
         imageWidget = Image.memory(bytes,
-            width: 60, height: 60, fit: BoxFit.cover,
+            width: 60,
+            height: 60,
+            fit: BoxFit.cover,
             errorBuilder: (_, __, ___) => fallbackCircle());
       } catch (_) {
         return fallbackCircle();
       }
-    }
-    // Remote URL
-    else {
+    } else {
       imageWidget = Image.network(imageString,
-          width: 60, height: 60, fit: BoxFit.cover,
+          width: 60,
+          height: 60,
+          fit: BoxFit.cover,
           errorBuilder: (_, __, ___) => fallbackCircle(),
           loadingBuilder: (_, child, progress) =>
               progress == null ? child : fallbackCircle());
@@ -71,6 +73,8 @@ class HomeAppBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final s = S.of(context); // 👈 مهم
+
     final screenHeight = MediaQuery.of(context).size.height;
     final screenWidth = MediaQuery.of(context).size.width;
     final safeAreaTop = MediaQuery.of(context).padding.top;
@@ -94,17 +98,14 @@ class HomeAppBar extends StatelessWidget {
         bottom: 20,
       ),
       child: Column(
-        mainAxisSize: MainAxisSize.min,
         children: [
-          // Top Row: Profile & Notification
+          /// Top Row
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              // Profile Section
               Expanded(
                 child: Row(
                   children: [
-                    // Profile Image
                     GestureDetector(
                       onTap: () {
                         Navigator.pushNamed(context, 'Profile');
@@ -117,8 +118,6 @@ class HomeAppBar extends StatelessWidget {
                           if (state is UserLoaded) {
                             profileImageUrl = state.user.profileImage;
                             displayName = state.user.name;
-                            print('HomeAppBar: Profile image URL = $profileImageUrl');
-                            print('HomeAppBar: Display name = $displayName');
                           }
 
                           return Container(
@@ -128,14 +127,15 @@ class HomeAppBar extends StatelessWidget {
                               color: Colors.white.withOpacity(0.3),
                               shape: BoxShape.circle,
                             ),
-                            child: _buildProfileImage(profileImageUrl, displayName),
+                            child: _buildProfileImage(
+                                profileImageUrl, displayName),
                           );
                         },
                       ),
                     ),
                     const SizedBox(width: 12),
 
-                    // Name & Greeting
+                    /// Greeting
                     Expanded(
                       child: BlocBuilder<UserCubit, UserState>(
                         builder: (context, state) {
@@ -147,17 +147,14 @@ class HomeAppBar extends StatelessWidget {
 
                           return Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisSize: MainAxisSize.min,
                             children: [
                               Text(
-                                greeting,
+                                greeting ?? s.WelcomeBack, // ✅ مترجمة
                                 style: const TextStyle(
                                   color: Colors.white,
                                   fontSize: 20,
                                   fontWeight: FontWeight.w600,
                                 ),
-                                overflow: TextOverflow.ellipsis,
-                                maxLines: 1,
                               ),
                               Text(
                                 displayName,
@@ -165,8 +162,6 @@ class HomeAppBar extends StatelessWidget {
                                   color: Colors.white70,
                                   fontSize: 14,
                                 ),
-                                overflow: TextOverflow.ellipsis,
-                                maxLines: 1,
                               ),
                             ],
                           );
@@ -177,16 +172,13 @@ class HomeAppBar extends StatelessWidget {
                 ),
               ),
 
-              // Notification Icon
+              /// Notification
               GestureDetector(
                 onTap: onNotificationPressed,
                 child: Stack(
                   children: [
-                    const Icon(
-                      Icons.notifications_outlined,
-                      color: Colors.white,
-                      size: 28,
-                    ),
+                    const Icon(Icons.notifications_outlined,
+                        color: Colors.white, size: 28),
                     if (notificationCount > 0)
                       Positioned(
                         right: 0,
@@ -194,21 +186,11 @@ class HomeAppBar extends StatelessWidget {
                         child: Container(
                           padding: const EdgeInsets.all(4),
                           decoration: const BoxDecoration(
-                            color: Colors.red,
-                            shape: BoxShape.circle,
-                          ),
-                          constraints: const BoxConstraints(
-                            minWidth: 18,
-                            minHeight: 18,
-                          ),
+                              color: Colors.red, shape: BoxShape.circle),
                           child: Text(
                             notificationCount.toString(),
                             style: const TextStyle(
-                              color: Colors.white,
-                              fontSize: 10,
-                              fontWeight: FontWeight.bold,
-                            ),
-                            textAlign: TextAlign.center,
+                                color: Colors.white, fontSize: 10),
                           ),
                         ),
                       ),
@@ -220,87 +202,51 @@ class HomeAppBar extends StatelessWidget {
 
           SizedBox(height: screenHeight * 0.02),
 
-          // Wallet Balance Card
-          Flexible(
-            child: Container(
-              padding: EdgeInsets.symmetric(
-                horizontal: screenWidth * 0.04,
-                vertical: 16,
-              ),
-              decoration: BoxDecoration(
-                color: Colors.white.withOpacity(0.25),
-                borderRadius: BorderRadius.circular(16),
-              ),
-              child: Row(
-                children: [
-                  // Wallet Icon & Balance
-                  Expanded(
-                    child: Row(
-                      children: [
-                        Container(
-                          width: 50,
-                          height: 50,
-                          decoration: BoxDecoration(
-                            color: Colors.white.withOpacity(0.3),
-                            borderRadius: BorderRadius.circular(12),
+          /// Wallet
+          Container(
+            padding: EdgeInsets.symmetric(
+              horizontal: screenWidth * 0.04,
+              vertical: 16,
+            ),
+            decoration: BoxDecoration(
+              color: Colors.white.withOpacity(0.25),
+              borderRadius: BorderRadius.circular(16),
+            ),
+            child: Row(
+              children: [
+                Expanded(
+                  child: Row(
+                    children: [
+                      const Icon(Icons.account_balance_wallet_outlined,
+                          color: Colors.white),
+                      const SizedBox(width: 16),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            s.Wallet, // ✅ مترجمة
+                            style: const TextStyle(color: Colors.white70),
                           ),
-                          child: const Icon(
-                            Icons.account_balance_wallet_outlined,
-                            color: Colors.white,
-                            size: 24,
+                          Text(
+                            '${s.EGP} ${balance.toStringAsFixed(2)}',
+                            style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold),
                           ),
-                        ),
-                        const SizedBox(width: 16),
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              const Text(
-                                'Wallet Balance',
-                                style: TextStyle(
-                                  color: Colors.white70,
-                                  fontSize: 14,
-                                ),
-                              ),
-                              const SizedBox(height: 4),
-                              Text(
-                                'EGP ${balance.toStringAsFixed(2)}',
-                                style: const TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                                overflow: TextOverflow.ellipsis,
-                                maxLines: 1,
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-
-                  // Deposit Button
-                  TextButton(
-                    onPressed: onDepositPressed,
-                    style: TextButton.styleFrom(
-                      foregroundColor: Colors.white,
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 12,
-                        vertical: 8,
+                        ],
                       ),
-                    ),
-                    child: const Text(
-                      'Deposit Money',
-                      style: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
+                    ],
                   ),
-                ],
-              ),
+                ),
+                TextButton(
+                  onPressed: onDepositPressed,
+                  child: Text(
+                    s.payButton, // ✅ مترجمة
+                    style: const TextStyle(color: Colors.white),
+                  ),
+                ),
+              ],
             ),
           ),
         ],
