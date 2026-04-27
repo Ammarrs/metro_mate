@@ -4,6 +4,7 @@ import 'settings_card.dart';
 
 class AboutCard extends StatelessWidget {
   final String version;
+  // kept for future use
   final VoidCallback? onTermsOfService;
   final VoidCallback? onPrivacyPolicy;
 

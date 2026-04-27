@@ -68,7 +68,8 @@ class SecurityPrivacyCard extends StatelessWidget {
               title: s.changePassword,
               subtitle: s.changePasswordDesc,
               leadingIcon: Icons.lock_outline,
-              onTap: onChangePassword,
+              onTap: onChangePassword ??
+                  () => Navigator.pushNamed(context, 'ChangePassword'),
               showDivider: true,
             ),
           ],

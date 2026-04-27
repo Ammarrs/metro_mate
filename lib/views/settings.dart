@@ -68,8 +68,9 @@ class _SettingsBody extends StatelessWidget {
               const SizedBox(height: 24),
               const AppPreferencesCard(),
               const SizedBox(height: 20),
-              const NotificationsCard(),
-              const SizedBox(height: 20),
+              // NotificationsCard — hidden for now
+              // const NotificationsCard(),
+              // const SizedBox(height: 20),
               const SecurityPrivacyCard(),
               const SizedBox(height: 20),
               const AccountCard(),

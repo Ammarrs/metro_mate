@@ -16,7 +16,10 @@ class AccountCard extends StatelessWidget {
           title: S.of(context).History,
           subtitle: S.of(context).ViewYourRecentTrips,
           leadingIcon: Icons.history,
-          onTap: onHistory,
+          onTap: onHistory ??
+              () => Navigator.of(context, rootNavigator: true).push(
+                    MaterialPageRoute(builder: (_) => const HistoryPage()),
+                  ),
           showDivider: true,
         ),
       ],
