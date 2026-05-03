@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:second/components/ai_assisstant/floating_ai_button.dart';
 import 'package:second/generated/l10n.dart';
 import '../cubits/settings/settings_cubit.dart';
 import '../cubits/settings/settings_state.dart';
@@ -35,6 +36,7 @@ class SettingsPage extends StatelessWidget {
       child: Scaffold(
         backgroundColor: const Color(0xFFF0F4F8),
         body: SafeArea(child: _SettingsBody()),
+        floatingActionButton: FloatingAiButton(),
       ),
     );
   }

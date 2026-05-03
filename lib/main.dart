@@ -9,7 +9,6 @@ import 'package:second/components/home_app_bar.dart';
 import 'package:second/cubits/logout/logout_cubit.dart';
 import 'package:second/cubits/logout/logout_state.dart';
 import 'package:second/cubits/user/user_cubit.dart';
-import './cubits/subscription/subscription_cubit.dart';
 
 import 'package:second/generated/l10n.dart';
 import 'package:second/services/auth_service.dart';
@@ -83,9 +82,7 @@ class MetroApp extends StatelessWidget {
             create: (context) => UserCubit(StorageService())..loadUser()),
         BlocProvider(create: (context) => LogOutCubit()),
         BlocProvider(create: (context) => LocaleCubit()),
-        BlocProvider(
-          create: (context) => SubscriptionCubit(),
-        ),
+        // ✅ NO SubscriptionCubit here
       ],
       child: BlocBuilder<LocaleCubit, LocaleState>(
         builder: (context, state) {
@@ -202,7 +199,12 @@ class _SplashRouterState extends State<SplashRouter> {
 class test_page extends StatelessWidget {
   test_page({super.key});
 
-  List<Widget> NavigationBarpage = [Home(), Tickets(), Wallet(), SubscriptionPage()];
+  List<Widget> NavigationBarpage = [
+    Home(),
+    Tickets(),
+    Wallet(),
+    SubscriptionPage()
+  ];
   List<PreferredSizeWidget> NavigationBarAppBar = [
     AppBar(
       title: HomeAppBar(),
@@ -233,9 +235,9 @@ class test_page extends StatelessWidget {
           return NavigationBarpage[state];
         },
       ),
-      bottomNavigationBar: BlocBuilder<Navigate_Cubit, int>(
-        builder: (context, state) {
-          return BottomNavigationBar(
+      bottomNavigationBar:
+          BlocBuilder<Navigate_Cubit, int>(builder: (context, state) {
+        return BottomNavigationBar(
             currentIndex: state,
             type: BottomNavigationBarType.fixed,
             selectedItemColor: Colors.blue.shade300,
@@ -256,7 +258,8 @@ class test_page extends StatelessWidget {
                   icon: Icon(Icons.account_balance_wallet),
                   label: S.of(context).wallet),
               BottomNavigationBarItem(
-                  icon: Icon(Icons.card_membership_rounded), label: "Subscribe"),
+                  icon: Icon(Icons.card_membership_rounded),
+                  label: "Subscribe"),
             ]);
       }),
     );

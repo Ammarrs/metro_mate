@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:second/components/ai_assisstant/floating_ai_button.dart';
 import '../../cubits/subscription/subscription_cubit.dart';
 import '../../cubits/subscription/subscription_state.dart';
 import '../models/subscribtion_model.dart';
+import '../views/verify_identity_screen.dart';
 
 class SubscriptionPage extends StatelessWidget {
   const SubscriptionPage({super.key});
@@ -109,6 +111,7 @@ class _SubscriptionCategoryScreen extends StatelessWidget {
           },
         ),
       ),
+      floatingActionButton: FloatingAiButton(),
     );
   }
 }
@@ -139,7 +142,7 @@ class _CategoryList extends StatelessWidget {
                       MaterialPageRoute(
                         builder: (_) => BlocProvider(
                           create: (_) => SubscriptionCubit()
-                            ..loadPlansByCategory(cat.en),
+                            ..loadPlansByCategory(cat.en.toLowerCase()),
                           child: SubscriptionPlansScreen(
                             category: cat,
                             meta: meta,
@@ -897,12 +900,15 @@ class _PlansListState extends State<_PlansList> {
                   ? null
                   : () {
                       final plan = widget.result.plans[_selectedIndex!];
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text(
-                            'Selected: ${plan.zones != null ? "${plan.zones} zone(s)" : "All Zones"} — EGP ${plan.prices.toInt()}/${_durationShort(plan.durationEn)}',
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => VerifyIdentityPage(
+                            category: widget.result.category.en.toLowerCase(),
+                            duration: plan.durationEn.toLowerCase(),
+                            zones: plan.zones ?? 1,
+                            planId: plan.id,
                           ),
-                          backgroundColor: const Color(0xFF1D3557),
                         ),
                       );
                     },

@@ -9,8 +9,13 @@ class ApiConfig {
   static const String allStationsEndpoint = '/api/v1/trips/station';
 
   static const String nearestStationBaseEndpoint = '/api/v1/neareststation';
+
   static const String userTripHistoryEndpoint = '/api/v1/trips/usertriphistory';
+  
   static const String subscriptionPlansEndpoint = '/api/v1/subscriptions/plans';
+
+  static const String aiChatEndpoint = '/api/v1/chatbot';
+  static const String aiChatHistoryEndpoint = '/api/v1/chatbot/history';
 
 
   static Map<String, String> get headers => {
