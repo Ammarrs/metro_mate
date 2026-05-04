@@ -1,14 +1,27 @@
 import 'dart:io';
 
+import 'package:dio/dio.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:second/Bloc/LocaliztionCubit/Localization_Cubit.dart';
 import 'package:second/ChangePassword/ChangePassword_Cubit.dart';
+import 'package:second/Shuttle%20bus/ShuttleBus.dart';
+import 'package:second/Shuttle%20bus/ShuttleBusRoute.dart';
+import 'package:second/SubscrbtionScreen3,4/Bloc/Cubit.dart';
+import 'package:second/SubscrbtionScreen3,4/Notfications/Local_Notfication.dart';
+import 'package:second/SubscrbtionScreen3,4/Notfications/push_notfication_SERVICE.dart';
+import 'package:second/SubscrbtionScreen3,4/Screen3.dart';
+import 'package:second/SubscrbtionScreen3,4/Screen4.dart';
+import 'package:second/SubscrbtionScreen3,4/SubscriptionCashPage.dart';
+import 'package:second/SubscrbtionScreen3,4/SubscrptionConfurmVisa.dart';
 import 'package:second/components/home_app_bar.dart';
 import 'package:second/cubits/logout/logout_cubit.dart';
 import 'package:second/cubits/logout/logout_state.dart';
 import 'package:second/cubits/user/user_cubit.dart';
+import 'package:second/firebase_options.dart';
+import './cubits/subscription/subscription_cubit.dart';
 
 import 'package:second/generated/l10n.dart';
 import 'package:second/services/auth_service.dart';
@@ -54,6 +67,11 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  Future.wait([
+    PushNotficationService.init(),
+    LocalNotificationService.init(),
+  ]);
 
   if (Platform.isAndroid) {
     WebViewPlatform.instance = AndroidWebViewPlatform();
@@ -82,7 +100,10 @@ class MetroApp extends StatelessWidget {
             create: (context) => UserCubit(StorageService())..loadUser()),
         BlocProvider(create: (context) => LogOutCubit()),
         BlocProvider(create: (context) => LocaleCubit()),
-        // ✅ NO SubscriptionCubit here
+        BlocProvider(
+          create: (context) => SubscriptionCubit(),
+        ),
+        BlocProvider(create: (context) => SubscriptionCubitS3(Dio())),
       ],
       child: BlocBuilder<LocaleCubit, LocaleState>(
         builder: (context, state) {
@@ -125,6 +146,12 @@ class MetroApp extends StatelessWidget {
               'ConfirmFawrypage': (context) => ConfirmFawrypage(),
               'ConfirmVisacardPage': (context) => ConfirmVisacardPage(),
               'Fawry': (context) => FawryPage(),
+              'Screen3': (context) => Screen3(),
+              "Shuttlebusroute": (context) => Shuttlebusroute(),
+              "Screen4": (context) => Screen4(),
+              "SubscrptionConfirmVisacardPage": (context) =>
+                  SubscrptionConfirmVisacardPage(),
+              "SubscrptionCashPage": (context) => SubscrptionCashPage(),
             },
             builder: (context, child) {
               return BlocListener<LogOutCubit, LogOutState>(
@@ -202,7 +229,7 @@ class test_page extends StatelessWidget {
   List<Widget> NavigationBarpage = [
     Home(),
     Tickets(),
-    Wallet(),
+    Shuttlebus(),
     SubscriptionPage()
   ];
   List<PreferredSizeWidget> NavigationBarAppBar = [
@@ -255,8 +282,7 @@ class test_page extends StatelessWidget {
                   icon: Icon(FontAwesomeIcons.ticket),
                   label: S.of(context).tickets),
               BottomNavigationBarItem(
-                  icon: Icon(Icons.account_balance_wallet),
-                  label: S.of(context).wallet),
+                  icon: Icon(Icons.bus_alert), label: S.of(context).wallet),
               BottomNavigationBarItem(
                   icon: Icon(Icons.card_membership_rounded),
                   label: "Subscribe"),

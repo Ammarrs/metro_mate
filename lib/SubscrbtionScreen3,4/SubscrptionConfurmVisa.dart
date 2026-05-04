@@ -4,21 +4,22 @@ import 'package:second/generated/l10n.dart';
 
 import '../Bloc/SelectRoute_State.dart';
 import '../Bloc/selectRoute_Cubit.dart';
-import 'VisaCard_Page.dart';
+import 'SubscrptionPayMob.dart';
 
-class ConfirmVisacardPage extends StatelessWidget {
-  ConfirmVisacardPage();
+class SubscrptionConfirmVisacardPage extends StatelessWidget {
+  SubscrptionConfirmVisacardPage();
 
   @override
   Widget build(BuildContext context) {
     final cubit = context.read<SelectRoute>();
     return BlocConsumer<SelectRoute, RouteState>(listener: (context, state) {
-      if (state is VisaCardPaymentSucessState) {
-        if (cubit.Iframe_Url != null) {
+      if (state is SubscriptionVisaLoadingState) {
+        if (cubit.SubscriptionIframe_Url != null) {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (_) => VisacardPage(iframeUrl: cubit.Iframe_Url!),
+              builder: (_) => Subscrptionpaymob(
+                  SubscrptioniframeUrl: cubit.SubscriptionIframe_Url!),
             ),
           );
         } else {
@@ -30,7 +31,7 @@ class ConfirmVisacardPage extends StatelessWidget {
           );
         }
       }
-      if (state is VisaCardPaymentErorrState) {
+      if (state is SubscriptionVisaErrorState) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(state.Error),
@@ -93,7 +94,14 @@ class ConfirmVisacardPage extends StatelessWidget {
                                         color: Colors.grey,
                                       )),
                                   SizedBox(height: 6),
-                                  Text(S.of(context).paymentId,
+                                  Text(S.of(context).subscriptionType,
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 16,
+                                        color: Colors.grey,
+                                      )),
+                                  SizedBox(height: 6),
+                                  Text(S.of(context).subscriptionDuration,
                                       style: TextStyle(
                                         fontWeight: FontWeight.bold,
                                         fontSize: 16,
@@ -130,32 +138,38 @@ class ConfirmVisacardPage extends StatelessWidget {
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Text("${cubit.UserName}",
+                                    Text("${cubit.SubscriptionUserName}",
                                         style: TextStyle(
                                             fontWeight: FontWeight.bold,
                                             fontSize: 16,
                                             color: Color(0xff5A72A0))),
                                     SizedBox(height: 6),
-                                    Text("${cubit.PaymentId}",
+                                    Text("${cubit.SubscriptionCategory}",
                                         style: TextStyle(
                                             fontWeight: FontWeight.bold,
                                             fontSize: 16,
                                             color: Color(0xff5A72A0))),
                                     SizedBox(height: 6),
-                                    Text("${cubit.PaymentMethod}",
+                                    Text("${cubit.SubscriptionDuration}",
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 16,
+                                            color: Color(0xff5A72A0))),
+                                    SizedBox(height: 6),
+                                    Text("${cubit.PaymentSubscriptionMethod}",
                                         style: TextStyle(
                                             fontWeight: FontWeight.bold,
                                             fontSize: 16,
                                             color: Color(0xff5A72A0))),
                                     SizedBox(height: 6),
                                     Text(
-                                        "${S.of(context).EGP}  ${(cubit.price)! * (cubit.ticket)}",
+                                        "${S.of(context).EGP} ${cubit.SubscriptionTotalPrice}",
                                         style: TextStyle(
                                             fontWeight: FontWeight.bold,
                                             fontSize: 16,
                                             color: Color(0xff5A72A0))),
                                     SizedBox(height: 6),
-                                    Text("${cubit.Date}",
+                                    Text("${cubit.SubscriptionDate}",
                                         style: TextStyle(
                                             fontWeight: FontWeight.bold,
                                             fontSize: 16,
@@ -171,14 +185,14 @@ class ConfirmVisacardPage extends StatelessWidget {
                           children: [
                             MaterialButton(
                               onPressed: () {
-                                cubit.ticketvisapayment();
+                                cubit.Subscrptionticketvisapayment();
                               },
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(5)),
                               minWidth: 110,
                               color: Color(0xff5A72A0),
                               hoverColor: Colors.blue.shade900,
-                              child: state is VisaCardPaymentLodingState
+                              child: state is SubscriptionVisaLoadingState
                                   ? CircularProgressIndicator(
                                       color: Colors.white)
                                   : Text(
@@ -193,8 +207,7 @@ class ConfirmVisacardPage extends StatelessWidget {
                             ),
                             MaterialButton(
                               onPressed: () {
-                                Navigator.pushNamed(
-                                    context, "Chosepaymentmethod");
+                                Navigator.pushNamed(context, "Screen4");
                               },
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(5),

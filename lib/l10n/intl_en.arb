@@ -297,7 +297,35 @@
   "duration": "Duration",
   "distance": "Distance",
   "transfer": "Transfer",
-  "total_price": "Total Price"
+  "total_price": "Total Price",
+
+   "waitingApproval": "Waiting until approved ⏳",
+  "approvedSubscription": "Approved Subscription ✅",
+  "nextToPayment": "Next To Payment",
+  "rejectedSubscription": "Rejected Subscription ❌\nCheck your Email for more details",
+  "backToHome": "Back to Home",
+  "alreadySubscribed": "You are already subscribed ✅",
+  "goToHome": "Go to Home",
+  "subscriptionPayment": "Subscription Payment",
+  "choosePaymentMethodError": "Choose payment method",
+  "subscriptionType": "Subscription Type",
+  "subscriptionDuration": "Subscription Duration",
+  "subscriptionStatus": "Subscription Status",
+  
+  "enterYourEmail": "Enter your email",
+  "enterYourPassword": "Enter your password",
+  "passwordInvalid": "Password must be at least 8 characters, include uppercase, lowercase, number and symbol",
+  "passwordNotMatch": "Passwords do not match",
+  "enterYourName": "Enter your name",
+  "enterYourEmail": "Enter your email",
+  "invalidEmail": "Enter a valid email",
+  "enterPhone": "Enter your phone number",
+  "invalidPhone": "Phone must be 11 digits and start with 01",
+  "enterYourPassword": "Enter your password",
+  "passwordInvalid": "Password must be at least 8 characters, include uppercase, lowercase, number and symbol",
+  "passwordNotMatch": "Passwords do not match"
+
+
 
 
 }

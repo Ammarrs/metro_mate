@@ -234,7 +234,33 @@
   "duration": "المدة",
   "distance": "المسافة",
   "transfer": "عدد المحطات",
-  "total_price": "السعر الإجمالي"
+  "total_price": "السعر الإجمالي",
+
+  "waitingApproval": "في انتظار الموافقة ⏳",
+  "approvedSubscription": "تم قبول الاشتراك ✅",
+  "nextToPayment": "الانتقال للدفع",
+  "rejectedSubscription": "تم رفض الاشتراك ❌\nراجع بريدك الإلكتروني",
+  "backToHome": "الرجوع للرئيسية",
+  "alreadySubscribed": "أنت مشترك بالفعل ✅",
+  "goToHome": "اذهب للصفحه للرئيسية",
+   "subscriptionPayment": "دفع الاشتراك",
+  "choosePaymentMethodError": "اختار طريقة الدفع",
+  "subscriptionType": "نوع الاشتراك",
+  "subscriptionDuration": "مدة الاشتراك",
+  "subscriptionStatus": "حالة الاشتراك",
+  "enterYourEmail": "ادخل البريد الإلكتروني",
+  "enterYourPassword": "ادخل كلمة المرور",
+  "passwordInvalid": "كلمة المرور يجب أن تكون 8 أحرف على الأقل وتحتوي على حروف كبيرة وصغيرة ورقم ورمز",
+  "passwordNotMatch": "كلمتا المرور غير متطابقتين",
+  "enterYourName": "ادخل اسمك",
+  "enterYourEmail": "ادخل البريد الإلكتروني",
+  "invalidEmail": "ادخل بريد إلكتروني صحيح",
+  "enterPhone": "ادخل رقم الهاتف",
+  "invalidPhone": "رقم الهاتف يجب أن يكون 11 رقم ويبدأ بـ 01",
+  "enterYourPassword": "ادخل كلمة المرور",
+  "passwordInvalid": "كلمة المرور يجب أن تكون 8 أحرف على الأقل وتحتوي على حروف كبيرة وصغيرة ورقم ورمز",
+  "passwordNotMatch": "كلمتا المرور غير متطابقتين"
+
 
 
 }

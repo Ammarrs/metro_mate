@@ -10,6 +10,9 @@ class SelectRoute extends Cubit<RouteState> {
 
   List<String> MetroStations = [];
   List<String> BestRoute = [];
+  List<String> BusStations = [];
+  List<String> BusBestRoute = [];
+
   List<String> NumberofPersons = [
     '1',
     '2',
@@ -35,20 +38,32 @@ class SelectRoute extends Cubit<RouteState> {
   String? person;
   int LineStation1 = 0;
   int LineStation2 = 0;
+
   String? Station1;
   String? Station2;
+
+  String? BusStation1;
+  String? BusStation2;
+
   String? ShowStation1;
   String? ShowStation2;
+
+  String? ShowBusStation1;
+  String? ShowBusStation2;
+
   int? time;
   int? numStation;
   int? price;
   num? distance;
+  List<String> BusLine = [];
   List<String> MetroLine1 = [];
   List<String> MetroLine2 = [];
   List<String> MetroLine3 = [];
   int ticket = 1;
   String PaymentMethod = "";
+  String PaymentSubscriptionMethod = "";
   bool Selected = false;
+  bool SelectedSubscription = false;
   int? totalPrice;
   String? TicketId;
   String? PaymentKey;
@@ -57,8 +72,27 @@ class SelectRoute extends Cubit<RouteState> {
   String? Date;
   String? BillRefrance;
   String? Iframe_Url;
+
+  int? SubscriptionTotalPrice;
+  String? SubscriptionTicketId;
+  String? SubscriptionPaymentKey;
+  String? SubscriptionUserName;
+  int? SubscriptionPaymentId;
+  String? SubscriptionDate;
+  String? SubscriptionBillRefrance;
+  String? SubscriptionIframe_Url;
+  String? subscriptionId = "69f7c72bad90c9ba20aa108a";
+
   String? language;
   String? tripId;
+
+  int? Busstops;
+  String? Busdistance;
+  String? BustravelTime;
+  int? Busprice;
+
+  String? SubscriptionCategory;
+  String? SubscriptionDuration;
 
   int StationLine(String Station) {
     if (MetroLine1.contains(Station)) {
@@ -72,6 +106,8 @@ class SelectRoute extends Cubit<RouteState> {
   }
 
   void ShowStations() {
+    this.ShowBusStation2 = this.BusStation2;
+    this.ShowBusStation1 = this.BusStation1;
     this.ShowStation1 = this.Station1;
     this.ShowStation2 = this.Station2;
   }
@@ -105,6 +141,14 @@ class SelectRoute extends Cubit<RouteState> {
     this.Station1 = Station;
   }
 
+  void setBusStation2(String Station) {
+    this.BusStation2 = Station;
+  }
+
+  void setBusStation1(String Station) {
+    this.BusStation1 = Station;
+  }
+
   void SetPerson(String p) {
     this.person = p;
   }
@@ -113,6 +157,15 @@ class SelectRoute extends Cubit<RouteState> {
     if (Station1 == null || Station2 == null) {
       return "Please select both stations";
     } else if (Station1 == Station2) {
+      return "Start and End Station cannot be the same";
+    }
+    return null;
+  }
+
+  ValidateBusStation() {
+    if (BusStation1 == null || BusStation2 == null) {
+      return "Please select both stations";
+    } else if (BusStation1 == BusStation2) {
       return "Start and End Station cannot be the same";
     }
     return null;
@@ -162,6 +215,27 @@ class SelectRoute extends Cubit<RouteState> {
     }
   }
 
+  void GetPaymenSubscriptionMethod(String method) {
+    this.PaymentSubscriptionMethod = method;
+    emit(ChooseMethod(Payment: PaymentMethod));
+  }
+
+  bool CheckSubscriptionMethod() {
+    return PaymentSubscriptionMethod.isNotEmpty;
+  }
+
+  void MakeSubscriptionPayment() {
+    try {
+      if (PaymentSubscriptionMethod == null) {
+        emit(SelectPaymentSubscriptionMethodErorrState(
+            Error: "Choose a payment method"));
+        return;
+      }
+    } catch (e) {
+      emit(SelectPaymentSubscriptionMethodErorrState(Error: e.toString()));
+    }
+  }
+
   Future<void> setToken() async {
     SharedPreferences shard = await SharedPreferences.getInstance();
     await shard.setInt('totalPrice', totalPrice!);
@@ -172,6 +246,12 @@ class SelectRoute extends Cubit<RouteState> {
     SharedPreferences shard = await SharedPreferences.getInstance();
 
     await shard.setString("PaymentKey", PaymentKey!);
+  }
+
+  Future<void> setSubscriptionPaymentKey() async {
+    SharedPreferences shard = await SharedPreferences.getInstance();
+
+    await shard.setString("SubscriptionPaymentKey", SubscriptionPaymentKey!);
   }
 
   Future<void> setTokenConfermation() async {
@@ -193,6 +273,12 @@ class SelectRoute extends Cubit<RouteState> {
     SharedPreferences shard = await SharedPreferences.getInstance();
 
     await shard.setString("Iframe_Url", Iframe_Url!);
+  }
+
+  Future<void> setSubscriptionUrl() async {
+    SharedPreferences shard = await SharedPreferences.getInstance();
+
+    await shard.setString("SubscriptionIframe_Url", SubscriptionIframe_Url!);
   }
 
   Future<String> _getLanguage() async {
@@ -498,6 +584,168 @@ class SelectRoute extends Cubit<RouteState> {
       emit(VisaCardPaymentSucessState());
     } catch (e) {
       emit(VisaCardPaymentErorrState(Error: e.toString()));
+      print("Dio Error: $e");
+    }
+  }
+
+  getBusStations() async {
+    try {
+      language = await _getLanguage();
+    } on DioException catch (e) {
+      print(e.response?.statusCode);
+      print(e.response?.data);
+      print(e.requestOptions.data);
+    }
+
+    final response = await Dio().get(
+      'https://metrodb-production.up.railway.app/api/v1/brt/allstations',
+      options: Options(
+        validateStatus: (status) => true,
+        headers: {
+          "Accept-Language": language,
+        },
+      ),
+    );
+    Map<String, dynamic> data = response.data;
+    List StationsName = data['data']['allStations'];
+    BusStations.clear();
+    for (var station in StationsName) {
+      BusStations.add(station['name']);
+    }
+
+    print(' Bus Stations =  $BusStations');
+
+    return BusStations;
+  }
+
+  getInfoBusStation() async {
+    try {
+      language = await _getLanguage();
+      emit(InfoBusLoadingState());
+
+      final response = await Dio().post(
+        'https://metrodb-production.up.railway.app/api/v1/brt/route',
+        data: {"startStation": BusStation1, "endStation": BusStation2},
+        options: Options(
+          headers: {
+            "Accept-Language": language,
+          },
+        ),
+      );
+
+      Map<String, dynamic> responseData = response.data;
+      Map<String, dynamic> data = responseData['data'];
+
+      List infoStation = data['stations'];
+
+      BusLine.clear();
+
+      for (var info in infoStation) {
+        BusLine.add(info["name"]);
+      }
+
+      BustravelTime = data['travelTime'];
+      Busstops = data['stops'];
+      Busprice = data['price'];
+      Busdistance = data['distance'];
+
+      print("Bus Line = $BusLine");
+      print(
+          "time=$BustravelTime, stations=$Busstops, price=$Busprice, distance=$Busdistance");
+
+      emit(InfoBusSuccessState());
+    } catch (e) {
+      emit(InfoBusErrorState(Error: e.toString()));
+      print("Dio Error: $e");
+    }
+  }
+
+  ticketSubscriptionPaymentKey() async {
+    try {
+      language = await _getLanguage();
+
+      SharedPreferences shard = await SharedPreferences.getInstance();
+      String? token = shard.getString('Token');
+
+      emit(SelectPaymentSubscriptionMethodLodingState());
+
+      final response = await Dio().post(
+        'https://metrodb-production.up.railway.app/api/v1/subscriptions/subscription-pay',
+        data: {
+          "subscriptionId": subscriptionId,
+          "paymentMethod": PaymentSubscriptionMethod
+        },
+        options: Options(
+          headers: {
+            "Authorization": "Bearer $token",
+            "Accept-Language": language,
+          },
+        ),
+      );
+
+      final data = response.data;
+
+      SubscriptionPaymentKey = data['paymentKey'] ?? "not found";
+      if (SubscriptionPaymentKey == null) {
+        throw Exception("PaymentKey is null ❌");
+      }
+
+      final payment = data['data']['payment'];
+      final office = data['data']['office'];
+      final subscription = data['data']['subscription'];
+      SubscriptionCategory = subscription['category'];
+      SubscriptionDuration = subscription['duration'];
+      SubscriptionUserName = data['data']['userName'];
+
+      SubscriptionDate = payment['issuingDate'];
+      SubscriptionTotalPrice = payment['amount'];
+      PaymentSubscriptionMethod = payment['paymentMethod'];
+
+      print("Payment Key = $SubscriptionPaymentKey");
+      print("Date = $SubscriptionDate");
+      print("Amount = $SubscriptionTotalPrice");
+      print("Subscrption user name = $SubscriptionUserName");
+      print("Subscription Category = $SubscriptionCategory");
+      print("Office = ${office['name']}");
+      print(
+          "Working Hours = ${office['workingHours']['from']} - ${office['workingHours']['to']}");
+
+      print("Subscription Status = ${subscription['status']}");
+
+      emit(SelectPaymentSubscriptionMethodSucessState());
+    } catch (e) {
+      emit(SelectPaymentSubscriptionMethodErorrState(Error: e.toString()));
+      print("Dio Error: $e");
+    }
+  }
+
+  Subscrptionticketvisapayment() async {
+    SharedPreferences shard = await SharedPreferences.getInstance();
+    String? token = shard.getString('Token');
+
+    try {
+      emit(SubscriptionVisaLoadingState());
+
+      final response = await Dio().post(
+        'https://metrodb-production.up.railway.app/api/v1/subscriptions/subscription-pay/visa',
+        data: {
+          "paymentKey": SubscriptionPaymentKey,
+          "paymentMethod": PaymentSubscriptionMethod
+        },
+        options: Options(
+          headers: {
+            "Authorization": "Bearer $token",
+          },
+        ),
+      );
+
+      SubscriptionIframe_Url = response.data["iframeUrl"];
+
+      print("Visa URL = $SubscriptionIframe_Url");
+
+      emit(SubscriptionVisaSuccessState());
+    } catch (e) {
+      emit(SubscriptionVisaErrorState(Error: '${e.toString()}'));
       print("Dio Error: $e");
     }
   }
