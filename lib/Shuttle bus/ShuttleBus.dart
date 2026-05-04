@@ -1,0 +1,322 @@
+import 'package:dropdown_search/dropdown_search.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:second/Bloc/SelectRoute_State.dart';
+import 'package:second/Bloc/selectRoute_Cubit.dart';
+import 'package:second/generated/l10n.dart';
+
+class Shuttlebus extends StatelessWidget {
+  const Shuttlebus({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final cubit = context.read<SelectRoute>();
+
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
+
+    return BlocListener<SelectRoute, RouteState>(
+      listener: (context, state) {
+        if (state is InfoBusSuccessState) {
+          Navigator.pushNamed(context, 'Shuttlebusroute');
+        }
+      },
+      child: Padding(
+        padding: EdgeInsets.only(left: 15.0, right: 15.0),
+        child: Center(
+          child: Container(
+            width: double.infinity,
+            constraints: BoxConstraints(
+              maxWidth: 500,
+              minHeight: screenHeight * 0.38,
+            ),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(15),
+              boxShadow: const [
+                BoxShadow(
+                  color: Colors.black26,
+                  spreadRadius: 2,
+                  blurRadius: 5,
+                  offset: Offset(1, 2),
+                )
+              ],
+              color: Colors.white,
+            ),
+            child: Padding(
+              padding: EdgeInsets.symmetric(
+                horizontal: screenWidth * 0.04,
+                vertical: screenHeight * 0.02,
+              ),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(height: screenHeight * 0.01),
+
+                  // Title
+                  Text(
+                    S.of(context).planYourRoute,
+                    style: const TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+
+                  SizedBox(height: screenHeight * 0.06),
+
+                  // First dropdown - From Station
+                  Padding(
+                    padding:
+                        EdgeInsets.symmetric(horizontal: screenWidth * 0.03),
+                    child: DropdownSearch<String>(
+                      asyncItems: (String? filter) async {
+                        return await cubit.getBusStations();
+                      },
+                      popupProps: PopupProps.menu(
+                        itemBuilder: (context, item, isSelected) {
+                          return Container(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 15,
+                              vertical: 12,
+                            ),
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              border: Border(
+                                bottom: BorderSide(color: Colors.grey.shade300),
+                              ),
+                            ),
+                            child: Text(
+                              item,
+                              style: const TextStyle(
+                                fontSize: 17,
+                                color: Colors.black87,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          );
+                        },
+                        menuProps: MenuProps(
+                          borderRadius: BorderRadius.circular(15),
+                          elevation: 8,
+                          shadowColor: Colors.black54,
+                        ),
+                        searchFieldProps: TextFieldProps(
+                          decoration: InputDecoration(
+                            hintText: S.of(context).searchStation,
+                            prefixIcon: const Icon(Icons.search),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                          ),
+                        ),
+                        showSearchBox: true,
+                        showSelectedItems: true,
+                      ),
+                      dropdownDecoratorProps: DropDownDecoratorProps(
+                        dropdownSearchDecoration: InputDecoration(
+                          labelText: S.of(context).selectStation,
+                          hintText: S.of(context).chooseMetroStation,
+                          labelStyle: TextStyle(
+                            fontSize: 12,
+                            color: Colors.black26,
+                            fontWeight: FontWeight.bold,
+                          ),
+                          hintStyle: TextStyle(
+                            fontSize: 12,
+                            color: Colors.grey,
+                          ),
+                          filled: true,
+                          fillColor: Color(0xffF8F9FB),
+                          contentPadding: EdgeInsets.symmetric(
+                            horizontal: 15,
+                            vertical: 12,
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                              color: Colors.black26,
+                              width: 1.5,
+                            ),
+                            borderRadius: BorderRadius.all(Radius.circular(15)),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                              color: Colors.blueAccent,
+                              width: 2,
+                            ),
+                            borderRadius: BorderRadius.all(Radius.circular(15)),
+                          ),
+                        ),
+                      ),
+                      onChanged: (v) {
+                        cubit.setBusStation1(v!);
+                      },
+                      selectedItem: cubit.BusStation1,
+                    ),
+                  ),
+
+                  SizedBox(height: screenHeight * 0.04),
+
+                  // Arrow icons
+                  const Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(Icons.arrow_upward),
+                      Icon(Icons.arrow_downward),
+                    ],
+                  ),
+
+                  SizedBox(height: screenHeight * 0.04),
+
+                  // Second dropdown - To Station
+                  Padding(
+                    padding:
+                        EdgeInsets.symmetric(horizontal: screenWidth * 0.03),
+                    child: DropdownSearch<String>(
+                      asyncItems: (String? filter) async {
+                        return await cubit.getBusStations();
+                      },
+                      popupProps: PopupProps.menu(
+                        itemBuilder: (context, item, isSelected) {
+                          return Container(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 15,
+                              vertical: 12,
+                            ),
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              border: Border(
+                                bottom: BorderSide(color: Colors.grey.shade300),
+                              ),
+                            ),
+                            child: Text(
+                              item,
+                              style: const TextStyle(
+                                fontSize: 17,
+                                color: Colors.black87,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          );
+                        },
+                        menuProps: MenuProps(
+                          borderRadius: BorderRadius.circular(15),
+                          elevation: 8,
+                          shadowColor: Colors.black54,
+                        ),
+                        searchFieldProps: TextFieldProps(
+                          decoration: InputDecoration(
+                            hintText: S.of(context).searchStation,
+                            prefixIcon: const Icon(Icons.search),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                          ),
+                        ),
+                        showSearchBox: true,
+                        showSelectedItems: true,
+                      ),
+                      dropdownDecoratorProps: DropDownDecoratorProps(
+                        dropdownSearchDecoration: InputDecoration(
+                          labelText: S.of(context).selectStation,
+                          hintText: S.of(context).chooseMetroStation,
+                          labelStyle: TextStyle(
+                            fontSize: 12,
+                            color: Colors.black26,
+                            fontWeight: FontWeight.bold,
+                          ),
+                          hintStyle: TextStyle(
+                            fontSize: 12,
+                            color: Colors.grey,
+                          ),
+                          filled: true,
+                          fillColor: Color(0xffF8F9FB),
+                          contentPadding: EdgeInsets.symmetric(
+                            horizontal: 15,
+                            vertical: 12,
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                              color: Colors.black26,
+                              width: 1.5,
+                            ),
+                            borderRadius: BorderRadius.all(Radius.circular(15)),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                              color: Colors.blueAccent,
+                              width: 2,
+                            ),
+                            borderRadius: BorderRadius.all(Radius.circular(15)),
+                          ),
+                        ),
+                      ),
+                      onChanged: (v) {
+                        cubit.setBusStation2(v!);
+                      },
+                      selectedItem: cubit.BusStation2,
+                    ),
+                  ),
+
+                  SizedBox(height: screenHeight * 0.06),
+
+                  // Search button
+                  Center(
+                    child: BlocBuilder<SelectRoute, RouteState>(
+                      bloc: cubit,
+                      builder: (context, state) {
+                        return MaterialButton(
+                          onPressed: () {
+                            if (cubit.ValidateBusStation() != null) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text(cubit.ValidateBusStation()),
+                                  backgroundColor: Colors.red,
+                                ),
+                              );
+                              return;
+                            }
+
+                            cubit.getInfoBusStation();
+                            cubit.ShowStations();
+                          },
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          minWidth: screenWidth * 0.55,
+                          color: const Color(0xff5A72A0),
+                          hoverColor: Colors.blue.shade900,
+                          child: state is InfoBusLoadingState
+                              ? const CircularProgressIndicator(
+                                  color: Colors.white,
+                                )
+                              : Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    const Icon(
+                                      Icons.search,
+                                      color: Colors.white,
+                                    ),
+                                    Text(
+                                      "\t ${S.of(context).searchRoute}",
+                                      style:
+                                          const TextStyle(color: Colors.white),
+                                    ),
+                                  ],
+                                ),
+                        );
+                      },
+                    ),
+                  ),
+
+                  SizedBox(height: screenHeight * 0.01),
+                ],
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}

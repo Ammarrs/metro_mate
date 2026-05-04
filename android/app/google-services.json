@@ -1,13 +1,13 @@
 {
   "project_info": {
-    "project_number": "14608649806",
-    "project_id": "metro-mate-72bba",
-    "storage_bucket": "metro-mate-72bba.firebasestorage.app"
+    "project_number": "608546416049",
+    "project_id": "notficatons",
+    "storage_bucket": "notficatons.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:14608649806:android:ed0836f33164bfcd527d1f",
+        "mobilesdk_app_id": "1:608546416049:android:13a6e2d9dc177c6ecb8990",
         "android_client_info": {
           "package_name": "com.example.metro_mate"
         }
@@ -15,7 +15,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyAsxUNwdYbsju5JxT0E4F9GmAB14ttXLnA"
+          "current_key": "AIzaSyCyJlkIt-torPhXSb4cAK9FlpIzBvmfSDs"
         }
       ],
       "services": {

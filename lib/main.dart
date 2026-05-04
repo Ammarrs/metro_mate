@@ -1,14 +1,24 @@
 import 'dart:io';
 
+import 'package:dio/dio.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:second/Bloc/LocaliztionCubit/Localization_Cubit.dart';
 import 'package:second/ChangePassword/ChangePassword_Cubit.dart';
+import 'package:second/Shuttle%20bus/ShuttleBus.dart';
+import 'package:second/Shuttle%20bus/ShuttleBusRoute.dart';
+import 'package:second/SubscrbtionScreen3,4/Bloc/Cubit.dart';
+import 'package:second/SubscrbtionScreen3,4/Screen3.dart';
+import 'package:second/SubscrbtionScreen3,4/Screen4.dart';
+import 'package:second/SubscrbtionScreen3,4/SubscriptionCashPage.dart';
+import 'package:second/SubscrbtionScreen3,4/SubscrptionConfurmVisa.dart';
 import 'package:second/components/home_app_bar.dart';
 import 'package:second/cubits/logout/logout_cubit.dart';
 import 'package:second/cubits/logout/logout_state.dart';
 import 'package:second/cubits/user/user_cubit.dart';
+import 'package:second/firebase_options.dart';
 import './cubits/subscription/subscription_cubit.dart';
 
 import 'package:second/generated/l10n.dart';
@@ -55,6 +65,9 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+
+  WidgetsFlutterBinding.ensureInitialized();
 
   if (Platform.isAndroid) {
     WebViewPlatform.instance = AndroidWebViewPlatform();
@@ -86,6 +99,7 @@ class MetroApp extends StatelessWidget {
         BlocProvider(
           create: (context) => SubscriptionCubit(),
         ),
+        BlocProvider(create: (context) => SubscriptionCubitS3(Dio())),
       ],
       child: BlocBuilder<LocaleCubit, LocaleState>(
         builder: (context, state) {
@@ -128,6 +142,12 @@ class MetroApp extends StatelessWidget {
               'ConfirmFawrypage': (context) => ConfirmFawrypage(),
               'ConfirmVisacardPage': (context) => ConfirmVisacardPage(),
               'Fawry': (context) => FawryPage(),
+              'Screen3': (context) => Screen3(),
+              "Shuttlebusroute": (context) => Shuttlebusroute(),
+              "Screen4": (context) => Screen4(),
+              "SubscrptionConfirmVisacardPage": (context) =>
+                  SubscrptionConfirmVisacardPage(),
+              "SubscrptionCashPage": (context) => SubscrptionCashPage(),
             },
             builder: (context, child) {
               return BlocListener<LogOutCubit, LogOutState>(
@@ -202,7 +222,12 @@ class _SplashRouterState extends State<SplashRouter> {
 class test_page extends StatelessWidget {
   test_page({super.key});
 
-  List<Widget> NavigationBarpage = [Home(), Tickets(), Wallet(), SubscriptionPage()];
+  List<Widget> NavigationBarpage = [
+    Home(),
+    Tickets(),
+    Shuttlebus(),
+    SubscriptionPage()
+  ];
   List<PreferredSizeWidget> NavigationBarAppBar = [
     AppBar(
       title: HomeAppBar(),
@@ -233,9 +258,9 @@ class test_page extends StatelessWidget {
           return NavigationBarpage[state];
         },
       ),
-      bottomNavigationBar: BlocBuilder<Navigate_Cubit, int>(
-        builder: (context, state) {
-          return BottomNavigationBar(
+      bottomNavigationBar:
+          BlocBuilder<Navigate_Cubit, int>(builder: (context, state) {
+        return BottomNavigationBar(
             currentIndex: state,
             type: BottomNavigationBarType.fixed,
             selectedItemColor: Colors.blue.shade300,
@@ -253,10 +278,10 @@ class test_page extends StatelessWidget {
                   icon: Icon(FontAwesomeIcons.ticket),
                   label: S.of(context).tickets),
               BottomNavigationBarItem(
-                  icon: Icon(Icons.account_balance_wallet),
-                  label: S.of(context).wallet),
+                  icon: Icon(Icons.bus_alert), label: S.of(context).wallet),
               BottomNavigationBarItem(
-                  icon: Icon(Icons.card_membership_rounded), label: "Subscribe"),
+                  icon: Icon(Icons.card_membership_rounded),
+                  label: "Subscribe"),
             ]);
       }),
     );

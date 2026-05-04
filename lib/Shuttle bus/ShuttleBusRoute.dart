@@ -1,43 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:second/Bloc/SelectRoute_State.dart';
+import 'package:second/Bloc/selectRoute_Cubit.dart';
+import 'package:second/VerticalStepsLine.dart';
 import 'package:second/generated/l10n.dart';
 
-import 'Bloc/SelectRoute_State.dart';
-import 'Bloc/selectRoute_Cubit.dart';
-import 'VerticalStepsLine.dart';
-
-class Routedeatils extends StatelessWidget {
-  const Routedeatils({super.key});
+class Shuttlebusroute extends StatelessWidget {
+  const Shuttlebusroute({super.key});
 
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<SelectRoute, RouteState>(builder: (context, state) {
       final cubit = context.read<SelectRoute>();
 
-      final int LineNumberForStation1 = cubit.StationLine(cubit.ShowStation1!);
-      final int LineNumberForStation2 = cubit.StationLine(cubit.ShowStation2!);
-      Widget buildLine(int line) {
-        switch (line) {
-          case 1:
-            return VerticalStepsLine(
-              values: cubit.MetroLine1,
-              color: Colors.blue,
-            );
-          case 2:
-            return VerticalStepsLine(
-              values: cubit.MetroLine2,
-              color: Colors.redAccent,
-            );
-          case 3:
-            return VerticalStepsLine(
-              values: cubit.MetroLine3,
-              color: Colors.greenAccent,
-            );
-          default:
-            return const SizedBox();
-        }
-      }
+      final int LineNumberForStation1 =
+          cubit.StationLine(cubit.ShowBusStation1!);
+      final int LineNumberForStation2 =
+          cubit.StationLine(cubit.ShowBusStation2!);
 
       return Scaffold(
         backgroundColor: Color(0xffFCFCFD),
@@ -64,7 +44,7 @@ class Routedeatils extends StatelessWidget {
               ),
               SizedBox(height: 8),
               Text(
-                '${cubit.ShowStation1} → ${cubit.ShowStation2}',
+                '${cubit.ShowBusStation1} → ${cubit.ShowBusStation2}',
                 style: TextStyle(
                   fontSize: 15,
                   color: Color(0xffC1DFEF),
@@ -72,11 +52,6 @@ class Routedeatils extends StatelessWidget {
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
               ),
-              IconButton(
-                  onPressed: () {
-                    Navigator.pushNamed(context, "Screen3");
-                  },
-                  icon: Icon(Icons.info))
             ],
           ),
           flexibleSpace: Container(
@@ -147,7 +122,7 @@ class Routedeatils extends StatelessWidget {
                                       style: TextStyle(color: Colors.grey),
                                     ),
                                     Text(
-                                        "${cubit.time} ${S.of(context).minutes}")
+                                        "${cubit.BustravelTime} ${S.of(context).minutes}")
                                   ],
                                 ),
                                 SizedBox(
@@ -167,7 +142,7 @@ class Routedeatils extends StatelessWidget {
                                       style: TextStyle(color: Colors.grey),
                                     ),
                                     Text(
-                                        "${cubit.distance} ${S.of(context).KM}")
+                                        "${cubit.Busdistance} ${S.of(context).KM}")
                                   ],
                                 ),
                               ],
@@ -195,7 +170,7 @@ class Routedeatils extends StatelessWidget {
                                       "${S.of(context).transfer}",
                                       style: TextStyle(color: Colors.grey),
                                     ),
-                                    Text("${cubit.numStation}")
+                                    Text("${cubit.Busstops}")
                                   ],
                                 ),
                                 SizedBox(
@@ -215,7 +190,8 @@ class Routedeatils extends StatelessWidget {
                                       "${S.of(context).ticketPrice}",
                                       style: TextStyle(color: Colors.grey),
                                     ),
-                                    Text("${S.of(context).EGP} ${cubit.price} ")
+                                    Text(
+                                        "${S.of(context).EGP} ${cubit.Busprice} ")
                                   ],
                                 ),
                               ],
@@ -274,118 +250,18 @@ class Routedeatils extends StatelessWidget {
                                     ],
                                   ),
                                   const Spacer(),
-                                  Column(
-                                    children: [
-                                      Text(
-                                        "${cubit.time}\n${S.of(context).minutes}",
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(
-                                          fontSize: 21,
-                                          color: Color(0xff5A72A0),
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                      Text(
-                                        "${cubit.distance} ${S.of(context).KM} ",
-                                        style: TextStyle(
-                                          color: Colors.grey,
-                                          fontSize: 15,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
                                 ],
                               ),
                               const SizedBox(height: 20),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  CircleAvatar(
-                                    backgroundColor: Colors.blue,
-                                    radius: 10,
-                                  ),
-                                  SizedBox(
-                                    width: 5,
-                                  ),
-                                  Text(S.current.Line1),
-                                  SizedBox(
-                                    width: 15,
-                                  ),
-                                  CircleAvatar(
-                                    backgroundColor: Colors.redAccent,
-                                    radius: 10,
-                                  ),
-                                  SizedBox(
-                                    width: 5,
-                                  ),
-                                  Text(S.current.Line2),
-                                  SizedBox(
-                                    width: 15,
-                                  ),
-                                  CircleAvatar(
-                                    backgroundColor: Colors.greenAccent,
-                                    radius: 10,
-                                  ),
-                                  SizedBox(
-                                    width: 5,
-                                  ),
-                                  Text(S.current.Line3),
-                                ],
-                              ),
                               const SizedBox(height: 20),
-                              if (LineNumberForStation1 ==
-                                  LineNumberForStation2)
-                                buildLine(LineNumberForStation1)
-                              else ...[
-                                buildLine(LineNumberForStation1),
-                                const SizedBox(height: 20),
-                                buildLine(LineNumberForStation2),
-                              ],
+                              VerticalStepsLine(
+                                values: cubit.BusLine,
+                                color: Colors.blue,
+                              )
                             ]),
                       ),
                     )
                   ],
-                ),
-              ),
-            ),
-            Container(
-              width: double.infinity,
-              height: 100,
-              decoration: BoxDecoration(boxShadow: [
-                BoxShadow(
-                  color: Colors.black26,
-                  spreadRadius: 2,
-                  blurRadius: 5,
-                  offset: Offset(1, 2),
-                )
-              ], color: Colors.white),
-              child: Padding(
-                padding: const EdgeInsets.only(bottom: 30.0),
-                child: Center(
-                  child: MaterialButton(
-                    onPressed: () {
-                      Navigator.pushNamed(context, "SelectQuantity");
-                    },
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20)),
-                    minWidth: 320,
-                    color: Color(0xff5A72A0),
-                    hoverColor: Colors.blue.shade900,
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Icon(
-                          FontAwesomeIcons.ticket,
-                          color: Colors.white,
-                        ),
-                        Text("      "),
-                        Text(
-                          S.current.buyTicketRoute,
-                          style: TextStyle(color: Colors.white),
-                        ),
-                      ],
-                    ),
-                  ),
                 ),
               ),
             ),

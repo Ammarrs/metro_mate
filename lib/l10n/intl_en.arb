@@ -297,7 +297,20 @@
   "duration": "Duration",
   "distance": "Distance",
   "transfer": "Transfer",
-  "total_price": "Total Price"
+  "total_price": "Total Price",
+
+   "waitingApproval": "Waiting until approved ⏳",
+  "approvedSubscription": "Approved Subscription ✅",
+  "nextToPayment": "Next To Payment",
+  "rejectedSubscription": "Rejected Subscription ❌\nCheck your Email for more details",
+  "backToHome": "Back to Home",
+  "alreadySubscribed": "You are already subscribed ✅",
+  "goToHome": "Go to Home",
+  "subscriptionPayment": "Subscription Payment",
+  "choosePaymentMethodError": "Choose payment method",
+  "subscriptionType": "Subscription Type",
+  "subscriptionDuration": "Subscription Duration",
+  "subscriptionStatus": "Subscription Status"
 
 
 }

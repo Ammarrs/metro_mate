@@ -229,8 +229,14 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "Wallet": MessageLookupByLibrary.simpleMessage("Wallet Balance"),
     "WelcomeBack": MessageLookupByLibrary.simpleMessage("Welcome back!"),
+    "alreadySubscribed": MessageLookupByLibrary.simpleMessage(
+      "You are already subscribed ✅",
+    ),
+    "approvedSubscription": MessageLookupByLibrary.simpleMessage(
+      "Approved Subscription ✅",
+    ),
     "back": MessageLookupByLibrary.simpleMessage("Back"),
-    "backToHome": MessageLookupByLibrary.simpleMessage("Back To Home"),
+    "backToHome": MessageLookupByLibrary.simpleMessage("Back to Home"),
     "billReference": MessageLookupByLibrary.simpleMessage("Bill Reference"),
     "biometricDesc": MessageLookupByLibrary.simpleMessage(
       "Use fingerprint or face ID",
@@ -260,6 +266,9 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "choosePaymentMethod": MessageLookupByLibrary.simpleMessage(
       "Choose Payment Method",
+    ),
+    "choosePaymentMethodError": MessageLookupByLibrary.simpleMessage(
+      "Choose payment method",
     ),
     "chooseProfilePhoto": MessageLookupByLibrary.simpleMessage(
       "Choose Profile Photo",
@@ -293,6 +302,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "errorTakingPhoto": MessageLookupByLibrary.simpleMessage(
       "Error taking photo:",
     ),
+    "goToHome": MessageLookupByLibrary.simpleMessage("Go to Home"),
     "home": MessageLookupByLibrary.simpleMessage("Home"),
     "homeScreenTitle": MessageLookupByLibrary.simpleMessage("Home"),
     "iframeNullError": MessageLookupByLibrary.simpleMessage(
@@ -306,6 +316,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "marketing": MessageLookupByLibrary.simpleMessage("Marketing"),
     "minutes": MessageLookupByLibrary.simpleMessage("min"),
+    "nextToPayment": MessageLookupByLibrary.simpleMessage("Next To Payment"),
     "notifications": MessageLookupByLibrary.simpleMessage("Notifications"),
     "offersPromotions": MessageLookupByLibrary.simpleMessage(
       "Promotions and offers",
@@ -333,6 +344,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "receiveNotifications": MessageLookupByLibrary.simpleMessage(
       "Receive app notifications",
     ),
+    "rejectedSubscription": MessageLookupByLibrary.simpleMessage(
+      "Rejected Subscription ❌\nCheck your Email for more details",
+    ),
     "routeDetails": MessageLookupByLibrary.simpleMessage("Route Details"),
     "routeSummary": MessageLookupByLibrary.simpleMessage("Route Summary"),
     "searchRoute": MessageLookupByLibrary.simpleMessage("Search Route"),
@@ -356,6 +370,18 @@ class MessageLookup extends MessageLookupByLibrary {
     "smsUpdates": MessageLookupByLibrary.simpleMessage(
       "Important updates via SMS",
     ),
+    "subscriptionDuration": MessageLookupByLibrary.simpleMessage(
+      "Subscription Duration",
+    ),
+    "subscriptionPayment": MessageLookupByLibrary.simpleMessage(
+      "Subscription Payment",
+    ),
+    "subscriptionStatus": MessageLookupByLibrary.simpleMessage(
+      "Subscription Status",
+    ),
+    "subscriptionType": MessageLookupByLibrary.simpleMessage(
+      "Subscription Type",
+    ),
     "takePhoto": MessageLookupByLibrary.simpleMessage("Take a Photo"),
     "ticket": MessageLookupByLibrary.simpleMessage("ticket"),
     "ticketPrice": MessageLookupByLibrary.simpleMessage("Ticket Price"),
@@ -376,6 +402,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "userName": MessageLookupByLibrary.simpleMessage("User Name"),
     "visaMastercardAccepted": MessageLookupByLibrary.simpleMessage(
       "Visa, Mastercard accepted",
+    ),
+    "waitingApproval": MessageLookupByLibrary.simpleMessage(
+      "Waiting until approved ⏳",
     ),
     "walking": MessageLookupByLibrary.simpleMessage("Walking"),
     "wallet": MessageLookupByLibrary.simpleMessage("Wallet"),

@@ -1314,9 +1314,9 @@ class S {
     );
   }
 
-  /// `Back To Home`
+  /// `Back to Home`
   String get backToHome {
-    return Intl.message('Back To Home', name: 'backToHome', desc: '', args: []);
+    return Intl.message('Back to Home', name: 'backToHome', desc: '', args: []);
   }
 
   /// `Select Quantity`
@@ -1762,6 +1762,111 @@ class S {
   /// `Total Price`
   String get total_price {
     return Intl.message('Total Price', name: 'total_price', desc: '', args: []);
+  }
+
+  /// `Waiting until approved ⏳`
+  String get waitingApproval {
+    return Intl.message(
+      'Waiting until approved ⏳',
+      name: 'waitingApproval',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Approved Subscription ✅`
+  String get approvedSubscription {
+    return Intl.message(
+      'Approved Subscription ✅',
+      name: 'approvedSubscription',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Next To Payment`
+  String get nextToPayment {
+    return Intl.message(
+      'Next To Payment',
+      name: 'nextToPayment',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Rejected Subscription ❌\nCheck your Email for more details`
+  String get rejectedSubscription {
+    return Intl.message(
+      'Rejected Subscription ❌\nCheck your Email for more details',
+      name: 'rejectedSubscription',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `You are already subscribed ✅`
+  String get alreadySubscribed {
+    return Intl.message(
+      'You are already subscribed ✅',
+      name: 'alreadySubscribed',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Go to Home`
+  String get goToHome {
+    return Intl.message('Go to Home', name: 'goToHome', desc: '', args: []);
+  }
+
+  /// `Subscription Payment`
+  String get subscriptionPayment {
+    return Intl.message(
+      'Subscription Payment',
+      name: 'subscriptionPayment',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Choose payment method`
+  String get choosePaymentMethodError {
+    return Intl.message(
+      'Choose payment method',
+      name: 'choosePaymentMethodError',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Subscription Type`
+  String get subscriptionType {
+    return Intl.message(
+      'Subscription Type',
+      name: 'subscriptionType',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Subscription Duration`
+  String get subscriptionDuration {
+    return Intl.message(
+      'Subscription Duration',
+      name: 'subscriptionDuration',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Subscription Status`
+  String get subscriptionStatus {
+    return Intl.message(
+      'Subscription Status',
+      name: 'subscriptionStatus',
+      desc: '',
+      args: [],
+    );
   }
 }
 

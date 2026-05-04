@@ -213,8 +213,14 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "Wallet": MessageLookupByLibrary.simpleMessage("رصيد المحفظة"),
     "WelcomeBack": MessageLookupByLibrary.simpleMessage("مرحبًا بعودتك!"),
+    "alreadySubscribed": MessageLookupByLibrary.simpleMessage(
+      "أنت مشترك بالفعل ✅",
+    ),
+    "approvedSubscription": MessageLookupByLibrary.simpleMessage(
+      "تم قبول الاشتراك ✅",
+    ),
     "back": MessageLookupByLibrary.simpleMessage("رجوع"),
-    "backToHome": MessageLookupByLibrary.simpleMessage("العودة للرئيسية"),
+    "backToHome": MessageLookupByLibrary.simpleMessage("الرجوع للرئيسية"),
     "billReference": MessageLookupByLibrary.simpleMessage("رقم الفاتورة"),
     "biometricDesc": MessageLookupByLibrary.simpleMessage(
       "استخدم البصمة أو التعرف على الوجه",
@@ -243,6 +249,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "choosePaymentMethod": MessageLookupByLibrary.simpleMessage(
       "اختر طريقة الدفع",
     ),
+    "choosePaymentMethodError": MessageLookupByLibrary.simpleMessage(
+      "اختار طريقة الدفع",
+    ),
     "chooseProfilePhoto": MessageLookupByLibrary.simpleMessage("اختر صورة"),
     "choose_persons": MessageLookupByLibrary.simpleMessage("اختر عدد الأشخاص"),
     "choose_station": MessageLookupByLibrary.simpleMessage("اختر محطة المترو"),
@@ -267,6 +276,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "errorTakingPhoto": MessageLookupByLibrary.simpleMessage(
       "خطأ في التقاط الصورة:",
     ),
+    "goToHome": MessageLookupByLibrary.simpleMessage("اذهب للصفحه للرئيسية"),
     "home": MessageLookupByLibrary.simpleMessage("الصفحة الرئيسية"),
     "homeScreenTitle": MessageLookupByLibrary.simpleMessage("الرئيسية"),
     "iframeNullError": MessageLookupByLibrary.simpleMessage(
@@ -278,6 +288,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "manageAccount": MessageLookupByLibrary.simpleMessage("إدارة الحساب"),
     "marketing": MessageLookupByLibrary.simpleMessage("العروض"),
     "minutes": MessageLookupByLibrary.simpleMessage("دقيقة"),
+    "nextToPayment": MessageLookupByLibrary.simpleMessage("الانتقال للدفع"),
     "notifications": MessageLookupByLibrary.simpleMessage("الإشعارات"),
     "offersPromotions": MessageLookupByLibrary.simpleMessage(
       "العروض والتخفيضات",
@@ -303,6 +314,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "receiveNotifications": MessageLookupByLibrary.simpleMessage(
       "استقبال إشعارات التطبيق",
     ),
+    "rejectedSubscription": MessageLookupByLibrary.simpleMessage(
+      "تم رفض الاشتراك ❌\nراجع بريدك الإلكتروني",
+    ),
     "routeDetails": MessageLookupByLibrary.simpleMessage("تفاصيل الرحلة"),
     "routeSummary": MessageLookupByLibrary.simpleMessage("ملخص الرحلة"),
     "searchRoute": MessageLookupByLibrary.simpleMessage("ابحث عن الرحلة"),
@@ -324,6 +338,12 @@ class MessageLookup extends MessageLookupByLibrary {
     "smsUpdates": MessageLookupByLibrary.simpleMessage(
       "تحديثات مهمة عبر الرسائل",
     ),
+    "subscriptionDuration": MessageLookupByLibrary.simpleMessage(
+      "مدة الاشتراك",
+    ),
+    "subscriptionPayment": MessageLookupByLibrary.simpleMessage("دفع الاشتراك"),
+    "subscriptionStatus": MessageLookupByLibrary.simpleMessage("حالة الاشتراك"),
+    "subscriptionType": MessageLookupByLibrary.simpleMessage("نوع الاشتراك"),
     "takePhoto": MessageLookupByLibrary.simpleMessage("التقاط صورة"),
     "ticket": MessageLookupByLibrary.simpleMessage("تذكرة"),
     "ticketPrice": MessageLookupByLibrary.simpleMessage("سعر التذكرة"),
@@ -342,6 +362,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "userName": MessageLookupByLibrary.simpleMessage("اسم المستخدم"),
     "visaMastercardAccepted": MessageLookupByLibrary.simpleMessage(
       "فيزا، ماستركارد مقبولة",
+    ),
+    "waitingApproval": MessageLookupByLibrary.simpleMessage(
+      "في انتظار الموافقة ⏳",
     ),
     "walking": MessageLookupByLibrary.simpleMessage("مشياً"),
     "wallet": MessageLookupByLibrary.simpleMessage("المحفظة"),
