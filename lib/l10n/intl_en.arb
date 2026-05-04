@@ -310,7 +310,22 @@
   "choosePaymentMethodError": "Choose payment method",
   "subscriptionType": "Subscription Type",
   "subscriptionDuration": "Subscription Duration",
-  "subscriptionStatus": "Subscription Status"
+  "subscriptionStatus": "Subscription Status",
+  
+  "enterYourEmail": "Enter your email",
+  "enterYourPassword": "Enter your password",
+  "passwordInvalid": "Password must be at least 8 characters, include uppercase, lowercase, number and symbol",
+  "passwordNotMatch": "Passwords do not match",
+  "enterYourName": "Enter your name",
+  "enterYourEmail": "Enter your email",
+  "invalidEmail": "Enter a valid email",
+  "enterPhone": "Enter your phone number",
+  "invalidPhone": "Phone must be 11 digits and start with 01",
+  "enterYourPassword": "Enter your password",
+  "passwordInvalid": "Password must be at least 8 characters, include uppercase, lowercase, number and symbol",
+  "passwordNotMatch": "Passwords do not match"
+
+
 
 
 }

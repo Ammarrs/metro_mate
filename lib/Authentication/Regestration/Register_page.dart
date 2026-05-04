@@ -179,7 +179,16 @@ class RegisterPage extends StatelessWidget {
                         ),
                         TextFormField(
                           onChanged: cubit.ChangeName,
-                          validator: cubit.ValidateName,
+                          validator: (value) {
+                            final result = cubit.ValidateName(value);
+                            if (result != null) {
+                              switch (result) {
+                                case "enterYourName":
+                                  return S.of(context).enterYourName;
+                              }
+                            }
+                            return null;
+                          },
                           decoration: InputDecoration(
                             fillColor: Colors.grey.shade200,
                             filled: true,
@@ -200,7 +209,18 @@ class RegisterPage extends StatelessWidget {
                         TextFormField(
                           controller: EmailController,
                           onChanged: cubit.ChangeEmail,
-                          validator: cubit.ValidateEmail,
+                          validator: (value) {
+                            final result = cubit.ValidateEmail(value);
+                            if (result != null) {
+                              switch (result) {
+                                case "enterYourEmail":
+                                  return S.of(context).enterYourEmail;
+                                case "invalidEmail":
+                                  return S.of(context).invalidEmail;
+                              }
+                            }
+                            return null;
+                          },
                           decoration: InputDecoration(
                             fillColor: Colors.grey.shade200,
                             filled: true,
@@ -220,7 +240,18 @@ class RegisterPage extends StatelessWidget {
                         ),
                         TextFormField(
                           onChanged: cubit.ChangePassword,
-                          validator: cubit.ValidatePassword,
+                          validator: (value) {
+                            final result = cubit.ValidatePassword(value);
+                            if (result != null) {
+                              switch (result) {
+                                case "enterYourPassword":
+                                  return S.of(context).enterYourPassword;
+                                case "passwordInvalid":
+                                  return S.of(context).passwordInvalid;
+                              }
+                            }
+                            return null;
+                          },
                           obscureText: !cubit.passwordVisable,
                           decoration: InputDecoration(
                               fillColor: Colors.grey.shade200,
@@ -247,7 +278,18 @@ class RegisterPage extends StatelessWidget {
                         ),
                         TextFormField(
                           onChanged: cubit.ChangeConfimPassword,
-                          validator: cubit.ValidateConfimPassword,
+                          validator: (value) {
+                            final result = cubit.ValidateConfimPassword(value);
+                            if (result != null) {
+                              switch (result) {
+                                case "enterYourPassword":
+                                  return S.of(context).enterYourPassword;
+                                case "passwordNotMatch":
+                                  return S.of(context).passwordNotMatch;
+                              }
+                            }
+                            return null;
+                          },
                           obscureText: !cubit.ConfirmPasswordVisable,
                           decoration: InputDecoration(
                               fillColor: Colors.grey.shade200,
@@ -274,7 +316,18 @@ class RegisterPage extends StatelessWidget {
                         ),
                         TextFormField(
                           onChanged: cubit.ChangePhone,
-                          validator: cubit.validatePhone,
+                          validator: (value) {
+                            final result = cubit.validatePhone(value);
+                            if (result != null) {
+                              switch (result) {
+                                case "enterPhone":
+                                  return S.of(context).enterPhone;
+                                case "invalidPhone":
+                                  return S.of(context).invalidPhone;
+                              }
+                            }
+                            return null;
+                          },
                           decoration: InputDecoration(
                             fillColor: Colors.grey.shade200,
                             filled: true,

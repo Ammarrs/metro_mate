@@ -90,7 +90,18 @@ class ForgetPassword extends StatelessWidget {
                 child: TextFormField(
                   controller: EmailControllerPassword,
                   onChanged: cubit.ChangeEmail,
-                  validator: cubit.ValidateEmail,
+                  validator: (value) {
+                    final result = cubit.ValidateEmail(value);
+
+                    if (result != null) {
+                      switch (result) {
+                        case "enterYourEmail":
+                          return S.of(context).enterYourEmail;
+                      }
+                    }
+
+                    return null;
+                  },
                   decoration: InputDecoration(
                     border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(25)),

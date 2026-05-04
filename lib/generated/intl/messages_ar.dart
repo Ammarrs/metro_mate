@@ -270,6 +270,14 @@ class MessageLookup extends MessageLookupByLibrary {
     "emailNotifications": MessageLookupByLibrary.simpleMessage(
       "إشعارات البريد الإلكتروني",
     ),
+    "enterPhone": MessageLookupByLibrary.simpleMessage("ادخل رقم الهاتف"),
+    "enterYourEmail": MessageLookupByLibrary.simpleMessage(
+      "ادخل البريد الإلكتروني",
+    ),
+    "enterYourName": MessageLookupByLibrary.simpleMessage("ادخل اسمك"),
+    "enterYourPassword": MessageLookupByLibrary.simpleMessage(
+      "ادخل كلمة المرور",
+    ),
     "errorPickingImage": MessageLookupByLibrary.simpleMessage(
       "خطأ في اختيار الصورة:",
     ),
@@ -282,6 +290,12 @@ class MessageLookup extends MessageLookupByLibrary {
     "iframeNullError": MessageLookupByLibrary.simpleMessage(
       "حدث خطأ، حاول مرة أخرى",
     ),
+    "invalidEmail": MessageLookupByLibrary.simpleMessage(
+      "ادخل بريد إلكتروني صحيح",
+    ),
+    "invalidPhone": MessageLookupByLibrary.simpleMessage(
+      "رقم الهاتف يجب أن يكون 11 رقم ويبدأ بـ 01",
+    ),
     "language": MessageLookupByLibrary.simpleMessage("العربية"),
     "loginButton": MessageLookupByLibrary.simpleMessage("تسجيل الدخول"),
     "logoutButton": MessageLookupByLibrary.simpleMessage("تسجيل الخروج"),
@@ -293,7 +307,13 @@ class MessageLookup extends MessageLookupByLibrary {
     "offersPromotions": MessageLookupByLibrary.simpleMessage(
       "العروض والتخفيضات",
     ),
+    "passwordInvalid": MessageLookupByLibrary.simpleMessage(
+      "كلمة المرور يجب أن تكون 8 أحرف على الأقل وتحتوي على حروف كبيرة وصغيرة ورقم ورمز",
+    ),
     "passwordLabel": MessageLookupByLibrary.simpleMessage("كلمة المرور"),
+    "passwordNotMatch": MessageLookupByLibrary.simpleMessage(
+      "كلمتا المرور غير متطابقتين",
+    ),
     "payButton": MessageLookupByLibrary.simpleMessage("ادفع"),
     "payEg": MessageLookupByLibrary.simpleMessage("ادفع"),
     "paymentId": MessageLookupByLibrary.simpleMessage("رقم العملية"),

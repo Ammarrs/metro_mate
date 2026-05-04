@@ -99,7 +99,19 @@ class NewpasswordPage extends StatelessWidget {
                     TextFormField(
                       obscureText: !cubit.passwordVisble,
                       onChanged: cubit.ChangePassword,
-                      validator: cubit.ValidatePassword,
+                      validator: (value) {
+                        final result = cubit.ValidatePassword(value);
+
+                        if (result != null) {
+                          switch (result) {
+                            case "enterYourPassword":
+                              return S.of(context).enterYourPassword;
+                            case "passwordInvalid":
+                              return S.of(context).passwordInvalid;
+                          }
+                        }
+                        return null;
+                      },
                       decoration: InputDecoration(
                         border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(25)),
@@ -127,7 +139,19 @@ class NewpasswordPage extends StatelessWidget {
                     TextFormField(
                       obscureText: !cubit.conPasswordVisable,
                       onChanged: cubit.ChangeConfirmPassword,
-                      validator: cubit.ValidateConfimPassword,
+                      validator: (value) {
+                        final result = cubit.ValidateConfimPassword(value);
+
+                        if (result != null) {
+                          switch (result) {
+                            case "enterYourPassword":
+                              return S.of(context).enterYourPassword;
+                            case "passwordNotMatch":
+                              return S.of(context).passwordNotMatch;
+                          }
+                        }
+                        return null;
+                      },
                       decoration: InputDecoration(
                         border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(25)),

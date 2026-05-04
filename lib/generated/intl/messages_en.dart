@@ -296,6 +296,14 @@ class MessageLookup extends MessageLookupByLibrary {
     "emailNotifications": MessageLookupByLibrary.simpleMessage(
       "Email Notifications",
     ),
+    "enterPhone": MessageLookupByLibrary.simpleMessage(
+      "Enter your phone number",
+    ),
+    "enterYourEmail": MessageLookupByLibrary.simpleMessage("Enter your email"),
+    "enterYourName": MessageLookupByLibrary.simpleMessage("Enter your name"),
+    "enterYourPassword": MessageLookupByLibrary.simpleMessage(
+      "Enter your password",
+    ),
     "errorPickingImage": MessageLookupByLibrary.simpleMessage(
       "Error picking image:",
     ),
@@ -307,6 +315,10 @@ class MessageLookup extends MessageLookupByLibrary {
     "homeScreenTitle": MessageLookupByLibrary.simpleMessage("Home"),
     "iframeNullError": MessageLookupByLibrary.simpleMessage(
       "Something went wrong. Please try again.",
+    ),
+    "invalidEmail": MessageLookupByLibrary.simpleMessage("Enter a valid email"),
+    "invalidPhone": MessageLookupByLibrary.simpleMessage(
+      "Phone must be 11 digits and start with 01",
     ),
     "language": MessageLookupByLibrary.simpleMessage("English"),
     "loginButton": MessageLookupByLibrary.simpleMessage("Login"),
@@ -321,7 +333,13 @@ class MessageLookup extends MessageLookupByLibrary {
     "offersPromotions": MessageLookupByLibrary.simpleMessage(
       "Promotions and offers",
     ),
+    "passwordInvalid": MessageLookupByLibrary.simpleMessage(
+      "Password must be at least 8 characters, include uppercase, lowercase, number and symbol",
+    ),
     "passwordLabel": MessageLookupByLibrary.simpleMessage("Password"),
+    "passwordNotMatch": MessageLookupByLibrary.simpleMessage(
+      "Passwords do not match",
+    ),
     "payButton": MessageLookupByLibrary.simpleMessage("Pay"),
     "payEg": MessageLookupByLibrary.simpleMessage("Pay EG"),
     "paymentId": MessageLookupByLibrary.simpleMessage("Payment ID"),

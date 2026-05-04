@@ -10,6 +10,8 @@ import 'package:second/ChangePassword/ChangePassword_Cubit.dart';
 import 'package:second/Shuttle%20bus/ShuttleBus.dart';
 import 'package:second/Shuttle%20bus/ShuttleBusRoute.dart';
 import 'package:second/SubscrbtionScreen3,4/Bloc/Cubit.dart';
+import 'package:second/SubscrbtionScreen3,4/Notfications/Local_Notfication.dart';
+import 'package:second/SubscrbtionScreen3,4/Notfications/push_notfication_SERVICE.dart';
 import 'package:second/SubscrbtionScreen3,4/Screen3.dart';
 import 'package:second/SubscrbtionScreen3,4/Screen4.dart';
 import 'package:second/SubscrbtionScreen3,4/SubscriptionCashPage.dart';
@@ -66,8 +68,10 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-
-  WidgetsFlutterBinding.ensureInitialized();
+  Future.wait([
+    PushNotficationService.init(),
+    LocalNotificationService.init(),
+  ]);
 
   if (Platform.isAndroid) {
     WebViewPlatform.instance = AndroidWebViewPlatform();
