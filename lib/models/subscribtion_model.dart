@@ -30,8 +30,8 @@ class SubscriptionPlan {
   factory SubscriptionPlan.fromJson(Map<String, dynamic> json) {
     return SubscriptionPlan(
       id: json['_id'] ?? '',
-      durationEn: json['duration']?['en'] ?? '',
-      durationAr: json['duration']?['ar'] ?? '',
+      durationEn: json['duration']?.toString() ?? '',
+      durationAr: json['duration']?.toString() ?? '',
       zones: json['zones'] as int?,
       prices: json['prices'] ?? 0,
     );
