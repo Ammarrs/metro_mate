@@ -227,6 +227,9 @@ class _ProfilePageState extends State<ProfilePage> {
                 backgroundColor: Colors.green,
               ),
             );
+          } else if (state is ProfileNameUpdating) {
+            // Sync the still-current user to UserCubit while the update is in flight
+            context.read<UserCubit>().setUser(state.user);
           } else if (state is ProfileError) {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
@@ -247,6 +250,10 @@ class _ProfilePageState extends State<ProfilePage> {
               displayEmail = profileState.user.email;
               profileImageUrl = profileState.user.profileImage;
             } else if (profileState is ProfileImageUploaded) {
+              displayName = profileState.user.name;
+              displayEmail = profileState.user.email;
+              profileImageUrl = profileState.user.profileImage;
+            } else if (profileState is ProfileNameUpdating) {
               displayName = profileState.user.name;
               displayEmail = profileState.user.email;
               profileImageUrl = profileState.user.profileImage;
@@ -390,15 +397,66 @@ class _ProfilePageState extends State<ProfilePage> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   mainAxisSize: MainAxisSize.min,
                                   children: [
-                                    Text(
-                                      displayName,
-                                      style: const TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                      overflow: TextOverflow.ellipsis,
-                                      maxLines: 1,
+                                    // ── Name row with pen edit indicator ──
+                                    Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        Flexible(
+                                          child: profileState is ProfileNameUpdating
+                                              // While saving: dim name + spinner
+                                              ? Row(
+                                                  mainAxisSize: MainAxisSize.min,
+                                                  children: [
+                                                    const SizedBox(
+                                                      width: 14,
+                                                      height: 14,
+                                                      child: CircularProgressIndicator(
+                                                        strokeWidth: 2,
+                                                        color: Colors.white,
+                                                      ),
+                                                    ),
+                                                    const SizedBox(width: 8),
+                                                    Flexible(
+                                                      child: Text(
+                                                        displayName,
+                                                        style: const TextStyle(
+                                                          color: Colors.white54,
+                                                          fontSize: 20,
+                                                          fontWeight: FontWeight.bold,
+                                                        ),
+                                                        overflow: TextOverflow.ellipsis,
+                                                        maxLines: 1,
+                                                      ),
+                                                    ),
+                                                  ],
+                                                )
+                                              // Normal: full-brightness name
+                                              : Text(
+                                                  displayName,
+                                                  style: const TextStyle(
+                                                    color: Colors.white,
+                                                    fontSize: 20,
+                                                    fontWeight: FontWeight.bold,
+                                                  ),
+                                                  overflow: TextOverflow.ellipsis,
+                                                  maxLines: 1,
+                                                ),
+                                        ),
+                                        // Pen icon — hidden while update is in flight
+                                        if (profileState is! ProfileNameUpdating)
+                                          GestureDetector(
+                                            onTap: () =>
+                                                _showEditNameDialog(context, displayName),
+                                            child: const Padding(
+                                              padding: EdgeInsets.only(left: 6),
+                                              child: Icon(
+                                                Icons.edit,
+                                                color: Colors.white70,
+                                                size: 18,
+                                              ),
+                                            ),
+                                          ),
+                                      ],
                                     ),
                                     const SizedBox(height: 4),
                                     Text(
@@ -487,6 +545,84 @@ class _ProfilePageState extends State<ProfilePage> {
           },
         ),
       ),
+    );
+  }
+
+  /// Shows a dialog that lets the user edit their display name.
+  /// Calls [ProfileCubit.updateUsername] on confirm.
+  Future<void> _showEditNameDialog(
+      BuildContext context, String currentName) async {
+    final controller = TextEditingController(text: currentName);
+    final formKey = GlobalKey<FormState>();
+
+    return showDialog<void>(
+      context: context,
+      builder: (dialogContext) {
+        return AlertDialog(
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+          title: const Text(
+            'Edit Name',
+            style: TextStyle(fontWeight: FontWeight.bold),
+          ),
+          content: Form(
+            key: formKey,
+            child: TextFormField(
+              controller: controller,
+              autofocus: true,
+              textCapitalization: TextCapitalization.words,
+              decoration: InputDecoration(
+                hintText: 'Enter your name',
+                prefixIcon:
+                    const Icon(Icons.person_outline, color: Color(0xFF4A6FA5)),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                  borderSide:
+                      const BorderSide(color: Color(0xFF4A6FA5), width: 2),
+                ),
+              ),
+              validator: (value) {
+                if (value == null || value.trim().isEmpty) {
+                  return 'Name cannot be empty';
+                }
+                if (value.trim().length < 2) {
+                  return 'Name must be at least 2 characters';
+                }
+                return null;
+              },
+            ),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(dialogContext),
+              child: const Text('Cancel',
+                  style: TextStyle(color: Colors.grey)),
+            ),
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: const Color(0xFF4A6FA5),
+                foregroundColor: Colors.white,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8)),
+              ),
+              onPressed: () {
+                if (formKey.currentState!.validate()) {
+                  final newName = controller.text.trim();
+                  Navigator.pop(dialogContext);
+                  // Only call API if the name actually changed
+                  if (newName != currentName) {
+                    context.read<ProfileCubit>().updateUsername(newName);
+                  }
+                }
+              },
+              child: const Text('Save'),
+            ),
+          ],
+        );
+      },
     );
   }
 

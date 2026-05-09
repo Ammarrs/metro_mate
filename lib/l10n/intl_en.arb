@@ -323,7 +323,54 @@
   "invalidPhone": "Phone must be 11 digits and start with 01",
   "enterYourPassword": "Enter your password",
   "passwordInvalid": "Password must be at least 8 characters, include uppercase, lowercase, number and symbol",
-  "passwordNotMatch": "Passwords do not match"
+  "passwordNotMatch": "Passwords do not match",
+  "subscription": "Subscriptions",
+
+  "step01": "STEP 01/02",
+  "selectCommuterProfile": "Select your commuter profile",
+  "commuterProfileDesc": "Tailored subscriptions for commuters. Choose the category that fits your journey.",
+
+  "selectProfile": "Select Profile",
+  "smartVerification": "Smart\nVerification",
+  "smartVerificationDesc": "Your chosen profile will require a valid ID upload in the next step. Documents are verified in under 15 minutes by our AI system.",
+  "verifiedUsers": "+15k verified",
+
+  "notSurePick": "Not sure which to pick?",
+  "eligibilityGuide": "Check eligibility guide",
+  "secureSubsidies": "Secure Subsidies",
+  "subsidyDesc": "Government-backed discounts applied automatically.",
+
+  "activeEnrollment": "Active enrollment required",
+  "militaryRates": "Dedicated rates for military and police",
+  "publicSector": "Public sector subscription",
+  "seniorCitizen": "Senior citizen discounts",
+  "specialCases": "Special support cases",
+  "specialNeeds": "Special needs support",
+
+  "upToTrips": "Up to 180 trips",
+  "multiZone": "Valid across multiple zones",
+  "monthlyQuarterly": "Monthly & quarterly plans",
+  "digitalReceipt": "Digital receipt tracking",
+  "priorityBoarding": "Priority boarding",
+  "allLines": "Valid across all lines",
+  "accessibleSupport": "Accessible boarding support",
+
+  "step02": "STEP 02/02",
+  "choosePlan": "Choose your plan",
+  "planDescription": "Select zone coverage and duration that fits your commute.",
+
+  "allZones": "All Zones",
+  "zone": "Zone",
+  "zones": "Zones",
+
+  "continueBtn": "Continue",
+
+  "egp": "EGP",
+  "perMonth": "mo",
+  "perQuarter": "qtr",
+  "per6Months": "6mo",
+  "perYear": "yr"
+
 
 
 

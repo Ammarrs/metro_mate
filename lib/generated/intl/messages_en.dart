@@ -229,6 +229,14 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "Wallet": MessageLookupByLibrary.simpleMessage("Wallet Balance"),
     "WelcomeBack": MessageLookupByLibrary.simpleMessage("Welcome back!"),
+    "accessibleSupport": MessageLookupByLibrary.simpleMessage(
+      "Accessible boarding support",
+    ),
+    "activeEnrollment": MessageLookupByLibrary.simpleMessage(
+      "Active enrollment required",
+    ),
+    "allLines": MessageLookupByLibrary.simpleMessage("Valid across all lines"),
+    "allZones": MessageLookupByLibrary.simpleMessage("All Zones"),
     "alreadySubscribed": MessageLookupByLibrary.simpleMessage(
       "You are already subscribed ✅",
     ),
@@ -270,6 +278,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "choosePaymentMethodError": MessageLookupByLibrary.simpleMessage(
       "Choose payment method",
     ),
+    "choosePlan": MessageLookupByLibrary.simpleMessage("Choose your plan"),
     "chooseProfilePhoto": MessageLookupByLibrary.simpleMessage(
       "Choose Profile Photo",
     ),
@@ -279,9 +288,13 @@ class MessageLookup extends MessageLookupByLibrary {
     "choose_station": MessageLookupByLibrary.simpleMessage(
       "Choose Metro Station",
     ),
+    "commuterProfileDesc": MessageLookupByLibrary.simpleMessage(
+      "Tailored subscriptions for commuters. Choose the category that fits your journey.",
+    ),
     "confirmPasswordLabel": MessageLookupByLibrary.simpleMessage(
       "Confirm Password",
     ),
+    "continueBtn": MessageLookupByLibrary.simpleMessage("Continue"),
     "continueToPayment": MessageLookupByLibrary.simpleMessage(
       "Continue To Payment",
     ),
@@ -289,9 +302,16 @@ class MessageLookup extends MessageLookupByLibrary {
       "Credit / Debit Card",
     ),
     "date": MessageLookupByLibrary.simpleMessage("Date"),
+    "digitalReceipt": MessageLookupByLibrary.simpleMessage(
+      "Digital receipt tracking",
+    ),
     "distance": MessageLookupByLibrary.simpleMessage("Distance"),
     "duration": MessageLookupByLibrary.simpleMessage("Duration"),
     "each": MessageLookupByLibrary.simpleMessage("each"),
+    "egp": MessageLookupByLibrary.simpleMessage("EGP"),
+    "eligibilityGuide": MessageLookupByLibrary.simpleMessage(
+      "Check eligibility guide",
+    ),
     "emailLabel": MessageLookupByLibrary.simpleMessage("Email"),
     "emailNotifications": MessageLookupByLibrary.simpleMessage(
       "Email Notifications",
@@ -327,8 +347,20 @@ class MessageLookup extends MessageLookupByLibrary {
       "Manage your account",
     ),
     "marketing": MessageLookupByLibrary.simpleMessage("Marketing"),
+    "militaryRates": MessageLookupByLibrary.simpleMessage(
+      "Dedicated rates for military and police",
+    ),
     "minutes": MessageLookupByLibrary.simpleMessage("min"),
+    "monthlyQuarterly": MessageLookupByLibrary.simpleMessage(
+      "Monthly & quarterly plans",
+    ),
+    "multiZone": MessageLookupByLibrary.simpleMessage(
+      "Valid across multiple zones",
+    ),
     "nextToPayment": MessageLookupByLibrary.simpleMessage("Next To Payment"),
+    "notSurePick": MessageLookupByLibrary.simpleMessage(
+      "Not sure which to pick?",
+    ),
     "notifications": MessageLookupByLibrary.simpleMessage("Notifications"),
     "offersPromotions": MessageLookupByLibrary.simpleMessage(
       "Promotions and offers",
@@ -347,11 +379,24 @@ class MessageLookup extends MessageLookupByLibrary {
     "paymentSummary": MessageLookupByLibrary.simpleMessage(
       "Payment Process Summary",
     ),
+    "per6Months": MessageLookupByLibrary.simpleMessage("6mo"),
+    "perMonth": MessageLookupByLibrary.simpleMessage("mo"),
+    "perQuarter": MessageLookupByLibrary.simpleMessage("qtr"),
+    "perYear": MessageLookupByLibrary.simpleMessage("yr"),
+    "planDescription": MessageLookupByLibrary.simpleMessage(
+      "Select zone coverage and duration that fits your commute.",
+    ),
     "planYourRoute": MessageLookupByLibrary.simpleMessage("Plan Your Route"),
+    "priorityBoarding": MessageLookupByLibrary.simpleMessage(
+      "Priority boarding",
+    ),
     "profile": MessageLookupByLibrary.simpleMessage("Profile"),
     "profileScreenTitle": MessageLookupByLibrary.simpleMessage("Profile"),
     "profileUpdated": MessageLookupByLibrary.simpleMessage(
       "Profile image updated successfully!",
+    ),
+    "publicSector": MessageLookupByLibrary.simpleMessage(
+      "Public sector subscription",
     ),
     "pushNotifications": MessageLookupByLibrary.simpleMessage(
       "Push Notifications",
@@ -370,13 +415,21 @@ class MessageLookup extends MessageLookupByLibrary {
     "searchRoute": MessageLookupByLibrary.simpleMessage("Search Route"),
     "searchStation": MessageLookupByLibrary.simpleMessage("Search station..."),
     "search_station": MessageLookupByLibrary.simpleMessage("Search station..."),
+    "secureSubsidies": MessageLookupByLibrary.simpleMessage("Secure Subsidies"),
     "securityPrivacy": MessageLookupByLibrary.simpleMessage(
       "Security & Privacy",
     ),
+    "selectCommuterProfile": MessageLookupByLibrary.simpleMessage(
+      "Select your commuter profile",
+    ),
+    "selectProfile": MessageLookupByLibrary.simpleMessage("Select Profile"),
     "selectQuantity": MessageLookupByLibrary.simpleMessage("Select Quantity"),
     "selectStation": MessageLookupByLibrary.simpleMessage("Select Station"),
     "select_persons": MessageLookupByLibrary.simpleMessage("Select persons"),
     "select_station": MessageLookupByLibrary.simpleMessage("Select Station"),
+    "seniorCitizen": MessageLookupByLibrary.simpleMessage(
+      "Senior citizen discounts",
+    ),
     "settings": MessageLookupByLibrary.simpleMessage("Settings"),
     "settingsPrivacy": MessageLookupByLibrary.simpleMessage(
       "Settings & Privacy",
@@ -384,10 +437,25 @@ class MessageLookup extends MessageLookupByLibrary {
     "settingsScreenTitle": MessageLookupByLibrary.simpleMessage("Settings"),
     "signOut": MessageLookupByLibrary.simpleMessage("Sign Out"),
     "signupButton": MessageLookupByLibrary.simpleMessage("Sign Up"),
+    "smartVerification": MessageLookupByLibrary.simpleMessage(
+      "Smart Verification",
+    ),
+    "smartVerificationDesc": MessageLookupByLibrary.simpleMessage(
+      "Your ID will be verified in under 15 minutes.",
+    ),
     "smsAlerts": MessageLookupByLibrary.simpleMessage("SMS Alerts"),
     "smsUpdates": MessageLookupByLibrary.simpleMessage(
       "Important updates via SMS",
     ),
+    "specialCases": MessageLookupByLibrary.simpleMessage(
+      "Special support cases",
+    ),
+    "specialNeeds": MessageLookupByLibrary.simpleMessage(
+      "Special needs support",
+    ),
+    "step01": MessageLookupByLibrary.simpleMessage("STEP 01/02"),
+    "step02": MessageLookupByLibrary.simpleMessage("STEP 02/02"),
+    "subscription": MessageLookupByLibrary.simpleMessage("Subscriptions"),
     "subscriptionDuration": MessageLookupByLibrary.simpleMessage(
       "Subscription Duration",
     ),
@@ -399,6 +467,9 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "subscriptionType": MessageLookupByLibrary.simpleMessage(
       "Subscription Type",
+    ),
+    "subsidyDesc": MessageLookupByLibrary.simpleMessage(
+      "Government-backed discounts applied automatically.",
     ),
     "takePhoto": MessageLookupByLibrary.simpleMessage("Take a Photo"),
     "ticket": MessageLookupByLibrary.simpleMessage("ticket"),
@@ -414,10 +485,12 @@ class MessageLookup extends MessageLookupByLibrary {
       "Trip Information",
     ),
     "tryAgain": MessageLookupByLibrary.simpleMessage("Try Again"),
+    "upToTrips": MessageLookupByLibrary.simpleMessage("Up to 180 trips"),
     "updatePassword": MessageLookupByLibrary.simpleMessage(
       "Update your account password",
     ),
     "userName": MessageLookupByLibrary.simpleMessage("User Name"),
+    "verifiedUsers": MessageLookupByLibrary.simpleMessage("+15k verified"),
     "visaMastercardAccepted": MessageLookupByLibrary.simpleMessage(
       "Visa, Mastercard accepted",
     ),
@@ -429,5 +502,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "welcomeMessage": MessageLookupByLibrary.simpleMessage(
       "Welcome to Metro Mate!",
     ),
+    "zone": MessageLookupByLibrary.simpleMessage("Zone"),
+    "zones": MessageLookupByLibrary.simpleMessage("Zones"),
   };
 }

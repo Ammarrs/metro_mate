@@ -1,9 +1,6 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:second/components/ai_assisstant/floating_ai_button.dart';
-import 'package:second/generated/l10n.dart';
 import '../../cubits/subscription/subscription_cubit.dart';
 import '../../cubits/subscription/subscription_state.dart';
 import '../models/subscribtion_model.dart';
@@ -39,8 +36,7 @@ class _CategoryMeta {
 const _categoryMeta = {
   'students': _CategoryMeta(
     icon: Icons.school_rounded,
-    description:
-        'Active enrollment in recognized Egyptian universities or schools required.',
+    description: 'Active enrollment in recognized Egyptian universities or schools required.',
     color: Color(0xFF5B8FB9),
     features: ['Up to 180 trips', 'Valid across multiple zones'],
   ),
@@ -52,8 +48,7 @@ const _categoryMeta = {
   ),
   'public': _CategoryMeta(
     icon: Icons.people_rounded,
-    description:
-        'Standard subscription for private and public sector professionals.',
+    description: 'Standard subscription for private and public sector professionals.',
     color: Color(0xFF7B6FA4),
     features: ['Monthly & quarterly plans', 'Digital receipt tracking'],
   ),
@@ -106,8 +101,7 @@ class _SubscriptionCategoryScreen extends StatelessWidget {
             if (state is SubscriptionCategoriesError) {
               return _ErrorView(
                 message: state.message,
-                onRetry: () =>
-                    context.read<SubscriptionCubit>().loadCategories(),
+                onRetry: () => context.read<SubscriptionCubit>().loadCategories(),
               );
             }
             if (state is SubscriptionCategoriesLoaded) {
@@ -173,20 +167,19 @@ class _CategoryList extends StatelessWidget {
           child: Padding(
             padding: const EdgeInsets.fromLTRB(20, 0, 20, 28),
             child: Column(
-              children: [
+              children: const [
                 _FaqTile(
                   icon: Icons.help_outline_rounded,
-                  text: S.of(context).notSurePick,
-                  subtitle:
-                      S.of(context).eligibilityGuide,
+                  text: 'Not sure which to pick?',
+                  subtitle: 'Check our detailed eligibility guide for commuters.',
                 ),
-                const SizedBox(height: 12),
+                SizedBox(height: 12),
                 _FaqTile(
                   icon: Icons.verified_rounded,
-                  text: S.of(context).secureSubsidies,
+                  text: 'Secure Subsidies',
                   subtitle:
-                      S.of(context).subsidyDesc,
-                  iconColor: const Color(0xFF2D7D46),
+                      'Government-backed discounts are directly applied to your wallet.',
+                  iconColor: Color(0xFF2D7D46),
                 ),
               ],
             ),
@@ -206,7 +199,7 @@ class _Header extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            S.of(context).step01,
+            'STEP 01/02',
             style: TextStyle(
               fontSize: 12,
               fontWeight: FontWeight.w600,
@@ -216,22 +209,22 @@ class _Header extends StatelessWidget {
           ),
           const SizedBox(height: 10),
           RichText(
-            text: TextSpan(
-              style: const TextStyle(
+            text: const TextSpan(
+              style: TextStyle(
                 fontSize: 28,
                 fontWeight: FontWeight.w700,
                 color: Color(0xFF1D2939),
                 height: 1.2,
               ),
               children: [
-                TextSpan(text: S.of(context).selectCommuterProfile),
-                // const TextSpan(
-                //   text: 'commuter profile',
-                //   style: TextStyle(
-                //     color: Color(0xFF1D3557),
-                //     fontStyle: FontStyle.italic,
-                //   ),
-                // ),
+                TextSpan(text: 'Select your\n'),
+                TextSpan(
+                  text: 'commuter profile',
+                  style: TextStyle(
+                    color: Color(0xFF1D3557),
+                    fontStyle: FontStyle.italic,
+                  ),
+                ),
               ],
             ),
           ),
@@ -345,9 +338,9 @@ class _CategoryCard extends StatelessWidget {
                   ),
                   elevation: 0,
                 ),
-                child: Text(
-                  S.of(context).selectProfile,
-                  style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 15),
+                child: const Text(
+                  'Select Profile',
+                  style: TextStyle(fontWeight: FontWeight.w600, fontSize: 15),
                 ),
               ),
             ),
@@ -371,9 +364,9 @@ class _SmartVerificationCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            S.of(context).smartVerification,
-            style: const TextStyle(
+          const Text(
+            'Smart\nVerification',
+            style: TextStyle(
               fontSize: 22,
               fontWeight: FontWeight.w700,
               color: Colors.white,
@@ -382,7 +375,7 @@ class _SmartVerificationCard extends StatelessWidget {
           ),
           const SizedBox(height: 10),
           Text(
-            S.of(context).smartVerificationDesc,
+            'Your chosen profile will require a valid ID upload in the next step. Documents are verified in under 15 minutes by our AI system.',
             style: TextStyle(
               fontSize: 13,
               color: Colors.white.withOpacity(0.75),
@@ -401,9 +394,9 @@ class _SmartVerificationCard extends StatelessWidget {
                   color: Colors.white.withOpacity(0.15),
                   borderRadius: BorderRadius.circular(20),
                 ),
-                child: Text(
-                  S.of(context).verifiedUsers,
-                  style: const TextStyle(
+                child: const Text(
+                  '+15k verified',
+                  style: TextStyle(
                     color: Colors.white,
                     fontSize: 12,
                     fontWeight: FontWeight.w500,
@@ -440,9 +433,11 @@ class _AvatarStack extends StatelessWidget {
               decoration: BoxDecoration(
                 color: _colors[i],
                 shape: BoxShape.circle,
-                border: Border.all(color: const Color(0xFF1D3557), width: 2),
+                border:
+                    Border.all(color: const Color(0xFF1D3557), width: 2),
               ),
-              child: const Icon(Icons.person, color: Colors.white, size: 16),
+              child:
+                  const Icon(Icons.person, color: Colors.white, size: 16),
             ),
           );
         }),
@@ -662,13 +657,13 @@ class _PlansListState extends State<_PlansList> {
   String _durationShort(String duration) {
     switch (duration.toLowerCase()) {
       case 'monthly':
-        return S.of(context).perMonth;
+        return 'mo';
       case 'quarterly':
-        return S.of(context).perQuarter;
+        return 'qtr';
       case 'half yearly':
-        return S.of(context).per6Months;
+        return '6mo';
       case 'yearly':
-        return S.of(context).perYear;
+        return 'yr';
       default:
         return duration;
     }
@@ -691,7 +686,7 @@ class _PlansListState extends State<_PlansList> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      S.of(context).step02,
+                      'STEP 02/02',
                       style: TextStyle(
                         fontSize: 12,
                         fontWeight: FontWeight.w600,
@@ -700,8 +695,8 @@ class _PlansListState extends State<_PlansList> {
                       ),
                     ),
                     const SizedBox(height: 8),
-                    Text(
-                      S.of(context).choosePlan,
+                    const Text(
+                      'Choose your plan',
                       style: TextStyle(
                         fontSize: 24,
                         fontWeight: FontWeight.w700,
@@ -710,7 +705,7 @@ class _PlansListState extends State<_PlansList> {
                     ),
                     const SizedBox(height: 6),
                     Text(
-                      S.of(context).planDescription,
+                      'Select the zone coverage and duration that fits your commute.',
                       style: TextStyle(
                         fontSize: 13.5,
                         color: Colors.grey.shade500,
@@ -813,8 +808,8 @@ class _PlansListState extends State<_PlansList> {
                                   children: [
                                     Text(
                                       plan.zones != null
-                                          ? '${plan.zones! > 1 ? "${plan.zones} ${S.of(context).zones}" : "${plan.zones} ${S.of(context).zone}"}'
-                                          : S.of(context).allZones,
+                                          ? '${plan.zones} Zone${plan.zones! > 1 ? 's' : ''}'
+                                          : 'All Zones',
                                       style: TextStyle(
                                         fontSize: 15,
                                         fontWeight: FontWeight.w700,
@@ -824,15 +819,15 @@ class _PlansListState extends State<_PlansList> {
                                       ),
                                     ),
                                     const SizedBox(height: 2),
-                                    // Text(
-                                    //   _capitalize(plan.durationEn),
-                                    //   style: TextStyle(
-                                    //     fontSize: 12,
-                                    //     color: isSelected
-                                    //         ? Colors.white.withOpacity(0.65)
-                                    //         : Colors.grey.shade400,
-                                    //   ),
-                                    // ),
+                                    Text(
+                                      _capitalize(plan.durationEn),
+                                      style: TextStyle(
+                                        fontSize: 12,
+                                        color: isSelected
+                                            ? Colors.white.withOpacity(0.65)
+                                            : Colors.grey.shade400,
+                                      ),
+                                    ),
                                   ],
                                 ),
                               ),
@@ -849,7 +844,7 @@ class _PlansListState extends State<_PlansList> {
                                       ),
                                       children: [
                                         TextSpan(
-                                          text: S.of(context).egp + " ",
+                                          text: 'EGP ',
                                           style: TextStyle(
                                             fontSize: 11,
                                             fontWeight: FontWeight.w500,
@@ -927,8 +922,8 @@ class _PlansListState extends State<_PlansList> {
                 ),
                 elevation: 0,
               ),
-              child: Text(
-                S.of(context).continueBtn,
+              child: const Text(
+                'Continue',
                 style: TextStyle(fontWeight: FontWeight.w700, fontSize: 16),
               ),
             ),

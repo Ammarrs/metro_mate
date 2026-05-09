@@ -23,6 +23,15 @@ class ProfileLoaded extends ProfileState {
 
 class ProfileImageUploading extends ProfileState {}
 
+class ProfileNameUpdating extends ProfileState {
+  final User user; // keep current user data visible while saving
+
+  const ProfileNameUpdating(this.user);
+
+  @override
+  List<Object?> get props => [user];
+}
+
 class ProfileImageUploaded extends ProfileState {
   final User user;
 

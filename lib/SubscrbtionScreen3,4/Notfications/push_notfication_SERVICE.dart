@@ -1,14 +1,17 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:second/SubscrbtionScreen3,4/Notfications/Local_Notfication.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class PushNotficationService {
   static FirebaseMessaging messaging = FirebaseMessaging.instance;
 
   static Future init() async {
+    final prefs = await SharedPreferences.getInstance();
     await Firebase.initializeApp();
     await messaging.requestPermission();
     String? token = await messaging.getToken();
+    await prefs.setString("fcm_token", token!);
     print(
         '................................................................................................................');
     print("Firebase Messaging Token: $token");

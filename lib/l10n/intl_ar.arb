@@ -259,8 +259,53 @@
   "invalidPhone": "رقم الهاتف يجب أن يكون 11 رقم ويبدأ بـ 01",
   "enterYourPassword": "ادخل كلمة المرور",
   "passwordInvalid": "كلمة المرور يجب أن تكون 8 أحرف على الأقل وتحتوي على حروف كبيرة وصغيرة ورقم ورمز",
-  "passwordNotMatch": "كلمتا المرور غير متطابقتين"
+  "passwordNotMatch": "كلمتا المرور غير متطابقتين",
+  "subscription": "الأشتراكات",
 
 
+  "step01": "الخطوة 01/02",
+  "selectCommuterProfile": "اختر نوع المستخدم",
+  "commuterProfileDesc": "اشتراكات مخصصة للمستخدمين. اختر الفئة المناسبة لرحلتك اليومية.",
+
+  "selectProfile": "اختيار الفئة",
+  "smartVerification": "التحقق الذكي",
+  "smartVerificationDesc": "الفئة المحددة تتطلب رفع تحقيق الشخصية في الخطوة القادمة, سيتم التحقق من الهوية خلال 15 دقيقة.",
+  "verifiedUsers": "+15 ألف مستخدم موثق",
+
+  "notSurePick": "غير متأكد من الاختيار؟",
+  "eligibilityGuide": "راجع دليل الأهلية",
+  "secureSubsidies": "دعم آمن",
+  "subsidyDesc": "الخصومات الحكومية تُطبق تلقائياً.",
+
+  "activeEnrollment": "يتطلب تسجيل نشط في مؤسسة تعليمية معتمدة",
+  "militaryRates": "أسعار خاصة للجيش والشرطة والمُتقاعدين",
+  "publicSector": "اشتراك للقطاع العام والخاص",
+  "seniorCitizen": "خصومات لكبار السن",
+  "specialCases": "حالات دعم خاصة",
+  "specialNeeds": "دعم لذوي الاحتياجات الخاصة",
+
+  "upToTrips": "حتى 180 رحلة",
+  "multiZone": "صالح عبر عدة مناطق",
+  "monthlyQuarterly": "خطط شهرية وربع سنوية",
+  "digitalReceipt": "إيصال رقمي",
+  "priorityBoarding": "أولوية الصعود",
+  "allLines": "صالح على جميع الخطوط",
+  "accessibleSupport": "دعم الوصول السهل",
+
+  "step02": "الخطوة 02/02",
+  "choosePlan": "اختر الخطة",
+  "planDescription": "اختر تغطية المناطق ومدة الاشتراك المناسبة لرحلتك.",
+
+  "allZones": "جميع المناطق",
+  "zone": "منطقة",
+  "zones": "مناطق",
+
+  "continueBtn": "متابعة",
+
+  "egp": "جنيه",
+  "perMonth": "شهري",
+  "perQuarter": "ربع سنوي",
+  "per6Months": "6 أشهر",
+  "perYear": "سنوي"
 
 }

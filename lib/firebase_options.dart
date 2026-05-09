@@ -65,4 +65,5 @@ class DefaultFirebaseOptions {
     storageBucket: 'notficatons.firebasestorage.app',
     iosBundleId: 'com.example.metroMate',
   );
+
 }

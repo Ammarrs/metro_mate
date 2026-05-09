@@ -178,6 +178,71 @@ class ProfileService {
     }
   }
 
+  /// Updates the user's display name
+  ///
+  /// Calls PATCH /api/v1/users/profile/updateusername with {"name": newName}
+  /// On success, updates the local cache and returns a ProfileResult with the
+  /// refreshed User object.
+  Future<ProfileResult> updateUsername(String newName) async {
+    try {
+      print('ProfileService: Updating username to "$newName"');
+
+      final response = await _apiClient.patch(
+        '/api/v1/users/profile/updateusername',
+        data: {'name': newName},
+      );
+
+      print('Update username status: ${response.statusCode}');
+      print('Update username data: ${response.data}');
+
+      if (response.statusCode == 200) {
+        final body = _safeMap(response.data);
+        final updatedName =
+            body?['data']?['name']?.toString() ?? newName;
+
+        // Persist updated name to cache
+        final cached = await _storage.getUserData();
+        final userId = await _storage.getUserId() ?? '';
+        await _storage.saveUserData(
+          id: userId,
+          email: cached?['email'] ?? '',
+          name: updatedName,
+          profileImage: cached?['profileImage'],
+        );
+
+        final user = User(
+          id: userId,
+          email: cached?['email'] ?? '',
+          name: updatedName,
+          profileImage: cached?['profileImage'],
+        );
+
+        return ProfileResult(
+          success: true,
+          message: 'Username updated successfully',
+          user: user,
+        );
+      }
+
+      return ProfileResult(
+        success: false,
+        message: 'Failed to update username (status ${response.statusCode})',
+      );
+    } on DioException catch (e) {
+      print('DioException in updateUsername: ${e.type} — ${e.message}');
+      if (e.response?.statusCode == 401) {
+        return ProfileResult(
+            success: false, message: 'Unauthorized. Please login again.');
+      }
+      return ProfileResult(
+          success: false, message: 'Network error: ${e.message}');
+    } catch (e) {
+      print('Unknown error in updateUsername: $e');
+      return ProfileResult(
+          success: false, message: 'An unexpected error occurred: $e');
+    }
+  }
+
   /// Helper method to get just the username
   Future<String?> getUsername() async {
     try {
