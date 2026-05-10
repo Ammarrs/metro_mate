@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:second/SubscrbtionScreen3,4/Notfications/Notfication_Cubit.dart';
 import 'package:second/generated/l10n.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'Bloc/SelectRoute_State.dart';
 import 'Bloc/selectRoute_Cubit.dart';
@@ -76,7 +78,40 @@ class Routedeatils extends StatelessWidget {
                   onPressed: () {
                     Navigator.pushNamed(context, "Screen3");
                   },
-                  icon: Icon(Icons.info))
+                  icon: Icon(Icons.info)),
+              BlocBuilder<NotificationCubit, int>(
+                builder: (context, count) {
+                  return Stack(
+                    children: [
+                      IconButton(
+                        onPressed: () {
+                          Navigator.pushNamed(context, "NotificationScreen");
+                        },
+                        icon: Icon(Icons.notifications),
+                      ),
+                      if (count > 0)
+                        Positioned(
+                          right: 6,
+                          top: 6,
+                          child: Container(
+                            padding: EdgeInsets.all(5),
+                            decoration: BoxDecoration(
+                              color: Colors.red,
+                              shape: BoxShape.circle,
+                            ),
+                            child: Text(
+                              count.toString(),
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 10,
+                              ),
+                            ),
+                          ),
+                        ),
+                    ],
+                  );
+                },
+              )
             ],
           ),
           flexibleSpace: Container(

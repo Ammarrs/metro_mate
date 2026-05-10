@@ -1199,10 +1199,10 @@ class S {
     return Intl.message('Buy Tickets', name: 'buyTickets', desc: '', args: []);
   }
 
-  /// `Choose Payment Method`
+  /// `Choose a payment method`
   String get choosePaymentMethod {
     return Intl.message(
-      'Choose Payment Method',
+      'Choose a payment method',
       name: 'choosePaymentMethod',
       desc: '',
       args: [],
@@ -1949,6 +1949,11 @@ class S {
     );
   }
 
+  /// `Shuttle Bus`
+  String get shuttleBus {
+    return Intl.message('Shuttle Bus', name: 'shuttleBus', desc: '', args: []);
+  }
+
   /// `Subscriptions`
   String get subscription {
     return Intl.message(
@@ -2094,6 +2099,20 @@ class S {
     );
   }
 
+  /// `Go to Home`
+  String get GoToHome {
+    return Intl.message('Go to Home', name: 'GoToHome', desc: '', args: []);
+  }
+
+  /// `Please select both stations`
+  String get selectStations {
+    return Intl.message(
+      'Please select both stations',
+      name: 'selectStations',
+      desc: '',
+      args: [],
+    );
+  }
   /// `Senior citizen discounts`
   String get seniorCitizen {
     return Intl.message(
@@ -2139,31 +2158,61 @@ class S {
     return Intl.message(
       'Valid across multiple zones',
       name: 'multiZone',
+       desc: '',
+      args: [],
+    );
+  }
+    
+
+  /// `Start and End Station cannot be the same`
+  String get sameStationError {
+    return Intl.message(
+      'Start and End Station cannot be the same',
+      name: 'sameStationError',
       desc: '',
       args: [],
     );
   }
-
   /// `Monthly & quarterly plans`
   String get monthlyQuarterly {
     return Intl.message(
       'Monthly & quarterly plans',
       name: 'monthlyQuarterly',
+       desc: '',
+      args: [],
+    );
+  }
+   
+
+  /// `Please select both stations and number of persons`
+  String get selectStationsAndPersons {
+    return Intl.message(
+      'Please select both stations and number of persons',
+      name: 'selectStationsAndPersons',
       desc: '',
       args: [],
     );
   }
-
   /// `Digital receipt tracking`
   String get digitalReceipt {
     return Intl.message(
       'Digital receipt tracking',
       name: 'digitalReceipt',
-      desc: '',
+       desc: '',
       args: [],
     );
   }
+     
 
+  /// `Please select number of persons`
+  String get selectNumberOfPersons {
+    return Intl.message(
+      'Please select number of persons',
+      name: 'selectNumberOfPersons',
+       desc: '',
+      args: [],
+    );
+  }
   /// `Priority boarding`
   String get priorityBoarding {
     return Intl.message(
@@ -2174,6 +2223,15 @@ class S {
     );
   }
 
+  /// `Information not found`
+  String get notFoundInformation {
+    return Intl.message(
+      'Information not found',
+      name: 'notFoundInformation',
+       desc: '',
+      args: [],
+    );
+  }
   /// `Valid across all lines`
   String get allLines {
     return Intl.message(
@@ -2184,6 +2242,15 @@ class S {
     );
   }
 
+  /// `Enter your password`
+  String get enterPassword {
+    return Intl.message(
+      'Enter your password',
+      name: 'enterPassword',
+       desc: '',
+      args: [],
+    );
+  }
   /// `Accessible boarding support`
   String get accessibleSupport {
     return Intl.message(
@@ -2194,6 +2261,15 @@ class S {
     );
   }
 
+  /// `Password must be at least 8 characters, include uppercase, lowercase, number and symbol`
+  String get passwordValidation {
+    return Intl.message(
+      'Password must be at least 8 characters, include uppercase, lowercase, number and symbol',
+      name: 'passwordValidation',
+       desc: '',
+      args: [],
+    );
+  }
   /// `STEP 02/02`
   String get step02 {
     return Intl.message('STEP 02/02', name: 'step02', desc: '', args: []);

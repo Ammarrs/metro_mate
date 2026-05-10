@@ -288,8 +288,13 @@ class Shuttlebus extends StatelessWidget {
                           color: const Color(0xff5A72A0),
                           hoverColor: Colors.blue.shade900,
                           child: state is InfoBusLoadingState
-                              ? const CircularProgressIndicator(
-                                  color: Colors.white,
+                              ? SizedBox(
+                                  height: 20,
+                                  width: 20,
+                                  child: const CircularProgressIndicator(
+                                    strokeWidth: 2,
+                                    color: Colors.white,
+                                  ),
                                 )
                               : Row(
                                   mainAxisSize: MainAxisSize.min,

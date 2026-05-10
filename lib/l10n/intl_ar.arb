@@ -260,6 +260,20 @@
   "enterYourPassword": "ادخل كلمة المرور",
   "passwordInvalid": "كلمة المرور يجب أن تكون 8 أحرف على الأقل وتحتوي على حروف كبيرة وصغيرة ورقم ورمز",
   "passwordNotMatch": "كلمتا المرور غير متطابقتين",
+  "shuttleBus": "الاتوبيس الترددي",
+  "subscriptions": "الاشتراكات",
+  "GoToHome": "اذهب للصفحه للرئيسية",
+  
+  "selectStations": "من فضلك اختر المحطتين",
+  "sameStationError": "لا يمكن أن تكون نقطة البداية والنهاية نفس المحطة",
+  "selectStationsAndPersons": "من فضلك اختر المحطات وعدد الأشخاص",
+  "selectNumberOfPersons": "من فضلك اختر عدد الأشخاص",
+  "choosePaymentMethod": "من فضلك اختر طريقة الدفع",
+  "notFoundInformation": "لا توجد بيانات متاحة",
+  
+  "enterPassword": "من فضلك أدخل كلمة المرور",
+  "passwordValidation": "يجب أن تحتوي كلمة المرور على 8 أحرف على الأقل وتشمل حرف كبير وصغير ورقم ورمز",
+  "passwordNotMatch": "كلمتا المرور غير متطابقتين"
   "subscription": "الأشتراكات",
 
 
@@ -310,5 +324,7 @@
 
   "BRT": "الأتوبيس الترددي",
   "SeeYourTrips": "تابع رحلاتك"
+
+
 
 }

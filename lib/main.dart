@@ -6,11 +6,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:second/Bloc/LocaliztionCubit/Localization_Cubit.dart';
+
 import 'package:second/ChangePassword/ChangePassword_Cubit.dart';
 import 'package:second/Shuttle%20bus/ShuttleBus.dart';
 import 'package:second/Shuttle%20bus/ShuttleBusRoute.dart';
 import 'package:second/SubscrbtionScreen3,4/Bloc/Cubit.dart';
 import 'package:second/SubscrbtionScreen3,4/Notfications/Local_Notfication.dart';
+import 'package:second/SubscrbtionScreen3,4/Notfications/Notfication_Cubit.dart';
+import 'package:second/SubscrbtionScreen3,4/Notfications/Notfication_History.dart';
 import 'package:second/SubscrbtionScreen3,4/Notfications/push_notfication_SERVICE.dart';
 import 'package:second/SubscrbtionScreen3,4/Screen3.dart';
 import 'package:second/SubscrbtionScreen3,4/Screen4.dart';
@@ -90,6 +93,9 @@ class MetroApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
+        BlocProvider(
+          create: (context) => NotificationCubit(),
+        ),
         BlocProvider(create: (context) => ChangePasswordCubit()),
         BlocProvider(create: (context) => RegisterCubit()),
         BlocProvider(create: (context) => ForgetPasswordCubit()),
@@ -153,8 +159,11 @@ class MetroApp extends StatelessWidget {
               "SubscrptionConfirmVisacardPage": (context) =>
                   SubscrptionConfirmVisacardPage(),
               "SubscrptionCashPage": (context) => SubscrptionCashPage(),
+              "NotificationScreen": (context) => NotificationScreen(),
             },
             builder: (context, child) {
+              PushNotficationService.setContext(context);
+
               return BlocListener<LogOutCubit, LogOutState>(
                 listener: (context, state) {
                   if (state is LogOutSuccessful) {
@@ -224,8 +233,26 @@ class _SplashRouterState extends State<SplashRouter> {
 }
 
 /// Main App Shell
-class test_page extends StatelessWidget {
+class test_page extends StatefulWidget {
   test_page({super.key});
+
+  @override
+  State<test_page> createState() => _test_pageState();
+}
+
+class _test_pageState extends State<test_page> {
+  @override
+  void initState() {
+    super.initState();
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      PushNotficationService.setContext(context);
+
+      LocalNotificationService.streamController.stream.listen((event) {
+        Navigator.pushNamed(context, 'NotificationScreen');
+      });
+    });
+  }
 
   List<Widget> NavigationBarpage = [
     Home(),
@@ -234,31 +261,41 @@ class test_page extends StatelessWidget {
     SubscriptionPage(),
     ProfileSettingsPageView()
   ];
-  List<PreferredSizeWidget> NavigationBarAppBar = [
-    AppBar(
-      title: HomeAppBar(),
-      automaticallyImplyLeading: false,
-    ),
-    AppBar(
-      title: Text("Ticket"),
-      automaticallyImplyLeading: false,
-    ),
-    AppBar(
-      title: Text("Profile"),
-      automaticallyImplyLeading: false,
-    ),
-    AppBar(
-      title: Text("Subscribtion"),
-      automaticallyImplyLeading: false,
-    ),
-  ];
+
+  List<PreferredSizeWidget> getAppBars(BuildContext context) {
+    return [
+      AppBar(
+        title: null,
+        automaticallyImplyLeading: false,
+      ),
+      AppBar(
+        backgroundColor: Colors.white,
+        title: Text(S.of(context).tickets),
+        automaticallyImplyLeading: false,
+      ),
+      AppBar(
+        backgroundColor: Colors.white,
+        title: Text(S.of(context).shuttleBus),
+        automaticallyImplyLeading: false,
+      ),
+      AppBar(
+        backgroundColor: Colors.white,
+        title: Text(S.of(context).subscriptions),
+        automaticallyImplyLeading: false,
+      ),
+    ];
+  }
 
   int CurrentIndex = 0;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      extendBodyBehindAppBar: true,
       backgroundColor: const Color(0xffFCFCFD),
+      appBar: context.watch<Navigate_Cubit>().state == 0
+          ? null
+          : getAppBars(context)[context.watch<Navigate_Cubit>().state],
       body: BlocBuilder<Navigate_Cubit, int>(
         builder: (context, state) {
           return NavigationBarpage[state];
@@ -271,6 +308,7 @@ class test_page extends StatelessWidget {
             type: BottomNavigationBarType.fixed,
             selectedItemColor: Colors.blue.shade300,
             unselectedItemColor: Colors.grey,
+            backgroundColor: Colors.white,
             onTap: (value) {
               context.read<Navigate_Cubit>().ChangeIndex(value);
               context.read<SelectRoute>().Hide();
@@ -284,7 +322,8 @@ class test_page extends StatelessWidget {
                   icon: Icon(FontAwesomeIcons.ticket),
                   label: S.of(context).tickets),
               BottomNavigationBarItem(
-                  icon: Icon(Icons.bus_alert), label: S.of(context).wallet),
+                  icon: Icon(FontAwesomeIcons.bus),
+                  label: S.of(context).shuttleBus),
               BottomNavigationBarItem(
                   icon: Icon(Icons.card_membership_rounded),
                   label: S.of(context).subscription),

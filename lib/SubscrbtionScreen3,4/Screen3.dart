@@ -6,6 +6,7 @@ import 'package:dio/dio.dart';
 import 'package:second/SubscrbtionScreen3,4/Bloc/Cubit.dart';
 import 'package:second/SubscrbtionScreen3,4/Bloc/State.dart';
 import 'package:second/generated/l10n.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Screen3 extends StatefulWidget {
   const Screen3({super.key});
@@ -113,6 +114,11 @@ class _Screen3State extends State<Screen3> {
             const SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
+                print(SharedPreferences.getInstance().then((prefs) {
+                  String? subscriptionId = prefs.getString('subscription_id');
+                  print(
+                      "Subscription ID from SharedPreferences: $subscriptionId");
+                }));
                 Navigator.pushNamed(context, "Screen4");
               },
               child: Text(S.of(context).nextToPayment),

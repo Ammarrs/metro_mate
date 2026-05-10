@@ -177,7 +177,7 @@ class HomeAppBar extends StatelessWidget {
                 onTap: onNotificationPressed,
                 child: Stack(
                   children: [
-                    const Icon(Icons.notifications_outlined,
+                    Icon(Icons.notifications_outlined,
                         color: Colors.white, size: 28),
                     if (notificationCount > 0)
                       Positioned(

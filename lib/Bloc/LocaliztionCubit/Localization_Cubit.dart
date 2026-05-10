@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -47,6 +48,7 @@ class LocaleCubit extends Cubit<LocaleState> {
 
     currentLocale = const Locale('ar');
     await _saveLanguage('ar');
+    await updateLanguageOnServer('ar');
     emit(ChangeLocaleState(currentLocale));
   }
 
@@ -55,10 +57,34 @@ class LocaleCubit extends Cubit<LocaleState> {
 
     currentLocale = const Locale('en');
     await _saveLanguage('en');
+    await updateLanguageOnServer('en');
     emit(ChangeLocaleState(currentLocale));
   }
 
   void toggleLanguage() {
     currentLocale.languageCode == 'en' ? changeToArabic() : changeToEnglish();
+  }
+
+  Future<void> updateLanguageOnServer(String lang) async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      String? token = prefs.getString('Token');
+
+      await Dio().patch(
+        'https://metrodb-production.up.railway.app/api/v1/users/language',
+        data: {
+          "lang": lang,
+        },
+        options: Options(
+          headers: {
+            "Authorization": "Bearer $token",
+          },
+        ),
+      );
+
+      print("✅ Language updated on server: $lang");
+    } catch (e) {
+      print("❌ Error updating language: $e");
+    }
   }
 }

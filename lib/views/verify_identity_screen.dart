@@ -55,7 +55,7 @@ class _VerifyIdentityScreen extends StatelessWidget {
           c.submitError != p.submitError,
       listener: (context, state) {
         if (state.isSubmitSuccess) {
-          Navigator.pushNamed(context, '/payment'); // adjust route name
+          Navigator.pushNamed(context, 'Screen3'); // adjust route name
         }
         if (state.submitError != null) {
           ScaffoldMessenger.of(context).showSnackBar(
@@ -519,8 +519,7 @@ class _DocumentCard extends StatelessWidget {
                 fontWeight: isRequired && !isUploaded && !hasError
                     ? FontWeight.w700
                     : FontWeight.w400,
-                letterSpacing:
-                    isRequired && !isUploaded && !hasError ? 0.8 : 0,
+                letterSpacing: isRequired && !isUploaded && !hasError ? 0.8 : 0,
               ),
             ),
             if (showSelectButton && !isUploading) ...[
@@ -542,7 +541,10 @@ class _DocumentCard extends StatelessWidget {
                 ),
               ),
             ],
-            if (!showSelectButton && !isUploaded && !isUploading && !hasError) ...[
+            if (!showSelectButton &&
+                !isUploaded &&
+                !isUploading &&
+                !hasError) ...[
               const SizedBox(height: 8),
               Text(
                 'Tap to upload',
@@ -669,8 +671,7 @@ class _BottomActions extends StatelessWidget {
                 )
               : const Text(
                   'Continue to Payment',
-                  style:
-                      TextStyle(fontWeight: FontWeight.w700, fontSize: 15),
+                  style: TextStyle(fontWeight: FontWeight.w700, fontSize: 15),
                 ),
         ),
       ),

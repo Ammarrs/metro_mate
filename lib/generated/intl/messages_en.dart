@@ -116,6 +116,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "GetStarted": MessageLookupByLibrary.simpleMessage("Get Started  >"),
     "GetSubscription": MessageLookupByLibrary.simpleMessage("Get Subscription"),
+    "GoToHome": MessageLookupByLibrary.simpleMessage("Go to Home"),
     "GrantPermission": MessageLookupByLibrary.simpleMessage("Grant Permission"),
     "HelpCenter": MessageLookupByLibrary.simpleMessage("Help Center"),
     "HelpSupport": MessageLookupByLibrary.simpleMessage("Help & Support"),
@@ -275,7 +276,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "Choose Type Of Payment Method",
     ),
     "choosePaymentMethod": MessageLookupByLibrary.simpleMessage(
-      "Choose Payment Method",
+      "Choose a payment method",
     ),
     "choosePaymentMethodError": MessageLookupByLibrary.simpleMessage(
       "Choose payment method",
@@ -317,6 +318,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "emailLabel": MessageLookupByLibrary.simpleMessage("Email"),
     "emailNotifications": MessageLookupByLibrary.simpleMessage(
       "Email Notifications",
+    ),
+    "enterPassword": MessageLookupByLibrary.simpleMessage(
+      "Enter your password",
     ),
     "enterPhone": MessageLookupByLibrary.simpleMessage(
       "Enter your phone number",
@@ -360,6 +364,8 @@ class MessageLookup extends MessageLookupByLibrary {
       "Valid across multiple zones",
     ),
     "nextToPayment": MessageLookupByLibrary.simpleMessage("Next To Payment"),
+    "notFoundInformation": MessageLookupByLibrary.simpleMessage(
+      "Information not found",
     "notSurePick": MessageLookupByLibrary.simpleMessage(
       "Not sure which to pick?",
     ),
@@ -373,6 +379,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "passwordLabel": MessageLookupByLibrary.simpleMessage("Password"),
     "passwordNotMatch": MessageLookupByLibrary.simpleMessage(
       "Passwords do not match",
+    ),
+    "passwordValidation": MessageLookupByLibrary.simpleMessage(
+      "Password must be at least 8 characters, include uppercase, lowercase, number and symbol",
     ),
     "payButton": MessageLookupByLibrary.simpleMessage("Pay"),
     "payEg": MessageLookupByLibrary.simpleMessage("Pay EG"),
@@ -414,6 +423,9 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "routeDetails": MessageLookupByLibrary.simpleMessage("Route Details"),
     "routeSummary": MessageLookupByLibrary.simpleMessage("Route Summary"),
+    "sameStationError": MessageLookupByLibrary.simpleMessage(
+      "Start and End Station cannot be the same",
+    ),
     "searchRoute": MessageLookupByLibrary.simpleMessage("Search Route"),
     "searchStation": MessageLookupByLibrary.simpleMessage("Search station..."),
     "search_station": MessageLookupByLibrary.simpleMessage("Search station..."),
@@ -421,12 +433,21 @@ class MessageLookup extends MessageLookupByLibrary {
     "securityPrivacy": MessageLookupByLibrary.simpleMessage(
       "Security & Privacy",
     ),
+    "selectNumberOfPersons": MessageLookupByLibrary.simpleMessage(
+      "Please select number of persons",
+    ),
     "selectCommuterProfile": MessageLookupByLibrary.simpleMessage(
       "Select your commuter profile",
     ),
     "selectProfile": MessageLookupByLibrary.simpleMessage("Select Profile"),
     "selectQuantity": MessageLookupByLibrary.simpleMessage("Select Quantity"),
     "selectStation": MessageLookupByLibrary.simpleMessage("Select Station"),
+    "selectStations": MessageLookupByLibrary.simpleMessage(
+      "Please select both stations",
+    ),
+    "selectStationsAndPersons": MessageLookupByLibrary.simpleMessage(
+      "Please select both stations and number of persons",
+    ),
     "select_persons": MessageLookupByLibrary.simpleMessage("Select persons"),
     "select_station": MessageLookupByLibrary.simpleMessage("Select Station"),
     "seniorCitizen": MessageLookupByLibrary.simpleMessage(
@@ -437,6 +458,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "Settings & Privacy",
     ),
     "settingsScreenTitle": MessageLookupByLibrary.simpleMessage("Settings"),
+    "shuttleBus": MessageLookupByLibrary.simpleMessage("Shuttle Bus"),
     "signOut": MessageLookupByLibrary.simpleMessage("Sign Out"),
     "signupButton": MessageLookupByLibrary.simpleMessage("Sign Up"),
     "smartVerification": MessageLookupByLibrary.simpleMessage(
@@ -470,6 +492,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "subscriptionType": MessageLookupByLibrary.simpleMessage(
       "Subscription Type",
     ),
+    "subscriptions": MessageLookupByLibrary.simpleMessage("Subscriptions"),
     "subsidyDesc": MessageLookupByLibrary.simpleMessage(
       "Government-backed discounts applied automatically.",
     ),

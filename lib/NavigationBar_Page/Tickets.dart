@@ -340,7 +340,7 @@ class Tickets extends StatelessWidget {
                     ),
                     Center(
                       child: MaterialButton(
-                        onPressed: () {
+                        onPressed: () async {
                           if (cubit.ValidateTicketPrice() != null) {
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(
@@ -351,7 +351,7 @@ class Tickets extends StatelessWidget {
                             return;
                           }
 
-                          cubit.getInfoStation();
+                          await cubit.getInfoStation();
                           cubit.TotalPrice();
                         },
                         shape: RoundedRectangleBorder(
@@ -359,7 +359,15 @@ class Tickets extends StatelessWidget {
                         minWidth: 230,
                         color: Color(0xff5A72A0),
                         child: state is InfoLodingState
-                            ? CircularProgressIndicator(color: Colors.white)
+                            ? Center(
+                                child: SizedBox(
+                                height: 20,
+                                width: 20,
+                                child: CircularProgressIndicator(
+                                  strokeWidth: 2,
+                                  color: Colors.white,
+                                ),
+                              ))
                             : Row(
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
@@ -377,12 +385,9 @@ class Tickets extends StatelessWidget {
                 ),
               ),
             ),
-
             SizedBox(
               height: 30,
             ),
-
-            /// Trip Info (نفس التصميم بالظبط)
             cubit.Selected == true
                 ? Container(
                     width: 200,
