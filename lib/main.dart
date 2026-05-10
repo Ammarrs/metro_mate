@@ -25,6 +25,7 @@ import 'package:second/cubits/logout/logout_state.dart';
 import 'package:second/cubits/user/user_cubit.dart';
 import 'package:second/firebase_options.dart';
 import './cubits/subscription/subscription_cubit.dart';
+import 'views/ProfileSettingsPage.dart';
 
 import 'package:second/generated/l10n.dart';
 import 'package:second/services/auth_service.dart';
@@ -148,7 +149,7 @@ class MetroApp extends StatelessWidget {
               'finish': (context) => Paymentfinish(),
               'ChangePassword': (context) => Changepassword(),
               'Onbordingscreen': (context) => Onbordingscreen(),
-              'Profile': (context) => ProfilePageView(),
+              'Profile': (context) => ProfileSettingsPageView(),
               'ConfirmFawrypage': (context) => ConfirmFawrypage(),
               'ConfirmVisacardPage': (context) => ConfirmVisacardPage(),
               'Fawry': (context) => FawryPage(),
@@ -257,7 +258,8 @@ class _test_pageState extends State<test_page> {
     Home(),
     Tickets(),
     Shuttlebus(),
-    SubscriptionPage()
+    SubscriptionPage(),
+    ProfileSettingsPageView()
   ];
 
   List<PreferredSizeWidget> getAppBars(BuildContext context) {
@@ -324,7 +326,10 @@ class _test_pageState extends State<test_page> {
                   label: S.of(context).shuttleBus),
               BottomNavigationBarItem(
                   icon: Icon(Icons.card_membership_rounded),
-                  label: S.of(context).subscriptions),
+                  label: S.of(context).subscription),
+              BottomNavigationBarItem(
+                  icon: Icon(Icons.settings),
+                  label: S.of(context).settingsScreenTitle),
             ]);
       }),
     );

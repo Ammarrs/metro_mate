@@ -100,6 +100,41 @@ class ProfileCubit extends Cubit<ProfileState> {
     }
   }
 
+  /// Updates the user's display name
+  ///
+  /// Flow:
+  /// 1. Emit ProfileNameUpdating (keeps current user visible, shows inline loader)
+  /// 2. Call ProfileService.updateUsername()
+  /// 3. On success → emit ProfileLoaded with updated user
+  /// 4. On failure → emit ProfileError (caller can re-load cached state)
+  Future<void> updateUsername(String newName) async {
+    try {
+      // Keep current user data so the UI doesn't blank out
+      User? currentUser;
+      if (state is ProfileLoaded) currentUser = (state as ProfileLoaded).user;
+      if (state is ProfileNameUpdating) {
+        currentUser = (state as ProfileNameUpdating).user;
+      }
+
+      if (currentUser != null) emit(ProfileNameUpdating(currentUser));
+
+      print('ProfileCubit: Updating username to "$newName"');
+      final result = await _profileService.updateUsername(newName);
+      print('ProfileCubit: Update username result = ${result.success}');
+
+      if (result.success && result.user != null) {
+        emit(ProfileLoaded(result.user!));
+      } else {
+        emit(ProfileError(result.message));
+        // Restore previous state so the page doesn't stay blank
+        if (currentUser != null) emit(ProfileLoaded(currentUser));
+      }
+    } catch (e) {
+      print('ProfileCubit: updateUsername exception = $e');
+      emit(ProfileError('Failed to update name: $e'));
+    }
+  }
+
   /// Resets the profile state to initial
   /// Useful when logging out or navigating away from profile
   void reset() {

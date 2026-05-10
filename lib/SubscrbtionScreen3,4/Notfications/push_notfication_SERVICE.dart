@@ -15,10 +15,12 @@ class PushNotficationService {
   }
 
   static Future init() async {
+    final prefs = await SharedPreferences.getInstance();
     await Firebase.initializeApp();
     await messaging.requestPermission();
 
     String? token = await messaging.getToken();
+    await prefs.setString("fcm_token", token!);
     print(
         '................................................................................................................');
     print("Firebase Messaging Token: $token");

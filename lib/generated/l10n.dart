@@ -1955,10 +1955,145 @@ class S {
   }
 
   /// `Subscriptions`
-  String get subscriptions {
+  String get subscription {
     return Intl.message(
       'Subscriptions',
-      name: 'subscriptions',
+      name: 'subscription',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `STEP 01/02`
+  String get step01 {
+    return Intl.message('STEP 01/02', name: 'step01', desc: '', args: []);
+  }
+
+  /// `Select your commuter profile`
+  String get selectCommuterProfile {
+    return Intl.message(
+      'Select your commuter profile',
+      name: 'selectCommuterProfile',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Tailored subscriptions for commuters. Choose the category that fits your journey.`
+  String get commuterProfileDesc {
+    return Intl.message(
+      'Tailored subscriptions for commuters. Choose the category that fits your journey.',
+      name: 'commuterProfileDesc',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Select Profile`
+  String get selectProfile {
+    return Intl.message(
+      'Select Profile',
+      name: 'selectProfile',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Smart\nVerification`
+  String get smartVerification {
+    return Intl.message(
+      'Smart\nVerification',
+      name: 'smartVerification',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Your chosen profile will require a valid ID upload in the next step. Documents are verified in under 15 minutes by our AI system.`
+  String get smartVerificationDesc {
+    return Intl.message(
+      'Your chosen profile will require a valid ID upload in the next step. Documents are verified in under 15 minutes by our AI system.',
+      name: 'smartVerificationDesc',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `+15k verified`
+  String get verifiedUsers {
+    return Intl.message(
+      '+15k verified',
+      name: 'verifiedUsers',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Not sure which to pick?`
+  String get notSurePick {
+    return Intl.message(
+      'Not sure which to pick?',
+      name: 'notSurePick',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Check eligibility guide`
+  String get eligibilityGuide {
+    return Intl.message(
+      'Check eligibility guide',
+      name: 'eligibilityGuide',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Secure Subsidies`
+  String get secureSubsidies {
+    return Intl.message(
+      'Secure Subsidies',
+      name: 'secureSubsidies',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Government-backed discounts applied automatically.`
+  String get subsidyDesc {
+    return Intl.message(
+      'Government-backed discounts applied automatically.',
+      name: 'subsidyDesc',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Active enrollment required`
+  String get activeEnrollment {
+    return Intl.message(
+      'Active enrollment required',
+      name: 'activeEnrollment',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Dedicated rates for military and police`
+  String get militaryRates {
+    return Intl.message(
+      'Dedicated rates for military and police',
+      name: 'militaryRates',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Public sector subscription`
+  String get publicSector {
+    return Intl.message(
+      'Public sector subscription',
+      name: 'publicSector',
       desc: '',
       args: [],
     );
@@ -1978,6 +2113,56 @@ class S {
       args: [],
     );
   }
+  /// `Senior citizen discounts`
+  String get seniorCitizen {
+    return Intl.message(
+      'Senior citizen discounts',
+      name: 'seniorCitizen',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Special support cases`
+  String get specialCases {
+    return Intl.message(
+      'Special support cases',
+      name: 'specialCases',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Special needs support`
+  String get specialNeeds {
+    return Intl.message(
+      'Special needs support',
+      name: 'specialNeeds',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Up to 180 trips`
+  String get upToTrips {
+    return Intl.message(
+      'Up to 180 trips',
+      name: 'upToTrips',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Valid across multiple zones`
+  String get multiZone {
+    return Intl.message(
+      'Valid across multiple zones',
+      name: 'multiZone',
+       desc: '',
+      args: [],
+    );
+  }
+    
 
   /// `Start and End Station cannot be the same`
   String get sameStationError {
@@ -1988,6 +2173,16 @@ class S {
       args: [],
     );
   }
+  /// `Monthly & quarterly plans`
+  String get monthlyQuarterly {
+    return Intl.message(
+      'Monthly & quarterly plans',
+      name: 'monthlyQuarterly',
+       desc: '',
+      args: [],
+    );
+  }
+   
 
   /// `Please select both stations and number of persons`
   String get selectStationsAndPersons {
@@ -1998,12 +2193,31 @@ class S {
       args: [],
     );
   }
+  /// `Digital receipt tracking`
+  String get digitalReceipt {
+    return Intl.message(
+      'Digital receipt tracking',
+      name: 'digitalReceipt',
+       desc: '',
+      args: [],
+    );
+  }
+     
 
   /// `Please select number of persons`
   String get selectNumberOfPersons {
     return Intl.message(
       'Please select number of persons',
       name: 'selectNumberOfPersons',
+       desc: '',
+      args: [],
+    );
+  }
+  /// `Priority boarding`
+  String get priorityBoarding {
+    return Intl.message(
+      'Priority boarding',
+      name: 'priorityBoarding',
       desc: '',
       args: [],
     );
@@ -2014,6 +2228,15 @@ class S {
     return Intl.message(
       'Information not found',
       name: 'notFoundInformation',
+       desc: '',
+      args: [],
+    );
+  }
+  /// `Valid across all lines`
+  String get allLines {
+    return Intl.message(
+      'Valid across all lines',
+      name: 'allLines',
       desc: '',
       args: [],
     );
@@ -2024,6 +2247,15 @@ class S {
     return Intl.message(
       'Enter your password',
       name: 'enterPassword',
+       desc: '',
+      args: [],
+    );
+  }
+  /// `Accessible boarding support`
+  String get accessibleSupport {
+    return Intl.message(
+      'Accessible boarding support',
+      name: 'accessibleSupport',
       desc: '',
       args: [],
     );
@@ -2034,6 +2266,90 @@ class S {
     return Intl.message(
       'Password must be at least 8 characters, include uppercase, lowercase, number and symbol',
       name: 'passwordValidation',
+       desc: '',
+      args: [],
+    );
+  }
+  /// `STEP 02/02`
+  String get step02 {
+    return Intl.message('STEP 02/02', name: 'step02', desc: '', args: []);
+  }
+
+  /// `Choose your plan`
+  String get choosePlan {
+    return Intl.message(
+      'Choose your plan',
+      name: 'choosePlan',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Select zone coverage and duration that fits your commute.`
+  String get planDescription {
+    return Intl.message(
+      'Select zone coverage and duration that fits your commute.',
+      name: 'planDescription',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `All Zones`
+  String get allZones {
+    return Intl.message('All Zones', name: 'allZones', desc: '', args: []);
+  }
+
+  /// `Zone`
+  String get zone {
+    return Intl.message('Zone', name: 'zone', desc: '', args: []);
+  }
+
+  /// `Zones`
+  String get zones {
+    return Intl.message('Zones', name: 'zones', desc: '', args: []);
+  }
+
+  /// `Continue`
+  String get continueBtn {
+    return Intl.message('Continue', name: 'continueBtn', desc: '', args: []);
+  }
+
+  /// `EGP`
+  String get egp {
+    return Intl.message('EGP', name: 'egp', desc: '', args: []);
+  }
+
+  /// `mo`
+  String get perMonth {
+    return Intl.message('mo', name: 'perMonth', desc: '', args: []);
+  }
+
+  /// `qtr`
+  String get perQuarter {
+    return Intl.message('qtr', name: 'perQuarter', desc: '', args: []);
+  }
+
+  /// `6mo`
+  String get per6Months {
+    return Intl.message('6mo', name: 'per6Months', desc: '', args: []);
+  }
+
+  /// `yr`
+  String get perYear {
+    return Intl.message('yr', name: 'perYear', desc: '', args: []);
+  }
+
+  /// `BRT`
+  String get BRT {
+    return Intl.message('BRT', name: 'BRT', desc: '', args: []);
+  }
+
+  /// `See Your Trips`
+  String get SeeYourTrips {
+    return Intl.message(
+      'See Your Trips',
+      name: 'SeeYourTrips',
       desc: '',
       args: [],
     );

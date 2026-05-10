@@ -23,7 +23,7 @@ class HelpSupportCard extends StatelessWidget {
           subtitle: S.of(context).FAQsGuides,
           leadingIcon: Icons.help_outline,
           onTap: onHelpCenter,
-          isHighlighted: true,
+          isHighlighted: false,
         ),
         _HelpNavRow(
           title: S.of(context).ContactSupport,

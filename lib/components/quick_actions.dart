@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:second/Shuttle%20bus/ShuttleBus.dart';
 import 'package:second/components/quick_action_card.dart';
 import 'package:second/generated/l10n.dart';
+import 'package:second/views/history.dart';
 
 import 'build_header.dart';
 
@@ -34,17 +36,27 @@ class QuickActions extends StatelessWidget {
                     width: cardWidth,
                     height: cardHeight,
                     child: QuickActionCard(
-                      mainTitle: s.BuyDailyTicket,
+                      mainTitle: s.BRT,
                       subTitle: s.QuickPurchase,
+                      onTap: () {
+                        Navigator.of(context, rootNavigator: true).push(
+                          MaterialPageRoute(builder: (_) => const Shuttlebus()),
+                        );
+                      },
                     ),
                   ),
                   SizedBox(
                     width: cardWidth,
                     height: cardHeight,
                     child: QuickActionCard(
-                      mainTitle: s.GetSubscription,
-                      subTitle: s.MonthlyPasses,
+                      mainTitle: s.History,
+                      subTitle: s.SeeYourTrips,
                       type: "calendar",
+                      onTap: () {
+                        Navigator.of(context, rootNavigator: true).push(
+                          MaterialPageRoute(builder: (_) => const HistoryPage()),
+                        );
+                      },
                     ),
                   ),
                 ],

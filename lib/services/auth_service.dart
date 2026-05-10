@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:second/models/auth_result.dart';
 
 import 'package:second/services/storage_service.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../config/api_config.dart';
 import '../models/user_model.dart';
@@ -17,6 +18,8 @@ class AuthService {
     required String email,
     required String password,
   }) async {
+    final prefs = await SharedPreferences.getInstance();
+    String? fcm_token = prefs.getString("fcm_token");
     try {
       if (!_isValidEmail(email)) {
         return AuthResult(success: false, message: 'Invalid Email');
@@ -29,31 +32,33 @@ class AuthService {
       }
 
       print('Attempting login with email: $email');
-      
+
       final response = await _apiClient.post(
         _loginEndpoint,
         data: {
           'email': email,
           'password': password,
+          'fcmToken': fcm_token,
         },
       );
 
+      print("FCM: ${fcm_token}");
       print('Response status: ${response.statusCode}');
       print('Response data: ${response.data}');
 
       if (response.statusCode == 200 || response.statusCode == 201) {
         final data = response.data;
-        
+
         // Save token if exists
         if (data['token'] != null) {
           await _storage.saveToken(data['token']);
           print('Token saved: ${data['token']}');
         }
-        
+
         // Parse user data
         final userJson = data['data']['user'];
         final user = User.fromJson(userJson);
-        
+
         // Save user data
         await _storage.saveUserData(
           id: user.id,
@@ -76,30 +81,30 @@ class AuthService {
       print('DioException caught: ${e.type}');
       print('DioException message: ${e.message}');
       print('DioException response: ${e.response?.data}');
-      
+
       if (e.response != null) {
         final statusCode = e.response!.statusCode;
         final data = e.response!.data;
-        
+
         if (statusCode == 401) {
           // Handle 401 Unauthorized
           String errorMessage = 'Invalid email or password';
-          
+
           if (data is Map && data['message'] != null) {
             errorMessage = data['message'];
           } else if (data is String) {
             errorMessage = data;
           }
-          
+
           return AuthResult(success: false, message: errorMessage);
         } else if (statusCode == 400) {
           // Handle 400 Bad Request
           String errorMessage = 'Invalid request';
-          
+
           if (data is Map && data['message'] != null) {
             errorMessage = data['message'];
           }
-          
+
           return AuthResult(success: false, message: errorMessage);
         } else {
           return AuthResult(
