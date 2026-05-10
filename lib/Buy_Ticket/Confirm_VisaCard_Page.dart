@@ -179,8 +179,15 @@ class ConfirmVisacardPage extends StatelessWidget {
                               color: Color(0xff5A72A0),
                               hoverColor: Colors.blue.shade900,
                               child: state is VisaCardPaymentLodingState
-                                  ? CircularProgressIndicator(
-                                      color: Colors.white)
+                                  ? Center(
+                                      child: SizedBox(
+                                      height: 20,
+                                      width: 20,
+                                      child: CircularProgressIndicator(
+                                        strokeWidth: 2,
+                                        color: Colors.white,
+                                      ),
+                                    ))
                                   : Text(
                                       S.of(context).payButton,
                                       style: TextStyle(

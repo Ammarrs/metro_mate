@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:second/SubscrbtionScreen3,4/Notfications/notficationData.dart';
 import 'package:second/generated/l10n.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -81,7 +82,6 @@ class SelectRoute extends Cubit<RouteState> {
   String? SubscriptionDate;
   String? SubscriptionBillRefrance;
   String? SubscriptionIframe_Url;
-  String? subscriptionId = "69f7c72bad90c9ba20aa108a";
 
   String? language;
   String? tripId;
@@ -93,6 +93,9 @@ class SelectRoute extends Cubit<RouteState> {
 
   String? SubscriptionCategory;
   String? SubscriptionDuration;
+  String? Mans = "69f7c72bad90c9ba20aa108a";
+
+  List<NotificationModel> notifications = [];
 
   int StationLine(String Station) {
     if (MetroLine1.contains(Station)) {
@@ -155,29 +158,29 @@ class SelectRoute extends Cubit<RouteState> {
 
   ValidateStation() {
     if (Station1 == null || Station2 == null) {
-      return "Please select both stations";
+      return S.current.selectStation;
     } else if (Station1 == Station2) {
-      return "Start and End Station cannot be the same";
+      return S.current.sameStationError;
     }
     return null;
   }
 
   ValidateBusStation() {
     if (BusStation1 == null || BusStation2 == null) {
-      return "Please select both stations";
+      return S.current.selectStation;
     } else if (BusStation1 == BusStation2) {
-      return "Start and End Station cannot be the same";
+      return S.current.sameStationError;
     }
     return null;
   }
 
   ValidateTicketPrice() {
     if (Station1 == null || Station2 == null) {
-      return "Please select both stations And Number of Person ";
+      return S.current.selectStation;
     } else if (Station1 == Station2) {
-      return "Start and End Station cannot be the same";
+      return S.current.sameStationError;
     } else if (person == null) {
-      return 'Please Select Number of Person';
+      return S.current.selectNumberOfPersons;
     }
     return null;
   }
@@ -207,7 +210,7 @@ class SelectRoute extends Cubit<RouteState> {
   void MakePayment() {
     try {
       if (PaymentMethod == null) {
-        emit(PaymentErorrState(Error: "Choose a payment method"));
+        emit(PaymentErorrState(Error: S.current.choosePaymentMethod));
         return;
       }
     } catch (e) {
@@ -228,7 +231,7 @@ class SelectRoute extends Cubit<RouteState> {
     try {
       if (PaymentSubscriptionMethod == null) {
         emit(SelectPaymentSubscriptionMethodErorrState(
-            Error: "Choose a payment method"));
+            Error: S.current.choosePaymentMethod));
         return;
       }
     } catch (e) {
@@ -666,13 +669,14 @@ class SelectRoute extends Cubit<RouteState> {
 
       SharedPreferences shard = await SharedPreferences.getInstance();
       String? token = shard.getString('Token');
+      String? subscriptionId = shard.getString('subscription_id');
 
       emit(SelectPaymentSubscriptionMethodLodingState());
 
       final response = await Dio().post(
         'https://metrodb-production.up.railway.app/api/v1/subscriptions/subscription-pay',
         data: {
-          "subscriptionId": subscriptionId,
+          "subscriptionId": Mans,
           "paymentMethod": PaymentSubscriptionMethod
         },
         options: Options(
@@ -686,9 +690,6 @@ class SelectRoute extends Cubit<RouteState> {
       final data = response.data;
 
       SubscriptionPaymentKey = data['paymentKey'] ?? "not found";
-      if (SubscriptionPaymentKey == null) {
-        throw Exception("PaymentKey is null ❌");
-      }
 
       final payment = data['data']['payment'];
       final office = data['data']['office'];
@@ -700,7 +701,8 @@ class SelectRoute extends Cubit<RouteState> {
       SubscriptionDate = payment['issuingDate'];
       SubscriptionTotalPrice = payment['amount'];
       PaymentSubscriptionMethod = payment['paymentMethod'];
-
+      print(
+          '************************************Subscription Payment Key ************************************');
       print("Payment Key = $SubscriptionPaymentKey");
       print("Date = $SubscriptionDate");
       print("Amount = $SubscriptionTotalPrice");
@@ -747,6 +749,39 @@ class SelectRoute extends Cubit<RouteState> {
     } catch (e) {
       emit(SubscriptionVisaErrorState(Error: '${e.toString()}'));
       print("Dio Error: $e");
+    }
+  }
+
+  Future<void> getNotifications() async {
+    try {
+      emit(NotificationLoadingState());
+
+      SharedPreferences shard = await SharedPreferences.getInstance();
+      String? token = shard.getString('Token');
+
+      final response = await Dio().get(
+        'https://metrodb-production.up.railway.app/api/v1/notification-history',
+        options: Options(
+          headers: {
+            "Authorization": "Bearer $token",
+          },
+        ),
+      );
+
+      final data = response.data['data']['notificationsHistoryData'];
+
+      notifications.clear();
+
+      for (var item in data) {
+        notifications.add(NotificationModel.fromJson(item));
+      }
+
+      print("Notifications = $notifications");
+
+      emit(NotificationSuccessState());
+    } catch (e) {
+      emit(NotificationErrorState(error: e.toString()));
+      print("Notification Error: $e");
     }
   }
 }

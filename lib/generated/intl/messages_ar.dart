@@ -111,6 +111,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "GetStarted": MessageLookupByLibrary.simpleMessage("ابدأ الآن >"),
     "GetSubscription": MessageLookupByLibrary.simpleMessage("الاشتراك"),
+    "GoToHome": MessageLookupByLibrary.simpleMessage("اذهب للصفحه للرئيسية"),
     "GrantPermission": MessageLookupByLibrary.simpleMessage("منح الإذن"),
     "HelpCenter": MessageLookupByLibrary.simpleMessage("مركز المساعدة"),
     "HelpSupport": MessageLookupByLibrary.simpleMessage("المساعدة والدعم"),
@@ -247,7 +248,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "اختر طريقة الدفع",
     ),
     "choosePaymentMethod": MessageLookupByLibrary.simpleMessage(
-      "اختر طريقة الدفع",
+      "من فضلك اختر طريقة الدفع",
     ),
     "choosePaymentMethodError": MessageLookupByLibrary.simpleMessage(
       "اختار طريقة الدفع",
@@ -269,6 +270,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "emailLabel": MessageLookupByLibrary.simpleMessage("البريد الإلكتروني"),
     "emailNotifications": MessageLookupByLibrary.simpleMessage(
       "إشعارات البريد الإلكتروني",
+    ),
+    "enterPassword": MessageLookupByLibrary.simpleMessage(
+      "من فضلك أدخل كلمة المرور",
     ),
     "enterPhone": MessageLookupByLibrary.simpleMessage("ادخل رقم الهاتف"),
     "enterYourEmail": MessageLookupByLibrary.simpleMessage(
@@ -303,6 +307,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "marketing": MessageLookupByLibrary.simpleMessage("العروض"),
     "minutes": MessageLookupByLibrary.simpleMessage("دقيقة"),
     "nextToPayment": MessageLookupByLibrary.simpleMessage("الانتقال للدفع"),
+    "notFoundInformation": MessageLookupByLibrary.simpleMessage(
+      "لا توجد بيانات متاحة",
+    ),
     "notifications": MessageLookupByLibrary.simpleMessage("الإشعارات"),
     "offersPromotions": MessageLookupByLibrary.simpleMessage(
       "العروض والتخفيضات",
@@ -313,6 +320,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "passwordLabel": MessageLookupByLibrary.simpleMessage("كلمة المرور"),
     "passwordNotMatch": MessageLookupByLibrary.simpleMessage(
       "كلمتا المرور غير متطابقتين",
+    ),
+    "passwordValidation": MessageLookupByLibrary.simpleMessage(
+      "يجب أن تحتوي كلمة المرور على 8 أحرف على الأقل وتشمل حرف كبير وصغير ورقم ورمز",
     ),
     "payButton": MessageLookupByLibrary.simpleMessage("ادفع"),
     "payEg": MessageLookupByLibrary.simpleMessage("ادفع"),
@@ -339,12 +349,24 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "routeDetails": MessageLookupByLibrary.simpleMessage("تفاصيل الرحلة"),
     "routeSummary": MessageLookupByLibrary.simpleMessage("ملخص الرحلة"),
+    "sameStationError": MessageLookupByLibrary.simpleMessage(
+      "لا يمكن أن تكون نقطة البداية والنهاية نفس المحطة",
+    ),
     "searchRoute": MessageLookupByLibrary.simpleMessage("ابحث عن الرحلة"),
     "searchStation": MessageLookupByLibrary.simpleMessage("ابحث عن المحطة..."),
     "search_station": MessageLookupByLibrary.simpleMessage("ابحث عن محطة..."),
     "securityPrivacy": MessageLookupByLibrary.simpleMessage("الأمان والخصوصية"),
+    "selectNumberOfPersons": MessageLookupByLibrary.simpleMessage(
+      "من فضلك اختر عدد الأشخاص",
+    ),
     "selectQuantity": MessageLookupByLibrary.simpleMessage("اختر الكمية"),
     "selectStation": MessageLookupByLibrary.simpleMessage("اختر المحطة"),
+    "selectStations": MessageLookupByLibrary.simpleMessage(
+      "من فضلك اختر المحطتين",
+    ),
+    "selectStationsAndPersons": MessageLookupByLibrary.simpleMessage(
+      "من فضلك اختر المحطات وعدد الأشخاص",
+    ),
     "select_persons": MessageLookupByLibrary.simpleMessage("عدد الأشخاص"),
     "select_station": MessageLookupByLibrary.simpleMessage("اختر المحطة"),
     "settings": MessageLookupByLibrary.simpleMessage("الإعدادات"),
@@ -352,6 +374,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "الإعدادات والخصوصية",
     ),
     "settingsScreenTitle": MessageLookupByLibrary.simpleMessage("الإعدادات"),
+    "shuttleBus": MessageLookupByLibrary.simpleMessage("الاتوبيس الترددي"),
     "signOut": MessageLookupByLibrary.simpleMessage("تسجيل الخروج"),
     "signupButton": MessageLookupByLibrary.simpleMessage("إنشاء حساب"),
     "smsAlerts": MessageLookupByLibrary.simpleMessage("رسائل SMS"),
@@ -364,6 +387,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "subscriptionPayment": MessageLookupByLibrary.simpleMessage("دفع الاشتراك"),
     "subscriptionStatus": MessageLookupByLibrary.simpleMessage("حالة الاشتراك"),
     "subscriptionType": MessageLookupByLibrary.simpleMessage("نوع الاشتراك"),
+    "subscriptions": MessageLookupByLibrary.simpleMessage("الاشتراكات"),
     "takePhoto": MessageLookupByLibrary.simpleMessage("التقاط صورة"),
     "ticket": MessageLookupByLibrary.simpleMessage("تذكرة"),
     "ticketPrice": MessageLookupByLibrary.simpleMessage("سعر التذكرة"),

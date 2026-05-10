@@ -238,8 +238,13 @@ class NewpasswordPage extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(horizontal: 8.0),
                 child: state is ForgetPasswordLoding
                     ? Center(
+                        child: SizedBox(
+                        height: 20,
+                        width: 20,
                         child: CircularProgressIndicator(
-                        color: Colors.blue,
+                          strokeWidth: 2,
+                          color: Colors.blue,
+                        ),
                       ))
                     : MaterialButton(
                         onPressed: () {

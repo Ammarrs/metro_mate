@@ -21,22 +21,41 @@ class AppPreferencesCard extends StatelessWidget {
           children: [
             // ── Language Row (UPDATED) ──
             const Divider(height: 1, thickness: 0.8, indent: 20, endIndent: 20),
-
             BlocBuilder<LocaleCubit, LocaleState>(
-              builder: (context, localeState) {
-                final localeCubit = context.read<LocaleCubit>();
+              builder: (context, state) {
+                final cubit = context.read<LocaleCubit>();
 
-                return SwitchListTile(
-                  title: Text(S.of(context).Language),
-                  subtitle: Text(S.of(context).ChangeAppLanguage),
-                  value: localeCubit.currentLocale.languageCode == 'ar',
-                  onChanged: (value) {
-                    if (value) {
-                      localeCubit.changeToArabic();
-                    } else {
-                      localeCubit.changeToEnglish();
-                    }
-                  },
+                return Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        S.of(context).Language,
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+
+                      /// 🇪🇬 عربي
+                      RadioListTile<String>(
+                        title: Text("العربية"),
+                        value: 'ar',
+                        groupValue: cubit.currentLocale.languageCode,
+                        onChanged: (value) {
+                          cubit.changeToArabic();
+                        },
+                      ),
+
+                      /// 🇺🇸 English
+                      RadioListTile<String>(
+                        title: Text("English"),
+                        value: 'en',
+                        groupValue: cubit.currentLocale.languageCode,
+                        onChanged: (value) {
+                          cubit.changeToEnglish();
+                        },
+                      ),
+                    ],
+                  ),
                 );
               },
             ),

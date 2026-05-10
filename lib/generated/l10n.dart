@@ -1199,10 +1199,10 @@ class S {
     return Intl.message('Buy Tickets', name: 'buyTickets', desc: '', args: []);
   }
 
-  /// `Choose Payment Method`
+  /// `Choose a payment method`
   String get choosePaymentMethod {
     return Intl.message(
-      'Choose Payment Method',
+      'Choose a payment method',
       name: 'choosePaymentMethod',
       desc: '',
       args: [],
@@ -1944,6 +1944,96 @@ class S {
     return Intl.message(
       'Phone must be 11 digits and start with 01',
       name: 'invalidPhone',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Shuttle Bus`
+  String get shuttleBus {
+    return Intl.message('Shuttle Bus', name: 'shuttleBus', desc: '', args: []);
+  }
+
+  /// `Subscriptions`
+  String get subscriptions {
+    return Intl.message(
+      'Subscriptions',
+      name: 'subscriptions',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Go to Home`
+  String get GoToHome {
+    return Intl.message('Go to Home', name: 'GoToHome', desc: '', args: []);
+  }
+
+  /// `Please select both stations`
+  String get selectStations {
+    return Intl.message(
+      'Please select both stations',
+      name: 'selectStations',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Start and End Station cannot be the same`
+  String get sameStationError {
+    return Intl.message(
+      'Start and End Station cannot be the same',
+      name: 'sameStationError',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please select both stations and number of persons`
+  String get selectStationsAndPersons {
+    return Intl.message(
+      'Please select both stations and number of persons',
+      name: 'selectStationsAndPersons',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please select number of persons`
+  String get selectNumberOfPersons {
+    return Intl.message(
+      'Please select number of persons',
+      name: 'selectNumberOfPersons',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Information not found`
+  String get notFoundInformation {
+    return Intl.message(
+      'Information not found',
+      name: 'notFoundInformation',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Enter your password`
+  String get enterPassword {
+    return Intl.message(
+      'Enter your password',
+      name: 'enterPassword',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Password must be at least 8 characters, include uppercase, lowercase, number and symbol`
+  String get passwordValidation {
+    return Intl.message(
+      'Password must be at least 8 characters, include uppercase, lowercase, number and symbol',
+      name: 'passwordValidation',
       desc: '',
       args: [],
     );

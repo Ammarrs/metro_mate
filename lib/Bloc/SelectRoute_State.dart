@@ -104,3 +104,13 @@ class SubscriptionVisaErrorState extends RouteState {
   final String Error;
   SubscriptionVisaErrorState({required this.Error});
 }
+
+class NotificationLoadingState extends RouteState {}
+
+class NotificationSuccessState extends RouteState {}
+
+class NotificationErrorState extends RouteState {
+  final String error;
+
+  NotificationErrorState({required this.error});
+}

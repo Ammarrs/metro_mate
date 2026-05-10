@@ -323,7 +323,23 @@
   "invalidPhone": "Phone must be 11 digits and start with 01",
   "enterYourPassword": "Enter your password",
   "passwordInvalid": "Password must be at least 8 characters, include uppercase, lowercase, number and symbol",
+  "passwordNotMatch": "Passwords do not match",
+  
+  "shuttleBus": "Shuttle Bus",
+  "subscriptions": "Subscriptions",
+  "GoToHome": "Go to Home",
+  
+  "selectStations": "Please select both stations",
+  "sameStationError": "Start and End Station cannot be the same",
+  "selectStationsAndPersons": "Please select both stations and number of persons",
+  "selectNumberOfPersons": "Please select number of persons",
+  "choosePaymentMethod": "Choose a payment method",
+  "notFoundInformation": "Information not found",
+  
+  "enterPassword": "Enter your password",
+  "passwordValidation": "Password must be at least 8 characters, include uppercase, lowercase, number and symbol",
   "passwordNotMatch": "Passwords do not match"
+
 
 
 

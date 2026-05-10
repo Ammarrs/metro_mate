@@ -171,7 +171,15 @@ class buildStationInfo extends StatelessWidget {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  const CircularProgressIndicator(),
+                  const Center(
+                      child: SizedBox(
+                    height: 20,
+                    width: 20,
+                    child: CircularProgressIndicator(
+                      strokeWidth: 2,
+                      color: Colors.blue,
+                    ),
+                  )),
                   const SizedBox(height: 16),
                   Text(S.current.OpeningMaps),
                 ],

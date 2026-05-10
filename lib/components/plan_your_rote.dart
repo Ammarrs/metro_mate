@@ -278,9 +278,15 @@ class PlanYorRoute extends StatelessWidget {
                     color: const Color(0xff5A72A0),
                     hoverColor: Colors.blue.shade900,
                     child: state is InfoLodingState
-                        ? const CircularProgressIndicator(
-                            color: Colors.white,
-                          )
+                        ? const Center(
+                            child: SizedBox(
+                            height: 20,
+                            width: 20,
+                            child: CircularProgressIndicator(
+                              strokeWidth: 2,
+                              color: Colors.white,
+                            ),
+                          ))
                         : Row(
                             mainAxisSize: MainAxisSize.min,
                             children: [
