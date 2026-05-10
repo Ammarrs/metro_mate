@@ -2,12 +2,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:second/generated/l10n.dart';
 import 'package:second/views/login_view.dart';
-
-import 'package:shared_preferences/shared_preferences.dart';
-
 import 'block/Cubit.dart';
 import 'block/state_cubit.dart';
-import 'main.dart';
 
 class Onbordingscreen extends StatelessWidget {
   const Onbordingscreen({super.key});

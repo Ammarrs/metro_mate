@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:second/Bloc/LocaliztionCubit/Localization_Cubit.dart';
-import 'package:second/generated/l10n.dart';
 
 const Color kPrimaryBlue = Color(0xFF5B7C99);
 const Color kLightBlue = Color(0xFFEAF1F8);

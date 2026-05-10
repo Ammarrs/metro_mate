@@ -3,8 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:second/SubscrbtionScreen3,4/Notfications/Notfication_Cubit.dart';
 import 'package:second/generated/l10n.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-
 import 'Bloc/SelectRoute_State.dart';
 import 'Bloc/selectRoute_Cubit.dart';
 import 'VerticalStepsLine.dart';

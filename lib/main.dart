@@ -19,7 +19,6 @@ import 'package:second/SubscrbtionScreen3,4/Screen3.dart';
 import 'package:second/SubscrbtionScreen3,4/Screen4.dart';
 import 'package:second/SubscrbtionScreen3,4/SubscriptionCashPage.dart';
 import 'package:second/SubscrbtionScreen3,4/SubscrptionConfurmVisa.dart';
-import 'package:second/components/home_app_bar.dart';
 import 'package:second/cubits/logout/logout_cubit.dart';
 import 'package:second/cubits/logout/logout_state.dart';
 import 'package:second/cubits/user/user_cubit.dart';
@@ -31,7 +30,6 @@ import 'package:second/generated/l10n.dart';
 import 'package:second/services/auth_service.dart';
 import 'package:second/services/storage_service.dart';
 import 'package:second/views/login_view.dart';
-import 'package:second/views/profile_page_view.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:webview_flutter_android/webview_flutter_android.dart';
 import 'package:webview_flutter_wkwebview/webview_flutter_wkwebview.dart';
@@ -45,14 +43,9 @@ import 'Buy_Ticket/CreditDetils.dart';
 import 'Buy_Ticket/Fawry_Page.dart';
 import 'Buy_Ticket/PaymentFinish.dart';
 import 'Buy_Ticket/Select Quantity.dart';
-import 'Buy_Ticket/VisaCard_Page.dart';
 import 'ChangePassword/ChangePassword.dart';
 import 'NavigationBar_Page/Home.dart';
 import 'NavigationBar_Page/Tickets.dart';
-import 'NavigationBar_Page/setting.dart';
-import 'NavigationBar_Page/wallet.dart';
-import 'views/settings.dart';
-import 'package:dropdown_search/dropdown_search.dart';
 import './views/subscription.dart';
 
 import 'RouteDeatils.dart';
@@ -65,7 +58,6 @@ import 'Authentication/Regestration/Register_page.dart';
 import 'Authentication_Cubit/ForgetPassword_Cubit/ForgetPassword_Cubit.dart';
 import 'Authentication_Cubit/Register_Cubit/Register_Cubit.dart';
 
-import 'components/wallet.dart';
 import 'cubits/login/login_cubit.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
