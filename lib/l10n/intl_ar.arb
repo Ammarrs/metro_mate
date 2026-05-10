@@ -306,6 +306,9 @@
   "perMonth": "شهري",
   "perQuarter": "ربع سنوي",
   "per6Months": "6 أشهر",
-  "perYear": "سنوي"
+  "perYear": "سنوي",
+
+  "BRT": "الأتوبيس الترددي",
+  "SeeYourTrips": "تابع رحلاتك"
 
 }

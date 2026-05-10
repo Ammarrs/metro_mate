@@ -29,6 +29,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "AppName": MessageLookupByLibrary.simpleMessage("مترو ميت"),
     "AppPreferences": MessageLookupByLibrary.simpleMessage("تفضيلات التطبيق"),
     "Arabic": MessageLookupByLibrary.simpleMessage("العربية"),
+    "BRT": MessageLookupByLibrary.simpleMessage("الأتوبيس الترددي"),
     "Back": MessageLookupByLibrary.simpleMessage("رجوع"),
     "BestRoute": MessageLookupByLibrary.simpleMessage("أفضل مسار"),
     "BuyDailyTicket": MessageLookupByLibrary.simpleMessage("شراء تذكرة يومية"),
@@ -181,6 +182,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "أعد إدخال كلمة المرور الجديدة",
     ),
     "ResendCode": MessageLookupByLibrary.simpleMessage("إعادة إرسال الكود"),
+    "SeeYourTrips": MessageLookupByLibrary.simpleMessage("تابع رحلاتك"),
     "SendCode": MessageLookupByLibrary.simpleMessage("إرسال الكود"),
     "SendNewPassword": MessageLookupByLibrary.simpleMessage(
       "إرسال كلمة المرور الجديدة",
@@ -401,7 +403,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "signupButton": MessageLookupByLibrary.simpleMessage("إنشاء حساب"),
     "smartVerification": MessageLookupByLibrary.simpleMessage("التحقق الذكي"),
     "smartVerificationDesc": MessageLookupByLibrary.simpleMessage(
-      "سيتم التحقق من الهوية خلال 15 دقيقة.",
+      "الفئة المحددة تتطلب رفع تحقيق الشخصية في الخطوة القادمة, سيتم التحقق من الهوية خلال 15 دقيقة.",
     ),
     "smsAlerts": MessageLookupByLibrary.simpleMessage("رسائل SMS"),
     "smsUpdates": MessageLookupByLibrary.simpleMessage(

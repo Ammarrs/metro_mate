@@ -81,8 +81,8 @@ class HomeAppBar extends StatelessWidget {
 
     return Container(
       constraints: BoxConstraints(
-        minHeight: screenHeight * 0.28,
-        maxHeight: screenHeight * 0.35,
+        minHeight: screenHeight * 0.1,
+        maxHeight: screenHeight * 0.15,
       ),
       decoration: const BoxDecoration(
         gradient: LinearGradient(
@@ -200,55 +200,55 @@ class HomeAppBar extends StatelessWidget {
             ],
           ),
 
-          SizedBox(height: screenHeight * 0.02),
+          // SizedBox(height: screenHeight * 0.02),
 
-          /// Wallet
-          Container(
-            padding: EdgeInsets.symmetric(
-              horizontal: screenWidth * 0.04,
-              vertical: 16,
-            ),
-            decoration: BoxDecoration(
-              color: Colors.white.withOpacity(0.25),
-              borderRadius: BorderRadius.circular(16),
-            ),
-            child: Row(
-              children: [
-                Expanded(
-                  child: Row(
-                    children: [
-                      const Icon(Icons.account_balance_wallet_outlined,
-                          color: Colors.white),
-                      const SizedBox(width: 16),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            s.Wallet, // ✅ مترجمة
-                            style: const TextStyle(color: Colors.white70),
-                          ),
-                          Text(
-                            '${s.EGP} ${balance.toStringAsFixed(2)}',
-                            style: const TextStyle(
-                                color: Colors.white,
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-                TextButton(
-                  onPressed: onDepositPressed,
-                  child: Text(
-                    s.payButton, // ✅ مترجمة
-                    style: const TextStyle(color: Colors.white),
-                  ),
-                ),
-              ],
-            ),
-          ),
+          // /// Wallet
+          // Container(
+          //   padding: EdgeInsets.symmetric(
+          //     horizontal: screenWidth * 0.04,
+          //     vertical: 16,
+          //   ),
+          //   decoration: BoxDecoration(
+          //     color: Colors.white.withOpacity(0.25),
+          //     borderRadius: BorderRadius.circular(16),
+          //   ),
+          //   child: Row(
+          //     children: [
+          //       Expanded(
+          //         child: Row(
+          //           children: [
+          //             // const Icon(Icons.account_balance_wallet_outlined,
+          //             //     color: Colors.white),
+          //             // const SizedBox(width: 16),
+          //             // Column(
+          //             //   crossAxisAlignment: CrossAxisAlignment.start,
+          //             //   children: [
+          //             //     Text(
+          //             //       s.Wallet, // ✅ مترجمة
+          //             //       style: const TextStyle(color: Colors.white70),
+          //             //     ),
+          //             //     Text(
+          //             //       '${s.EGP} ${balance.toStringAsFixed(2)}',
+          //             //       style: const TextStyle(
+          //             //           color: Colors.white,
+          //             //           fontSize: 18,
+          //             //           fontWeight: FontWeight.bold),
+          //             //     ),
+          //             //   ],
+          //             // ),
+          //           ],
+          //         ),
+          //       ),
+          //       // TextButton(
+          //       //   onPressed: onDepositPressed,
+          //       //   child: Text(
+          //       //     s.payButton, // ✅ مترجمة
+          //       //     style: const TextStyle(color: Colors.white),
+          //       //   ),
+          //       // ),
+          //     ],
+          //   ),
+          // ),
         ],
       ),
     );

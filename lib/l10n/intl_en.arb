@@ -369,7 +369,10 @@
   "perMonth": "mo",
   "perQuarter": "qtr",
   "per6Months": "6mo",
-  "perYear": "yr"
+  "perYear": "yr",
+
+  "BRT": "BRT",
+  "SeeYourTrips": "See Your Trips"
 
 
 

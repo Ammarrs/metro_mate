@@ -1994,20 +1994,20 @@ class S {
     );
   }
 
-  /// `Smart Verification`
+  /// `Smart\nVerification`
   String get smartVerification {
     return Intl.message(
-      'Smart Verification',
+      'Smart\nVerification',
       name: 'smartVerification',
       desc: '',
       args: [],
     );
   }
 
-  /// `Your ID will be verified in under 15 minutes.`
+  /// `Your chosen profile will require a valid ID upload in the next step. Documents are verified in under 15 minutes by our AI system.`
   String get smartVerificationDesc {
     return Intl.message(
-      'Your ID will be verified in under 15 minutes.',
+      'Your chosen profile will require a valid ID upload in the next step. Documents are verified in under 15 minutes by our AI system.',
       name: 'smartVerificationDesc',
       desc: '',
       args: [],
@@ -2262,6 +2262,21 @@ class S {
   /// `yr`
   String get perYear {
     return Intl.message('yr', name: 'perYear', desc: '', args: []);
+  }
+
+  /// `BRT`
+  String get BRT {
+    return Intl.message('BRT', name: 'BRT', desc: '', args: []);
+  }
+
+  /// `See Your Trips`
+  String get SeeYourTrips {
+    return Intl.message(
+      'See Your Trips',
+      name: 'SeeYourTrips',
+      desc: '',
+      args: [],
+    );
   }
 }
 

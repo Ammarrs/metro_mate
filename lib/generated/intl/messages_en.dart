@@ -29,6 +29,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "AppName": MessageLookupByLibrary.simpleMessage("Metro Mate"),
     "AppPreferences": MessageLookupByLibrary.simpleMessage("App Preferences"),
     "Arabic": MessageLookupByLibrary.simpleMessage("Arabic"),
+    "BRT": MessageLookupByLibrary.simpleMessage("BRT"),
     "Back": MessageLookupByLibrary.simpleMessage("Back"),
     "BestRoute": MessageLookupByLibrary.simpleMessage("Best Route"),
     "BuyDailyTicket": MessageLookupByLibrary.simpleMessage("Buy Daily Ticket"),
@@ -192,6 +193,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "Reenter New Password",
     ),
     "ResendCode": MessageLookupByLibrary.simpleMessage("Resend Code"),
+    "SeeYourTrips": MessageLookupByLibrary.simpleMessage("See Your Trips"),
     "SendCode": MessageLookupByLibrary.simpleMessage("Send Code"),
     "SendNewPassword": MessageLookupByLibrary.simpleMessage(
       "Send New Password",
@@ -438,10 +440,10 @@ class MessageLookup extends MessageLookupByLibrary {
     "signOut": MessageLookupByLibrary.simpleMessage("Sign Out"),
     "signupButton": MessageLookupByLibrary.simpleMessage("Sign Up"),
     "smartVerification": MessageLookupByLibrary.simpleMessage(
-      "Smart Verification",
+      "Smart\nVerification",
     ),
     "smartVerificationDesc": MessageLookupByLibrary.simpleMessage(
-      "Your ID will be verified in under 15 minutes.",
+      "Your chosen profile will require a valid ID upload in the next step. Documents are verified in under 15 minutes by our AI system.",
     ),
     "smsAlerts": MessageLookupByLibrary.simpleMessage("SMS Alerts"),
     "smsUpdates": MessageLookupByLibrary.simpleMessage(
