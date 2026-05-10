@@ -3,6 +3,7 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:file_picker/file_picker.dart';
 import '../../../services/verify_identity_service.dart';
+import '../../../services/dropdown_service.dart';  // ← new import
 
 part 'verify_identity_state.dart';
 
@@ -23,6 +24,29 @@ class VerifyIdentityCubit extends Cubit<VerifyIdentityState> {
           planId: planId,
         ));
 
+  // ─── Load dropdown data ───────────────────────────────────────────────────
+
+  Future<void> loadDropdowns() async {
+    if (state.stations.isNotEmpty && state.offices.isNotEmpty) return;
+    emit(state.copyWith(isLoadingDropdowns: true, clearDropdownError: true));
+    try {
+      final results = await Future.wait([
+        DropdownService.fetchStations(),
+        DropdownService.fetchOffices(),
+      ]);
+      emit(state.copyWith(
+        stations: results[0] as List<StationItem>,
+        offices: results[1] as List<OfficeItem>,
+        isLoadingDropdowns: false,
+      ));
+    } catch (e) {
+      emit(state.copyWith(
+        isLoadingDropdowns: false,
+        dropdownError: 'Failed to load stations. Please try again.',
+      ));
+    }
+  }
+
   // ─── Text fields ──────────────────────────────────────────────────────────
 
   void officeChanged(String value) =>
@@ -39,13 +63,16 @@ class VerifyIdentityCubit extends Cubit<VerifyIdentityState> {
   Future<void> pickNationalIdFront() async {
     await _pickFile(
       onUploading: () => emit(state.copyWith(
-        nationalIdFront: state.nationalIdFront.copyWith(status: UploadStatus.uploading),
+        nationalIdFront:
+            state.nationalIdFront.copyWith(status: UploadStatus.uploading),
       )),
       onSuccess: (name, path) => emit(state.copyWith(
-        nationalIdFront: DocumentFile(fileName: name, filePath: path, status: UploadStatus.success),
+        nationalIdFront: DocumentFile(
+            fileName: name, filePath: path, status: UploadStatus.success),
       )),
       onError: (msg) => emit(state.copyWith(
-        nationalIdFront: state.nationalIdFront.copyWith(status: UploadStatus.error, errorMessage: msg),
+        nationalIdFront: state.nationalIdFront
+            .copyWith(status: UploadStatus.error, errorMessage: msg),
       )),
     );
   }
@@ -53,13 +80,16 @@ class VerifyIdentityCubit extends Cubit<VerifyIdentityState> {
   Future<void> pickNationalIdBack() async {
     await _pickFile(
       onUploading: () => emit(state.copyWith(
-        nationalIdBack: state.nationalIdBack.copyWith(status: UploadStatus.uploading),
+        nationalIdBack:
+            state.nationalIdBack.copyWith(status: UploadStatus.uploading),
       )),
       onSuccess: (name, path) => emit(state.copyWith(
-        nationalIdBack: DocumentFile(fileName: name, filePath: path, status: UploadStatus.success),
+        nationalIdBack: DocumentFile(
+            fileName: name, filePath: path, status: UploadStatus.success),
       )),
       onError: (msg) => emit(state.copyWith(
-        nationalIdBack: state.nationalIdBack.copyWith(status: UploadStatus.error, errorMessage: msg),
+        nationalIdBack: state.nationalIdBack
+            .copyWith(status: UploadStatus.error, errorMessage: msg),
       )),
     );
   }
@@ -67,13 +97,16 @@ class VerifyIdentityCubit extends Cubit<VerifyIdentityState> {
   Future<void> pickUniversityId() async {
     await _pickFile(
       onUploading: () => emit(state.copyWith(
-        universityId: state.universityId.copyWith(status: UploadStatus.uploading),
+        universityId:
+            state.universityId.copyWith(status: UploadStatus.uploading),
       )),
       onSuccess: (name, path) => emit(state.copyWith(
-        universityId: DocumentFile(fileName: name, filePath: path, status: UploadStatus.success),
+        universityId: DocumentFile(
+            fileName: name, filePath: path, status: UploadStatus.success),
       )),
       onError: (msg) => emit(state.copyWith(
-        universityId: state.universityId.copyWith(status: UploadStatus.error, errorMessage: msg),
+        universityId: state.universityId
+            .copyWith(status: UploadStatus.error, errorMessage: msg),
       )),
     );
   }
@@ -81,13 +114,16 @@ class VerifyIdentityCubit extends Cubit<VerifyIdentityState> {
   Future<void> pickMilitaryId() async {
     await _pickFile(
       onUploading: () => emit(state.copyWith(
-        militaryId: state.militaryId.copyWith(status: UploadStatus.uploading),
+        militaryId:
+            state.militaryId.copyWith(status: UploadStatus.uploading),
       )),
       onSuccess: (name, path) => emit(state.copyWith(
-        militaryId: DocumentFile(fileName: name, filePath: path, status: UploadStatus.success),
+        militaryId: DocumentFile(
+            fileName: name, filePath: path, status: UploadStatus.success),
       )),
       onError: (msg) => emit(state.copyWith(
-        militaryId: state.militaryId.copyWith(status: UploadStatus.error, errorMessage: msg),
+        militaryId: state.militaryId
+            .copyWith(status: UploadStatus.error, errorMessage: msg),
       )),
     );
   }
@@ -112,7 +148,6 @@ class VerifyIdentityCubit extends Cubit<VerifyIdentityState> {
         return;
       }
 
-      // Validate file size — 5 MB limit
       final sizeInMb = File(picked.path!).lengthSync() / (1024 * 1024);
       if (sizeInMb > 5) {
         onError('File must be smaller than 5 MB.');
@@ -120,7 +155,7 @@ class VerifyIdentityCubit extends Cubit<VerifyIdentityState> {
       }
 
       onUploading();
-      await Future.delayed(const Duration(milliseconds: 400)); // brief UX feedback
+      await Future.delayed(const Duration(milliseconds: 400));
       onSuccess(picked.name, picked.path!);
     } catch (e) {
       onError(e.toString().replaceAll('Exception: ', ''));

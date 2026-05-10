@@ -1,4 +1,7 @@
+// lib/services/metro_services.dart
+
 import 'package:dio/dio.dart';
+import '../models/crowdedness_level.dart';
 import '../models/metro_staton_model.dart';
 import '../config/api_config.dart';
 
@@ -6,11 +9,13 @@ class MetroService {
   final Dio _dio;
 
   MetroService({Dio? dio}) : _dio = dio ?? Dio() {
-    _dio.options.baseUrl = ApiConfig.baseUrl;
+    _dio.options.baseUrl        = ApiConfig.baseUrl;
     _dio.options.connectTimeout = ApiConfig.connectTimeout;
     _dio.options.receiveTimeout = ApiConfig.receiveTimeout;
-    _dio.options.headers = ApiConfig.headers;
+    _dio.options.headers        = ApiConfig.headers;
   }
+
+  // ── All stations ──────────────────────────────────────────────────────────
 
   Future<List<MetroStationModel>> getAllMetroStations() async {
     try {
@@ -25,7 +30,10 @@ class MetroService {
         } else {
           throw Exception('Unexpected response format');
         }
-        return stationsJson.map((json) => MetroStationModel.fromAllStationsJson(json as Map<String, dynamic>)).toList();
+        return stationsJson
+            .map((json) => MetroStationModel.fromAllStationsJson(
+                json as Map<String, dynamic>))
+            .toList();
       } else {
         throw Exception('Failed to load stations. Status: ${response.statusCode}');
       }
@@ -37,26 +45,33 @@ class MetroService {
     }
   }
 
+  // ── Nearest station ───────────────────────────────────────────────────────
+
   Future<MetroStationModel> getNearestMetroStation({
     required double userLatitude,
     required double userLongitude,
   }) async {
     try {
-      final endpoint = '${ApiConfig.nearestStationBaseEndpoint}/$userLatitude/$userLongitude';
+      final endpoint =
+          '${ApiConfig.nearestStationBaseEndpoint}/$userLatitude/$userLongitude';
       print('🌐 API Request: $endpoint');
       final response = await _dio.get(endpoint);
       print('📡 API Response Status: ${response.statusCode}');
 
       if (response.statusCode == 200 && response.data != null) {
         final data = response.data;
-        if (data is Map && data.containsKey('data') && data['data'].containsKey('nearestStation')) {
-          final stationJson = data['data']['nearestStation'] as Map<String, dynamic>;
+        if (data is Map &&
+            data.containsKey('data') &&
+            data['data'].containsKey('nearestStation')) {
+          final stationJson =
+              data['data']['nearestStation'] as Map<String, dynamic>;
           return MetroStationModel.fromNearestStationJson(stationJson);
         } else {
           throw Exception('Unexpected response format');
         }
       } else {
-        throw Exception('Failed to load nearest station. Status: ${response.statusCode}');
+        throw Exception(
+            'Failed to load nearest station. Status: ${response.statusCode}');
       }
     } on DioException catch (e) {
       print('❌ Dio Error: ${e.type} - ${e.message}');
@@ -68,9 +83,48 @@ class MetroService {
     }
   }
 
+  // ── Crowdedness ───────────────────────────────────────────────────────────
+
+  /// Calls GET /api/v1/neareststation/crowding/{lat}/{lng}?stationName=xxx
+  ///
+  /// Returns a [CrowdednessLevel] parsed from the API color string.
+  /// NEVER throws — silently returns [CrowdednessLevel.moderate] on any error
+  /// so the station card always loads even if crowdedness is unavailable.
+  Future<CrowdednessLevel> getCrowdednessLevel({
+    required double latitude,
+    required double longitude,
+    required String stationName,
+  }) async {
+    try {
+      final endpoint = '${ApiConfig.crowdingEndpoint}/$latitude/$longitude';
+      print('🟡 Crowding Request: $endpoint?stationName=$stationName');
+
+      final response = await _dio.get(
+        endpoint,
+        queryParameters: {'stationName': stationName},
+      );
+
+      print('📡 Crowding Response: ${response.statusCode} → ${response.data}');
+
+      if (response.statusCode == 200 && response.data != null) {
+        final color = (response.data as Map?)?['data']?['color'] as String?;
+        return CrowdednessLevel.fromApi(color);
+      }
+
+      return CrowdednessLevel.moderate;
+    } catch (e) {
+      // Silently fail — crowdedness is extra info, not critical.
+      print('⚠️ Crowding fetch failed (non-fatal): $e');
+      return CrowdednessLevel.moderate;
+    }
+  }
+
+  // ── Error helper ──────────────────────────────────────────────────────────
+
   void _handleDioError(DioException e) {
     if (e.type == DioExceptionType.connectionTimeout) {
-      throw Exception('Connection timeout. Please check your internet connection.');
+      throw Exception(
+          'Connection timeout. Please check your internet connection.');
     } else if (e.type == DioExceptionType.receiveTimeout) {
       throw Exception('Server is taking too long to respond.');
     } else if (e.response != null) {

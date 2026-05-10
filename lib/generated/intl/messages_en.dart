@@ -365,7 +365,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "nextToPayment": MessageLookupByLibrary.simpleMessage("Next To Payment"),
     "notFoundInformation": MessageLookupByLibrary.simpleMessage(
-      "Information not found",
+      "Information not found",),
     "notSurePick": MessageLookupByLibrary.simpleMessage(
       "Not sure which to pick?",
     ),

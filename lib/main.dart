@@ -259,7 +259,7 @@ class _test_pageState extends State<test_page> {
     Tickets(),
     Shuttlebus(),
     SubscriptionPage(),
-    ProfileSettingsPageView()
+    ProfileSettingsPageView(),
   ];
 
   List<PreferredSizeWidget> getAppBars(BuildContext context) {
@@ -280,7 +280,7 @@ class _test_pageState extends State<test_page> {
       ),
       AppBar(
         backgroundColor: Colors.white,
-        title: Text(S.of(context).subscriptions),
+        title: Text(S.of(context).subscription),
         automaticallyImplyLeading: false,
       ),
     ];
@@ -290,12 +290,16 @@ class _test_pageState extends State<test_page> {
 
   @override
   Widget build(BuildContext context) {
+    final navState = context.watch<Navigate_Cubit>().state;
+
     return Scaffold(
       extendBodyBehindAppBar: true,
       backgroundColor: const Color(0xffFCFCFD),
-      appBar: context.watch<Navigate_Cubit>().state == 0
+      // Hide AppBar for tabs 0 (Home), 2 (ShuttleBus), 4 (Profile+Settings)
+      // because each of those manages its own AppBar internally
+      appBar: [0, 2, 4].contains(navState)
           ? null
-          : getAppBars(context)[context.watch<Navigate_Cubit>().state],
+          : getAppBars(context)[navState],
       body: BlocBuilder<Navigate_Cubit, int>(
         builder: (context, state) {
           return NavigationBarpage[state];

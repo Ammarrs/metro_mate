@@ -1,5 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:geolocator/geolocator.dart';
+import '../../models/crowdedness_level.dart';
 import '../../models/metro_staton_model.dart';
 import '../../services/location_services.dart';
 import '../../services/metro_services.dart';
@@ -8,16 +9,16 @@ import 'nearest_metro_state.dart';
 
 class NearestMetroCubit extends Cubit<NearestMetroState> {
   final LocationService _locationService;
-  final MetroService _metroService;
-  final RoutingService _routingService;
+  final MetroService    _metroService;
+  final RoutingService  _routingService;
 
   NearestMetroCubit({
     LocationService? locationService,
-    MetroService? metroService,
-    RoutingService? routingService,
+    MetroService?    metroService,
+    RoutingService?  routingService,
   })  : _locationService = locationService ?? LocationService(),
-        _metroService = metroService ?? MetroService(),
-        _routingService = routingService ?? RoutingService(),
+        _metroService    = metroService    ?? MetroService(),
+        _routingService  = routingService  ?? RoutingService(),
         super(const NearestMetroInitial());
 
   Future<void> loadNearestMetro() async {
@@ -26,6 +27,7 @@ class NearestMetroCubit extends Cubit<NearestMetroState> {
       if (isClosed) return;
       emit(const NearestMetroLoading(message: 'Getting your location...'));
 
+      // ── Step 1: GPS ──────────────────────────────────────────────────────
       Position userPosition;
       try {
         print('📍 Requesting user location...');
@@ -40,8 +42,8 @@ class NearestMetroCubit extends Cubit<NearestMetroState> {
           return;
         } else if (msg.contains('denied')) {
           emit(NearestMetroPermissionDenied(
-            message: msg,
-            isPermanentlyDenied: msg.contains('permanently'),
+            message             : msg,
+            isPermanentlyDenied : msg.contains('permanently'),
           ));
           return;
         }
@@ -51,11 +53,12 @@ class NearestMetroCubit extends Cubit<NearestMetroState> {
       if (isClosed) return;
       emit(const NearestMetroLoading(message: 'Finding nearest metro...'));
 
+      // ── Step 2: Nearest station ──────────────────────────────────────────
       print('🚇 Calling nearest station API...');
       final MetroStationModel nearestStation;
       try {
         nearestStation = await _metroService.getNearestMetroStation(
-          userLatitude: userPosition.latitude,
+          userLatitude : userPosition.latitude,
           userLongitude: userPosition.longitude,
         );
         print('✅ Got nearest station: ${nearestStation.name}');
@@ -82,43 +85,60 @@ class NearestMetroCubit extends Cubit<NearestMetroState> {
       if (isClosed) return;
       emit(const NearestMetroLoading(message: 'Calculating walking route...'));
 
+      // ── Step 3: Walking route ────────────────────────────────────────────
       print('🗺️ Getting real walking route...');
       final routeResult = await _routingService.getWalkingRoute(
         startLat: userPosition.latitude,
         startLng: userPosition.longitude,
-        endLat: nearestStation.lat!,
-        endLng: nearestStation.lng!,
+        endLat  : nearestStation.lat!,
+        endLng  : nearestStation.lng!,
       );
 
       double distance;
-      int walkingTime;
+      int    walkingTime;
 
       if (routeResult['success'] == true) {
-        distance = routeResult['distance_km'];
+        distance    = routeResult['distance_km'];
         walkingTime = routeResult['walking_time_minutes'];
         print('✅ Using REAL route: ${distance.toStringAsFixed(2)} km, $walkingTime min');
       } else {
         print('⚠️ Routing failed, using estimate...');
         distance = _locationService.calculateDistance(
-          startLatitude: userPosition.latitude,
+          startLatitude : userPosition.latitude,
           startLongitude: userPosition.longitude,
-          endLatitude: nearestStation.lat!,
-          endLongitude: nearestStation.lng!,
-        );
-        distance = distance * 1.3;
+          endLatitude   : nearestStation.lat!,
+          endLongitude  : nearestStation.lng!,
+        ) * 1.3;
         walkingTime = _locationService.calculateWalkingTime(distance);
         print('📏 Using estimate: ${distance.toStringAsFixed(2)} km, $walkingTime min');
       }
 
-      nearestStation.distanceInKm = distance;
+      nearestStation.distanceInKm        = distance;
       nearestStation.walkingTimeInMinutes = walkingTime;
 
       if (isClosed) return;
+      emit(const NearestMetroLoading(message: 'Checking station crowdedness...'));
+
+      // ── Step 4: Crowdedness (non-fatal — always succeeds) ────────────────
+      // getCrowdednessLevel never throws, so the station card always appears
+      // even if this call fails.
+      print('🟡 Fetching crowdedness...');
+      final CrowdednessLevel crowdedness =
+          await _metroService.getCrowdednessLevel(
+        latitude   : userPosition.latitude,
+        longitude  : userPosition.longitude,
+        stationName: nearestStation.name,
+      );
+      print('✅ Crowdedness: ${crowdedness.label}');
+
+      // ── Step 5: Emit loaded state ────────────────────────────────────────
+      if (isClosed) return;
       print('✅ Emitting loaded state');
       emit(NearestMetroLoaded(
-        nearestStation: nearestStation,
-        userLatitude: userPosition.latitude,
-        userLongitude: userPosition.longitude,
+        nearestStation  : nearestStation,
+        userLatitude    : userPosition.latitude,
+        userLongitude   : userPosition.longitude,
+        crowdednessLevel: crowdedness,           // ← pass to state
       ));
 
       print('✅ loadNearestMetro completed successfully');
