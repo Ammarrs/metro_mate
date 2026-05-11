@@ -28,7 +28,7 @@ class VerifyIdentityRepository {
 
     _dio.interceptors.addAll([
       LogInterceptor(requestBody: false, responseBody: true),
-      _AuthInterceptor(),       // attaches Bearer token from SharedPreferences
+      _AuthInterceptor(), // attaches Bearer token from SharedPreferences
     ]);
   }
 
@@ -99,6 +99,7 @@ class VerifyIdentityRepository {
         if (subscriptionId.isNotEmpty) {
           final prefs = await SharedPreferences.getInstance();
           await prefs.setString(AppPrefKeys.subscriptionId, subscriptionId);
+          print("subscriptionId: ${subscriptionId}");
         }
 
         return subscriptionId;
@@ -122,9 +123,12 @@ class VerifyIdentityRepository {
       case DioExceptionType.badResponse:
         final code = e.response?.statusCode;
         final msg = e.response?.data?['message'] as String?;
-        if (code == 401) return Exception('Session expired. Please log in again.');
-        if (code == 413) return Exception('File too large. Maximum size is 5 MB.');
-        if (code == 422) return Exception(msg ?? 'Invalid data. Please check your inputs.');
+        if (code == 401)
+          return Exception('Session expired. Please log in again.');
+        if (code == 413)
+          return Exception('File too large. Maximum size is 5 MB.');
+        if (code == 422)
+          return Exception(msg ?? 'Invalid data. Please check your inputs.');
         return Exception(msg ?? 'Server error ($code). Please try again.');
       case DioExceptionType.cancel:
         return Exception('Request cancelled.');

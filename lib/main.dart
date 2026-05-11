@@ -294,9 +294,8 @@ class _test_pageState extends State<test_page> {
       backgroundColor: const Color(0xffFCFCFD),
       // Hide AppBar for tabs 0 (Home), 2 (ShuttleBus), 4 (Profile+Settings)
       // because each of those manages its own AppBar internally
-      appBar: [0, 2, 4].contains(navState)
-          ? null
-          : getAppBars(context)[navState],
+      appBar:
+          [0, 2, 4].contains(navState) ? null : getAppBars(context)[navState],
       body: BlocBuilder<Navigate_Cubit, int>(
         builder: (context, state) {
           return NavigationBarpage[state];

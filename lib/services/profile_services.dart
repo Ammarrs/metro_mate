@@ -3,6 +3,7 @@ import 'package:dio/dio.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:second/models/profile_result.dart';
 import 'package:second/services/storage_service.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../models/user_model.dart';
 import 'api_client.dart';
 
@@ -17,7 +18,7 @@ class ProfileService {
 
   /// Fetches the complete user profile by calling all three endpoints
   /// This combines username, email, and photo into a single User object
-  /// 
+  ///
   /// Flow:
   /// 1. Get username from /api/v1/users/profile/username
   /// 2. Get email from /api/v1/users/profile/email
@@ -30,14 +31,15 @@ class ProfileService {
 
       // Load cached values first — used as fallback if any API call fails
       final cached = await _storage.getUserData();
-      final String? userId   = await _storage.getUserId();
-      String userName        = cached?['name']         ?? '';
-      String userEmail       = cached?['email']        ?? '';
-      String? userPhoto      = cached?['profileImage'];
+      final String? userId = await _storage.getUserId();
+      String userName = cached?['name'] ?? '';
+      String userEmail = cached?['email'] ?? '';
+      String? userPhoto = cached?['profileImage'];
 
       // ── Step 1: Username ──────────────────────────────────────────────
       try {
-        final nameResponse = await _apiClient.get('/api/v1/users/profile/username');
+        final nameResponse =
+            await _apiClient.get('/api/v1/users/profile/username');
         print('Username response status: ${nameResponse.statusCode}');
         print('Username response data: ${nameResponse.data}');
 
@@ -54,7 +56,8 @@ class ProfileService {
 
       // ── Step 2: Email ─────────────────────────────────────────────────
       try {
-        final emailResponse = await _apiClient.get('/api/v1/users/profile/email');
+        final emailResponse =
+            await _apiClient.get('/api/v1/users/profile/email');
         print('Email response status: ${emailResponse.statusCode}');
         print('Email response data: ${emailResponse.data}');
 
@@ -69,7 +72,8 @@ class ProfileService {
 
       // ── Step 3: Photo ─────────────────────────────────────────────────
       try {
-        final photoResponse = await _apiClient.get('/api/v1/users/profile/photo');
+        final photoResponse =
+            await _apiClient.get('/api/v1/users/profile/photo');
         print('Photo response status: ${photoResponse.statusCode}');
         print('Photo response data: ${photoResponse.data}');
 
@@ -101,29 +105,32 @@ class ProfileService {
         );
       }
 
-      print('ProfileService: Profile loaded — name: $userName, email: $userEmail');
+      print(
+          'ProfileService: Profile loaded — name: $userName, email: $userEmail');
       return ProfileResult(
         success: true,
         message: 'Profile loaded successfully',
         user: user,
       );
-
     } on DioException catch (e) {
       print('DioException in getProfile: ${e.type} — ${e.message}');
       if (e.response?.statusCode == 401) {
-        return ProfileResult(success: false, message: 'Unauthorized. Please login again.');
+        return ProfileResult(
+            success: false, message: 'Unauthorized. Please login again.');
       }
-      return ProfileResult(success: false, message: 'Network error: ${e.message}');
+      return ProfileResult(
+          success: false, message: 'Network error: ${e.message}');
     } catch (e) {
       print('Unknown error in getProfile: $e');
-      return ProfileResult(success: false, message: 'An unexpected error occurred: $e');
+      return ProfileResult(
+          success: false, message: 'An unexpected error occurred: $e');
     }
   }
 
   /// Updates the user's profile photo
-  /// 
+  ///
   /// @param photoUrl: The URL of the new photo (as a string)
-  /// 
+  ///
   /// Flow:
   /// 1. Send PATCH request to /api/v1/users/profile/updateuserphoto
   /// 2. Include the photo URL in the request body
@@ -197,8 +204,7 @@ class ProfileService {
 
       if (response.statusCode == 200) {
         final body = _safeMap(response.data);
-        final updatedName =
-            body?['data']?['name']?.toString() ?? newName;
+        final updatedName = body?['data']?['name']?.toString() ?? newName;
 
         // Persist updated name to cache
         final cached = await _storage.getUserData();
@@ -251,6 +257,7 @@ class ProfileService {
       if (response.statusCode == 200 && body?['status'] == 'success') {
         return body!['data']['name'];
       }
+      
       return null;
     } catch (e) {
       print('Error getting username: $e');

@@ -1,4 +1,5 @@
 import 'package:geolocator/geolocator.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LocationService {
   Future<Position> getCurrentLocation() async {
@@ -18,6 +19,13 @@ class LocationService {
     if (permission == LocationPermission.deniedForever) {
       throw Exception('Location permissions are permanently denied. Please enable in settings.');
     }
+
+    final prefs = await SharedPreferences.getInstance();
+    final subId = await prefs.getString("subscription_id");
+    print("________________________________________________");
+    print("subscriptionId: ${subId}");
+    print("________________________________________________");
+
 
     return await Geolocator.getCurrentPosition(
       desiredAccuracy: LocationAccuracy.high,
