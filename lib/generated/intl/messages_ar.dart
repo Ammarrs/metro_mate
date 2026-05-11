@@ -137,6 +137,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "Next": MessageLookupByLibrary.simpleMessage("التالي >"),
         "NoAccount": MessageLookupByLibrary.simpleMessage("ليس لديك حساب؟"),
         "NotAvailable": MessageLookupByLibrary.simpleMessage("غير متاح"),
+        "NotficationHistory":
+            MessageLookupByLibrary.simpleMessage("سجل الإشعارات"),
         "OldPassword":
             MessageLookupByLibrary.simpleMessage("كلمة المرور القديمة"),
         "OnboardingDesc1": MessageLookupByLibrary.simpleMessage(

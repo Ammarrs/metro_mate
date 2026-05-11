@@ -29,7 +29,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
       backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Colors.white,
-        title: const Text("Notifications History"),
+        title: Text(S.of(context).NotficationHistory),
         centerTitle: true,
       ),
       body: BlocBuilder<SelectRoute, RouteState>(

@@ -140,6 +140,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "NotAvailable": MessageLookupByLibrary.simpleMessage("N/A"),
         "NotFoundInNotifications":
             MessageLookupByLibrary.simpleMessage("Not found any notifications"),
+        "NotficationHistory":
+            MessageLookupByLibrary.simpleMessage("Notification History"),
         "OldPassword": MessageLookupByLibrary.simpleMessage("Old Password"),
         "OnboardingDesc1": MessageLookupByLibrary.simpleMessage(
             "Easily check metro routes and directions from one station to another."),
