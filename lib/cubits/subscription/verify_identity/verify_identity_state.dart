@@ -2,6 +2,9 @@ part of 'verify_identity_cubit.dart';
 
 enum UploadStatus { idle, uploading, success, error }
 
+// ── New imports needed at top of cubit file ──
+// import '../../../services/dropdown_service.dart';
+
 class DocumentFile {
   final String? fileName;
   final String? filePath;
@@ -32,10 +35,10 @@ class DocumentFile {
 
 class VerifyIdentityState extends Equatable {
   // ── Passed from subscription / plan screens ───────────────────────────────
-  final String category;      // e.g. "students", "military", "elderly"
-  final String duration;      // e.g. "monthly", "quarterly"
-  final int zones;            // number of zones selected
-  final String planId;        // plan._id from API
+  final String category;
+  final String duration;
+  final int zones;
+  final String planId;
 
   // ── Collected on this screen ──────────────────────────────────────────────
   final String office;
@@ -45,13 +48,19 @@ class VerifyIdentityState extends Equatable {
   // ── Document uploads ──────────────────────────────────────────────────────
   final DocumentFile nationalIdFront;
   final DocumentFile nationalIdBack;
-  final DocumentFile universityId;   // only for "students" category
-  final DocumentFile militaryId;     // only for "military" category
+  final DocumentFile universityId;
+  final DocumentFile militaryId;
 
   // ── Submission state ──────────────────────────────────────────────────────
   final bool isSubmitting;
   final bool isSubmitSuccess;
   final String? submitError;
+
+  // ── Dropdown data ─────────────────────────────────────────────────────────
+  final List<StationItem> stations;
+  final List<OfficeItem> offices;
+  final bool isLoadingDropdowns;
+  final String? dropdownError;
 
   const VerifyIdentityState({
     required this.category,
@@ -68,15 +77,15 @@ class VerifyIdentityState extends Equatable {
     this.isSubmitting = false,
     this.isSubmitSuccess = false,
     this.submitError,
+    this.stations = const [],
+    this.offices = const [],
+    this.isLoadingDropdowns = false,
+    this.dropdownError,
   });
 
-  /// Whether category requires a university ID
   bool get isStudent => category.toLowerCase() == 'students';
-
-  /// Whether category requires a military ID
   bool get isMilitary => category.toLowerCase() == 'military';
 
-  /// All mandatory uploads complete + station/office fields filled
   bool get canProceed {
     final stationsOk =
         office.trim().isNotEmpty &&
@@ -108,6 +117,11 @@ class VerifyIdentityState extends Equatable {
     bool? isSubmitSuccess,
     String? submitError,
     bool clearSubmitError = false,
+    List<StationItem>? stations,
+    List<OfficeItem>? offices,
+    bool? isLoadingDropdowns,
+    String? dropdownError,
+    bool clearDropdownError = false,
   }) {
     return VerifyIdentityState(
       category: category,
@@ -124,6 +138,11 @@ class VerifyIdentityState extends Equatable {
       isSubmitting: isSubmitting ?? this.isSubmitting,
       isSubmitSuccess: isSubmitSuccess ?? this.isSubmitSuccess,
       submitError: clearSubmitError ? null : (submitError ?? this.submitError),
+      stations: stations ?? this.stations,
+      offices: offices ?? this.offices,
+      isLoadingDropdowns: isLoadingDropdowns ?? this.isLoadingDropdowns,
+      dropdownError:
+          clearDropdownError ? null : (dropdownError ?? this.dropdownError),
     );
   }
 
@@ -136,5 +155,7 @@ class VerifyIdentityState extends Equatable {
         universityId.status, universityId.fileName,
         militaryId.status, militaryId.fileName,
         isSubmitting, isSubmitSuccess, submitError,
+        stations.length, offices.length,
+        isLoadingDropdowns, dropdownError,
       ];
 }

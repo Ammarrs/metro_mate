@@ -4,6 +4,7 @@ import 'package:equatable/equatable.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:second/generated/l10n.dart';
 import '../../../services/verify_identity_service.dart';
+import '../../../services/dropdown_service.dart';  // ← new import
 
 part 'verify_identity_state.dart';
 
@@ -23,6 +24,29 @@ class VerifyIdentityCubit extends Cubit<VerifyIdentityState> {
           zones: zones,
           planId: planId,
         ));
+
+  // ─── Load dropdown data ───────────────────────────────────────────────────
+
+  Future<void> loadDropdowns() async {
+    if (state.stations.isNotEmpty && state.offices.isNotEmpty) return;
+    emit(state.copyWith(isLoadingDropdowns: true, clearDropdownError: true));
+    try {
+      final results = await Future.wait([
+        DropdownService.fetchStations(),
+        DropdownService.fetchOffices(),
+      ]);
+      emit(state.copyWith(
+        stations: results[0] as List<StationItem>,
+        offices: results[1] as List<OfficeItem>,
+        isLoadingDropdowns: false,
+      ));
+    } catch (e) {
+      emit(state.copyWith(
+        isLoadingDropdowns: false,
+        dropdownError: 'Failed to load stations. Please try again.',
+      ));
+    }
+  }
 
   // ─── Text fields ──────────────────────────────────────────────────────────
 
@@ -90,7 +114,8 @@ class VerifyIdentityCubit extends Cubit<VerifyIdentityState> {
   Future<void> pickMilitaryId() async {
     await _pickFile(
       onUploading: () => emit(state.copyWith(
-        militaryId: state.militaryId.copyWith(status: UploadStatus.uploading),
+        militaryId:
+            state.militaryId.copyWith(status: UploadStatus.uploading),
       )),
       onSuccess: (name, path) => emit(state.copyWith(
         militaryId: DocumentFile(
@@ -123,7 +148,6 @@ class VerifyIdentityCubit extends Cubit<VerifyIdentityState> {
         return;
       }
 
-      // Validate file size — 5 MB limit
       final sizeInMb = File(picked.path!).lengthSync() / (1024 * 1024);
       if (sizeInMb > 5) {
         onError(S.current.fileSizeError);
@@ -131,8 +155,7 @@ class VerifyIdentityCubit extends Cubit<VerifyIdentityState> {
       }
 
       onUploading();
-      await Future.delayed(
-          const Duration(milliseconds: 400)); // brief UX feedback
+      await Future.delayed(const Duration(milliseconds: 400));
       onSuccess(picked.name, picked.path!);
     } catch (e) {
       onError(e.toString().replaceAll('Exception: ', ''));

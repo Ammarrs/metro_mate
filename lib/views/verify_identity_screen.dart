@@ -4,7 +4,7 @@ import 'package:second/generated/l10n.dart';
 import '../cubits/subscription/verify_identity/verify_identity_cubit.dart';
 import '../services/verify_identity_service.dart';
 
-// ─── Entry point ─────────────────────────────────────────────────────────────
+// ─── Entry point ──────────────────────────────────────────────────────────────
 
 class VerifyIdentityPage extends StatelessWidget {
   final String category;
@@ -30,20 +30,32 @@ class VerifyIdentityPage extends StatelessWidget {
         zones: zones,
         planId: planId,
       ),
-      child: const _VerifyIdentityScreen(),
+      child: const _VerifyIdentityView(),
     );
   }
 }
 
-// ─── Colors ───────────────────────────────────────────────────────────────────
+// ─── Thin StatefulWidget wrapper — triggers loadDropdowns once ────────────────
 
-const _kTeal = Color(0xFF2DC4A2);
-const _kDarkBlue = Color(0xFF1E2D4E);
-const _kBg = Color(0xFFF4F6FA);
-const _kBorder = Color(0xFFDDE3EE);
-const _kTextMuted = Color(0xFF7A8599);
+class _VerifyIdentityView extends StatefulWidget {
+  const _VerifyIdentityView();
 
-// ─── Screen ──────────────────────────────────────────────────────────────────
+  @override
+  State<_VerifyIdentityView> createState() => _VerifyIdentityViewState();
+}
+
+class _VerifyIdentityViewState extends State<_VerifyIdentityView> {
+  @override
+  void initState() {
+    super.initState();
+    context.read<VerifyIdentityCubit>().loadDropdowns();
+  }
+
+  @override
+  Widget build(BuildContext context) => const _VerifyIdentityScreen();
+}
+
+// ─── Screen ───────────────────────────────────────────────────────────────────
 
 class _VerifyIdentityScreen extends StatelessWidget {
   const _VerifyIdentityScreen();
@@ -56,7 +68,7 @@ class _VerifyIdentityScreen extends StatelessWidget {
           c.submitError != p.submitError,
       listener: (context, state) {
         if (state.isSubmitSuccess) {
-          Navigator.pushNamed(context, 'Screen3'); // adjust route name
+          Navigator.pushNamed(context, 'Screen3');
         }
         if (state.submitError != null) {
           ScaffoldMessenger.of(context).showSnackBar(
@@ -74,7 +86,7 @@ class _VerifyIdentityScreen extends StatelessWidget {
       },
       builder: (context, state) {
         return Scaffold(
-          backgroundColor: _kBg,
+          backgroundColor: const Color(0xFFF4F6FA),
           appBar: _appBar(context),
           body: SafeArea(
             child: Column(
@@ -89,7 +101,6 @@ class _VerifyIdentityScreen extends StatelessWidget {
                         _StepHeader(state: state),
                         const SizedBox(height: 20),
 
-                        // ── Category badge ──────────────────────────────
                         _CategoryBadge(category: state.category),
                         const SizedBox(height: 20),
 
@@ -103,7 +114,6 @@ class _VerifyIdentityScreen extends StatelessWidget {
                         _SectionLabel(label: S.of(context).identityDocuments),
                         const SizedBox(height: 10),
 
-                        // Category-specific extra ID
                         if (state.isStudent) ...[
                           _DocumentCard(
                             icon: Icons.badge_outlined,
@@ -131,7 +141,6 @@ class _VerifyIdentityScreen extends StatelessWidget {
                           const SizedBox(height: 12),
                         ],
 
-                        // National ID — always required
                         _DocumentCard(
                           icon: Icons.add_a_photo_outlined,
                           title: S.of(context).nationalIdFront,
@@ -172,16 +181,16 @@ class _VerifyIdentityScreen extends StatelessWidget {
 
   PreferredSizeWidget _appBar(BuildContext context) {
     return AppBar(
-      backgroundColor: _kBg,
+      backgroundColor: const Color(0xFFF4F6FA),
       elevation: 0,
       leading: IconButton(
-        icon: const Icon(Icons.arrow_back, color: _kDarkBlue),
+        icon: const Icon(Icons.arrow_back, color: Color(0xFF1E2D4E)),
         onPressed: () => Navigator.pop(context),
       ),
       title: Text(
         S.of(context).metroMate,
         style: TextStyle(
-          color: _kDarkBlue,
+          color: Color(0xFF1E2D4E),
           fontWeight: FontWeight.w700,
           fontSize: 18,
         ),
@@ -191,8 +200,8 @@ class _VerifyIdentityScreen extends StatelessWidget {
           padding: const EdgeInsets.only(right: 16),
           child: CircleAvatar(
             radius: 18,
-            backgroundColor: _kTeal.withOpacity(0.15),
-            child: const Icon(Icons.person, color: _kTeal, size: 20),
+            backgroundColor: Color(0x262DC4A2),
+            child: const Icon(Icons.person, color: Color(0xFF2DC4A2), size: 20),
           ),
         ),
       ],
@@ -213,7 +222,7 @@ class _StepHeader extends StatelessWidget {
         Text(
           S.of(context).step2of3,
           style: TextStyle(
-            color: _kTeal,
+            color: Color(0xFF2DC4A2),
             fontSize: 12,
             fontWeight: FontWeight.w700,
             letterSpacing: 1.2,
@@ -223,7 +232,7 @@ class _StepHeader extends StatelessWidget {
         Text(
           S.of(context).verifyIdentity,
           style: TextStyle(
-            color: _kDarkBlue,
+            color: Color(0xFF1E2D4E),
             fontSize: 26,
             fontWeight: FontWeight.w800,
           ),
@@ -232,16 +241,18 @@ class _StepHeader extends StatelessWidget {
         Text(
           S.of(context).verifyIdentityDescription,
           textAlign: TextAlign.center,
-          style: TextStyle(color: _kTextMuted, fontSize: 13.5, height: 1.5),
+          style: TextStyle(
+              color: Color(0xFF7A8599), fontSize: 13.5, height: 1.5),
         ),
         const SizedBox(height: 18),
         ClipRRect(
           borderRadius: BorderRadius.circular(4),
-          child: LinearProgressIndicator(
+          child: const LinearProgressIndicator(
             value: 2 / 3,
             minHeight: 6,
-            backgroundColor: _kBorder,
-            valueColor: const AlwaysStoppedAnimation<Color>(_kTeal),
+            backgroundColor: Color(0xFFDDE3EE),
+            valueColor:
+                AlwaysStoppedAnimation<Color>(Color(0xFF2DC4A2)),
           ),
         ),
       ],
@@ -249,7 +260,7 @@ class _StepHeader extends StatelessWidget {
   }
 }
 
-// ─── Category badge ──────────────────────────────────────────────────────────
+// ─── Category badge ───────────────────────────────────────────────────────────
 
 class _CategoryBadge extends StatelessWidget {
   final String category;
@@ -280,13 +291,13 @@ class _CategoryBadge extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
       decoration: BoxDecoration(
-        color: _kDarkBlue.withOpacity(0.06),
+        color: const Color(0xFF1E2D4E).withOpacity(0.06),
         borderRadius: BorderRadius.circular(14),
-        border: Border.all(color: _kDarkBlue.withOpacity(0.12)),
+        border: Border.all(color: const Color(0xFF1E2D4E).withOpacity(0.12)),
       ),
       child: Row(
         children: [
-          Icon(_icon(category), color: _kDarkBlue, size: 22),
+          Icon(_icon(category), color: const Color(0xFF1E2D4E), size: 22),
           const SizedBox(width: 12),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -294,7 +305,7 @@ class _CategoryBadge extends StatelessWidget {
               Text(
                 S.of(context).selectedCategory,
                 style: TextStyle(
-                    color: _kTextMuted,
+                    color: Color(0xFF7A8599),
                     fontSize: 11.5,
                     fontWeight: FontWeight.w500),
               ),
@@ -302,7 +313,7 @@ class _CategoryBadge extends StatelessWidget {
               Text(
                 _capitalize(category),
                 style: const TextStyle(
-                    color: _kDarkBlue,
+                    color: Color(0xFF1E2D4E),
                     fontSize: 15,
                     fontWeight: FontWeight.w700),
               ),
@@ -325,7 +336,7 @@ class _SectionLabel extends StatelessWidget {
     return Text(
       label.toUpperCase(),
       style: const TextStyle(
-        color: _kTextMuted,
+        color: Color(0xFF7A8599),
         fontSize: 11,
         fontWeight: FontWeight.w700,
         letterSpacing: 1.0,
@@ -343,26 +354,45 @@ class _StationFields extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final cubit = context.read<VerifyIdentityCubit>();
+    final loading = state.isLoadingDropdowns;
+
+    final stationNames = state.stations.map((s) => s.name).toList();
+    final officeNames = state.offices.map((o) => o.name).toList();
+
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        _InputField(
+        // Retry banner — only visible on error, fields always stay rendered
+        if (state.dropdownError != null)
+          _RetryBanner(onRetry: cubit.loadDropdowns),
+
+        _DropdownField(
           label: S.of(context).startStation,
           hint: S.of(context).startStationHint,
           icon: Icons.trip_origin_rounded,
+          items: stationNames,
+          value: state.startStation.isEmpty ? null : state.startStation,
+          isLoading: loading,
           onChanged: cubit.startStationChanged,
         ),
         const SizedBox(height: 10),
-        _InputField(
+        _DropdownField(
           label: S.of(context).endStation,
           hint: S.of(context).endStationHint,
           icon: Icons.location_on_rounded,
+          items: stationNames,
+          value: state.endStation.isEmpty ? null : state.endStation,
+          isLoading: loading,
           onChanged: cubit.endStationChanged,
         ),
         const SizedBox(height: 10),
-        _InputField(
+        _DropdownField(
           label: S.of(context).office,
           hint: S.of(context).officeHint,
           icon: Icons.business_rounded,
+          items: officeNames,
+          value: state.office.isEmpty ? null : state.office,
+          isLoading: loading,
           onChanged: cubit.officeChanged,
         ),
       ],
@@ -370,41 +400,358 @@ class _StationFields extends StatelessWidget {
   }
 }
 
-class _InputField extends StatelessWidget {
+// ─── Retry banner ─────────────────────────────────────────────────────────────
+
+class _RetryBanner extends StatelessWidget {
+  final VoidCallback onRetry;
+  const _RetryBanner({required this.onRetry});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: const EdgeInsets.only(bottom: 10),
+      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+      decoration: BoxDecoration(
+        color: Colors.red.shade50,
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: Colors.red.shade200),
+      ),
+      child: Row(
+        children: [
+          Icon(Icons.wifi_off_rounded, color: Colors.red.shade500, size: 18),
+          const SizedBox(width: 10),
+          Expanded(
+            child: Text(
+              'Could not load stations. Tap to retry.',
+              style:
+                  TextStyle(color: Colors.red.shade700, fontSize: 12.5),
+            ),
+          ),
+          GestureDetector(
+            onTap: onRetry,
+            child: Icon(Icons.refresh_rounded,
+                color: Colors.red.shade500, size: 20),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+// ─── Dropdown field with search bottom sheet ──────────────────────────────────
+
+class _DropdownField extends StatelessWidget {
   final String label;
   final String hint;
   final IconData icon;
+  final List<String> items;
+  final String? value;
+  final bool isLoading;
   final void Function(String) onChanged;
 
-  const _InputField({
+  const _DropdownField({
     required this.label,
     required this.hint,
     required this.icon,
+    required this.items,
+    required this.value,
+    required this.isLoading,
     required this.onChanged,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(14),
-        border: Border.all(color: _kBorder),
-      ),
-      child: TextField(
-        onChanged: onChanged,
-        style: const TextStyle(
-            color: _kDarkBlue, fontSize: 14, fontWeight: FontWeight.w500),
-        decoration: InputDecoration(
-          labelText: label,
-          hintText: hint,
-          hintStyle: const TextStyle(color: _kTextMuted, fontSize: 13),
-          labelStyle: const TextStyle(color: _kTextMuted, fontSize: 13),
-          prefixIcon: Icon(icon, color: _kTeal, size: 20),
-          border: InputBorder.none,
-          contentPadding:
-              const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+    return GestureDetector(
+      onTap: isLoading || items.isEmpty
+          ? null
+          : () => _openSearchSheet(context),
+      child: Container(
+        height: 56,
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(14),
+          border: Border.all(color: const Color(0xFFDDE3EE)),
         ),
+        padding: const EdgeInsets.symmetric(horizontal: 12),
+        child: Row(
+          children: [
+            Icon(icon, color: const Color(0xFF2DC4A2), size: 20),
+            const SizedBox(width: 12),
+            Expanded(
+              child: isLoading
+                  ? const _ShimmerLine()
+                  : value != null
+                      ? Text(
+                          value!,
+                          style: const TextStyle(
+                            color: Color(0xFF1E2D4E),
+                            fontSize: 14,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        )
+                      : Text(
+                          hint,
+                          style: const TextStyle(
+                              color: Color(0xFF7A8599), fontSize: 13),
+                        ),
+            ),
+            if (isLoading)
+              const SizedBox(
+                width: 16,
+                height: 16,
+                child: CircularProgressIndicator(
+                    strokeWidth: 2, color: Color(0xFF2DC4A2)),
+              )
+            else
+              const Icon(Icons.keyboard_arrow_down_rounded,
+                  color: Color(0xFF7A8599), size: 22),
+          ],
+        ),
+      ),
+    );
+  }
+
+  void _openSearchSheet(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (_) => _SearchBottomSheet(
+        title: label,
+        items: items,
+        selectedValue: value,
+        onSelected: (picked) {
+          onChanged(picked);
+          Navigator.pop(context);
+        },
+      ),
+    );
+  }
+}
+
+// ─── Shimmer loading line inside the field ────────────────────────────────────
+
+class _ShimmerLine extends StatefulWidget {
+  const _ShimmerLine();
+
+  @override
+  State<_ShimmerLine> createState() => _ShimmerLineState();
+}
+
+class _ShimmerLineState extends State<_ShimmerLine>
+    with SingleTickerProviderStateMixin {
+  late final AnimationController _ctrl;
+  late final Animation<double> _anim;
+
+  @override
+  void initState() {
+    super.initState();
+    _ctrl = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 900),
+    )..repeat(reverse: true);
+    _anim = CurvedAnimation(parent: _ctrl, curve: Curves.easeInOut);
+  }
+
+  @override
+  void dispose() {
+    _ctrl.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return AnimatedBuilder(
+      animation: _anim,
+      builder: (_, __) => Container(
+        height: 12,
+        width: 140,
+        decoration: BoxDecoration(
+          color: Color.fromRGBO(
+              221, 227, 238, 0.4 + _anim.value * 0.5),
+          borderRadius: BorderRadius.circular(6),
+        ),
+      ),
+    );
+  }
+}
+
+// ─── Search bottom sheet ──────────────────────────────────────────────────────
+
+class _SearchBottomSheet extends StatefulWidget {
+  final String title;
+  final List<String> items;
+  final String? selectedValue;
+  final void Function(String) onSelected;
+
+  const _SearchBottomSheet({
+    required this.title,
+    required this.items,
+    required this.selectedValue,
+    required this.onSelected,
+  });
+
+  @override
+  State<_SearchBottomSheet> createState() => _SearchBottomSheetState();
+}
+
+class _SearchBottomSheetState extends State<_SearchBottomSheet> {
+  late List<String> _filtered;
+  final _controller = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    _filtered = widget.items;
+  }
+
+  void _onSearch(String query) {
+    final q = query.trim().toLowerCase();
+    setState(() {
+      _filtered = q.isEmpty
+          ? widget.items
+          : widget.items
+              .where((s) => s.toLowerCase().contains(q))
+              .toList();
+    });
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final sheetHeight = MediaQuery.of(context).size.height * 0.75;
+
+    return Container(
+      height: sheetHeight,
+      decoration: const BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+      ),
+      child: Column(
+        children: [
+          // Handle
+          const SizedBox(height: 12),
+          Container(
+            width: 40,
+            height: 4,
+            decoration: BoxDecoration(
+              color: const Color(0xFFDDE3EE),
+              borderRadius: BorderRadius.circular(2),
+            ),
+          ),
+          const SizedBox(height: 16),
+
+          // Title
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            child: Align(
+              alignment: Alignment.centerLeft,
+              child: Text(
+                widget.title,
+                style: const TextStyle(
+                  color: Color(0xFF1E2D4E),
+                  fontSize: 17,
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
+            ),
+          ),
+          const SizedBox(height: 14),
+
+          // Search box
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: Container(
+              decoration: BoxDecoration(
+                color: const Color(0xFFF4F6FA),
+                borderRadius: BorderRadius.circular(12),
+                border: Border.all(color: const Color(0xFFDDE3EE)),
+              ),
+              child: TextField(
+                controller: _controller,
+                autofocus: true,
+                onChanged: _onSearch,
+                style: const TextStyle(
+                    color: Color(0xFF1E2D4E), fontSize: 14),
+                decoration: const InputDecoration(
+                  hintText: 'Search...',
+                  hintStyle:
+                      TextStyle(color: Color(0xFF7A8599), fontSize: 13),
+                  prefixIcon: Icon(Icons.search_rounded,
+                      color: Color(0xFF7A8599), size: 20),
+                  border: InputBorder.none,
+                  contentPadding: EdgeInsets.symmetric(
+                      horizontal: 12, vertical: 12),
+                ),
+              ),
+            ),
+          ),
+          const SizedBox(height: 8),
+
+          // Result count
+          Padding(
+            padding:
+                const EdgeInsets.symmetric(horizontal: 20, vertical: 4),
+            child: Align(
+              alignment: Alignment.centerLeft,
+              child: Text(
+                '${_filtered.length} result${_filtered.length == 1 ? '' : 's'}',
+                style: const TextStyle(
+                    color: Color(0xFF7A8599), fontSize: 11.5),
+              ),
+            ),
+          ),
+
+          // List
+          Expanded(
+            child: _filtered.isEmpty
+                ? const Center(
+                    child: Text(
+                      'No matches found',
+                      style: TextStyle(
+                          color: Color(0xFF7A8599), fontSize: 13.5),
+                    ),
+                  )
+                : ListView.separated(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 16, vertical: 4),
+                    itemCount: _filtered.length,
+                    separatorBuilder: (_, __) => const Divider(
+                        height: 1, color: Color(0x99DDE3EE)),
+                    itemBuilder: (_, i) {
+                      final item = _filtered[i];
+                      final isSelected = item == widget.selectedValue;
+                      return ListTile(
+                        dense: true,
+                        contentPadding:
+                            const EdgeInsets.symmetric(horizontal: 8),
+                        title: Text(
+                          item,
+                          style: TextStyle(
+                            color: isSelected
+                                ? const Color(0xFF2DC4A2)
+                                : const Color(0xFF1E2D4E),
+                            fontWeight: isSelected
+                                ? FontWeight.w700
+                                : FontWeight.w500,
+                            fontSize: 14,
+                          ),
+                        ),
+                        trailing: isSelected
+                            ? const Icon(Icons.check_rounded,
+                                color: Color(0xFF2DC4A2), size: 18)
+                            : null,
+                        onTap: () => widget.onSelected(item),
+                      );
+                    },
+                  ),
+          ),
+        ],
       ),
     );
   }
@@ -442,32 +789,32 @@ class _DocumentCard extends StatelessWidget {
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 200),
         width: double.infinity,
-        padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 16),
+        padding:
+            const EdgeInsets.symmetric(vertical: 20, horizontal: 16),
         decoration: BoxDecoration(
           color: isUploaded
-              ? _kTeal.withOpacity(0.06)
+              ? const Color(0xFF2DC4A2).withOpacity(0.06)
               : hasError
                   ? Colors.red.shade50
                   : Colors.white,
           borderRadius: BorderRadius.circular(16),
           border: Border.all(
             color: isUploaded
-                ? _kTeal.withOpacity(0.4)
+                ? const Color(0xFF2DC4A2).withOpacity(0.4)
                 : hasError
                     ? Colors.red.shade200
-                    : _kBorder,
+                    : const Color(0xFFDDE3EE),
             width: 1.5,
           ),
         ),
         child: Column(
           children: [
-            // Icon
             Container(
               width: 50,
               height: 50,
               decoration: BoxDecoration(
                 color: isUploaded
-                    ? _kTeal.withOpacity(0.15)
+                    ? const Color(0xFF2DC4A2).withOpacity(0.15)
                     : hasError
                         ? Colors.red.shade100
                         : const Color(0xFFEFF2F8),
@@ -477,7 +824,8 @@ class _DocumentCard extends StatelessWidget {
                   ? const Padding(
                       padding: EdgeInsets.all(13),
                       child: CircularProgressIndicator(
-                          strokeWidth: 2.5, color: _kTeal),
+                          strokeWidth: 2.5,
+                          color: Color(0xFF2DC4A2)),
                     )
                   : Icon(
                       isUploaded
@@ -486,10 +834,10 @@ class _DocumentCard extends StatelessWidget {
                               ? Icons.error_outline_rounded
                               : icon,
                       color: isUploaded
-                          ? _kTeal
+                          ? const Color(0xFF2DC4A2)
                           : hasError
                               ? Colors.red.shade600
-                              : _kTextMuted,
+                              : const Color(0xFF7A8599),
                       size: 24,
                     ),
             ),
@@ -497,7 +845,9 @@ class _DocumentCard extends StatelessWidget {
             Text(
               title,
               style: const TextStyle(
-                  color: _kDarkBlue, fontSize: 14, fontWeight: FontWeight.w700),
+                  color: Color(0xFF1E2D4E),
+                  fontSize: 14,
+                  fontWeight: FontWeight.w700),
             ),
             const SizedBox(height: 3),
             Text(
@@ -511,15 +861,17 @@ class _DocumentCard extends StatelessWidget {
               textAlign: TextAlign.center,
               style: TextStyle(
                 color: isUploaded
-                    ? _kTeal
+                    ? const Color(0xFF2DC4A2)
                     : hasError
                         ? Colors.red.shade600
-                        : _kTextMuted,
-                fontSize: isRequired && !isUploaded && !hasError ? 10.5 : 12,
+                        : const Color(0xFF7A8599),
+                fontSize:
+                    isRequired && !isUploaded && !hasError ? 10.5 : 12,
                 fontWeight: isRequired && !isUploaded && !hasError
                     ? FontWeight.w700
                     : FontWeight.w400,
-                letterSpacing: isRequired && !isUploaded && !hasError ? 0.8 : 0,
+                letterSpacing:
+                    isRequired && !isUploaded && !hasError ? 0.8 : 0,
               ),
             ),
             if (showSelectButton && !isUploading) ...[
@@ -527,12 +879,13 @@ class _DocumentCard extends StatelessWidget {
               OutlinedButton(
                 onPressed: onTap,
                 style: OutlinedButton.styleFrom(
-                  foregroundColor: _kDarkBlue,
-                  side: const BorderSide(color: _kBorder, width: 1.5),
+                  foregroundColor: const Color(0xFF1E2D4E),
+                  side: const BorderSide(
+                      color: Color(0xFFDDE3EE), width: 1.5),
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(50)),
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 24, vertical: 8),
                 ),
                 child: Text(
                   isUploaded
@@ -551,7 +904,7 @@ class _DocumentCard extends StatelessWidget {
               Text(
                 S.of(context).tapToUpload,
                 style: TextStyle(
-                    color: _kTeal.withOpacity(0.8),
+                    color: const Color(0xFF2DC4A2).withOpacity(0.8),
                     fontSize: 11.5,
                     fontWeight: FontWeight.w500),
               ),
@@ -598,7 +951,7 @@ class _PhotoGuidelinesCard extends StatelessWidget {
                 Text(
                   S.of(context).photoGuidelines,
                   style: TextStyle(
-                      color: _kDarkBlue,
+                      color: Color(0xFF1E2D4E),
                       fontWeight: FontWeight.w700,
                       fontSize: 13.5),
                 ),
@@ -613,12 +966,13 @@ class _PhotoGuidelinesCard extends StatelessWidget {
                     child: Row(
                       children: [
                         const Icon(Icons.check_circle_rounded,
-                            color: _kTeal, size: 15),
+                            color: Color(0xFF2DC4A2), size: 15),
                         const SizedBox(width: 8),
                         Expanded(
                           child: Text(g,
                               style: const TextStyle(
-                                  color: Color(0xFF4A5568), fontSize: 12.5)),
+                                  color: Color(0xFF4A5568),
+                                  fontSize: 12.5)),
                         ),
                       ],
                     ),
@@ -646,8 +1000,9 @@ class _BottomActions extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.fromLTRB(20, 12, 20, 24),
       decoration: const BoxDecoration(
-        color: _kBg,
-        border: Border(top: BorderSide(color: _kBorder)),
+        color: Color(0xFFF4F6FA),
+        border: Border(
+            top: BorderSide(color: Color(0xFFDDE3EE))),
       ),
       child: SizedBox(
         width: double.infinity,
@@ -657,11 +1012,12 @@ class _BottomActions extends StatelessWidget {
               ? cubit.continueToPayment
               : null,
           style: ElevatedButton.styleFrom(
-            backgroundColor: _kDarkBlue,
-            disabledBackgroundColor: _kDarkBlue.withOpacity(0.35),
+            backgroundColor: const Color(0xFF1E2D4E),
+            disabledBackgroundColor:
+                const Color(0xFF1E2D4E).withOpacity(0.35),
             foregroundColor: Colors.white,
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(50)),
             elevation: 0,
           ),
           child: state.isSubmitting

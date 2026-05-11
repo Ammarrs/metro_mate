@@ -4,6 +4,7 @@ import 'package:second/generated/l10n.dart';
 import '../cubits/nearest_metro/nearest_metro_cubit.dart';
 import '../cubits/nearest_metro/nearest_metro_state.dart';
 import '../utils/map_utils.dart';
+import 'crowdedness_indicator.dart';
 
 class buildStationInfo extends StatelessWidget {
   const buildStationInfo({super.key});
@@ -40,6 +41,7 @@ class buildStationInfo extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: [
+          // ── Station name ───────────────────────────────────────────────
           Text(
             station.name,
             style: const TextStyle(
@@ -50,9 +52,16 @@ class buildStationInfo extends StatelessWidget {
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
           ),
+
           const SizedBox(height: 8),
-          Row(
+
+          // ── Line chip + transfer chip + crowdedness indicator ──────────
+          // All three sit in a Wrap so they wrap gracefully on narrow screens.
+          Wrap(
+            spacing: 8,
+            runSpacing: 6,
             children: [
+              // Line label chip
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                 decoration: BoxDecoration(
@@ -68,8 +77,9 @@ class buildStationInfo extends StatelessWidget {
                   ),
                 ),
               ),
-              if (station.isTransfer && station.transferLabel.isNotEmpty) ...[
-                const SizedBox(width: 8),
+
+              // Transfer chip — only shown for interchange stations
+              if (station.isTransfer && station.transferLabel.isNotEmpty)
                 Container(
                   padding:
                       const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
@@ -94,10 +104,16 @@ class buildStationInfo extends StatelessWidget {
                     ],
                   ),
                 ),
-              ],
+
+              // ── Crowdedness indicator ────────────────────────────────
+              // Reads directly from state — no extra API call here.
+              CrowdednessIndicator(level: state.crowdednessLevel),
             ],
           ),
+
           const SizedBox(height: 16),
+
+          // ── Distance + walking time ────────────────────────────────────
           Row(
             children: [
               const Icon(Icons.location_on_outlined,
@@ -115,7 +131,10 @@ class buildStationInfo extends StatelessWidget {
                       const TextStyle(fontSize: 14, color: Color(0xFF6B7280))),
             ],
           ),
+
           const SizedBox(height: 20),
+
+          // ── Directions button ──────────────────────────────────────────
           SizedBox(
             width: double.infinity,
             height: 50,
@@ -133,10 +152,8 @@ class buildStationInfo extends StatelessWidget {
                 icon: const Icon(Icons.navigation, size: 20),
                 label: Text(
                   S.current.GetDirections,
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w600,
-                  ),
+                  style: const TextStyle(
+                      fontSize: 16, fontWeight: FontWeight.w600),
                 ),
                 style: ElevatedButton.styleFrom(
                   foregroundColor: Colors.white,
@@ -146,8 +163,7 @@ class buildStationInfo extends StatelessWidget {
                   overlayColor: Colors.white.withOpacity(0.1),
                   elevation: 0,
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(37),
-                  ),
+                      borderRadius: BorderRadius.circular(37)),
                   padding: EdgeInsets.zero,
                 ),
               ),
@@ -171,15 +187,12 @@ class buildStationInfo extends StatelessWidget {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  const Center(
-                      child: SizedBox(
+                  const SizedBox(
                     height: 20,
                     width: 20,
                     child: CircularProgressIndicator(
-                      strokeWidth: 2,
-                      color: Colors.blue,
-                    ),
-                  )),
+                        strokeWidth: 2, color: Colors.blue),
+                  ),
                   const SizedBox(height: 16),
                   Text(S.current.OpeningMaps),
                 ],
@@ -203,7 +216,7 @@ class buildStationInfo extends StatelessWidget {
         Navigator.of(context).pop();
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('${S.current.CouldNotOpenMaps}: ${e.toString()}'),
+            content: Text('${S.current.CouldNotOpenMaps}: $e'),
             backgroundColor: Colors.red,
           ),
         );
@@ -223,10 +236,9 @@ class buildStationInfo extends StatelessWidget {
             ),
             if (message != null) ...[
               const SizedBox(height: 16),
-              Text(
-                message,
-                style: const TextStyle(fontSize: 14, color: Color(0xFF6B7280)),
-              ),
+              Text(message,
+                  style:
+                      const TextStyle(fontSize: 14, color: Color(0xFF6B7280))),
             ],
           ],
         ),
@@ -243,19 +255,15 @@ class buildStationInfo extends StatelessWidget {
           children: [
             const Icon(Icons.error_outline, size: 48, color: Colors.red),
             const SizedBox(height: 16),
-            Text(
-              S.current.ErrorLoadingStation,
-              style: const TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.w600,
-                  color: Color(0xFF2D3142)),
-            ),
+            Text(S.current.ErrorLoadingStation,
+                style: const TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w600,
+                    color: Color(0xFF2D3142))),
             const SizedBox(height: 8),
-            Text(
-              message,
-              textAlign: TextAlign.center,
-              style: const TextStyle(fontSize: 14, color: Color(0xFF6B7280)),
-            ),
+            Text(message,
+                textAlign: TextAlign.center,
+                style: const TextStyle(fontSize: 14, color: Color(0xFF6B7280))),
             const SizedBox(height: 20),
             ElevatedButton.icon(
               onPressed: () => context.read<NearestMetroCubit>().refresh(),
@@ -284,13 +292,11 @@ class buildStationInfo extends StatelessWidget {
           children: [
             const Icon(Icons.location_off, size: 48, color: Colors.orange),
             const SizedBox(height: 16),
-            Text(
-              S.current.LocationPermissionRequired,
-              style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.w600,
-                  color: Color(0xFF2D3142)),
-            ),
+            Text(S.current.LocationPermissionRequired,
+                style: const TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w600,
+                    color: Color(0xFF2D3142))),
             const SizedBox(height: 8),
             Text(
               state.isPermanentlyDenied
@@ -332,19 +338,15 @@ class buildStationInfo extends StatelessWidget {
           children: [
             const Icon(Icons.location_disabled, size: 48, color: Colors.orange),
             const SizedBox(height: 16),
-            Text(
-              S.current.LocationServicesDisabled,
-              style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.w600,
-                  color: Color(0xFF2D3142)),
-            ),
+            Text(S.current.LocationServicesDisabled,
+                style: const TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w600,
+                    color: Color(0xFF2D3142))),
             const SizedBox(height: 8),
-            Text(
-              message,
-              textAlign: TextAlign.center,
-              style: const TextStyle(fontSize: 14, color: Color(0xFF6B7280)),
-            ),
+            Text(message,
+                textAlign: TextAlign.center,
+                style: const TextStyle(fontSize: 14, color: Color(0xFF6B7280))),
             const SizedBox(height: 20),
             ElevatedButton.icon(
               onPressed: () =>
@@ -366,11 +368,11 @@ class buildStationInfo extends StatelessWidget {
 
   Widget _buildInitial() {
     return Padding(
-      padding: EdgeInsets.all(40),
+      padding: const EdgeInsets.all(40),
       child: Center(
         child: Text(
           S.current.FindingStation,
-          style: TextStyle(fontSize: 14, color: Color(0xFF6B7280)),
+          style: const TextStyle(fontSize: 14, color: Color(0xFF6B7280)),
         ),
       ),
     );

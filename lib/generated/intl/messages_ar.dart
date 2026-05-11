@@ -23,8 +23,9 @@ class MessageLookup extends MessageLookupByLibrary {
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
         "Account": MessageLookupByLibrary.simpleMessage("الحساب"),
-        "AlreadyHaveAccount":
-            MessageLookupByLibrary.simpleMessage("هل لديك حساب بالفعل؟"),
+        "AlreadyHaveAccount": MessageLookupByLibrary.simpleMessage(
+          "هل لديك حساب بالفعل؟",
+        ),
         "AppName": MessageLookupByLibrary.simpleMessage("مترو ميت"),
         "AppPreferences":
             MessageLookupByLibrary.simpleMessage("تفضيلات التطبيق"),
@@ -35,22 +36,27 @@ class MessageLookup extends MessageLookupByLibrary {
         "BuyDailyTicket":
             MessageLookupByLibrary.simpleMessage("شراء تذكرة يومية"),
         "Camera": MessageLookupByLibrary.simpleMessage("الكاميرا"),
-        "ChangeAppLanguage":
-            MessageLookupByLibrary.simpleMessage("تغيير لغة التطبيق"),
+        "ChangeAppLanguage": MessageLookupByLibrary.simpleMessage(
+          "تغيير لغة التطبيق",
+        ),
         "ChooseGender": MessageLookupByLibrary.simpleMessage("اختر النوع"),
         "ChooseLanguage":
             MessageLookupByLibrary.simpleMessage("اختر لغتك المفضلة"),
-        "ConfirmNewPassword":
-            MessageLookupByLibrary.simpleMessage("تأكيد كلمة المرور الجديدة"),
-        "ConfirmPassword":
-            MessageLookupByLibrary.simpleMessage("تأكيد كلمة المرور"),
+        "ConfirmNewPassword": MessageLookupByLibrary.simpleMessage(
+          "تأكيد كلمة المرور الجديدة",
+        ),
+        "ConfirmPassword": MessageLookupByLibrary.simpleMessage(
+          "تأكيد كلمة المرور",
+        ),
         "ContactSupport":
             MessageLookupByLibrary.simpleMessage("تواصل مع الدعم"),
-        "CouldNotOpenMaps":
-            MessageLookupByLibrary.simpleMessage("تعذر فتح الخرائط"),
+        "CouldNotOpenMaps": MessageLookupByLibrary.simpleMessage(
+          "تعذر فتح الخرائط",
+        ),
         "CreateAccount": MessageLookupByLibrary.simpleMessage("إنشاء حساب"),
-        "CreateNewPassword":
-            MessageLookupByLibrary.simpleMessage("إنشاء كلمة مرور جديدة"),
+        "CreateNewPassword": MessageLookupByLibrary.simpleMessage(
+          "إنشاء كلمة مرور جديدة",
+        ),
         "DarkMode": MessageLookupByLibrary.simpleMessage("الوضع الداكن"),
         "DepositMoney": MessageLookupByLibrary.simpleMessage("إيداع أموال"),
         "DidntReceive": MessageLookupByLibrary.simpleMessage("لم تستلم الكود؟"),

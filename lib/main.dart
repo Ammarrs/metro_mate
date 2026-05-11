@@ -19,7 +19,6 @@ import 'package:second/SubscrbtionScreen3,4/Screen3.dart';
 import 'package:second/SubscrbtionScreen3,4/Screen4.dart';
 import 'package:second/SubscrbtionScreen3,4/SubscriptionCashPage.dart';
 import 'package:second/SubscrbtionScreen3,4/SubscrptionConfurmVisa.dart';
-import 'package:second/components/home_app_bar.dart';
 import 'package:second/cubits/logout/logout_cubit.dart';
 import 'package:second/cubits/logout/logout_state.dart';
 import 'package:second/cubits/user/user_cubit.dart';
@@ -31,7 +30,6 @@ import 'package:second/generated/l10n.dart';
 import 'package:second/services/auth_service.dart';
 import 'package:second/services/storage_service.dart';
 import 'package:second/views/login_view.dart';
-import 'package:second/views/profile_page_view.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:webview_flutter_android/webview_flutter_android.dart';
 import 'package:webview_flutter_wkwebview/webview_flutter_wkwebview.dart';
@@ -45,14 +43,9 @@ import 'Buy_Ticket/CreditDetils.dart';
 import 'Buy_Ticket/Fawry_Page.dart';
 import 'Buy_Ticket/PaymentFinish.dart';
 import 'Buy_Ticket/Select Quantity.dart';
-import 'Buy_Ticket/VisaCard_Page.dart';
 import 'ChangePassword/ChangePassword.dart';
 import 'NavigationBar_Page/Home.dart';
 import 'NavigationBar_Page/Tickets.dart';
-import 'NavigationBar_Page/setting.dart';
-import 'NavigationBar_Page/wallet.dart';
-import 'views/settings.dart';
-import 'package:dropdown_search/dropdown_search.dart';
 import './views/subscription.dart';
 
 import 'RouteDeatils.dart';
@@ -65,7 +58,6 @@ import 'Authentication/Regestration/Register_page.dart';
 import 'Authentication_Cubit/ForgetPassword_Cubit/ForgetPassword_Cubit.dart';
 import 'Authentication_Cubit/Register_Cubit/Register_Cubit.dart';
 
-import 'components/wallet.dart';
 import 'cubits/login/login_cubit.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
@@ -259,7 +251,7 @@ class _test_pageState extends State<test_page> {
     Tickets(),
     Shuttlebus(),
     SubscriptionPage(),
-    ProfileSettingsPageView()
+    ProfileSettingsPageView(),
   ];
 
   List<PreferredSizeWidget> getAppBars(BuildContext context) {
@@ -280,7 +272,7 @@ class _test_pageState extends State<test_page> {
       ),
       AppBar(
         backgroundColor: Colors.white,
-        title: Text(S.of(context).subscriptions),
+        title: Text(S.of(context).subscription),
         automaticallyImplyLeading: false,
       ),
       AppBar(
@@ -294,12 +286,16 @@ class _test_pageState extends State<test_page> {
 
   @override
   Widget build(BuildContext context) {
+    final navState = context.watch<Navigate_Cubit>().state;
+
     return Scaffold(
       extendBodyBehindAppBar: true,
       backgroundColor: const Color(0xffFCFCFD),
-      appBar: context.watch<Navigate_Cubit>().state == 0
+      // Hide AppBar for tabs 0 (Home), 2 (ShuttleBus), 4 (Profile+Settings)
+      // because each of those manages its own AppBar internally
+      appBar: [0, 2, 4].contains(navState)
           ? null
-          : getAppBars(context)[context.watch<Navigate_Cubit>().state],
+          : getAppBars(context)[navState],
       body: BlocBuilder<Navigate_Cubit, int>(
         builder: (context, state) {
           return NavigationBarpage[state];

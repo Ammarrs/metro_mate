@@ -17,6 +17,7 @@ class ApiConfig {
   static const String aiChatEndpoint = '/api/v1/chatbot';
   static const String aiChatHistoryEndpoint = '/api/v1/chatbot/history';
 
+  static const String crowdingEndpoint = '/api/v1/neareststation/crowding';
 
   static Map<String, String> get headers => {
     'Content-Type': 'application/json',

@@ -5,7 +5,6 @@ import 'package:second/services/profile_services.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 import 'dart:convert';
-import 'dart:typed_data';
 
 import '../cubits/profile/profile_cubit.dart';
 import '../cubits/profile/profile_state.dart';
@@ -265,10 +264,6 @@ class _ProfilePageState extends State<ProfilePage> {
                 profileImageUrl = userState.user.profileImage;
               }
             }
-
-            // KEY CHANGE: Decode base64 image if needed
-            final isBase64 = false; // no longer used
-            final imageBytes = null; // no longer used
 
             return Column(
               children: [

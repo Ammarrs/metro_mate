@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import '../../models/crowdedness_level.dart';
 import '../../models/metro_staton_model.dart';
 
 abstract class NearestMetroState extends Equatable {
@@ -22,21 +23,28 @@ class NearestMetroLoading extends NearestMetroState {
 
 class NearestMetroLoaded extends NearestMetroState {
   final MetroStationModel nearestStation;
-  final double userLatitude;
-  final double userLongitude;
+  final double            userLatitude;
+  final double            userLongitude;
+  final CrowdednessLevel  crowdednessLevel; // ← new field
 
   const NearestMetroLoaded({
     required this.nearestStation,
     required this.userLatitude,
     required this.userLongitude,
+    required this.crowdednessLevel, // ← required
   });
 
   @override
-  List<Object?> get props => [nearestStation, userLatitude, userLongitude];
+  List<Object?> get props => [
+    nearestStation,
+    userLatitude,
+    userLongitude,
+    crowdednessLevel, // ← include in equality check
+  ];
 }
 
 class NearestMetroError extends NearestMetroState {
-  final String message;
+  final String  message;
   final String? details;
 
   const NearestMetroError({required this.message, this.details});
@@ -47,7 +55,7 @@ class NearestMetroError extends NearestMetroState {
 
 class NearestMetroPermissionDenied extends NearestMetroState {
   final String message;
-  final bool isPermanentlyDenied;
+  final bool   isPermanentlyDenied;
 
   const NearestMetroPermissionDenied({
     required this.message,

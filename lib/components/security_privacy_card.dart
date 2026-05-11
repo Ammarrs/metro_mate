@@ -16,7 +16,6 @@ class SecurityPrivacyCard extends StatelessWidget {
 
     return BlocBuilder<SettingsCubit, SettingsState>(
       builder: (context, state) {
-        final cubit = context.read<SettingsCubit>();
 
         return SettingsCard(
           sectionTitle: s.securityPrivacy,

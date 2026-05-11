@@ -1,6 +1,6 @@
+import 'dart:ui';
 import 'package:dio/dio.dart';
 import 'package:second/services/storage_service.dart';
-
 import '../config/api_config.dart';
 
 class ApiClient {
@@ -14,23 +14,16 @@ class ApiClient {
   void _setupBaseOptions() {
     String baseUrl = ApiConfig.baseUrl;
 
-    // IMPORTANT: Only use CORS proxy if you're actually getting CORS errors
-    // For now, let's try without it since it might be causing the 401
-    // if (kIsWeb) {
-    //   baseUrl = 'https://corsproxy.io/?${Uri.encodeComponent(ApiConfig.baseUrl)}';
-    // }
-
     _dio.options = BaseOptions(
       baseUrl: baseUrl,
       connectTimeout: ApiConfig.connectTimeout,
       receiveTimeout: ApiConfig.receiveTimeout,
-      sendTimeout: const Duration(seconds: 60), // allow time for file uploads
+      sendTimeout: const Duration(seconds: 60),
       headers: {
         'Content-Type': 'application/json',
         'Accept': '*/*',
       },
       validateStatus: (status) {
-        // Accept all status codes so we can handle them manually
         return status != null && status < 500;
       },
     );
@@ -42,6 +35,11 @@ class ApiClient {
         onRequest: (options, handler) async {
           print('REQUEST[${options.method}] => PATH: ${options.path}');
           print('REQUEST DATA: ${options.data}');
+
+          // ✅ Add device language header
+          final languageCode = PlatformDispatcher.instance.locale.languageCode;
+          options.headers['Accept-Language'] = languageCode;
+          print('Accept-Language header added: $languageCode');
 
           final token = await StorageService().getToken();
           if (token != null && token.isNotEmpty) {
