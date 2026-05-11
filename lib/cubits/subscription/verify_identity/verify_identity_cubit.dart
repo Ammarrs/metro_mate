@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:second/generated/l10n.dart';
 import '../../../services/verify_identity_service.dart';
 import '../../../services/dropdown_service.dart';  // ← new import
 
@@ -49,8 +50,7 @@ class VerifyIdentityCubit extends Cubit<VerifyIdentityState> {
 
   // ─── Text fields ──────────────────────────────────────────────────────────
 
-  void officeChanged(String value) =>
-      emit(state.copyWith(office: value));
+  void officeChanged(String value) => emit(state.copyWith(office: value));
 
   void startStationChanged(String value) =>
       emit(state.copyWith(startStation: value));
@@ -144,13 +144,13 @@ class VerifyIdentityCubit extends Cubit<VerifyIdentityState> {
 
       final picked = result.files.single;
       if (picked.path == null) {
-        onError('Could not access file. Please try again.');
+        onError(S.current.fileAccessError);
         return;
       }
 
       final sizeInMb = File(picked.path!).lengthSync() / (1024 * 1024);
       if (sizeInMb > 5) {
-        onError('File must be smaller than 5 MB.');
+        onError(S.current.fileSizeError);
         return;
       }
 

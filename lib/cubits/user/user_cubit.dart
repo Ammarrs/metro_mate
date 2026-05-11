@@ -1,4 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:second/generated/l10n.dart';
 import '../../models/user_model.dart';
 import '../../services/storage_service.dart';
 import '../../services/profile_services.dart'; // NEW: Import ProfileService
@@ -6,7 +7,8 @@ import 'user_state.dart';
 
 class UserCubit extends Cubit<UserState> {
   final StorageService _storageService;
-  final ProfileService _profileService = ProfileService(); // NEW: Add ProfileService
+  final ProfileService _profileService =
+      ProfileService(); // NEW: Add ProfileService
 
   UserCubit(this._storageService) : super(UserInitial());
 
@@ -15,7 +17,7 @@ class UserCubit extends Cubit<UserState> {
   Future<void> loadUser() async {
     try {
       print('UserCubit: Loading user...');
-      
+
       // STEP 1: Load from cache first (instant display - no loading state)
       final userData = await _storageService.getUserData();
       if (userData != null) {
@@ -33,11 +35,11 @@ class UserCubit extends Cubit<UserState> {
       // STEP 2: Fetch fresh data from backend
       print('UserCubit: Fetching fresh data from API...');
       final result = await _profileService.getProfile();
-      
+
       if (result.success && result.user != null) {
         print('UserCubit: Fresh data loaded successfully');
         print('UserCubit: Profile image = ${result.user!.profileImage}');
-        
+
         // Update with fresh data from API
         emit(UserLoaded(result.user!));
       } else if (userData == null) {
@@ -46,7 +48,6 @@ class UserCubit extends Cubit<UserState> {
         emit(UserLoggedOut());
       }
       // If we have cached data but API fails, keep showing cached data
-      
     } catch (e) {
       print('UserCubit: Exception = $e');
       // Only emit error if we don't have any data loaded
@@ -66,10 +67,10 @@ class UserCubit extends Cubit<UserState> {
   Future<void> updateProfileImage(String imageUrl) async {
     try {
       print('UserCubit: Updating profile image to: $imageUrl');
-      
+
       // Call backend API to update profile image
       final result = await _profileService.updateProfileImage(imageUrl);
-      
+
       if (result.success && result.user != null) {
         print('UserCubit: Profile image updated successfully');
         emit(UserLoaded(result.user!));
@@ -86,14 +87,14 @@ class UserCubit extends Cubit<UserState> {
             profileImage: imageUrl,
           );
           emit(UserLoaded(updatedUser));
-          
+
           // Save to cache
           await _storageService.saveProfileImage(imageUrl);
         }
       }
     } catch (e) {
-      print('UserCubit: Exception updating profile image = $e');
-      
+      print('${S.current.userLoadError} $e');
+
       // Fallback: Update locally even if API fails
       if (state is UserLoaded) {
         final currentUser = (state as UserLoaded).user;
@@ -115,7 +116,7 @@ class UserCubit extends Cubit<UserState> {
       await _storageService.clearAll();
       emit(UserLoggedOut());
     } catch (e) {
-      emit(UserError("Failed to logout: $e"));
+      emit(UserError("${S.current.logoutError}: $e"));
     }
   }
 
@@ -132,7 +133,7 @@ class UserCubit extends Cubit<UserState> {
     if (state is UserLoaded) {
       return (state as UserLoaded).user.name;
     }
-    return "Guest";
+    return S.current.guest;
   }
 
   /// Get profile image URL (null if not available)

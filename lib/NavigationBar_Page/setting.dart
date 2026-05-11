@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:second/generated/l10n.dart';
+
 class Setting extends StatelessWidget {
-   Setting();
+  Setting();
 
   @override
   Widget build(BuildContext context) {
-    return  Column(
+    return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-
-
         Center(
           child: Container(
             width: 280,
@@ -35,7 +35,7 @@ class Setting extends StatelessWidget {
                     children: [
                       Icon(Icons.shield_outlined),
                       Text(
-                        "Security & Privacy",
+                        S.of(context).securityPrivacy,
                         style: TextStyle(fontSize: 20),
                       ),
                     ],
@@ -44,7 +44,7 @@ class Setting extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.only(left: 20.0),
                   child: InkWell(
-                    onTap: (){
+                    onTap: () {
                       Navigator.pushNamed(context, 'ChangePassword');
                     },
                     child: Row(
@@ -59,17 +59,25 @@ class Setting extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                "Change Password",
+                                S.of(context).changePassword,
                                 style: TextStyle(fontSize: 13),
                                 overflow: TextOverflow.ellipsis,
                               ),
-                             Text("Update Your Acount Pasword",style: TextStyle(fontSize: 10,color: Colors.grey),)
+                              Text(
+                                S.of(context).updatePasswordDesc,
+                                style:
+                                    TextStyle(fontSize: 10, color: Colors.grey),
+                              )
                             ],
                           ),
                         ),
-                    
-                        Icon(Icons.arrow_forward_ios_rounded,size: 20,),
-                        SizedBox(width: 15,),
+                        Icon(
+                          Icons.arrow_forward_ios_rounded,
+                          size: 20,
+                        ),
+                        SizedBox(
+                          width: 15,
+                        ),
                       ],
                     ),
                   ),
@@ -78,8 +86,6 @@ class Setting extends StatelessWidget {
             ),
           ),
         )
-
-
       ],
     );
   }
