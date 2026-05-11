@@ -1939,10 +1939,10 @@ class S {
     );
   }
 
-  /// `Phone must be 11 digits and start with 01`
+  /// `Please enter a valid phone number`
   String get invalidPhone {
     return Intl.message(
-      'Phone must be 11 digits and start with 01',
+      'Please enter a valid phone number',
       name: 'invalidPhone',
       desc: '',
       args: [],
@@ -1952,6 +1952,91 @@ class S {
   /// `Shuttle Bus`
   String get shuttleBus {
     return Intl.message('Shuttle Bus', name: 'shuttleBus', desc: '', args: []);
+  }
+
+  /// `Subscriptions`
+  String get subscriptions {
+    return Intl.message(
+      'Subscriptions',
+      name: 'subscriptions',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Go to Home`
+  String get GoToHome {
+    return Intl.message('Go to Home', name: 'GoToHome', desc: '', args: []);
+  }
+
+  /// `Please select both stations`
+  String get selectStations {
+    return Intl.message(
+      'Please select both stations',
+      name: 'selectStations',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Start and End Station cannot be the same`
+  String get sameStationError {
+    return Intl.message(
+      'Start and End Station cannot be the same',
+      name: 'sameStationError',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please select both stations and number of persons`
+  String get selectStationsAndPersons {
+    return Intl.message(
+      'Please select both stations and number of persons',
+      name: 'selectStationsAndPersons',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please select number of persons`
+  String get selectNumberOfPersons {
+    return Intl.message(
+      'Please select number of persons',
+      name: 'selectNumberOfPersons',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Information not found`
+  String get notFoundInformation {
+    return Intl.message(
+      'Information not found',
+      name: 'notFoundInformation',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Enter your password`
+  String get enterPassword {
+    return Intl.message(
+      'Enter your password',
+      name: 'enterPassword',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Password must be at least 8 characters, include uppercase, lowercase, number and symbol`
+  String get passwordValidation {
+    return Intl.message(
+      'Password must be at least 8 characters, include uppercase, lowercase, number and symbol',
+      name: 'passwordValidation',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `Subscriptions`
@@ -2099,20 +2184,6 @@ class S {
     );
   }
 
-  /// `Go to Home`
-  String get GoToHome {
-    return Intl.message('Go to Home', name: 'GoToHome', desc: '', args: []);
-  }
-
-  /// `Please select both stations`
-  String get selectStations {
-    return Intl.message(
-      'Please select both stations',
-      name: 'selectStations',
-      desc: '',
-      args: [],
-    );
-  }
   /// `Senior citizen discounts`
   String get seniorCitizen {
     return Intl.message(
@@ -2158,61 +2229,31 @@ class S {
     return Intl.message(
       'Valid across multiple zones',
       name: 'multiZone',
-       desc: '',
-      args: [],
-    );
-  }
-    
-
-  /// `Start and End Station cannot be the same`
-  String get sameStationError {
-    return Intl.message(
-      'Start and End Station cannot be the same',
-      name: 'sameStationError',
       desc: '',
       args: [],
     );
   }
+
   /// `Monthly & quarterly plans`
   String get monthlyQuarterly {
     return Intl.message(
       'Monthly & quarterly plans',
       name: 'monthlyQuarterly',
-       desc: '',
-      args: [],
-    );
-  }
-   
-
-  /// `Please select both stations and number of persons`
-  String get selectStationsAndPersons {
-    return Intl.message(
-      'Please select both stations and number of persons',
-      name: 'selectStationsAndPersons',
       desc: '',
       args: [],
     );
   }
+
   /// `Digital receipt tracking`
   String get digitalReceipt {
     return Intl.message(
       'Digital receipt tracking',
       name: 'digitalReceipt',
-       desc: '',
+      desc: '',
       args: [],
     );
   }
-     
 
-  /// `Please select number of persons`
-  String get selectNumberOfPersons {
-    return Intl.message(
-      'Please select number of persons',
-      name: 'selectNumberOfPersons',
-       desc: '',
-      args: [],
-    );
-  }
   /// `Priority boarding`
   String get priorityBoarding {
     return Intl.message(
@@ -2223,15 +2264,6 @@ class S {
     );
   }
 
-  /// `Information not found`
-  String get notFoundInformation {
-    return Intl.message(
-      'Information not found',
-      name: 'notFoundInformation',
-       desc: '',
-      args: [],
-    );
-  }
   /// `Valid across all lines`
   String get allLines {
     return Intl.message(
@@ -2242,15 +2274,6 @@ class S {
     );
   }
 
-  /// `Enter your password`
-  String get enterPassword {
-    return Intl.message(
-      'Enter your password',
-      name: 'enterPassword',
-       desc: '',
-      args: [],
-    );
-  }
   /// `Accessible boarding support`
   String get accessibleSupport {
     return Intl.message(
@@ -2261,15 +2284,6 @@ class S {
     );
   }
 
-  /// `Password must be at least 8 characters, include uppercase, lowercase, number and symbol`
-  String get passwordValidation {
-    return Intl.message(
-      'Password must be at least 8 characters, include uppercase, lowercase, number and symbol',
-      name: 'passwordValidation',
-       desc: '',
-      args: [],
-    );
-  }
   /// `STEP 02/02`
   String get step02 {
     return Intl.message('STEP 02/02', name: 'step02', desc: '', args: []);
@@ -2353,6 +2367,341 @@ class S {
       desc: '',
       args: [],
     );
+  }
+
+  /// `Password must be at least 6 characters`
+  String get passwordShort {
+    return Intl.message(
+      'Password must be at least 6 characters',
+      name: 'passwordShort',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Invalid email or password`
+  String get invalidCredentials {
+    return Intl.message(
+      'Invalid email or password',
+      name: 'invalidCredentials',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Invalid request`
+  String get invalidRequest {
+    return Intl.message(
+      'Invalid request',
+      name: 'invalidRequest',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Login failed`
+  String get loginFailed {
+    return Intl.message(
+      'Login failed',
+      name: 'loginFailed',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Server error`
+  String get serverError {
+    return Intl.message(
+      'Server error',
+      name: 'serverError',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Connection timeout`
+  String get connectionTimeout {
+    return Intl.message(
+      'Connection timeout',
+      name: 'connectionTimeout',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Connection error`
+  String get connectionError {
+    return Intl.message(
+      'Connection error',
+      name: 'connectionError',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Network error`
+  String get networkError {
+    return Intl.message(
+      'Network error',
+      name: 'networkError',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Unexpected error occurred`
+  String get unexpectedError {
+    return Intl.message(
+      'Unexpected error occurred',
+      name: 'unexpectedError',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Unknown error`
+  String get unknownError {
+    return Intl.message(
+      'Unknown error',
+      name: 'unknownError',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Email is required`
+  String get emailRequired {
+    return Intl.message(
+      'Email is required',
+      name: 'emailRequired',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Password is required`
+  String get passwordRequired {
+    return Intl.message(
+      'Password is required',
+      name: 'passwordRequired',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Password must be at least 8 characters`
+  String get passwordMustBe8Characters {
+    return Intl.message(
+      'Password must be at least 8 characters',
+      name: 'passwordMustBe8Characters',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Getting your location...`
+  String get metroGettingLocation {
+    return Intl.message(
+      'Getting your location...',
+      name: 'metroGettingLocation',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Finding nearest metro...`
+  String get metroFindingNearestMetro {
+    return Intl.message(
+      'Finding nearest metro...',
+      name: 'metroFindingNearestMetro',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Calculating walking route...`
+  String get metroCalculatingRoute {
+    return Intl.message(
+      'Calculating walking route...',
+      name: 'metroCalculatingRoute',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Checking station crowdedness...`
+  String get metroCheckingCrowdedness {
+    return Intl.message(
+      'Checking station crowdedness...',
+      name: 'metroCheckingCrowdedness',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Failed to load nearest metro station`
+  String get metroFailedToLoadStation {
+    return Intl.message(
+      'Failed to load nearest metro station',
+      name: 'metroFailedToLoadStation',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Station coordinates not available`
+  String get metroStationCoordsUnavailable {
+    return Intl.message(
+      'Station coordinates not available',
+      name: 'metroStationCoordsUnavailable',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Location services are disabled. Please enable GPS.`
+  String get metroLocationDisabled {
+    return Intl.message(
+      'Location services are disabled. Please enable GPS.',
+      name: 'metroLocationDisabled',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Location permission denied`
+  String get metroLocationDenied {
+    return Intl.message(
+      'Location permission denied',
+      name: 'metroLocationDenied',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Location permission permanently denied. Please enable it from settings.`
+  String get metroLocationPermanentlyDenied {
+    return Intl.message(
+      'Location permission permanently denied. Please enable it from settings.',
+      name: 'metroLocationPermanentlyDenied',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Refresh`
+  String get refresh {
+    return Intl.message('Refresh', name: 'refresh', desc: '', args: []);
+  }
+
+  /// `Please enter a valid email address`
+  String get authErrorInvalidEmail {
+    return Intl.message(
+      'Please enter a valid email address',
+      name: 'authErrorInvalidEmail',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Password must be at least 6 characters`
+  String get authErrorWeakPassword {
+    return Intl.message(
+      'Password must be at least 6 characters',
+      name: 'authErrorWeakPassword',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Incorrect email or password`
+  String get authErrorInvalidCredentials {
+    return Intl.message(
+      'Incorrect email or password',
+      name: 'authErrorInvalidCredentials',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Your account has been disabled`
+  String get authErrorAccountDisabled {
+    return Intl.message(
+      'Your account has been disabled',
+      name: 'authErrorAccountDisabled',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Connection timed out. Please check your internet`
+  String get authErrorConnectionTimeout {
+    return Intl.message(
+      'Connection timed out. Please check your internet',
+      name: 'authErrorConnectionTimeout',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No internet connection`
+  String get authErrorConnectionError {
+    return Intl.message(
+      'No internet connection',
+      name: 'authErrorConnectionError',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Server error. Please try again later`
+  String get authErrorServer {
+    return Intl.message(
+      'Server error. Please try again later',
+      name: 'authErrorServer',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Something went wrong. Please try again`
+  String get authErrorUnknown {
+    return Intl.message(
+      'Something went wrong. Please try again',
+      name: 'authErrorUnknown',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Welcome back!`
+  String get loginSuccess {
+    return Intl.message(
+      'Welcome back!',
+      name: 'loginSuccess',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Monthly`
+  String get monthly {
+    return Intl.message('Monthly', name: 'monthly', desc: '', args: []);
+  }
+
+  /// `Quarterly`
+  String get quarterly {
+    return Intl.message('Quarterly', name: 'quarterly', desc: '', args: []);
+  }
+
+  /// `Half Yearly`
+  String get halfYearly {
+    return Intl.message('Half Yearly', name: 'halfYearly', desc: '', args: []);
+  }
+
+  /// `Yearly`
+  String get yearly {
+    return Intl.message('Yearly', name: 'yearly', desc: '', args: []);
   }
 }
 

@@ -5,6 +5,7 @@ import '../cubits/nearest_metro/nearest_metro_cubit.dart';
 import '../cubits/nearest_metro/nearest_metro_state.dart';
 import '../utils/map_utils.dart';
 import 'crowdedness_indicator.dart';
+import 'nearest_metro_station.dart'; // ← imports MetroMessageKeyLocalization extension
 
 class buildStationInfo extends StatelessWidget {
   const buildStationInfo({super.key});
@@ -13,15 +14,16 @@ class buildStationInfo extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<NearestMetroCubit, NearestMetroState>(
       builder: (context, state) {
-        if (state is NearestMetroLoading) return _buildLoading(state.message);
+        if (state is NearestMetroLoading)
+          return _buildLoading(context, state.messageKey);
         if (state is NearestMetroLoaded) return _buildLoaded(context, state);
         if (state is NearestMetroError)
-          return _buildError(context, state.message);
+          return _buildError(context, state.messageKey);
         if (state is NearestMetroPermissionDenied)
           return _buildPermissionDenied(context, state);
         if (state is NearestMetroLocationDisabled)
-          return _buildLocationDisabled(context, state.message);
-        return _buildInitial();
+          return _buildLocationDisabled(context);
+        return _buildInitial(context);
       },
     );
   }
@@ -56,12 +58,10 @@ class buildStationInfo extends StatelessWidget {
           const SizedBox(height: 8),
 
           // ── Line chip + transfer chip + crowdedness indicator ──────────
-          // All three sit in a Wrap so they wrap gracefully on narrow screens.
           Wrap(
             spacing: 8,
             runSpacing: 6,
             children: [
-              // Line label chip
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                 decoration: BoxDecoration(
@@ -78,7 +78,6 @@ class buildStationInfo extends StatelessWidget {
                 ),
               ),
 
-              // Transfer chip — only shown for interchange stations
               if (station.isTransfer && station.transferLabel.isNotEmpty)
                 Container(
                   padding:
@@ -105,8 +104,6 @@ class buildStationInfo extends StatelessWidget {
                   ),
                 ),
 
-              // ── Crowdedness indicator ────────────────────────────────
-              // Reads directly from state — no extra API call here.
               CrowdednessIndicator(level: state.crowdednessLevel),
             ],
           ),
@@ -120,15 +117,15 @@ class buildStationInfo extends StatelessWidget {
                   size: 18, color: Color(0xFF6B7280)),
               const SizedBox(width: 4),
               Text(distanceText,
-                  style:
-                      const TextStyle(fontSize: 14, color: Color(0xFF6B7280))),
+                  style: const TextStyle(
+                      fontSize: 14, color: Color(0xFF6B7280))),
               const SizedBox(width: 16),
               const Icon(Icons.directions_walk,
                   size: 18, color: Color(0xFF6B7280)),
               const SizedBox(width: 4),
               Text(walkingTimeText,
-                  style:
-                      const TextStyle(fontSize: 14, color: Color(0xFF6B7280))),
+                  style: const TextStyle(
+                      fontSize: 14, color: Color(0xFF6B7280))),
             ],
           ),
 
@@ -203,10 +200,10 @@ class buildStationInfo extends StatelessWidget {
       );
 
       await MapUtils.openGoogleMapsDirections(
-        originLat: state.userLatitude,
-        originLng: state.userLongitude,
-        destLat: state.nearestStation.lat!,
-        destLng: state.nearestStation.lng!,
+        originLat : state.userLatitude,
+        originLng : state.userLongitude,
+        destLat   : state.nearestStation.lat!,
+        destLng   : state.nearestStation.lng!,
         travelMode: S.current.walking,
       );
 
@@ -224,7 +221,9 @@ class buildStationInfo extends StatelessWidget {
     }
   }
 
-  Widget _buildLoading(String? message) {
+  // ── state builders ────────────────────────────────────────────────────────
+
+  Widget _buildLoading(BuildContext context, MetroMessageKey messageKey) {
     return Padding(
       padding: const EdgeInsets.all(40),
       child: Center(
@@ -232,21 +231,21 @@ class buildStationInfo extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             const CircularProgressIndicator(
-              valueColor: AlwaysStoppedAnimation<Color>(Color(0xFF5B7C99)),
+              valueColor:
+                  AlwaysStoppedAnimation<Color>(Color(0xFF5B7C99)),
             ),
-            if (message != null) ...[
-              const SizedBox(height: 16),
-              Text(message,
-                  style:
-                      const TextStyle(fontSize: 14, color: Color(0xFF6B7280))),
-            ],
+            const SizedBox(height: 16),
+            Text(
+              messageKey.toLocalizedMessage(context),
+              style: const TextStyle(fontSize: 14, color: Color(0xFF6B7280)),
+            ),
           ],
         ),
       ),
     );
   }
 
-  Widget _buildError(BuildContext context, String message) {
+  Widget _buildError(BuildContext context, MetroMessageKey messageKey) {
     return Padding(
       padding: const EdgeInsets.all(40),
       child: Center(
@@ -255,15 +254,19 @@ class buildStationInfo extends StatelessWidget {
           children: [
             const Icon(Icons.error_outline, size: 48, color: Colors.red),
             const SizedBox(height: 16),
-            Text(S.current.ErrorLoadingStation,
-                style: const TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.w600,
-                    color: Color(0xFF2D3142))),
+            Text(
+              S.current.ErrorLoadingStation,
+              style: const TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w600,
+                  color: Color(0xFF2D3142)),
+            ),
             const SizedBox(height: 8),
-            Text(message,
-                textAlign: TextAlign.center,
-                style: const TextStyle(fontSize: 14, color: Color(0xFF6B7280))),
+            Text(
+              messageKey.toLocalizedMessage(context),
+              textAlign: TextAlign.center,
+              style: const TextStyle(fontSize: 14, color: Color(0xFF6B7280)),
+            ),
             const SizedBox(height: 20),
             ElevatedButton.icon(
               onPressed: () => context.read<NearestMetroCubit>().refresh(),
@@ -292,16 +295,16 @@ class buildStationInfo extends StatelessWidget {
           children: [
             const Icon(Icons.location_off, size: 48, color: Colors.orange),
             const SizedBox(height: 16),
-            Text(S.current.LocationPermissionRequired,
-                style: const TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.w600,
-                    color: Color(0xFF2D3142))),
+            Text(
+              S.current.LocationPermissionRequired,
+              style: const TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w600,
+                  color: Color(0xFF2D3142)),
+            ),
             const SizedBox(height: 8),
             Text(
-              state.isPermanentlyDenied
-                  ? S.current.EnableLocationFromSettings
-                  : S.current.NeedLocation,
+              state.messageKey.toLocalizedMessage(context),
               textAlign: TextAlign.center,
               style: const TextStyle(fontSize: 14, color: Color(0xFF6B7280)),
             ),
@@ -311,7 +314,9 @@ class buildStationInfo extends StatelessWidget {
                   ? context.read<NearestMetroCubit>().openLocationSettings()
                   : context.read<NearestMetroCubit>().refresh(),
               icon: Icon(
-                  state.isPermanentlyDenied ? Icons.settings : Icons.refresh,
+                  state.isPermanentlyDenied
+                      ? Icons.settings
+                      : Icons.refresh,
                   size: 18),
               label: Text(state.isPermanentlyDenied
                   ? S.current.OpenSettings
@@ -329,24 +334,29 @@ class buildStationInfo extends StatelessWidget {
     );
   }
 
-  Widget _buildLocationDisabled(BuildContext context, String message) {
+  Widget _buildLocationDisabled(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(40),
       child: Center(
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            const Icon(Icons.location_disabled, size: 48, color: Colors.orange),
+            const Icon(Icons.location_disabled,
+                size: 48, color: Colors.orange),
             const SizedBox(height: 16),
-            Text(S.current.LocationServicesDisabled,
-                style: const TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.w600,
-                    color: Color(0xFF2D3142))),
+            Text(
+              S.current.LocationServicesDisabled,
+              style: const TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w600,
+                  color: Color(0xFF2D3142)),
+            ),
             const SizedBox(height: 8),
-            Text(message,
-                textAlign: TextAlign.center,
-                style: const TextStyle(fontSize: 14, color: Color(0xFF6B7280))),
+            Text(
+              MetroMessageKey.locationDisabled.toLocalizedMessage(context),
+              textAlign: TextAlign.center,
+              style: const TextStyle(fontSize: 14, color: Color(0xFF6B7280)),
+            ),
             const SizedBox(height: 20),
             ElevatedButton.icon(
               onPressed: () =>
@@ -366,7 +376,7 @@ class buildStationInfo extends StatelessWidget {
     );
   }
 
-  Widget _buildInitial() {
+  Widget _buildInitial(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(40),
       child: Center(

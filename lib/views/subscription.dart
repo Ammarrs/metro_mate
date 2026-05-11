@@ -115,7 +115,6 @@ class _SubscriptionCategoryScreen extends StatelessWidget {
           },
         ),
       ),
-      floatingActionButton: FloatingAiButton(),
     );
   }
 }
@@ -175,15 +174,13 @@ class _CategoryList extends StatelessWidget {
                 _FaqTile(
                   icon: Icons.help_outline_rounded,
                   text: S.of(context).notSurePick,
-                  subtitle:
-                      S.of(context).eligibilityGuide,
+                  subtitle: S.of(context).eligibilityGuide,
                 ),
                 const SizedBox(height: 12),
                 _FaqTile(
                   icon: Icons.verified_rounded,
                   text: S.of(context).secureSubsidies,
-                  subtitle:
-                      S.of(context).subsidyDesc,
+                  subtitle: S.of(context).subsidyDesc,
                   iconColor: const Color(0xFF2D7D46),
                 ),
               ],
@@ -223,13 +220,6 @@ class _Header extends StatelessWidget {
               ),
               children: [
                 TextSpan(text: S.of(context).selectCommuterProfile),
-                // const TextSpan(
-                //   text: 'commuter profile',
-                //   style: TextStyle(
-                //     color: Color(0xFF1D3557),
-                //     fontStyle: FontStyle.italic,
-                //   ),
-                // ),
               ],
             ),
           ),
@@ -345,7 +335,8 @@ class _CategoryCard extends StatelessWidget {
                 ),
                 child: Text(
                   S.of(context).selectProfile,
-                  style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 15),
+                  style: const TextStyle(
+                      fontWeight: FontWeight.w600, fontSize: 15),
                 ),
               ),
             ),
@@ -438,9 +429,11 @@ class _AvatarStack extends StatelessWidget {
               decoration: BoxDecoration(
                 color: _colors[i],
                 shape: BoxShape.circle,
-                border: Border.all(color: const Color(0xFF1D3557), width: 2),
+                border:
+                    Border.all(color: const Color(0xFF1D3557), width: 2),
               ),
-              child: const Icon(Icons.person, color: Colors.white, size: 16),
+              child:
+                  const Icon(Icons.person, color: Colors.white, size: 16),
             ),
           );
         }),
@@ -504,7 +497,8 @@ class _FaqTile extends StatelessWidget {
                 const SizedBox(height: 3),
                 Text(
                   subtitle,
-                  style: TextStyle(fontSize: 12, color: Colors.grey.shade500),
+                  style:
+                      TextStyle(fontSize: 12, color: Colors.grey.shade500),
                 ),
               ],
             ),
@@ -643,7 +637,6 @@ class _PlansList extends StatefulWidget {
 class _PlansListState extends State<_PlansList> {
   int? _selectedIndex;
 
-  // Groups plans by duration label for sectioned display
   Map<String, List<MapEntry<int, SubscriptionPlan>>> _grouped() {
     final map = <String, List<MapEntry<int, SubscriptionPlan>>>{};
     for (var i = 0; i < widget.result.plans.length; i++) {
@@ -656,6 +649,22 @@ class _PlansListState extends State<_PlansList> {
 
   String _capitalize(String s) =>
       s.isEmpty ? s : s[0].toUpperCase() + s.substring(1);
+
+  // ✅ Localized section header
+  String _localizedDuration(String duration) {
+    switch (duration.toLowerCase()) {
+      case 'monthly':
+        return S.of(context).monthly;
+      case 'quarterly':
+        return S.of(context).quarterly;
+      case 'half yearly':
+        return S.of(context).halfYearly;
+      case 'yearly':
+        return S.of(context).yearly;
+      default:
+        return duration;
+    }
+  }
 
   String _durationShort(String duration) {
     switch (duration.toLowerCase()) {
@@ -700,7 +709,7 @@ class _PlansListState extends State<_PlansList> {
                     const SizedBox(height: 8),
                     Text(
                       S.of(context).choosePlan,
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 24,
                         fontWeight: FontWeight.w700,
                         color: Color(0xFF1D2939),
@@ -727,7 +736,7 @@ class _PlansListState extends State<_PlansList> {
                     Padding(
                       padding: const EdgeInsets.only(bottom: 10, top: 4),
                       child: Text(
-                        entry.key,
+                        _localizedDuration(entry.key), // ✅ localized
                         style: const TextStyle(
                           fontSize: 13,
                           fontWeight: FontWeight.w700,
@@ -761,7 +770,8 @@ class _PlansListState extends State<_PlansList> {
                             boxShadow: [
                               BoxShadow(
                                 color: isSelected
-                                    ? const Color(0xFF1D3557).withOpacity(0.18)
+                                    ? const Color(0xFF1D3557)
+                                        .withOpacity(0.18)
                                     : Colors.black.withOpacity(0.05),
                                 blurRadius: 10,
                                 offset: const Offset(0, 3),
@@ -807,7 +817,8 @@ class _PlansListState extends State<_PlansList> {
                               // Label
                               Expanded(
                                 child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  crossAxisAlignment:
+                                      CrossAxisAlignment.start,
                                   children: [
                                     Text(
                                       plan.zones != null
@@ -821,16 +832,6 @@ class _PlansListState extends State<_PlansList> {
                                             : const Color(0xFF1D2939),
                                       ),
                                     ),
-                                    const SizedBox(height: 2),
-                                    // Text(
-                                    //   _capitalize(plan.durationEn),
-                                    //   style: TextStyle(
-                                    //     fontSize: 12,
-                                    //     color: isSelected
-                                    //         ? Colors.white.withOpacity(0.65)
-                                    //         : Colors.grey.shade400,
-                                    //   ),
-                                    // ),
                                   ],
                                 ),
                               ),
@@ -847,12 +848,13 @@ class _PlansListState extends State<_PlansList> {
                                       ),
                                       children: [
                                         TextSpan(
-                                          text: S.of(context).egp + " ",
+                                          text: '${S.of(context).egp} ',
                                           style: TextStyle(
                                             fontSize: 11,
                                             fontWeight: FontWeight.w500,
                                             color: isSelected
-                                                ? Colors.white.withOpacity(0.7)
+                                                ? Colors.white
+                                                    .withOpacity(0.7)
                                                 : Colors.grey.shade500,
                                           ),
                                         ),
@@ -902,12 +904,14 @@ class _PlansListState extends State<_PlansList> {
               onPressed: _selectedIndex == null
                   ? null
                   : () {
-                      final plan = widget.result.plans[_selectedIndex!];
+                      final plan =
+                          widget.result.plans[_selectedIndex!];
                       Navigator.push(
                         context,
                         MaterialPageRoute(
                           builder: (_) => VerifyIdentityPage(
-                            category: widget.result.category.en.toLowerCase(),
+                            category: widget.result.category.en
+                                .toLowerCase(),
                             duration: plan.durationEn.toLowerCase(),
                             zones: plan.zones ?? 1,
                             planId: plan.id,
@@ -927,7 +931,8 @@ class _PlansListState extends State<_PlansList> {
               ),
               child: Text(
                 S.of(context).continueBtn,
-                style: TextStyle(fontWeight: FontWeight.w700, fontSize: 16),
+                style: const TextStyle(
+                    fontWeight: FontWeight.w700, fontSize: 16),
               ),
             ),
           ),

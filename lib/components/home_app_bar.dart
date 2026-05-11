@@ -82,7 +82,7 @@ class HomeAppBar extends StatelessWidget {
     return Container(
       constraints: BoxConstraints(
         minHeight: screenHeight * 0.1,
-        maxHeight: screenHeight * 0.15,
+        maxHeight: screenHeight * 0.18,
       ),
       decoration: const BoxDecoration(
         gradient: LinearGradient(

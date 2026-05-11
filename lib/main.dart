@@ -19,6 +19,7 @@ import 'package:second/SubscrbtionScreen3,4/Screen3.dart';
 import 'package:second/SubscrbtionScreen3,4/Screen4.dart';
 import 'package:second/SubscrbtionScreen3,4/SubscriptionCashPage.dart';
 import 'package:second/SubscrbtionScreen3,4/SubscrptionConfurmVisa.dart';
+import 'package:second/components/ai_assisstant/floating_ai_button.dart';
 import 'package:second/cubits/logout/logout_cubit.dart';
 import 'package:second/cubits/logout/logout_state.dart';
 import 'package:second/cubits/user/user_cubit.dart';
@@ -297,6 +298,7 @@ class _test_pageState extends State<test_page> {
           return NavigationBarpage[state];
         },
       ),
+      floatingActionButton: FloatingAiButton(),
       bottomNavigationBar:
           BlocBuilder<Navigate_Cubit, int>(builder: (context, state) {
         return BottomNavigationBar(

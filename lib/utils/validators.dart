@@ -1,92 +1,143 @@
-class Validators {
-  static String? validateEmail(String? value) {
-    if (value == null || value.isEmpty) {
-      return 'Email is required';
-    }
-    
-    final emailRegex = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
-    if (!emailRegex.hasMatch(value)) {
-      return 'Please enter a valid email';
-    }
-    
-    return null;
-  }
+// import 'package:flutter/material.dart';
+// import 'package:second/generated/l10n.dart';
 
-  static String? validatePassword(String? value, {int minLength = 6}) {
-    if (value == null || value.isEmpty) {
-      return 'Password is required';
-    }
-    
-    if (value.length < minLength) {
-      return 'Password must be at least $minLength characters';
-    }
-    
-    return null;
-  }
+// class Validators {
+// static String? validateEmail(
+// BuildContext context,
+// String? value,
+// ) {
+// if (value == null || value.isEmpty) {
+// return S.of(context).emailRequired;
+// }
 
-  static String? validateName(String? value) {
-    if (value == null || value.isEmpty) {
-      return 'Name is required';
-    }
-    
-    if (value.length < 2) {
-      return 'Name must be at least 2 characters';
-    }
-    
-    return null;
-  }
 
-  static String? validatePhone(String? value) {
-    if (value == null || value.isEmpty) {
-      return 'Phone number is required';
-    }
-    
-    final phoneRegex = RegExp(r'^\d{10,15}$');
-    if (!phoneRegex.hasMatch(value)) {
-      return 'Please enter a valid phone number';
-    }
-    
-    return null;
-  }
+// final emailRegex =
+//     RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
 
-  static String? validateConfirmPassword(String? value, String password) {
-    if (value == null || value.isEmpty) {
-      return 'Please confirm your password';
-    }
-    
-    if (value != password) {
-      return 'Passwords do not match';
-    }
-    
-    return null;
-  }
+// if (!emailRegex.hasMatch(value)) {
+//   return S.of(context).invalidEmail;
+// }
 
-  static String? validateSSN(String? value) {
-    if (value == null || value.isEmpty) {
-      return 'SSN is required';
-    }
-    
-    if (value.length != 14) {
-      return 'SSN must be 14 digits';
-    }
-    
-    return null;
-  }
+// return null;
 
-  static String? validateAge(String? value) {
-    if (value == null || value.isEmpty) {
-      return 'Age is required';
-    }
-    
-    final age = int.tryParse(value);
-    if (age == null) {
-      return 'Please enter a valid age';
-    }
-    
-    if (age < 18 || age > 100) {
-      return 'Age must be between 18 and 100';
-    }
-    
-    return null;
-  }
-}
+
+// }
+
+// static String? validatePassword(
+// BuildContext context,
+// String? value, {
+// int minLength = 6,
+// }) {
+// if (value == null || value.isEmpty) {
+// return S.of(context).passwordRequired;
+// }
+
+
+// if (value.length < minLength) {
+//   return S.of(context).passwordMinLength(minLength);
+// }
+
+// return null;
+
+
+// }
+
+// static String? validateName(
+// BuildContext context,
+// String? value,
+// ) {
+// if (value == null || value.isEmpty) {
+// return S.of(context).nameRequired;
+// }
+
+
+// if (value.length < 2) {
+//   return S.of(context).nameTooShort;
+// }
+
+// return null;
+
+
+// }
+
+// static String? validatePhone(
+// BuildContext context,
+// String? value,
+// ) {
+// if (value == null || value.isEmpty) {
+// return S.of(context).phoneRequired;
+// }
+
+
+// final phoneRegex = RegExp(r'^\d{10,15}$');
+
+// if (!phoneRegex.hasMatch(value)) {
+//   return S.of(context).invalidPhone;
+// }
+
+// return null;
+
+
+// }
+
+// static String? validateConfirmPassword(
+// BuildContext context,
+// String? value,
+// String password,
+// ) {
+// if (value == null || value.isEmpty) {
+// return S.of(context).confirmPasswordRequired;
+// }
+
+
+// if (value != password) {
+//   return S.of(context).passwordsDoNotMatch;
+// }
+
+// return null;
+
+
+// }
+
+// static String? validateSSN(
+// BuildContext context,
+// String? value,
+// ) {
+// if (value == null || value.isEmpty) {
+// return S.of(context).ssnRequired;
+// }
+
+
+// if (value.length != 14) {
+//   return S.of(context).invalidSSN;
+// }
+
+// return null;
+
+
+// }
+
+// static String? validateAge(
+// BuildContext context,
+// String? value,
+// ) {
+// if (value == null || value.isEmpty) {
+// return S.of(context).ageRequired;
+// }
+
+
+// final age = int.tryParse(value);
+
+// if (age == null) {
+//   return S.of(context).invalidAge;
+// }
+
+// if (age < 18 || age > 100) {
+//   return S.of(context).invalidAgeRange;
+// }
+
+// return null;
+
+
+// }
+// }

@@ -25,7 +25,7 @@ class NearestMetroCubit extends Cubit<NearestMetroState> {
     try {
       print('🔄 Starting loadNearestMetro...');
       if (isClosed) return;
-      emit(const NearestMetroLoading(message: 'Getting your location...'));
+      emit(const NearestMetroLoading(messageKey: MetroMessageKey.gettingLocation));
 
       // ── Step 1: GPS ──────────────────────────────────────────────────────
       Position userPosition;
@@ -42,7 +42,9 @@ class NearestMetroCubit extends Cubit<NearestMetroState> {
           return;
         } else if (msg.contains('denied')) {
           emit(NearestMetroPermissionDenied(
-            message             : msg,
+            messageKey          : msg.contains('permanently')
+                                    ? MetroMessageKey.locationPermanentlyDenied
+                                    : MetroMessageKey.locationDenied,
             isPermanentlyDenied : msg.contains('permanently'),
           ));
           return;
@@ -51,7 +53,7 @@ class NearestMetroCubit extends Cubit<NearestMetroState> {
       }
 
       if (isClosed) return;
-      emit(const NearestMetroLoading(message: 'Finding nearest metro...'));
+      emit(const NearestMetroLoading(messageKey: MetroMessageKey.findingNearestMetro));
 
       // ── Step 2: Nearest station ──────────────────────────────────────────
       print('🚇 Calling nearest station API...');
@@ -66,8 +68,8 @@ class NearestMetroCubit extends Cubit<NearestMetroState> {
         print('❌ API Error: $e');
         if (isClosed) return;
         emit(NearestMetroError(
-          message: 'Failed to load nearest metro station',
-          details: 'API Error: ${e.toString()}',
+          messageKey: MetroMessageKey.failedToLoadStation,
+          details   : 'API Error: ${e.toString()}',
         ));
         return;
       }
@@ -76,14 +78,13 @@ class NearestMetroCubit extends Cubit<NearestMetroState> {
         print('❌ Station has no coordinates');
         if (isClosed) return;
         emit(const NearestMetroError(
-          message: 'Failed to load nearest metro station',
-          details: 'Station coordinates not available',
+          messageKey: MetroMessageKey.stationCoordsUnavailable,
         ));
         return;
       }
 
       if (isClosed) return;
-      emit(const NearestMetroLoading(message: 'Calculating walking route...'));
+      emit(const NearestMetroLoading(messageKey: MetroMessageKey.calculatingRoute));
 
       // ── Step 3: Walking route ────────────────────────────────────────────
       print('🗺️ Getting real walking route...');
@@ -117,11 +118,9 @@ class NearestMetroCubit extends Cubit<NearestMetroState> {
       nearestStation.walkingTimeInMinutes = walkingTime;
 
       if (isClosed) return;
-      emit(const NearestMetroLoading(message: 'Checking station crowdedness...'));
+      emit(const NearestMetroLoading(messageKey: MetroMessageKey.checkingCrowdedness));
 
       // ── Step 4: Crowdedness (non-fatal — always succeeds) ────────────────
-      // getCrowdednessLevel never throws, so the station card always appears
-      // even if this call fails.
       print('🟡 Fetching crowdedness...');
       final CrowdednessLevel crowdedness =
           await _metroService.getCrowdednessLevel(
@@ -138,7 +137,7 @@ class NearestMetroCubit extends Cubit<NearestMetroState> {
         nearestStation  : nearestStation,
         userLatitude    : userPosition.latitude,
         userLongitude   : userPosition.longitude,
-        crowdednessLevel: crowdedness,           // ← pass to state
+        crowdednessLevel: crowdedness,
       ));
 
       print('✅ loadNearestMetro completed successfully');
@@ -147,8 +146,8 @@ class NearestMetroCubit extends Cubit<NearestMetroState> {
       print('Stack trace: $stackTrace');
       if (isClosed) return;
       emit(NearestMetroError(
-        message: 'Failed to load nearest metro station',
-        details: e.toString(),
+        messageKey: MetroMessageKey.failedToLoadStation,
+        details   : e.toString(),
       ));
     }
   }

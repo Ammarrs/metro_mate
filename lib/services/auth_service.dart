@@ -22,12 +22,12 @@ class AuthService {
     String? fcm_token = prefs.getString("fcm_token");
     try {
       if (!_isValidEmail(email)) {
-        return AuthResult(success: false, message: 'Invalid Email');
+        return AuthResult(success: false, messageKey: 'invalid_email');
       }
       if (password.isEmpty || password.length < 6) {
         return AuthResult(
           success: false,
-          message: 'Password must be at least 6 characters',
+          messageKey: 'password_short',
         );
       }
 
@@ -68,13 +68,14 @@ class AuthService {
 
         return AuthResult(
           success: true,
-          message: 'Login Successful',
+          messageKey: 'login_success',
           user: user,
         );
       } else {
         return AuthResult(
           success: false,
-          message: response.data['message'] ?? 'Login failed',
+          // message: response.data['message'] ?? 'Login failed',
+          messageKey: "login_failed",
         );
       }
     } on DioException catch (e) {
@@ -88,7 +89,7 @@ class AuthService {
 
         if (statusCode == 401) {
           // Handle 401 Unauthorized
-          String errorMessage = 'Invalid email or password';
+          String errorMessage = 'invalid_credentials';
 
           if (data is Map && data['message'] != null) {
             errorMessage = data['message'];
@@ -96,43 +97,46 @@ class AuthService {
             errorMessage = data;
           }
 
-          return AuthResult(success: false, message: errorMessage);
+          return AuthResult(success: false, messageKey: errorMessage);
         } else if (statusCode == 400) {
           // Handle 400 Bad Request
-          String errorMessage = 'Invalid request';
+          String errorMessage = 'invalid_request';
 
           if (data is Map && data['message'] != null) {
             errorMessage = data['message'];
           }
 
-          return AuthResult(success: false, message: errorMessage);
+          return AuthResult(success: false, messageKey: errorMessage);
         } else {
           return AuthResult(
             success: false,
-            message: 'Server error: ${statusCode}',
+            // message: 'Server error: ${statusCode}',
+            messageKey: "server_error",
           );
         }
       } else if (e.type == DioExceptionType.connectionTimeout) {
         return AuthResult(
           success: false,
-          message: 'Connection timeout. Please check your internet connection.',
+          messageKey: 'connection_timeout',
         );
       } else if (e.type == DioExceptionType.connectionError) {
         return AuthResult(
           success: false,
-          message: 'Connection error. Please check your internet connection.',
+          messageKey: 'connection_error',
         );
       } else {
         return AuthResult(
           success: false,
-          message: 'Network error: ${e.message}',
+          // message: 'Network error: ${e.message}',
+          messageKey: "network_error",
         );
       }
     } catch (e) {
       print('Unknown error: $e');
       return AuthResult(
         success: false,
-        message: 'An unexpected error occurred: ${e.toString()}',
+        // message: 'An unexpected error occurred: ${e.toString()}',
+        messageKey: "unexpected_error",
       );
     }
   }

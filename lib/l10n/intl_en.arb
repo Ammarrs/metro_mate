@@ -338,7 +338,7 @@
   
   "enterPassword": "Enter your password",
   "passwordValidation": "Password must be at least 8 characters, include uppercase, lowercase, number and symbol",
-  "passwordNotMatch": "Passwords do not match"
+  "passwordNotMatch": "Passwords do not match",
   "subscription": "Subscriptions",
 
   "step01": "STEP 01/02",
@@ -387,7 +387,52 @@
   "perYear": "yr",
 
   "BRT": "BRT",
-  "SeeYourTrips": "See Your Trips"
+  "SeeYourTrips": "See Your Trips",
+
+
+"invalidEmail": "Invalid email",
+"passwordShort": "Password must be at least 6 characters",
+"invalidCredentials": "Invalid email or password",
+"invalidRequest": "Invalid request",
+"loginFailed": "Login failed",
+"serverError": "Server error",
+"connectionTimeout": "Connection timeout",
+"connectionError": "Connection error",
+"networkError": "Network error",
+"unexpectedError": "Unexpected error occurred",
+"unknownError": "Unknown error",
+  "emailRequired": "Email is required",
+  "passwordRequired": "Password is required",
+  "invalidPhone": "Please enter a valid phone number",
+  "passwordMustBe8Characters": "Password must be at least 8 characters",
+  "enterYourEmail": "Enter your email",
+"invalidEmail": "Enter a valid email",
+"enterYourPassword": "Enter your password",
+"metroGettingLocation": "Getting your location...",
+"metroFindingNearestMetro": "Finding nearest metro...",
+"metroCalculatingRoute": "Calculating walking route...",
+"metroCheckingCrowdedness": "Checking station crowdedness...",
+"metroFailedToLoadStation": "Failed to load nearest metro station",
+"metroStationCoordsUnavailable": "Station coordinates not available",
+"metroLocationDisabled": "Location services are disabled. Please enable GPS.",
+"metroLocationDenied": "Location permission denied",
+"metroLocationPermanentlyDenied": "Location permission permanently denied. Please enable it from settings.",
+"refresh": "Refresh",
+"authErrorInvalidEmail": "Please enter a valid email address",
+"authErrorWeakPassword": "Password must be at least 6 characters",
+"authErrorInvalidCredentials": "Incorrect email or password",
+"authErrorAccountDisabled": "Your account has been disabled",
+"authErrorConnectionTimeout": "Connection timed out. Please check your internet",
+"authErrorConnectionError": "No internet connection",
+"authErrorServer": "Server error. Please try again later",
+"authErrorUnknown": "Something went wrong. Please try again",
+"loginSuccess": "Welcome back!",
+"monthly": "Monthly",
+"quarterly": "Quarterly",
+"halfYearly": "Half Yearly",
+"yearly": "Yearly"
+
+
 
 
 

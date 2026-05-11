@@ -2,12 +2,32 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:second/generated/l10n.dart';
 import '../cubits/nearest_metro/nearest_metro_cubit.dart';
+import '../cubits/nearest_metro/nearest_metro_state.dart';
 import '../services/location_services.dart';
 import '../services/metro_services.dart';
 import '../services/routing_service.dart';
 import 'build_header.dart';
 import 'build_station_info.dart';
 
+// ── Localization extension ────────────────────────────────────────────────────
+extension MetroMessageKeyLocalization on MetroMessageKey {
+  String toLocalizedMessage(BuildContext context) {
+    final l = S.of(context);
+    return switch (this) {
+      MetroMessageKey.gettingLocation          => l.metroGettingLocation,
+      MetroMessageKey.findingNearestMetro      => l.metroFindingNearestMetro,
+      MetroMessageKey.calculatingRoute         => l.metroCalculatingRoute,
+      MetroMessageKey.checkingCrowdedness      => l.metroCheckingCrowdedness,
+      MetroMessageKey.failedToLoadStation      => l.metroFailedToLoadStation,
+      MetroMessageKey.stationCoordsUnavailable => l.metroStationCoordsUnavailable,
+      MetroMessageKey.locationDisabled         => l.metroLocationDisabled,
+      MetroMessageKey.locationDenied           => l.metroLocationDenied,
+      MetroMessageKey.locationPermanentlyDenied => l.metroLocationPermanentlyDenied,
+    };
+  }
+}
+
+// ── Widget ────────────────────────────────────────────────────────────────────
 class NearestMetroStation extends StatelessWidget {
   const NearestMetroStation({super.key});
 
@@ -16,8 +36,8 @@ class NearestMetroStation extends StatelessWidget {
     return BlocProvider(
       create: (context) => NearestMetroCubit(
         locationService: LocationService(),
-        metroService: MetroService(),
-        routingService: RoutingService(),
+        metroService   : MetroService(),
+        routingService : RoutingService(),
       )..loadNearestMetro(),
       child: const _NearestMetroContent(),
     );
@@ -40,9 +60,9 @@ class _NearestMetroContent extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.only(right: 20),
               child: IconButton(
-                icon: const Icon(Icons.refresh, color: Color(0xFF5B7C99)),
+                icon   : const Icon(Icons.refresh, color: Color(0xFF5B7C99)),
                 onPressed: () => context.read<NearestMetroCubit>().refresh(),
-                tooltip: 'Refresh',
+                tooltip: S.of(context).refresh,
               ),
             ),
           ],
@@ -50,14 +70,14 @@ class _NearestMetroContent extends StatelessWidget {
         Container(
           width: 500,
           decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(20),
-            boxShadow: [
+            color        : Colors.white,
+            borderRadius : BorderRadius.circular(20),
+            boxShadow    : [
               BoxShadow(
-                color: Colors.black.withAlpha(80),
+                color     : Colors.black.withAlpha(80),
                 blurRadius: 20,
                 spreadRadius: 0,
-                offset: const Offset(0, 4),
+                offset    : const Offset(0, 4),
               ),
             ],
           ),

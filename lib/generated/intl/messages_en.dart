@@ -246,6 +246,30 @@ class MessageLookup extends MessageLookupByLibrary {
     "approvedSubscription": MessageLookupByLibrary.simpleMessage(
       "Approved Subscription ✅",
     ),
+    "authErrorAccountDisabled": MessageLookupByLibrary.simpleMessage(
+      "Your account has been disabled",
+    ),
+    "authErrorConnectionError": MessageLookupByLibrary.simpleMessage(
+      "No internet connection",
+    ),
+    "authErrorConnectionTimeout": MessageLookupByLibrary.simpleMessage(
+      "Connection timed out. Please check your internet",
+    ),
+    "authErrorInvalidCredentials": MessageLookupByLibrary.simpleMessage(
+      "Incorrect email or password",
+    ),
+    "authErrorInvalidEmail": MessageLookupByLibrary.simpleMessage(
+      "Please enter a valid email address",
+    ),
+    "authErrorServer": MessageLookupByLibrary.simpleMessage(
+      "Server error. Please try again later",
+    ),
+    "authErrorUnknown": MessageLookupByLibrary.simpleMessage(
+      "Something went wrong. Please try again",
+    ),
+    "authErrorWeakPassword": MessageLookupByLibrary.simpleMessage(
+      "Password must be at least 6 characters",
+    ),
     "back": MessageLookupByLibrary.simpleMessage("Back"),
     "backToHome": MessageLookupByLibrary.simpleMessage("Back to Home"),
     "billReference": MessageLookupByLibrary.simpleMessage("Bill Reference"),
@@ -297,6 +321,10 @@ class MessageLookup extends MessageLookupByLibrary {
     "confirmPasswordLabel": MessageLookupByLibrary.simpleMessage(
       "Confirm Password",
     ),
+    "connectionError": MessageLookupByLibrary.simpleMessage("Connection error"),
+    "connectionTimeout": MessageLookupByLibrary.simpleMessage(
+      "Connection timeout",
+    ),
     "continueBtn": MessageLookupByLibrary.simpleMessage("Continue"),
     "continueToPayment": MessageLookupByLibrary.simpleMessage(
       "Continue To Payment",
@@ -319,6 +347,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "emailNotifications": MessageLookupByLibrary.simpleMessage(
       "Email Notifications",
     ),
+    "emailRequired": MessageLookupByLibrary.simpleMessage("Email is required"),
     "enterPassword": MessageLookupByLibrary.simpleMessage(
       "Enter your password",
     ),
@@ -337,35 +366,72 @@ class MessageLookup extends MessageLookupByLibrary {
       "Error taking photo:",
     ),
     "goToHome": MessageLookupByLibrary.simpleMessage("Go to Home"),
+    "halfYearly": MessageLookupByLibrary.simpleMessage("Half Yearly"),
     "home": MessageLookupByLibrary.simpleMessage("Home"),
     "homeScreenTitle": MessageLookupByLibrary.simpleMessage("Home"),
     "iframeNullError": MessageLookupByLibrary.simpleMessage(
       "Something went wrong. Please try again.",
     ),
+    "invalidCredentials": MessageLookupByLibrary.simpleMessage(
+      "Invalid email or password",
+    ),
     "invalidEmail": MessageLookupByLibrary.simpleMessage("Enter a valid email"),
     "invalidPhone": MessageLookupByLibrary.simpleMessage(
-      "Phone must be 11 digits and start with 01",
+      "Please enter a valid phone number",
     ),
+    "invalidRequest": MessageLookupByLibrary.simpleMessage("Invalid request"),
     "language": MessageLookupByLibrary.simpleMessage("English"),
     "loginButton": MessageLookupByLibrary.simpleMessage("Login"),
+    "loginFailed": MessageLookupByLibrary.simpleMessage("Login failed"),
+    "loginSuccess": MessageLookupByLibrary.simpleMessage("Welcome back!"),
     "logoutButton": MessageLookupByLibrary.simpleMessage("Logout"),
     "manageAccount": MessageLookupByLibrary.simpleMessage(
       "Manage your account",
     ),
     "marketing": MessageLookupByLibrary.simpleMessage("Marketing"),
+    "metroCalculatingRoute": MessageLookupByLibrary.simpleMessage(
+      "Calculating walking route...",
+    ),
+    "metroCheckingCrowdedness": MessageLookupByLibrary.simpleMessage(
+      "Checking station crowdedness...",
+    ),
+    "metroFailedToLoadStation": MessageLookupByLibrary.simpleMessage(
+      "Failed to load nearest metro station",
+    ),
+    "metroFindingNearestMetro": MessageLookupByLibrary.simpleMessage(
+      "Finding nearest metro...",
+    ),
+    "metroGettingLocation": MessageLookupByLibrary.simpleMessage(
+      "Getting your location...",
+    ),
+    "metroLocationDenied": MessageLookupByLibrary.simpleMessage(
+      "Location permission denied",
+    ),
+    "metroLocationDisabled": MessageLookupByLibrary.simpleMessage(
+      "Location services are disabled. Please enable GPS.",
+    ),
+    "metroLocationPermanentlyDenied": MessageLookupByLibrary.simpleMessage(
+      "Location permission permanently denied. Please enable it from settings.",
+    ),
+    "metroStationCoordsUnavailable": MessageLookupByLibrary.simpleMessage(
+      "Station coordinates not available",
+    ),
     "militaryRates": MessageLookupByLibrary.simpleMessage(
       "Dedicated rates for military and police",
     ),
     "minutes": MessageLookupByLibrary.simpleMessage("min"),
+    "monthly": MessageLookupByLibrary.simpleMessage("Monthly"),
     "monthlyQuarterly": MessageLookupByLibrary.simpleMessage(
       "Monthly & quarterly plans",
     ),
     "multiZone": MessageLookupByLibrary.simpleMessage(
       "Valid across multiple zones",
     ),
+    "networkError": MessageLookupByLibrary.simpleMessage("Network error"),
     "nextToPayment": MessageLookupByLibrary.simpleMessage("Next To Payment"),
     "notFoundInformation": MessageLookupByLibrary.simpleMessage(
-      "Information not found",),
+      "Information not found",
+    ),
     "notSurePick": MessageLookupByLibrary.simpleMessage(
       "Not sure which to pick?",
     ),
@@ -377,8 +443,17 @@ class MessageLookup extends MessageLookupByLibrary {
       "Password must be at least 8 characters, include uppercase, lowercase, number and symbol",
     ),
     "passwordLabel": MessageLookupByLibrary.simpleMessage("Password"),
+    "passwordMustBe8Characters": MessageLookupByLibrary.simpleMessage(
+      "Password must be at least 8 characters",
+    ),
     "passwordNotMatch": MessageLookupByLibrary.simpleMessage(
       "Passwords do not match",
+    ),
+    "passwordRequired": MessageLookupByLibrary.simpleMessage(
+      "Password is required",
+    ),
+    "passwordShort": MessageLookupByLibrary.simpleMessage(
+      "Password must be at least 6 characters",
     ),
     "passwordValidation": MessageLookupByLibrary.simpleMessage(
       "Password must be at least 8 characters, include uppercase, lowercase, number and symbol",
@@ -412,12 +487,14 @@ class MessageLookup extends MessageLookupByLibrary {
     "pushNotifications": MessageLookupByLibrary.simpleMessage(
       "Push Notifications",
     ),
+    "quarterly": MessageLookupByLibrary.simpleMessage("Quarterly"),
     "receiveEmailUpdates": MessageLookupByLibrary.simpleMessage(
       "Receive updates via email",
     ),
     "receiveNotifications": MessageLookupByLibrary.simpleMessage(
       "Receive app notifications",
     ),
+    "refresh": MessageLookupByLibrary.simpleMessage("Refresh"),
     "rejectedSubscription": MessageLookupByLibrary.simpleMessage(
       "Rejected Subscription ❌\nCheck your Email for more details",
     ),
@@ -433,11 +510,11 @@ class MessageLookup extends MessageLookupByLibrary {
     "securityPrivacy": MessageLookupByLibrary.simpleMessage(
       "Security & Privacy",
     ),
-    "selectNumberOfPersons": MessageLookupByLibrary.simpleMessage(
-      "Please select number of persons",
-    ),
     "selectCommuterProfile": MessageLookupByLibrary.simpleMessage(
       "Select your commuter profile",
+    ),
+    "selectNumberOfPersons": MessageLookupByLibrary.simpleMessage(
+      "Please select number of persons",
     ),
     "selectProfile": MessageLookupByLibrary.simpleMessage("Select Profile"),
     "selectQuantity": MessageLookupByLibrary.simpleMessage("Select Quantity"),
@@ -453,6 +530,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "seniorCitizen": MessageLookupByLibrary.simpleMessage(
       "Senior citizen discounts",
     ),
+    "serverError": MessageLookupByLibrary.simpleMessage("Server error"),
     "settings": MessageLookupByLibrary.simpleMessage("Settings"),
     "settingsPrivacy": MessageLookupByLibrary.simpleMessage(
       "Settings & Privacy",
@@ -510,6 +588,10 @@ class MessageLookup extends MessageLookupByLibrary {
       "Trip Information",
     ),
     "tryAgain": MessageLookupByLibrary.simpleMessage("Try Again"),
+    "unexpectedError": MessageLookupByLibrary.simpleMessage(
+      "Unexpected error occurred",
+    ),
+    "unknownError": MessageLookupByLibrary.simpleMessage("Unknown error"),
     "upToTrips": MessageLookupByLibrary.simpleMessage("Up to 180 trips"),
     "updatePassword": MessageLookupByLibrary.simpleMessage(
       "Update your account password",
@@ -527,6 +609,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "welcomeMessage": MessageLookupByLibrary.simpleMessage(
       "Welcome to Metro Mate!",
     ),
+    "yearly": MessageLookupByLibrary.simpleMessage("Yearly"),
     "zone": MessageLookupByLibrary.simpleMessage("Zone"),
     "zones": MessageLookupByLibrary.simpleMessage("Zones"),
   };

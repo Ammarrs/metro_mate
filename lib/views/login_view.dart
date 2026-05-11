@@ -28,19 +28,25 @@ class _LoginPageState extends State<LoginPage> {
 
   String? _validateEmail(String? email) {
     if (email == null || email.isEmpty) {
-      return "Enter your email";
-    } else if (!email.contains('@') || !email.contains('.com')) {
-      return "Enter a valid email";
+      return S.of(context).enterYourEmail;
     }
+
+    if (!email.contains('@') || !email.contains('.com')) {
+      return S.of(context).invalidEmail;
+    }
+
     return null;
   }
 
   String? _validatePassword(String? password) {
     if (password == null || password.isEmpty) {
-      return "Enter your password";
-    } else if (password.length < 8) {
-      return "Password must be at least 8 characters";
+      return S.of(context).enterYourPassword;
     }
+
+    if (password.length < 8) {
+      return S.of(context).passwordMustBe8Characters;
+    }
+
     return null;
   }
 
@@ -61,6 +67,43 @@ class _LoginPageState extends State<LoginPage> {
 
   void _handleForgotPassword() {
     Navigator.pushNamed(context, "ForgetPassword");
+  }
+
+  String _translateError(String key) {
+    switch (key) {
+      case 'invalid_email':
+        return S.of(context).invalidEmail;
+
+      case 'password_short':
+        return S.of(context).passwordShort;
+
+      case 'invalid_credentials':
+        return S.of(context).invalidCredentials;
+
+      case 'invalid_request':
+        return S.of(context).invalidRequest;
+
+      case 'login_failed':
+        return S.of(context).loginFailed;
+
+      case 'server_error':
+        return S.of(context).serverError;
+
+      case 'connection_timeout':
+        return S.of(context).connectionTimeout;
+
+      case 'connection_error':
+        return S.of(context).connectionError;
+
+      case 'network_error':
+        return S.of(context).networkError;
+
+      case 'unexpected_error':
+        return S.of(context).unexpectedError;
+
+      default:
+        return S.of(context).unknownError;
+    }
   }
 
   @override
@@ -365,7 +408,7 @@ class _LoginPageState extends State<LoginPage> {
           if (state is LoginFailure) {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
-                content: Text(state.error),
+                content: Text(_translateError(state.messageKey)),
                 backgroundColor: Colors.red,
                 behavior: SnackBarBehavior.floating,
                 shape: RoundedRectangleBorder(

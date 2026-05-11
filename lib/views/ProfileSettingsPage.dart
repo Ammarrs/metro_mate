@@ -363,10 +363,10 @@ class _ProfileSettingsPageState extends State<_ProfileSettingsPage> {
                   expandedHeight: 220,
                   pinned: true,
                   backgroundColor: const Color(0xFF5B8FB9),
-                  leading: IconButton(
-                    icon: const Icon(Icons.arrow_back, color: Colors.white),
-                    onPressed: () => Navigator.pop(context),
-                  ),
+                  // leading: IconButton(
+                  //   icon: const Icon(Icons.arrow_back, color: Colors.white),
+                  //   onPressed: () => Navigator.pop(context),
+                  // ),
                   flexibleSpace: FlexibleSpaceBar(
                     background: _ProfileHeader(
                       displayName: displayName,

@@ -2,6 +2,18 @@ import 'package:equatable/equatable.dart';
 import '../../models/crowdedness_level.dart';
 import '../../models/metro_staton_model.dart';
 
+enum MetroMessageKey {
+  gettingLocation,
+  findingNearestMetro,
+  calculatingRoute,
+  checkingCrowdedness,
+  failedToLoadStation,
+  stationCoordsUnavailable,
+  locationDisabled,
+  locationDenied,
+  locationPermanentlyDenied,
+}
+
 abstract class NearestMetroState extends Equatable {
   const NearestMetroState();
 
@@ -14,24 +26,24 @@ class NearestMetroInitial extends NearestMetroState {
 }
 
 class NearestMetroLoading extends NearestMetroState {
-  final String? message;
-  const NearestMetroLoading({this.message});
+  final MetroMessageKey messageKey;
+  const NearestMetroLoading({required this.messageKey});
 
   @override
-  List<Object?> get props => [message];
+  List<Object?> get props => [messageKey];
 }
 
 class NearestMetroLoaded extends NearestMetroState {
   final MetroStationModel nearestStation;
   final double            userLatitude;
   final double            userLongitude;
-  final CrowdednessLevel  crowdednessLevel; // ← new field
+  final CrowdednessLevel  crowdednessLevel;
 
   const NearestMetroLoaded({
     required this.nearestStation,
     required this.userLatitude,
     required this.userLongitude,
-    required this.crowdednessLevel, // ← required
+    required this.crowdednessLevel,
   });
 
   @override
@@ -39,40 +51,33 @@ class NearestMetroLoaded extends NearestMetroState {
     nearestStation,
     userLatitude,
     userLongitude,
-    crowdednessLevel, // ← include in equality check
+    crowdednessLevel,
   ];
 }
 
 class NearestMetroError extends NearestMetroState {
-  final String  message;
-  final String? details;
+  final MetroMessageKey messageKey;
+  final String?         details;
 
-  const NearestMetroError({required this.message, this.details});
+  const NearestMetroError({required this.messageKey, this.details});
 
   @override
-  List<Object?> get props => [message, details];
+  List<Object?> get props => [messageKey, details];
 }
 
 class NearestMetroPermissionDenied extends NearestMetroState {
-  final String message;
-  final bool   isPermanentlyDenied;
+  final MetroMessageKey messageKey;
+  final bool            isPermanentlyDenied;
 
   const NearestMetroPermissionDenied({
-    required this.message,
+    required this.messageKey,
     this.isPermanentlyDenied = false,
   });
 
   @override
-  List<Object?> get props => [message, isPermanentlyDenied];
+  List<Object?> get props => [messageKey, isPermanentlyDenied];
 }
 
 class NearestMetroLocationDisabled extends NearestMetroState {
-  final String message;
-
-  const NearestMetroLocationDisabled({
-    this.message = 'Location services are disabled. Please enable GPS.',
-  });
-
-  @override
-  List<Object?> get props => [message];
+  const NearestMetroLocationDisabled();
 }

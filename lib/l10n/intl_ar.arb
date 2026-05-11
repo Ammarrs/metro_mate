@@ -273,7 +273,7 @@
   
   "enterPassword": "من فضلك أدخل كلمة المرور",
   "passwordValidation": "يجب أن تحتوي كلمة المرور على 8 أحرف على الأقل وتشمل حرف كبير وصغير ورقم ورمز",
-  "passwordNotMatch": "كلمتا المرور غير متطابقتين"
+  "passwordNotMatch": "كلمتا المرور غير متطابقتين",
   "subscription": "الأشتراكات",
 
 
@@ -323,8 +323,49 @@
   "perYear": "سنوي",
 
   "BRT": "الأتوبيس الترددي",
-  "SeeYourTrips": "تابع رحلاتك"
+  "SeeYourTrips": "تابع رحلاتك",
 
+  "invalidEmail": "البريد الإلكتروني غير صالح",
+"passwordShort": "يجب أن تكون كلمة المرور 6 أحرف على الأقل",
+"invalidCredentials": "البريد الإلكتروني أو كلمة المرور غير صحيحة",
+"invalidRequest": "الطلب غير صالح",
+"loginFailed": "فشل تسجيل الدخول",
+"serverError": "خطأ في الخادم",
+"connectionTimeout": "انتهت مهلة الاتصال",
+"connectionError": "خطأ في الاتصال",
+"networkError": "خطأ في الشبكة",
+"unexpectedError": "حدث خطأ غير متوقع",
+"unknownError": "خطأ غير معروف",
+  "emailRequired": "البريد الإلكتروني مطلوب",
+  "passwordRequired": "كلمة المرور مطلوبة",
+  "invalidPhone": "يرجى إدخال رقم هاتف صحيح",
+  "passwordMustBe8Characters": "يجب أن تكون كلمة المرور 8 أحرف على الأقل",
+  "enterYourEmail": "أدخل بريدك الإلكتروني",
+"invalidEmail": "أدخل بريدًا إلكترونيًا صالحًا",
+"enterYourPassword": "أدخل كلمة المرور",
+"metroGettingLocation": "جارٍ تحديد موقعك...",
+"metroFindingNearestMetro": "جارٍ البحث عن أقرب محطة مترو...",
+"metroCalculatingRoute": "جارٍ حساب مسار المشي...",
+"metroCheckingCrowdedness": "جارٍ التحقق من ازدحام المحطة...",
+"metroFailedToLoadStation": "فشل تحميل أقرب محطة مترو",
+"metroStationCoordsUnavailable": "إحداثيات المحطة غير متاحة",
+"metroLocationDisabled": "خدمات الموقع معطّلة. يرجى تفعيل GPS.",
+"metroLocationDenied": "تم رفض إذن الموقع",
+"metroLocationPermanentlyDenied": "تم رفض إذن الموقع بشكل دائم. يرجى تفعيله من الإعدادات.",
+"refresh": "تحديث",
+"authErrorInvalidEmail": "يرجى إدخال بريد إلكتروني صحيح",
+"authErrorWeakPassword": "يجب أن تتكون كلمة المرور من 6 أحرف على الأقل",
+"authErrorInvalidCredentials": "البريد الإلكتروني أو كلمة المرور غير صحيحة",
+"authErrorAccountDisabled": "تم تعطيل حسابك",
+"authErrorConnectionTimeout": "انتهت مهلة الاتصال. يرجى التحقق من الإنترنت",
+"authErrorConnectionError": "لا يوجد اتصال بالإنترنت",
+"authErrorServer": "خطأ في الخادم. يرجى المحاولة لاحقاً",
+"authErrorUnknown": "حدث خطأ ما. يرجى المحاولة مرة أخرى",
+"loginSuccess": "مرحباً بعودتك!",
+"monthly": "شهري",
+"quarterly": "ربع سنوي",
+"halfYearly": "نصف سنوي",
+"yearly": "سنوي"
 
 
 }
