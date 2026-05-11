@@ -412,7 +412,7 @@ class _ProfileSettingsPageState extends State<_ProfileSettingsPage> {
                               const SizedBox(height: 16),
                               const AccountCard(),
                               const SizedBox(height: 16),
-                              const HelpSupportCard(),
+                              // const HelpSupportCard(),
                               const SizedBox(height: 16),
                               // ── Logout button ──────────────────────
                               _LogoutButton(

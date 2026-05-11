@@ -68,7 +68,16 @@ class _VerifyIdentityScreen extends StatelessWidget {
           c.submitError != p.submitError,
       listener: (context, state) {
         if (state.isSubmitSuccess) {
-          Navigator.pushNamed(context, 'Screen3');
+          // Replace the entire subscription stack (category → plan → identity)
+          // with Screen3.  This means the back button on Screen3 won't return
+          // the user to the identity form, and the subscription tab will also
+          // redirect to Screen3 on next visit (subscription_id is now stored).
+          Navigator.pushNamedAndRemoveUntil(
+            context,
+            'Screen3',
+            // Pop back to the bottom-nav shell so the stack stays clean.
+            ModalRoute.withName('test_page'),
+          );
         }
         if (state.submitError != null) {
           ScaffoldMessenger.of(context).showSnackBar(

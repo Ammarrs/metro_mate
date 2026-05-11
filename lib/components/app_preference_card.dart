@@ -61,20 +61,20 @@ class AppPreferencesCard extends StatelessWidget {
             ),
 
             // ── Dark Mode ──
-            SettingsToggleRow(
-              title: S.of(context).DarkMode,
-              subtitle: S.of(context).SwitchDarkTheme,
-              value: state.isDarkMode,
-              onChanged: cubit.toggleDarkMode,
-            ),
+            // SettingsToggleRow(
+            //   title: S.of(context).DarkMode,
+            //   subtitle: S.of(context).SwitchDarkTheme,
+            //   value: state.isDarkMode,
+            //   onChanged: cubit.toggleDarkMode,
+            // ),
 
             // ── Sound Effects ──
-            SettingsToggleRow(
-              title: S.of(context).SoundEffects,
-              subtitle: S.of(context).EnableSounds,
-              value: state.isSoundEnabled,
-              onChanged: cubit.toggleSound,
-            ),
+            // SettingsToggleRow(
+            //   title: S.of(context).SoundEffects,
+            //   subtitle: S.of(context).EnableSounds,
+            //   value: state.isSoundEnabled,
+            //   onChanged: cubit.toggleSound,
+            // ),
           ],
         );
       },

@@ -2,16 +2,66 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:second/components/ai_assisstant/floating_ai_button.dart';
 import 'package:second/generated/l10n.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../cubits/subscription/subscription_cubit.dart';
 import '../../cubits/subscription/subscription_state.dart';
 import '../models/subscribtion_model.dart';
 import '../views/verify_identity_screen.dart';
 
-class SubscriptionPage extends StatelessWidget {
+// ─── Entry point ──────────────────────────────────────────────────────────────
+// If a subscription_id is already stored in SharedPreferences the user has an
+// in-progress / pending subscription, so we redirect them straight to Screen3
+// instead of making them go through the flow again.
+
+class SubscriptionPage extends StatefulWidget {
   const SubscriptionPage({super.key});
 
   @override
+  State<SubscriptionPage> createState() => _SubscriptionPageState();
+}
+
+class _SubscriptionPageState extends State<SubscriptionPage> {
+  // null  → still loading
+  // true  → has active subscription_id, redirect to Screen3
+  // false → no subscription_id, show normal flow
+  bool? _hasActiveSubscription;
+
+  @override
+  void initState() {
+    super.initState();
+    _checkSubscriptionId();
+  }
+
+  Future<void> _checkSubscriptionId() async {
+    final prefs = await SharedPreferences.getInstance();
+    final id = prefs.getString('subscription_id') ?? '';
+    if (!mounted) return;
+    setState(() => _hasActiveSubscription = id.isNotEmpty);
+  }
+
+  @override
   Widget build(BuildContext context) {
+    // Still reading SharedPreferences — show a blank/loading state.
+    if (_hasActiveSubscription == null) {
+      return const Scaffold(
+        backgroundColor: Color(0xFFF0F2F5),
+        body: Center(
+          child: CircularProgressIndicator(color: Color(0xFF1D3557)),
+        ),
+      );
+    }
+
+    // Already has a subscription in progress → send to Screen3 directly.
+    if (_hasActiveSubscription == true) {
+      // Use a post-frame callback so we navigate after the widget tree is built.
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (mounted) Navigator.pushReplacementNamed(context, 'Screen3');
+      });
+      // Return a blank scaffold while the navigation fires.
+      return const Scaffold(backgroundColor: Color(0xFFF0F2F5));
+    }
+
+    // No active subscription → normal flow.
     return BlocProvider(
       create: (_) => SubscriptionCubit()..loadCategories(),
       child: const _SubscriptionCategoryScreen(),

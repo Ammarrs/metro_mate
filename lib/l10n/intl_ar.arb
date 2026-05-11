@@ -524,7 +524,14 @@
 "monthly": "شهري",
 "quarterly": "ربع سنوي",
 "halfYearly": "نصف سنوي",
-"yearly": "سنوي"
+"yearly": "سنوي",
+"tripDetails": "تفاصيل الرحلة",
+"from": "من",
+"to": "إلى",
+"line": "الخط",
+"time": "الوقت",
+"price": "السعر",
+"close": "إغلاق"
 
 
 }

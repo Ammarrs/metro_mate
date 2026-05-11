@@ -578,7 +578,15 @@
 
   "metroMate": "Metro Mate",
   "NotFoundInNotifications": "Not found any notifications",
-  "NotficationHistory": "Notification History"
+  "NotficationHistory": "Notification History",
+  
+"tripDetails": "Trip Details",
+"from": "From",
+"to": "To",
+"line": "Line",
+"time": "Time",
+"price": "Price",
+"close": "Close"
 
 
 

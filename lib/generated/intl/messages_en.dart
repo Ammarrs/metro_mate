@@ -323,6 +323,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "choose_station": MessageLookupByLibrary.simpleMessage(
       "Choose Metro Station",
     ),
+    "close": MessageLookupByLibrary.simpleMessage("Close"),
     "commuteDetails": MessageLookupByLibrary.simpleMessage("Commute Details"),
     "commuterProfileDesc": MessageLookupByLibrary.simpleMessage(
       "Tailored subscriptions for commuters. Choose the category that fits your journey.",
@@ -413,6 +414,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "fileSizeError": MessageLookupByLibrary.simpleMessage(
       "File must be smaller than 5 MB.",
     ),
+    "from": MessageLookupByLibrary.simpleMessage("From"),
     "goToHome": MessageLookupByLibrary.simpleMessage("Go to Home"),
     "guest": MessageLookupByLibrary.simpleMessage("Guest"),
     "halfYearly": MessageLookupByLibrary.simpleMessage("Half Yearly"),
@@ -434,6 +436,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "invalidRequest": MessageLookupByLibrary.simpleMessage("Invalid request"),
     "language": MessageLookupByLibrary.simpleMessage("English"),
+    "line": MessageLookupByLibrary.simpleMessage("Line"),
     "loginButton": MessageLookupByLibrary.simpleMessage("Login"),
     "loginFailed": MessageLookupByLibrary.simpleMessage("Login failed"),
     "loginSuccess": MessageLookupByLibrary.simpleMessage("Welcome back!"),
@@ -571,6 +574,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "Select zone coverage and duration that fits your commute.",
     ),
     "planYourRoute": MessageLookupByLibrary.simpleMessage("Plan Your Route"),
+    "price": MessageLookupByLibrary.simpleMessage("Price"),
     "priorityBoarding": MessageLookupByLibrary.simpleMessage(
       "Priority boarding",
     ),
@@ -738,10 +742,13 @@ class MessageLookup extends MessageLookupByLibrary {
     "ticketPrice": MessageLookupByLibrary.simpleMessage("Ticket Price"),
     "ticket_price": MessageLookupByLibrary.simpleMessage("Ticket Price"),
     "tickets": MessageLookupByLibrary.simpleMessage("Tickets"),
+    "time": MessageLookupByLibrary.simpleMessage("Time"),
+    "to": MessageLookupByLibrary.simpleMessage("To"),
     "totalAmount": MessageLookupByLibrary.simpleMessage("Total Amount"),
     "totalPaid": MessageLookupByLibrary.simpleMessage("Total Paid"),
     "total_price": MessageLookupByLibrary.simpleMessage("Total Price"),
     "transfer": MessageLookupByLibrary.simpleMessage("Transfer"),
+    "tripDetails": MessageLookupByLibrary.simpleMessage("Trip Details"),
     "tripInformation": MessageLookupByLibrary.simpleMessage("Trip Information"),
     "trip_information": MessageLookupByLibrary.simpleMessage(
       "Trip Information",
