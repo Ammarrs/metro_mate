@@ -34,55 +34,114 @@ class _CategoryMeta {
   });
 }
 
-const _categoryMeta = {
-  'students': _CategoryMeta(
-    icon: Icons.school_rounded,
-    description:
-        'Active enrollment in recognized Egyptian universities or schools required.',
-    color: Color(0xFF5B8FB9),
-    features: ['Up to 180 trips', 'Valid across multiple zones'],
-  ),
-  'military': _CategoryMeta(
-    icon: Icons.military_tech_rounded,
-    description: 'Dedicated rates for the Armed Forces, Police, and Veterans.',
-    color: Color(0xFF4A7B6F),
-    features: ['Multiple duration options', 'Family companion discount'],
-  ),
-  'public': _CategoryMeta(
-    icon: Icons.people_rounded,
-    description:
-        'Standard subscription for private and public sector professionals.',
-    color: Color(0xFF7B6FA4),
-    features: ['Monthly & quarterly plans', 'Digital receipt tracking'],
-  ),
-  'elderly': _CategoryMeta(
-    icon: Icons.elderly_rounded,
-    description: 'Special rates for senior citizens aged 60 and above.',
-    color: Color(0xFFB07D4A),
-    features: ['Priority boarding', 'Valid across all zones'],
-  ),
-  'special': _CategoryMeta(
-    icon: Icons.favorite_rounded,
-    description: 'Exclusive support for families of martyrs and special cases.',
-    color: Color(0xFFB94A4A),
-    features: ['Quarterly plans available', 'Government-backed subsidy'],
-  ),
-  'special needs': _CategoryMeta(
-    icon: Icons.accessible_rounded,
-    description: 'Tailored access for individuals with special needs.',
-    color: Color(0xFF4A8FB9),
-    features: ['Quarterly plans available', 'Accessible boarding support'],
-  ),
-};
+_CategoryMeta _getMeta(BuildContext context, String key) {
+  final s = S.of(context);
 
-_CategoryMeta _getMeta(String key) {
-  return _categoryMeta[key.toLowerCase()] ??
-      const _CategoryMeta(
-        icon: Icons.card_membership_rounded,
-        description: 'Subsidized subscription plan for eligible commuters.',
-        color: Color(0xFF5B8FB9),
-        features: ['Valid on all lines', 'Digital pass included'],
+  switch (key.toLowerCase()) {
+    case 'students':
+      return _CategoryMeta(
+        icon: Icons.school_rounded,
+        description: s.studentsCategoryDescription,
+        color: const Color(0xFF5B8FB9),
+        features: [
+          s.studentsFeature1,
+          s.studentsFeature2,
+        ],
       );
+
+    case 'military':
+      return _CategoryMeta(
+        icon: Icons.military_tech_rounded,
+        description: s.militaryCategoryDescription,
+        color: const Color(0xFF4A7B6F),
+        features: [
+          s.militaryFeature1,
+          s.militaryFeature2,
+        ],
+      );
+
+    case 'public':
+      return _CategoryMeta(
+        icon: Icons.people_rounded,
+        description: s.publicCategoryDescription,
+        color: const Color(0xFF7B6FA4),
+        features: [
+          s.publicFeature1,
+          s.publicFeature2,
+        ],
+      );
+
+    case 'elderly':
+      return _CategoryMeta(
+        icon: Icons.elderly_rounded,
+        description: s.elderlyCategoryDescription,
+        color: const Color(0xFFB07D4A),
+        features: [
+          s.elderlyFeature1,
+          s.elderlyFeature2,
+        ],
+      );
+
+    case 'special':
+      return _CategoryMeta(
+        icon: Icons.favorite_rounded,
+        description: s.specialCategoryDescription,
+        color: const Color(0xFFB94A4A),
+        features: [
+          s.specialFeature1,
+          s.specialFeature2,
+        ],
+      );
+
+    case 'special needs':
+      return _CategoryMeta(
+        icon: Icons.accessible_rounded,
+        description: s.specialNeedsCategoryDescription,
+        color: const Color(0xFF4A8FB9),
+        features: [
+          s.specialNeedsFeature1,
+          s.specialNeedsFeature2,
+        ],
+      );
+
+    default:
+      return _CategoryMeta(
+        icon: Icons.card_membership_rounded,
+        description: s.defaultCategoryDescription,
+        color: const Color(0xFF5B8FB9),
+        features: [
+          s.defaultFeature1,
+          s.defaultFeature2,
+        ],
+      );
+  }
+}
+
+String _localizedCategoryName(BuildContext context, String key) {
+  final s = S.of(context);
+
+  switch (key.toLowerCase()) {
+    case 'students':
+      return s.studentsCategory;
+
+    case 'military':
+      return s.militaryCategory;
+
+    case 'public':
+      return s.publicCategory;
+
+    case 'elderly':
+      return s.elderlyCategory;
+
+    case 'special':
+      return s.specialCategory;
+
+    case 'special needs':
+      return s.specialNeedsCategory;
+
+    default:
+      return key;
+  }
 }
 
 // ─── Step 1: Category selection ───────────────────────────────────────────────
@@ -134,7 +193,7 @@ class _CategoryList extends StatelessWidget {
             delegate: SliverChildBuilderDelegate(
               (context, index) {
                 final cat = categories[index];
-                final meta = _getMeta(cat.en);
+                final meta = _getMeta(context, cat.en);
                 return Padding(
                   padding: const EdgeInsets.only(bottom: 16),
                   child: _CategoryCard(
@@ -225,7 +284,7 @@ class _Header extends StatelessWidget {
           ),
           const SizedBox(height: 10),
           Text(
-            'Tailored subscriptions for the backbone of Cairo. Choose the category that fits your daily journey to unlock exclusive subsidized rates.',
+            S.of(context).tailoredSubscriptionsDescription,
             style: TextStyle(
               fontSize: 13.5,
               color: Colors.grey.shade600,
@@ -283,7 +342,7 @@ class _CategoryCard extends StatelessWidget {
             ),
             const SizedBox(height: 14),
             Text(
-              _capitalize(category.en),
+              _localizedCategoryName(context, category.en),
               style: const TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.w700,
@@ -525,8 +584,8 @@ class _ErrorView extends StatelessWidget {
           children: [
             const Icon(Icons.wifi_off_rounded, size: 52, color: Colors.grey),
             const SizedBox(height: 16),
-            const Text(
-              'Could not load plans',
+            Text(
+              S.of(context).couldNotLoadPlans,
               style: TextStyle(
                 fontSize: 17,
                 fontWeight: FontWeight.w600,
@@ -543,7 +602,7 @@ class _ErrorView extends StatelessWidget {
             ElevatedButton.icon(
               onPressed: onRetry,
               icon: const Icon(Icons.refresh_rounded),
-              label: const Text('Retry'),
+              label: Text(S.of(context).retry),
               style: ElevatedButton.styleFrom(
                 backgroundColor: const Color(0xFF1D3557),
                 foregroundColor: Colors.white,
@@ -587,7 +646,7 @@ class SubscriptionPlansScreen extends StatelessWidget {
           onPressed: () => Navigator.pop(context),
         ),
         title: Text(
-          _capitalize(category.en),
+          _localizedCategoryName(context, category.en),
           style: const TextStyle(
             color: Color(0xFF1D2939),
             fontWeight: FontWeight.w700,

@@ -100,7 +100,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "FindingStation": MessageLookupByLibrary.simpleMessage(
       "Finding nearest station...",
     ),
-    "ForgotPassword": MessageLookupByLibrary.simpleMessage("Forgot password?"),
+    "ForgotPassword": MessageLookupByLibrary.simpleMessage("Forgot Password?"),
     "ForgotPasswordDescription": MessageLookupByLibrary.simpleMessage(
       "Don\'t worry! Enter your email address and we\'ll send you a code to reset your password.",
     ),
@@ -134,6 +134,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "LocationServicesDisabled": MessageLookupByLibrary.simpleMessage(
       "Location Services Disabled",
     ),
+    "LogOut": MessageLookupByLibrary.simpleMessage("Log Out"),
     "Login": MessageLookupByLibrary.simpleMessage("Log in"),
     "Male": MessageLookupByLibrary.simpleMessage("Male"),
     "ManageAccount": MessageLookupByLibrary.simpleMessage(
@@ -154,6 +155,12 @@ class MessageLookup extends MessageLookupByLibrary {
       "Don\'t have an account?",
     ),
     "NotAvailable": MessageLookupByLibrary.simpleMessage("N/A"),
+    "NotFoundInNotifications": MessageLookupByLibrary.simpleMessage(
+      "Not found any notifications",
+    ),
+    "NotficationHistory": MessageLookupByLibrary.simpleMessage(
+      "Notification History",
+    ),
     "OldPassword": MessageLookupByLibrary.simpleMessage("Old Password"),
     "OnboardingDesc1": MessageLookupByLibrary.simpleMessage(
       "Easily check metro routes and directions from one station to another.",
@@ -286,12 +293,13 @@ class MessageLookup extends MessageLookupByLibrary {
     "buyTickets": MessageLookupByLibrary.simpleMessage("Buy Tickets"),
     "calculate_price": MessageLookupByLibrary.simpleMessage("Calculate Price"),
     "cancel": MessageLookupByLibrary.simpleMessage("Cancel"),
+    "changeFile": MessageLookupByLibrary.simpleMessage("Change File"),
     "changePassword": MessageLookupByLibrary.simpleMessage("Change Password"),
     "changePasswordDesc": MessageLookupByLibrary.simpleMessage(
       "Update your account password",
     ),
     "chooseFromGallery": MessageLookupByLibrary.simpleMessage(
-      "Choose from Gallery",
+      "Choose from gallery",
     ),
     "chooseMetroStation": MessageLookupByLibrary.simpleMessage(
       "Choose Metro Station",
@@ -307,7 +315,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "choosePlan": MessageLookupByLibrary.simpleMessage("Choose your plan"),
     "chooseProfilePhoto": MessageLookupByLibrary.simpleMessage(
-      "Choose Profile Photo",
+      "Choose profile photo",
     ),
     "choose_persons": MessageLookupByLibrary.simpleMessage(
       "Choose Number of Persons",
@@ -315,8 +323,12 @@ class MessageLookup extends MessageLookupByLibrary {
     "choose_station": MessageLookupByLibrary.simpleMessage(
       "Choose Metro Station",
     ),
+    "commuteDetails": MessageLookupByLibrary.simpleMessage("Commute Details"),
     "commuterProfileDesc": MessageLookupByLibrary.simpleMessage(
       "Tailored subscriptions for commuters. Choose the category that fits your journey.",
+    ),
+    "completeRequiredFields": MessageLookupByLibrary.simpleMessage(
+      "Please complete all required fields",
     ),
     "confirmPasswordLabel": MessageLookupByLibrary.simpleMessage(
       "Confirm Password",
@@ -327,19 +339,42 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "continueBtn": MessageLookupByLibrary.simpleMessage("Continue"),
     "continueToPayment": MessageLookupByLibrary.simpleMessage(
-      "Continue To Payment",
+      "Continue to Payment",
+    ),
+    "couldNotLoadPlans": MessageLookupByLibrary.simpleMessage(
+      "Could not load plans",
     ),
     "creditDebitCard": MessageLookupByLibrary.simpleMessage(
       "Credit / Debit Card",
     ),
     "date": MessageLookupByLibrary.simpleMessage("Date"),
+    "defaultCategoryDescription": MessageLookupByLibrary.simpleMessage(
+      "Subsidized subscription plan for eligible commuters.",
+    ),
+    "defaultFeature1": MessageLookupByLibrary.simpleMessage(
+      "Valid on all lines",
+    ),
+    "defaultFeature2": MessageLookupByLibrary.simpleMessage(
+      "Digital pass included",
+    ),
     "digitalReceipt": MessageLookupByLibrary.simpleMessage(
       "Digital receipt tracking",
     ),
     "distance": MessageLookupByLibrary.simpleMessage("Distance"),
     "duration": MessageLookupByLibrary.simpleMessage("Duration"),
     "each": MessageLookupByLibrary.simpleMessage("each"),
+    "editName": MessageLookupByLibrary.simpleMessage("Edit Name"),
     "egp": MessageLookupByLibrary.simpleMessage("EGP"),
+    "elderlyCategory": MessageLookupByLibrary.simpleMessage("Elderly"),
+    "elderlyCategoryDescription": MessageLookupByLibrary.simpleMessage(
+      "Special rates for senior citizens aged 60 and above.",
+    ),
+    "elderlyFeature1": MessageLookupByLibrary.simpleMessage(
+      "Priority boarding",
+    ),
+    "elderlyFeature2": MessageLookupByLibrary.simpleMessage(
+      "Valid across all zones",
+    ),
     "eligibilityGuide": MessageLookupByLibrary.simpleMessage(
       "Check eligibility guide",
     ),
@@ -348,7 +383,14 @@ class MessageLookup extends MessageLookupByLibrary {
       "Email Notifications",
     ),
     "emailRequired": MessageLookupByLibrary.simpleMessage("Email is required"),
+    "endStation": MessageLookupByLibrary.simpleMessage("End Station"),
+    "endStationHint": MessageLookupByLibrary.simpleMessage("e.g. Abbassiya"),
+    "enterEmailError": MessageLookupByLibrary.simpleMessage("Enter your email"),
+    "enterName": MessageLookupByLibrary.simpleMessage("Enter your name"),
     "enterPassword": MessageLookupByLibrary.simpleMessage(
+      "Enter your password",
+    ),
+    "enterPasswordError": MessageLookupByLibrary.simpleMessage(
       "Enter your password",
     ),
     "enterPhone": MessageLookupByLibrary.simpleMessage(
@@ -360,15 +402,26 @@ class MessageLookup extends MessageLookupByLibrary {
       "Enter your password",
     ),
     "errorPickingImage": MessageLookupByLibrary.simpleMessage(
-      "Error picking image:",
+      "Error picking image",
     ),
     "errorTakingPhoto": MessageLookupByLibrary.simpleMessage(
-      "Error taking photo:",
+      "Error taking photo",
+    ),
+    "fileAccessError": MessageLookupByLibrary.simpleMessage(
+      "Could not access file. Please try again.",
+    ),
+    "fileSizeError": MessageLookupByLibrary.simpleMessage(
+      "File must be smaller than 5 MB.",
     ),
     "goToHome": MessageLookupByLibrary.simpleMessage("Go to Home"),
+    "guest": MessageLookupByLibrary.simpleMessage("Guest"),
     "halfYearly": MessageLookupByLibrary.simpleMessage("Half Yearly"),
+    "history": MessageLookupByLibrary.simpleMessage("History"),
     "home": MessageLookupByLibrary.simpleMessage("Home"),
     "homeScreenTitle": MessageLookupByLibrary.simpleMessage("Home"),
+    "identityDocuments": MessageLookupByLibrary.simpleMessage(
+      "Identity Documents",
+    ),
     "iframeNullError": MessageLookupByLibrary.simpleMessage(
       "Something went wrong. Please try again.",
     ),
@@ -385,8 +438,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "loginFailed": MessageLookupByLibrary.simpleMessage("Login failed"),
     "loginSuccess": MessageLookupByLibrary.simpleMessage("Welcome back!"),
     "logoutButton": MessageLookupByLibrary.simpleMessage("Logout"),
+    "logoutError": MessageLookupByLibrary.simpleMessage("Failed to logout"),
     "manageAccount": MessageLookupByLibrary.simpleMessage(
-      "Manage your account",
+      "Manage your account settings",
     ),
     "marketing": MessageLookupByLibrary.simpleMessage("Marketing"),
     "metroCalculatingRoute": MessageLookupByLibrary.simpleMessage(
@@ -413,8 +467,23 @@ class MessageLookup extends MessageLookupByLibrary {
     "metroLocationPermanentlyDenied": MessageLookupByLibrary.simpleMessage(
       "Location permission permanently denied. Please enable it from settings.",
     ),
+    "metroMate": MessageLookupByLibrary.simpleMessage("Metro Mate"),
     "metroStationCoordsUnavailable": MessageLookupByLibrary.simpleMessage(
       "Station coordinates not available",
+    ),
+    "militaryCategory": MessageLookupByLibrary.simpleMessage("Military"),
+    "militaryCategoryDescription": MessageLookupByLibrary.simpleMessage(
+      "Dedicated rates for the Armed Forces, Police, and Veterans.",
+    ),
+    "militaryFeature1": MessageLookupByLibrary.simpleMessage(
+      "Multiple duration options",
+    ),
+    "militaryFeature2": MessageLookupByLibrary.simpleMessage(
+      "Family companion discount",
+    ),
+    "militaryId": MessageLookupByLibrary.simpleMessage("Military ID"),
+    "militaryIdDesc": MessageLookupByLibrary.simpleMessage(
+      "Valid military or police ID card",
     ),
     "militaryRates": MessageLookupByLibrary.simpleMessage(
       "Dedicated rates for military and police",
@@ -427,8 +496,22 @@ class MessageLookup extends MessageLookupByLibrary {
     "multiZone": MessageLookupByLibrary.simpleMessage(
       "Valid across multiple zones",
     ),
+    "nameEmptyError": MessageLookupByLibrary.simpleMessage(
+      "Name cannot be empty",
+    ),
+    "nameLengthError": MessageLookupByLibrary.simpleMessage(
+      "Name must be at least 2 characters",
+    ),
+    "nationalIdBack": MessageLookupByLibrary.simpleMessage(
+      "National ID (Back)",
+    ),
+    "nationalIdFront": MessageLookupByLibrary.simpleMessage(
+      "National ID (Front)",
+    ),
     "networkError": MessageLookupByLibrary.simpleMessage("Network error"),
     "nextToPayment": MessageLookupByLibrary.simpleMessage("Next To Payment"),
+    "noTripsMatch": MessageLookupByLibrary.simpleMessage("No trips match "),
+    "noTripsYet": MessageLookupByLibrary.simpleMessage("No trips yet"),
     "notFoundInformation": MessageLookupByLibrary.simpleMessage(
       "Information not found",
     ),
@@ -439,10 +522,15 @@ class MessageLookup extends MessageLookupByLibrary {
     "offersPromotions": MessageLookupByLibrary.simpleMessage(
       "Promotions and offers",
     ),
+    "office": MessageLookupByLibrary.simpleMessage("Office"),
+    "officeHint": MessageLookupByLibrary.simpleMessage("e.g. El-Zahraa"),
     "passwordInvalid": MessageLookupByLibrary.simpleMessage(
       "Password must be at least 8 characters, include uppercase, lowercase, number and symbol",
     ),
     "passwordLabel": MessageLookupByLibrary.simpleMessage("Password"),
+    "passwordLengthError": MessageLookupByLibrary.simpleMessage(
+      "Password must be at least 8 characters",
+    ),
     "passwordMustBe8Characters": MessageLookupByLibrary.simpleMessage(
       "Password must be at least 8 characters",
     ),
@@ -469,6 +557,16 @@ class MessageLookup extends MessageLookupByLibrary {
     "perMonth": MessageLookupByLibrary.simpleMessage("mo"),
     "perQuarter": MessageLookupByLibrary.simpleMessage("qtr"),
     "perYear": MessageLookupByLibrary.simpleMessage("yr"),
+    "photoGuide1": MessageLookupByLibrary.simpleMessage(
+      "Max file size 5MB (JPG, PNG, PDF)",
+    ),
+    "photoGuide2": MessageLookupByLibrary.simpleMessage(
+      "Ensure no glare or shadows over details",
+    ),
+    "photoGuide3": MessageLookupByLibrary.simpleMessage(
+      "IDs must be valid and not expired",
+    ),
+    "photoGuidelines": MessageLookupByLibrary.simpleMessage("Photo Guidelines"),
     "planDescription": MessageLookupByLibrary.simpleMessage(
       "Select zone coverage and duration that fits your commute.",
     ),
@@ -479,7 +577,17 @@ class MessageLookup extends MessageLookupByLibrary {
     "profile": MessageLookupByLibrary.simpleMessage("Profile"),
     "profileScreenTitle": MessageLookupByLibrary.simpleMessage("Profile"),
     "profileUpdated": MessageLookupByLibrary.simpleMessage(
-      "Profile image updated successfully!",
+      "Profile updated successfully",
+    ),
+    "publicCategory": MessageLookupByLibrary.simpleMessage("Public"),
+    "publicCategoryDescription": MessageLookupByLibrary.simpleMessage(
+      "Standard subscription for private and public sector professionals.",
+    ),
+    "publicFeature1": MessageLookupByLibrary.simpleMessage(
+      "Monthly & quarterly plans",
+    ),
+    "publicFeature2": MessageLookupByLibrary.simpleMessage(
+      "Digital receipt tracking",
     ),
     "publicSector": MessageLookupByLibrary.simpleMessage(
       "Public sector subscription",
@@ -494,16 +602,21 @@ class MessageLookup extends MessageLookupByLibrary {
     "receiveNotifications": MessageLookupByLibrary.simpleMessage(
       "Receive app notifications",
     ),
-    "refresh": MessageLookupByLibrary.simpleMessage("Refresh"),
+    "recentTrips": MessageLookupByLibrary.simpleMessage("Your recent trips"),
+    "refresh": MessageLookupByLibrary.simpleMessage("ٌRefresh"),
     "rejectedSubscription": MessageLookupByLibrary.simpleMessage(
       "Rejected Subscription ❌\nCheck your Email for more details",
     ),
+    "requiredLabel": MessageLookupByLibrary.simpleMessage("REQUIRED"),
+    "retry": MessageLookupByLibrary.simpleMessage("Retry"),
     "routeDetails": MessageLookupByLibrary.simpleMessage("Route Details"),
     "routeSummary": MessageLookupByLibrary.simpleMessage("Route Summary"),
     "sameStationError": MessageLookupByLibrary.simpleMessage(
       "Start and End Station cannot be the same",
     ),
+    "save": MessageLookupByLibrary.simpleMessage("Save"),
     "searchRoute": MessageLookupByLibrary.simpleMessage("Search Route"),
+    "searchRoutes": MessageLookupByLibrary.simpleMessage("Search routes..."),
     "searchStation": MessageLookupByLibrary.simpleMessage("Search station..."),
     "search_station": MessageLookupByLibrary.simpleMessage("Search station..."),
     "secureSubsidies": MessageLookupByLibrary.simpleMessage("Secure Subsidies"),
@@ -513,6 +626,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "selectCommuterProfile": MessageLookupByLibrary.simpleMessage(
       "Select your commuter profile",
     ),
+    "selectFile": MessageLookupByLibrary.simpleMessage("Select File"),
     "selectNumberOfPersons": MessageLookupByLibrary.simpleMessage(
       "Please select number of persons",
     ),
@@ -527,6 +641,9 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "select_persons": MessageLookupByLibrary.simpleMessage("Select persons"),
     "select_station": MessageLookupByLibrary.simpleMessage("Select Station"),
+    "selectedCategory": MessageLookupByLibrary.simpleMessage(
+      "Selected Category",
+    ),
     "seniorCitizen": MessageLookupByLibrary.simpleMessage(
       "Senior citizen discounts",
     ),
@@ -552,11 +669,46 @@ class MessageLookup extends MessageLookupByLibrary {
     "specialCases": MessageLookupByLibrary.simpleMessage(
       "Special support cases",
     ),
+    "specialCategory": MessageLookupByLibrary.simpleMessage("Special Cases"),
+    "specialCategoryDescription": MessageLookupByLibrary.simpleMessage(
+      "Exclusive support for families of martyrs and special cases.",
+    ),
+    "specialFeature1": MessageLookupByLibrary.simpleMessage(
+      "Quarterly plans available",
+    ),
+    "specialFeature2": MessageLookupByLibrary.simpleMessage(
+      "Government-backed subsidy",
+    ),
     "specialNeeds": MessageLookupByLibrary.simpleMessage(
       "Special needs support",
     ),
+    "specialNeedsCategory": MessageLookupByLibrary.simpleMessage(
+      "Special Needs",
+    ),
+    "specialNeedsCategoryDescription": MessageLookupByLibrary.simpleMessage(
+      "Tailored access for individuals with special needs.",
+    ),
+    "specialNeedsFeature1": MessageLookupByLibrary.simpleMessage(
+      "Quarterly plans available",
+    ),
+    "specialNeedsFeature2": MessageLookupByLibrary.simpleMessage(
+      "Accessible boarding support",
+    ),
+    "startStation": MessageLookupByLibrary.simpleMessage("Start Station"),
+    "startStationHint": MessageLookupByLibrary.simpleMessage(
+      "e.g. Adly Mansour",
+    ),
     "step01": MessageLookupByLibrary.simpleMessage("STEP 01/02"),
     "step02": MessageLookupByLibrary.simpleMessage("STEP 02/02"),
+    "step2of3": MessageLookupByLibrary.simpleMessage("STEP 2 OF 3"),
+    "studentsCategory": MessageLookupByLibrary.simpleMessage("Students"),
+    "studentsCategoryDescription": MessageLookupByLibrary.simpleMessage(
+      "Active enrollment in recognized Egyptian universities or schools required.",
+    ),
+    "studentsFeature1": MessageLookupByLibrary.simpleMessage("Up to 180 trips"),
+    "studentsFeature2": MessageLookupByLibrary.simpleMessage(
+      "Valid across multiple zones",
+    ),
     "subscription": MessageLookupByLibrary.simpleMessage("Subscriptions"),
     "subscriptionDuration": MessageLookupByLibrary.simpleMessage(
       "Subscription Duration",
@@ -574,7 +726,14 @@ class MessageLookup extends MessageLookupByLibrary {
     "subsidyDesc": MessageLookupByLibrary.simpleMessage(
       "Government-backed discounts applied automatically.",
     ),
-    "takePhoto": MessageLookupByLibrary.simpleMessage("Take a Photo"),
+    "tailoredSubscriptionsDescription": MessageLookupByLibrary.simpleMessage(
+      "Tailored subscriptions for the backbone of Cairo. Choose the category that fits your daily journey to unlock exclusive subsidized rates.",
+    ),
+    "takePhoto": MessageLookupByLibrary.simpleMessage("Take photo"),
+    "tapPhototochange": MessageLookupByLibrary.simpleMessage(
+      "Tap photo to change",
+    ),
+    "tapToUpload": MessageLookupByLibrary.simpleMessage("Tap to upload"),
     "ticket": MessageLookupByLibrary.simpleMessage("ticket"),
     "ticketPrice": MessageLookupByLibrary.simpleMessage("Ticket Price"),
     "ticket_price": MessageLookupByLibrary.simpleMessage("Ticket Price"),
@@ -591,13 +750,30 @@ class MessageLookup extends MessageLookupByLibrary {
     "unexpectedError": MessageLookupByLibrary.simpleMessage(
       "Unexpected error occurred",
     ),
+    "universityId": MessageLookupByLibrary.simpleMessage("University ID"),
+    "universityIdDesc": MessageLookupByLibrary.simpleMessage(
+      "Front side with photo and expiration date",
+    ),
     "unknownError": MessageLookupByLibrary.simpleMessage("Unknown error"),
     "upToTrips": MessageLookupByLibrary.simpleMessage("Up to 180 trips"),
     "updatePassword": MessageLookupByLibrary.simpleMessage(
       "Update your account password",
     ),
+    "updatePasswordDesc": MessageLookupByLibrary.simpleMessage(
+      "Update your account password",
+    ),
+    "uploadFailed": MessageLookupByLibrary.simpleMessage("Upload failed"),
+    "uploaded": MessageLookupByLibrary.simpleMessage("Uploaded"),
+    "uploading": MessageLookupByLibrary.simpleMessage("Uploading..."),
+    "userLoadError": MessageLookupByLibrary.simpleMessage(
+      "Failed to load user data",
+    ),
     "userName": MessageLookupByLibrary.simpleMessage("User Name"),
     "verifiedUsers": MessageLookupByLibrary.simpleMessage("+15k verified"),
+    "verifyIdentity": MessageLookupByLibrary.simpleMessage("Verify Identity"),
+    "verifyIdentityDescription": MessageLookupByLibrary.simpleMessage(
+      "Upload clear photos of your official documents to activate your subscription.",
+    ),
     "visaMastercardAccepted": MessageLookupByLibrary.simpleMessage(
       "Visa, Mastercard accepted",
     ),
@@ -607,7 +783,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "walking": MessageLookupByLibrary.simpleMessage("Walking"),
     "wallet": MessageLookupByLibrary.simpleMessage("Wallet"),
     "welcomeMessage": MessageLookupByLibrary.simpleMessage(
-      "Welcome to Metro Mate!",
+      "Welcome back, sign in to continue",
     ),
     "yearly": MessageLookupByLibrary.simpleMessage("Yearly"),
     "zone": MessageLookupByLibrary.simpleMessage("Zone"),

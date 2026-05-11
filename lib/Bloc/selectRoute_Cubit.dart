@@ -676,7 +676,7 @@ class SelectRoute extends Cubit<RouteState> {
       final response = await Dio().post(
         'https://metrodb-production.up.railway.app/api/v1/subscriptions/subscription-pay',
         data: {
-          "subscriptionId": Mans,
+          "subscriptionId": subscriptionId,
           "paymentMethod": PaymentSubscriptionMethod
         },
         options: Options(

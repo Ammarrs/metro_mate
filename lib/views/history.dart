@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:second/generated/l10n.dart';
 import '../cubits/history/history_cubit.dart';
 import '../cubits/history/history_state.dart';
 import '../models/trip_record.dart';
@@ -36,10 +37,12 @@ class _HistoryContentState extends State<_HistoryContent> {
   List<TripRecord> _filter(List<TripRecord> trips) {
     if (_query.isEmpty) return trips;
     final q = _query.toLowerCase();
-    return trips.where((t) =>
-        t.from.toLowerCase().contains(q) ||
-        t.to.toLowerCase().contains(q) ||
-        t.line.toLowerCase().contains(q)).toList();
+    return trips
+        .where((t) =>
+            t.from.toLowerCase().contains(q) ||
+            t.to.toLowerCase().contains(q) ||
+            t.line.toLowerCase().contains(q))
+        .toList();
   }
 
   @override
@@ -53,29 +56,41 @@ class _HistoryContentState extends State<_HistoryContent> {
             child: BlocBuilder<HistoryCubit, HistoryState>(
               builder: (context, state) {
                 if (state is HistoryLoading) {
-                  return const Center(child: CircularProgressIndicator(color: Color(0xFF4A6FA5)));
+                  return const Center(
+                      child:
+                          CircularProgressIndicator(color: Color(0xFF4A6FA5)));
                 }
                 if (state is HistoryError) {
-                  return Center(child: Column(mainAxisSize: MainAxisSize.min, children: [
-                    const Icon(Icons.wifi_off, color: Color(0xFF8FA8BE), size: 48),
+                  return Center(
+                      child: Column(mainAxisSize: MainAxisSize.min, children: [
+                    const Icon(Icons.wifi_off,
+                        color: Color(0xFF8FA8BE), size: 48),
                     const SizedBox(height: 12),
-                    Text(state.message, style: const TextStyle(color: Color(0xFF8FA8BE))),
+                    Text(state.message,
+                        style: const TextStyle(color: Color(0xFF8FA8BE))),
                     const SizedBox(height: 16),
                     TextButton(
-                      onPressed: () => context.read<HistoryCubit>().loadHistory(),
-                      child: const Text('Retry'),
+                      onPressed: () =>
+                          context.read<HistoryCubit>().loadHistory(),
+                      child: Text(S.of(context).retry),
                     ),
                   ]));
                 }
                 if (state is HistoryLoaded) {
                   final filtered = _filter(state.trips);
                   if (filtered.isEmpty) {
-                    return Center(child: Column(mainAxisSize: MainAxisSize.min, children: [
-                      const Icon(Icons.history, color: Color(0xFF8FA8BE), size: 48),
+                    return Center(
+                        child:
+                            Column(mainAxisSize: MainAxisSize.min, children: [
+                      const Icon(Icons.history,
+                          color: Color(0xFF8FA8BE), size: 48),
                       const SizedBox(height: 12),
                       Text(
-                        _query.isEmpty ? 'No trips yet' : 'No trips match "$_query"',
-                        style: const TextStyle(color: Color(0xFF8FA8BE), fontSize: 15),
+                        _query.isEmpty
+                            ? S.of(context).noTripsYet
+                            : '${S.of(context).noTripsMatch} "$_query"',
+                        style: const TextStyle(
+                            color: Color(0xFF8FA8BE), fontSize: 15),
                       ),
                     ]));
                   }
@@ -83,7 +98,8 @@ class _HistoryContentState extends State<_HistoryContent> {
                     color: const Color(0xFF4A6FA5),
                     onRefresh: () => context.read<HistoryCubit>().loadHistory(),
                     child: ListView.builder(
-                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 16, vertical: 16),
                       itemCount: filtered.length,
                       itemBuilder: (_, i) => _TripCard(trip: filtered[i]),
                     ),
@@ -119,9 +135,14 @@ class _HistoryContentState extends State<_HistoryContent> {
                   icon: const Icon(Icons.arrow_back, color: Colors.white),
                   onPressed: () => Navigator.pop(context),
                 ),
-                const Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                  Text('History', style: TextStyle(color: Colors.white, fontSize: 22, fontWeight: FontWeight.bold)),
-                  Text('Your recent trips', style: TextStyle(color: Colors.white70, fontSize: 13)),
+                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                  Text(S.of(context).history,
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 22,
+                          fontWeight: FontWeight.bold)),
+                  Text(S.of(context).ViewYourRecentTrips,
+                      style: TextStyle(color: Colors.white70, fontSize: 13)),
                 ]),
               ]),
               const SizedBox(height: 12),
@@ -137,8 +158,8 @@ class _HistoryContentState extends State<_HistoryContent> {
                     controller: _searchController,
                     onChanged: (v) => setState(() => _query = v),
                     style: const TextStyle(color: Colors.white),
-                    decoration: const InputDecoration(
-                      hintText: 'Search routes...',
+                    decoration: InputDecoration(
+                      hintText: S.of(context).searchRoutes,
                       hintStyle: TextStyle(color: Colors.white70),
                       prefixIcon: Icon(Icons.search, color: Colors.white70),
                       border: InputBorder.none,
@@ -175,48 +196,82 @@ class _TripCard extends StatelessWidget {
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(16),
-        boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.05), blurRadius: 10, offset: const Offset(0, 2))],
+        boxShadow: [
+          BoxShadow(
+              color: Colors.black.withOpacity(0.05),
+              blurRadius: 10,
+              offset: const Offset(0, 2))
+        ],
       ),
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
         Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-          Expanded(child: Row(children: [
-            const Icon(Icons.location_on_outlined, color: Color(0xFF5B7C99), size: 18),
+          Expanded(
+              child: Row(children: [
+            const Icon(Icons.location_on_outlined,
+                color: Color(0xFF5B7C99), size: 18),
             const SizedBox(width: 4),
-            Expanded(child: Text('${trip.from} → ${trip.to}',
-                style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w700, color: Color(0xFF1A2E3D)),
-                overflow: TextOverflow.ellipsis)),
+            Expanded(
+                child: Text('${trip.from} → ${trip.to}',
+                    style: const TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.w700,
+                        color: Color(0xFF1A2E3D)),
+                    overflow: TextOverflow.ellipsis)),
           ])),
           const SizedBox(width: 8),
-          Text('EGP ${trip.price.toStringAsFixed(2)}',
-              style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w700, color: Color(0xFF4A6FA5))),
+          Text('${S.of(context).egp} ${trip.price.toStringAsFixed(2)}',
+              style: const TextStyle(
+                  fontSize: 15,
+                  fontWeight: FontWeight.w700,
+                  color: Color(0xFF4A6FA5))),
         ]),
         const SizedBox(height: 10),
-        Wrap(spacing: 10, runSpacing: 6, crossAxisAlignment: WrapCrossAlignment.center, children: [
-          if (trip.line.isNotEmpty)
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 3),
-              decoration: BoxDecoration(color: _lineColor.withOpacity(0.12), borderRadius: BorderRadius.circular(20)),
-              child: Text(trip.line, style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: _lineColor)),
-            ),
-          if (trip.date.isNotEmpty)
-            Row(mainAxisSize: MainAxisSize.min, children: [
-              const Icon(Icons.calendar_today_outlined, size: 13, color: Color(0xFF8FA8BE)),
-              const SizedBox(width: 4),
-              Text(trip.date, style: const TextStyle(fontSize: 12, color: Color(0xFF8FA8BE))),
+        Wrap(
+            spacing: 10,
+            runSpacing: 6,
+            crossAxisAlignment: WrapCrossAlignment.center,
+            children: [
+              if (trip.line.isNotEmpty)
+                Container(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 10, vertical: 3),
+                  decoration: BoxDecoration(
+                      color: _lineColor.withOpacity(0.12),
+                      borderRadius: BorderRadius.circular(20)),
+                  child: Text(trip.line,
+                      style: TextStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.w600,
+                          color: _lineColor)),
+                ),
+              if (trip.date.isNotEmpty)
+                Row(mainAxisSize: MainAxisSize.min, children: [
+                  const Icon(Icons.calendar_today_outlined,
+                      size: 13, color: Color(0xFF8FA8BE)),
+                  const SizedBox(width: 4),
+                  Text(trip.date,
+                      style: const TextStyle(
+                          fontSize: 12, color: Color(0xFF8FA8BE))),
+                ]),
+              if (trip.time.isNotEmpty)
+                Row(mainAxisSize: MainAxisSize.min, children: [
+                  const Icon(Icons.access_time,
+                      size: 13, color: Color(0xFF8FA8BE)),
+                  const SizedBox(width: 4),
+                  Text(trip.time,
+                      style: const TextStyle(
+                          fontSize: 12, color: Color(0xFF8FA8BE))),
+                ]),
+              if (trip.paymentMethod.isNotEmpty)
+                Row(mainAxisSize: MainAxisSize.min, children: [
+                  const Icon(Icons.credit_card,
+                      size: 13, color: Color(0xFF8FA8BE)),
+                  const SizedBox(width: 4),
+                  Text(trip.paymentMethod,
+                      style: const TextStyle(
+                          fontSize: 12, color: Color(0xFF8FA8BE))),
+                ]),
             ]),
-          if (trip.time.isNotEmpty)
-            Row(mainAxisSize: MainAxisSize.min, children: [
-              const Icon(Icons.access_time, size: 13, color: Color(0xFF8FA8BE)),
-              const SizedBox(width: 4),
-              Text(trip.time, style: const TextStyle(fontSize: 12, color: Color(0xFF8FA8BE))),
-            ]),
-          if (trip.paymentMethod.isNotEmpty)
-            Row(mainAxisSize: MainAxisSize.min, children: [
-              const Icon(Icons.credit_card, size: 13, color: Color(0xFF8FA8BE)),
-              const SizedBox(width: 4),
-              Text(trip.paymentMethod, style: const TextStyle(fontSize: 12, color: Color(0xFF8FA8BE))),
-            ]),
-        ]),
       ]),
     );
   }

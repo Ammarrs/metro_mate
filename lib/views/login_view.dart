@@ -28,7 +28,9 @@ class _LoginPageState extends State<LoginPage> {
 
   String? _validateEmail(String? email) {
     if (email == null || email.isEmpty) {
-      return S.of(context).enterYourEmail;
+      return S.of(context).enterEmailError;
+    } else if (!email.contains('@') || !email.contains('.com')) {
+      return S.of(context).invalidEmail;
     }
 
     if (!email.contains('@') || !email.contains('.com')) {
@@ -40,7 +42,9 @@ class _LoginPageState extends State<LoginPage> {
 
   String? _validatePassword(String? password) {
     if (password == null || password.isEmpty) {
-      return S.of(context).enterYourPassword;
+      return S.of(context).enterPasswordError;
+    } else if (password.length < 8) {
+      return S.of(context).passwordLengthError;
     }
 
     if (password.length < 8) {
@@ -165,7 +169,7 @@ class _LoginPageState extends State<LoginPage> {
                             ),
                             SizedBox(height: screenHeight * 0.03),
                             Text(
-                              S.current.AppName,
+                              S.of(context).AppName,
                               style: const TextStyle(
                                 fontWeight: FontWeight.bold,
                                 fontSize: 26,
@@ -174,7 +178,7 @@ class _LoginPageState extends State<LoginPage> {
                             ),
                             const SizedBox(height: 4),
                             Text(
-                              S.current.welcomeMessage,
+                              S.of(context).welcomeMessage,
                               style: TextStyle(
                                 fontSize: 17,
                                 fontWeight: FontWeight.w300,
@@ -199,7 +203,7 @@ class _LoginPageState extends State<LoginPage> {
 
                           // Email Field
                           Text(
-                            S.current.Email,
+                            S.of(context).Email,
                             style: TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.w600,

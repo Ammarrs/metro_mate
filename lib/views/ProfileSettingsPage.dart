@@ -201,8 +201,7 @@ class _ProfileSettingsPageState extends State<_ProfileSettingsPage> {
                 },
               ),
               ListTile(
-                leading:
-                    const Icon(Icons.camera_alt, color: Color(0xFF5B8FB9)),
+                leading: const Icon(Icons.camera_alt, color: Color(0xFF5B8FB9)),
                 title: Text(S.of(context).takePhoto),
                 onTap: () {
                   Navigator.pop(ctx);
@@ -230,9 +229,8 @@ class _ProfileSettingsPageState extends State<_ProfileSettingsPage> {
     return showDialog<void>(
       context: context,
       builder: (dialogCtx) => AlertDialog(
-        shape:
-            RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-        title: const Text('Edit Name',
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+        title: Text(S.of(context).editName,
             style: TextStyle(fontWeight: FontWeight.bold)),
         content: Form(
           key: formKey,
@@ -241,7 +239,7 @@ class _ProfileSettingsPageState extends State<_ProfileSettingsPage> {
             autofocus: true,
             textCapitalization: TextCapitalization.words,
             decoration: InputDecoration(
-              hintText: 'Enter your name',
+              hintText: S.of(context).enterName,
               prefixIcon:
                   const Icon(Icons.person_outline, color: Color(0xFF5B8FB9)),
               border:
@@ -253,8 +251,9 @@ class _ProfileSettingsPageState extends State<_ProfileSettingsPage> {
               ),
             ),
             validator: (v) {
-              if (v == null || v.trim().isEmpty) return 'Name cannot be empty';
-              if (v.trim().length < 2) return 'At least 2 characters';
+              if (v == null || v.trim().isEmpty)
+                return S.of(context).nameEmptyError;
+              if (v.trim().length < 2) return S.of(context).nameLengthError;
               return null;
             },
           ),
@@ -262,8 +261,8 @@ class _ProfileSettingsPageState extends State<_ProfileSettingsPage> {
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(dialogCtx),
-            child:
-                const Text('Cancel', style: TextStyle(color: Colors.grey)),
+            child: Text(S.of(context).cancel,
+                style: TextStyle(color: Colors.grey)),
           ),
           ElevatedButton(
             style: ElevatedButton.styleFrom(
@@ -281,7 +280,7 @@ class _ProfileSettingsPageState extends State<_ProfileSettingsPage> {
                 }
               }
             },
-            child: const Text('Save'),
+            child: Text(S.of(context).save),
           ),
         ],
       ),
@@ -313,7 +312,7 @@ class _ProfileSettingsPageState extends State<_ProfileSettingsPage> {
             context.read<UserCubit>().setUser(state.user);
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
-                content: Text(S.current.profileUpdated),
+                content: Text(S.of(context).profileUpdated),
                 backgroundColor: Colors.green,
               ),
             );
@@ -322,7 +321,7 @@ class _ProfileSettingsPageState extends State<_ProfileSettingsPage> {
           } else if (state is ProfileError) {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
-                content: Text(state.message),
+                content: Text(S.of(context).profileUpdated),
                 backgroundColor: Colors.red,
               ),
             );
@@ -396,8 +395,8 @@ class _ProfileSettingsPageState extends State<_ProfileSettingsPage> {
                             crossAxisAlignment: CrossAxisAlignment.stretch,
                             children: [
                               // Section label
-                              const Text(
-                                'Settings',
+                              Text(
+                                S.of(context).settings,
                                 style: TextStyle(
                                   fontSize: 22,
                                   fontWeight: FontWeight.w800,
@@ -601,14 +600,12 @@ class _ProfileHeader extends StatelessWidget {
 
                     // "Tap photo to change" hint
                     Row(
-                      children: const [
-                        Icon(Icons.touch_app,
-                            color: Colors.white38, size: 13),
+                      children: [
+                        Icon(Icons.touch_app, color: Colors.white38, size: 13),
                         SizedBox(width: 4),
                         Text(
-                          'Tap photo to change',
-                          style:
-                              TextStyle(color: Colors.white38, fontSize: 11),
+                          S.of(context).tapPhototochange,
+                          style: TextStyle(color: Colors.white38, fontSize: 11),
                         ),
                       ],
                     ),
@@ -651,15 +648,14 @@ class _LogoutButton extends StatelessWidget {
           onTap: onTap,
           borderRadius: BorderRadius.circular(16),
           child: Padding(
-            padding:
-                const EdgeInsets.symmetric(horizontal: 24, vertical: 18),
+            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 18),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
-              children: const [
+              children: [
                 Icon(Icons.logout, color: Color(0xFFEF4444), size: 20),
                 SizedBox(width: 10),
                 Text(
-                  'Log Out',
+                  S.of(context).LogOut,
                   style: TextStyle(
                     color: Color(0xFFEF4444),
                     fontSize: 16,

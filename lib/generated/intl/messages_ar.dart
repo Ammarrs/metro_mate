@@ -132,6 +132,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "LocationServicesDisabled": MessageLookupByLibrary.simpleMessage(
       "خدمات الموقع معطلة",
     ),
+    "LogOut": MessageLookupByLibrary.simpleMessage("تسجيل الخروج"),
     "Login": MessageLookupByLibrary.simpleMessage("تسجيل الدخول"),
     "Male": MessageLookupByLibrary.simpleMessage("ذكر"),
     "ManageAccount": MessageLookupByLibrary.simpleMessage("إدارة الحساب"),
@@ -148,6 +149,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "Next": MessageLookupByLibrary.simpleMessage("التالي >"),
     "NoAccount": MessageLookupByLibrary.simpleMessage("ليس لديك حساب؟"),
     "NotAvailable": MessageLookupByLibrary.simpleMessage("غير متاح"),
+    "NotficationHistory": MessageLookupByLibrary.simpleMessage("سجل الإشعارات"),
     "OldPassword": MessageLookupByLibrary.simpleMessage("كلمة المرور القديمة"),
     "OnboardingDesc1": MessageLookupByLibrary.simpleMessage(
       "تحقق بسهولة من مسارات المترو والاتجاهات بين المحطات.",
@@ -270,6 +272,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "buyTickets": MessageLookupByLibrary.simpleMessage("شراء التذاكر"),
     "calculate_price": MessageLookupByLibrary.simpleMessage("احسب السعر"),
     "cancel": MessageLookupByLibrary.simpleMessage("إلغاء"),
+    "changeFile": MessageLookupByLibrary.simpleMessage("تغيير الملف"),
     "changePassword": MessageLookupByLibrary.simpleMessage("تغيير كلمة المرور"),
     "changePasswordDesc": MessageLookupByLibrary.simpleMessage(
       "قم بتحديث كلمة المرور الخاصة بك",
@@ -288,11 +291,17 @@ class MessageLookup extends MessageLookupByLibrary {
       "اختار طريقة الدفع",
     ),
     "choosePlan": MessageLookupByLibrary.simpleMessage("اختر الخطة"),
-    "chooseProfilePhoto": MessageLookupByLibrary.simpleMessage("اختر صورة"),
+    "chooseProfilePhoto": MessageLookupByLibrary.simpleMessage(
+      "اختر صورة الملف الشخصي",
+    ),
     "choose_persons": MessageLookupByLibrary.simpleMessage("اختر عدد الأشخاص"),
     "choose_station": MessageLookupByLibrary.simpleMessage("اختر محطة المترو"),
+    "commuteDetails": MessageLookupByLibrary.simpleMessage("تفاصيل الرحلة"),
     "commuterProfileDesc": MessageLookupByLibrary.simpleMessage(
       "اشتراكات مخصصة للمستخدمين. اختر الفئة المناسبة لرحلتك اليومية.",
+    ),
+    "completeRequiredFields": MessageLookupByLibrary.simpleMessage(
+      "من فضلك أكمل كل البيانات المطلوبة",
     ),
     "confirmPasswordLabel": MessageLookupByLibrary.simpleMessage(
       "تأكيد كلمة المرور",
@@ -303,15 +312,36 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "continueBtn": MessageLookupByLibrary.simpleMessage("متابعة"),
     "continueToPayment": MessageLookupByLibrary.simpleMessage("المتابعة للدفع"),
+    "couldNotLoadPlans": MessageLookupByLibrary.simpleMessage(
+      "تعذر تحميل الخطط",
+    ),
     "creditDebitCard": MessageLookupByLibrary.simpleMessage(
       "بطاقة ائتمان / خصم",
     ),
     "date": MessageLookupByLibrary.simpleMessage("التاريخ"),
+    "defaultCategoryDescription": MessageLookupByLibrary.simpleMessage(
+      "خطة اشتراك مدعومة للمستحقين.",
+    ),
+    "defaultFeature1": MessageLookupByLibrary.simpleMessage(
+      "صالح لجميع الخطوط",
+    ),
+    "defaultFeature2": MessageLookupByLibrary.simpleMessage(
+      "بطاقة رقمية مدمجة",
+    ),
     "digitalReceipt": MessageLookupByLibrary.simpleMessage("إيصال رقمي"),
     "distance": MessageLookupByLibrary.simpleMessage("المسافة"),
     "duration": MessageLookupByLibrary.simpleMessage("المدة"),
     "each": MessageLookupByLibrary.simpleMessage("لكل تذكرة"),
+    "editName": MessageLookupByLibrary.simpleMessage("تعديل الاسم"),
     "egp": MessageLookupByLibrary.simpleMessage("جنيه"),
+    "elderlyCategory": MessageLookupByLibrary.simpleMessage("كبار السن"),
+    "elderlyCategoryDescription": MessageLookupByLibrary.simpleMessage(
+      "أسعار خاصة لكبار السن بعمر 60 سنة فأكثر.",
+    ),
+    "elderlyFeature1": MessageLookupByLibrary.simpleMessage("أولوية في الصعود"),
+    "elderlyFeature2": MessageLookupByLibrary.simpleMessage(
+      "صالح لجميع المناطق",
+    ),
     "eligibilityGuide": MessageLookupByLibrary.simpleMessage(
       "راجع دليل الأهلية",
     ),
@@ -322,8 +352,17 @@ class MessageLookup extends MessageLookupByLibrary {
     "emailRequired": MessageLookupByLibrary.simpleMessage(
       "البريد الإلكتروني مطلوب",
     ),
+    "endStation": MessageLookupByLibrary.simpleMessage("محطة الوصول"),
+    "endStationHint": MessageLookupByLibrary.simpleMessage("مثال: العباسية"),
+    "enterEmailError": MessageLookupByLibrary.simpleMessage(
+      "أدخل بريدك الإلكتروني",
+    ),
+    "enterName": MessageLookupByLibrary.simpleMessage("أدخل اسمك"),
     "enterPassword": MessageLookupByLibrary.simpleMessage(
       "من فضلك أدخل كلمة المرور",
+    ),
+    "enterPasswordError": MessageLookupByLibrary.simpleMessage(
+      "أدخل كلمة المرور",
     ),
     "enterPhone": MessageLookupByLibrary.simpleMessage("ادخل رقم الهاتف"),
     "enterYourEmail": MessageLookupByLibrary.simpleMessage(
@@ -334,15 +373,24 @@ class MessageLookup extends MessageLookupByLibrary {
       "أدخل كلمة المرور",
     ),
     "errorPickingImage": MessageLookupByLibrary.simpleMessage(
-      "خطأ في اختيار الصورة:",
+      "خطأ أثناء اختيار الصورة",
     ),
     "errorTakingPhoto": MessageLookupByLibrary.simpleMessage(
-      "خطأ في التقاط الصورة:",
+      "خطأ أثناء التقاط الصورة",
+    ),
+    "fileAccessError": MessageLookupByLibrary.simpleMessage(
+      "تعذر الوصول إلى الملف، حاول مرة أخرى",
+    ),
+    "fileSizeError": MessageLookupByLibrary.simpleMessage(
+      "يجب أن يكون حجم الملف أقل من 5 ميجا",
     ),
     "goToHome": MessageLookupByLibrary.simpleMessage("اذهب للصفحه للرئيسية"),
+    "guest": MessageLookupByLibrary.simpleMessage("زائر"),
     "halfYearly": MessageLookupByLibrary.simpleMessage("نصف سنوي"),
+    "history": MessageLookupByLibrary.simpleMessage("السجل"),
     "home": MessageLookupByLibrary.simpleMessage("الصفحة الرئيسية"),
     "homeScreenTitle": MessageLookupByLibrary.simpleMessage("الرئيسية"),
+    "identityDocuments": MessageLookupByLibrary.simpleMessage("مستندات الهوية"),
     "iframeNullError": MessageLookupByLibrary.simpleMessage(
       "حدث خطأ، حاول مرة أخرى",
     ),
@@ -361,7 +409,10 @@ class MessageLookup extends MessageLookupByLibrary {
     "loginFailed": MessageLookupByLibrary.simpleMessage("فشل تسجيل الدخول"),
     "loginSuccess": MessageLookupByLibrary.simpleMessage("مرحباً بعودتك!"),
     "logoutButton": MessageLookupByLibrary.simpleMessage("تسجيل الخروج"),
-    "manageAccount": MessageLookupByLibrary.simpleMessage("إدارة الحساب"),
+    "logoutError": MessageLookupByLibrary.simpleMessage("فشل في تسجيل الخروج"),
+    "manageAccount": MessageLookupByLibrary.simpleMessage(
+      "إدارة إعدادات حسابك",
+    ),
     "marketing": MessageLookupByLibrary.simpleMessage("العروض"),
     "metroCalculatingRoute": MessageLookupByLibrary.simpleMessage(
       "جارٍ حساب مسار المشي...",
@@ -387,8 +438,23 @@ class MessageLookup extends MessageLookupByLibrary {
     "metroLocationPermanentlyDenied": MessageLookupByLibrary.simpleMessage(
       "تم رفض إذن الموقع بشكل دائم. يرجى تفعيله من الإعدادات.",
     ),
+    "metroMate": MessageLookupByLibrary.simpleMessage("مترو ميت"),
     "metroStationCoordsUnavailable": MessageLookupByLibrary.simpleMessage(
       "إحداثيات المحطة غير متاحة",
+    ),
+    "militaryCategory": MessageLookupByLibrary.simpleMessage("العسكريين"),
+    "militaryCategoryDescription": MessageLookupByLibrary.simpleMessage(
+      "أسعار مخصصة للقوات المسلحة والشرطة والمحاربين القدامى.",
+    ),
+    "militaryFeature1": MessageLookupByLibrary.simpleMessage(
+      "خيارات متعددة للمدة",
+    ),
+    "militaryFeature2": MessageLookupByLibrary.simpleMessage(
+      "خصم للمرافق العائلي",
+    ),
+    "militaryId": MessageLookupByLibrary.simpleMessage("الهوية العسكرية"),
+    "militaryIdDesc": MessageLookupByLibrary.simpleMessage(
+      "بطاقة عسكرية أو شرطة سارية",
     ),
     "militaryRates": MessageLookupByLibrary.simpleMessage(
       "أسعار خاصة للجيش والشرطة والمُتقاعدين",
@@ -399,8 +465,24 @@ class MessageLookup extends MessageLookupByLibrary {
       "خطط شهرية وربع سنوية",
     ),
     "multiZone": MessageLookupByLibrary.simpleMessage("صالح عبر عدة مناطق"),
+    "nameEmptyError": MessageLookupByLibrary.simpleMessage(
+      "لا يمكن أن يكون الاسم فارغًا",
+    ),
+    "nameLengthError": MessageLookupByLibrary.simpleMessage(
+      "يجب أن يكون الاسم على الأقل حرفين",
+    ),
+    "nationalIdBack": MessageLookupByLibrary.simpleMessage(
+      "البطاقة الشخصية (الخلف)",
+    ),
+    "nationalIdFront": MessageLookupByLibrary.simpleMessage(
+      "البطاقة الشخصية (الأمام)",
+    ),
     "networkError": MessageLookupByLibrary.simpleMessage("خطأ في الشبكة"),
     "nextToPayment": MessageLookupByLibrary.simpleMessage("الانتقال للدفع"),
+    "noTripsMatch": MessageLookupByLibrary.simpleMessage(
+      "لا توجد رحلات تطابق ",
+    ),
+    "noTripsYet": MessageLookupByLibrary.simpleMessage("لا توجد رحلات بعد"),
     "notFoundInformation": MessageLookupByLibrary.simpleMessage(
       "لا توجد بيانات متاحة",
     ),
@@ -411,10 +493,15 @@ class MessageLookup extends MessageLookupByLibrary {
     "offersPromotions": MessageLookupByLibrary.simpleMessage(
       "العروض والتخفيضات",
     ),
+    "office": MessageLookupByLibrary.simpleMessage("المكتب"),
+    "officeHint": MessageLookupByLibrary.simpleMessage("مثال: الزهراء"),
     "passwordInvalid": MessageLookupByLibrary.simpleMessage(
       "كلمة المرور يجب أن تكون 8 أحرف على الأقل وتحتوي على حروف كبيرة وصغيرة ورقم ورمز",
     ),
     "passwordLabel": MessageLookupByLibrary.simpleMessage("كلمة المرور"),
+    "passwordLengthError": MessageLookupByLibrary.simpleMessage(
+      "يجب أن تكون كلمة المرور 8 أحرف على الأقل",
+    ),
     "passwordMustBe8Characters": MessageLookupByLibrary.simpleMessage(
       "يجب أن تكون كلمة المرور 8 أحرف على الأقل",
     ),
@@ -439,6 +526,16 @@ class MessageLookup extends MessageLookupByLibrary {
     "perMonth": MessageLookupByLibrary.simpleMessage("شهري"),
     "perQuarter": MessageLookupByLibrary.simpleMessage("ربع سنوي"),
     "perYear": MessageLookupByLibrary.simpleMessage("سنوي"),
+    "photoGuide1": MessageLookupByLibrary.simpleMessage(
+      "الحد الأقصى للحجم 5MB (JPG, PNG, PDF)",
+    ),
+    "photoGuide2": MessageLookupByLibrary.simpleMessage(
+      "تأكد من عدم وجود انعكاسات أو ظلال",
+    ),
+    "photoGuide3": MessageLookupByLibrary.simpleMessage(
+      "يجب أن تكون البطاقات سارية",
+    ),
+    "photoGuidelines": MessageLookupByLibrary.simpleMessage("إرشادات الصور"),
     "planDescription": MessageLookupByLibrary.simpleMessage(
       "اختر تغطية المناطق ومدة الاشتراك المناسبة لرحلتك.",
     ),
@@ -447,7 +544,17 @@ class MessageLookup extends MessageLookupByLibrary {
     "profile": MessageLookupByLibrary.simpleMessage("الملف الشخصي"),
     "profileScreenTitle": MessageLookupByLibrary.simpleMessage("الملف الشخصي"),
     "profileUpdated": MessageLookupByLibrary.simpleMessage(
-      "تم تحديث الصورة بنجاح!",
+      "تم تحديث الملف الشخصي بنجاح",
+    ),
+    "publicCategory": MessageLookupByLibrary.simpleMessage("القطاع العام"),
+    "publicCategoryDescription": MessageLookupByLibrary.simpleMessage(
+      "اشتراك قياسي لموظفي القطاعين العام والخاص.",
+    ),
+    "publicFeature1": MessageLookupByLibrary.simpleMessage(
+      "خطط شهرية وربع سنوية",
+    ),
+    "publicFeature2": MessageLookupByLibrary.simpleMessage(
+      "تتبع الإيصالات الرقمية",
     ),
     "publicSector": MessageLookupByLibrary.simpleMessage(
       "اشتراك للقطاع العام والخاص",
@@ -462,16 +569,21 @@ class MessageLookup extends MessageLookupByLibrary {
     "receiveNotifications": MessageLookupByLibrary.simpleMessage(
       "استقبال إشعارات التطبيق",
     ),
+    "recentTrips": MessageLookupByLibrary.simpleMessage("رحلاتك الأخيرة"),
     "refresh": MessageLookupByLibrary.simpleMessage("تحديث"),
     "rejectedSubscription": MessageLookupByLibrary.simpleMessage(
       "تم رفض الاشتراك ❌\nراجع بريدك الإلكتروني",
     ),
+    "requiredLabel": MessageLookupByLibrary.simpleMessage("إجباري"),
+    "retry": MessageLookupByLibrary.simpleMessage("إعادة المحاولة"),
     "routeDetails": MessageLookupByLibrary.simpleMessage("تفاصيل الرحلة"),
     "routeSummary": MessageLookupByLibrary.simpleMessage("ملخص الرحلة"),
     "sameStationError": MessageLookupByLibrary.simpleMessage(
       "لا يمكن أن تكون نقطة البداية والنهاية نفس المحطة",
     ),
+    "save": MessageLookupByLibrary.simpleMessage("حفظ"),
     "searchRoute": MessageLookupByLibrary.simpleMessage("ابحث عن الرحلة"),
+    "searchRoutes": MessageLookupByLibrary.simpleMessage("ابحث عن الرحلات..."),
     "searchStation": MessageLookupByLibrary.simpleMessage("ابحث عن المحطة..."),
     "search_station": MessageLookupByLibrary.simpleMessage("ابحث عن محطة..."),
     "secureSubsidies": MessageLookupByLibrary.simpleMessage("دعم آمن"),
@@ -479,6 +591,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "selectCommuterProfile": MessageLookupByLibrary.simpleMessage(
       "اختر نوع المستخدم",
     ),
+    "selectFile": MessageLookupByLibrary.simpleMessage("اختيار ملف"),
     "selectNumberOfPersons": MessageLookupByLibrary.simpleMessage(
       "من فضلك اختر عدد الأشخاص",
     ),
@@ -493,6 +606,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "select_persons": MessageLookupByLibrary.simpleMessage("عدد الأشخاص"),
     "select_station": MessageLookupByLibrary.simpleMessage("اختر المحطة"),
+    "selectedCategory": MessageLookupByLibrary.simpleMessage("الفئة المختارة"),
     "seniorCitizen": MessageLookupByLibrary.simpleMessage("خصومات لكبار السن"),
     "serverError": MessageLookupByLibrary.simpleMessage("خطأ في الخادم"),
     "settings": MessageLookupByLibrary.simpleMessage("الإعدادات"),
@@ -512,11 +626,42 @@ class MessageLookup extends MessageLookupByLibrary {
       "تحديثات مهمة عبر الرسائل",
     ),
     "specialCases": MessageLookupByLibrary.simpleMessage("حالات دعم خاصة"),
+    "specialCategory": MessageLookupByLibrary.simpleMessage("الحالات الخاصة"),
+    "specialCategoryDescription": MessageLookupByLibrary.simpleMessage(
+      "دعم خاص لأسر الشهداء والحالات الخاصة.",
+    ),
+    "specialFeature1": MessageLookupByLibrary.simpleMessage(
+      "خطط ربع سنوية متاحة",
+    ),
+    "specialFeature2": MessageLookupByLibrary.simpleMessage("دعم حكومي"),
     "specialNeeds": MessageLookupByLibrary.simpleMessage(
       "دعم لذوي الاحتياجات الخاصة",
     ),
+    "specialNeedsCategory": MessageLookupByLibrary.simpleMessage(
+      "ذوي الاحتياجات الخاصة",
+    ),
+    "specialNeedsCategoryDescription": MessageLookupByLibrary.simpleMessage(
+      "خدمات مخصصة لذوي الاحتياجات الخاصة.",
+    ),
+    "specialNeedsFeature1": MessageLookupByLibrary.simpleMessage(
+      "خطط ربع سنوية متاحة",
+    ),
+    "specialNeedsFeature2": MessageLookupByLibrary.simpleMessage(
+      "دعم لسهولة الصعود",
+    ),
+    "startStation": MessageLookupByLibrary.simpleMessage("محطة البداية"),
+    "startStationHint": MessageLookupByLibrary.simpleMessage(
+      "مثال: عدلي منصور",
+    ),
     "step01": MessageLookupByLibrary.simpleMessage("الخطوة 01/02"),
     "step02": MessageLookupByLibrary.simpleMessage("الخطوة 02/02"),
+    "step2of3": MessageLookupByLibrary.simpleMessage("الخطوة 2 من 3"),
+    "studentsCategory": MessageLookupByLibrary.simpleMessage("الطلاب"),
+    "studentsCategoryDescription": MessageLookupByLibrary.simpleMessage(
+      "يشترط إثبات القيد في الجامعات أو المدارس المصرية المعتمدة.",
+    ),
+    "studentsFeature1": MessageLookupByLibrary.simpleMessage("حتى 180 رحلة"),
+    "studentsFeature2": MessageLookupByLibrary.simpleMessage("صالح لعدة مناطق"),
     "subscription": MessageLookupByLibrary.simpleMessage("الأشتراكات"),
     "subscriptionDuration": MessageLookupByLibrary.simpleMessage(
       "مدة الاشتراك",
@@ -528,7 +673,14 @@ class MessageLookup extends MessageLookupByLibrary {
     "subsidyDesc": MessageLookupByLibrary.simpleMessage(
       "الخصومات الحكومية تُطبق تلقائياً.",
     ),
+    "tailoredSubscriptionsDescription": MessageLookupByLibrary.simpleMessage(
+      "اشتراكات مصممة خصيصًا لركاب القاهرة. اختر الفئة المناسبة لرحلتك اليومية للحصول على أسعار مدعومة حصرية.",
+    ),
     "takePhoto": MessageLookupByLibrary.simpleMessage("التقاط صورة"),
+    "tapPhototochange": MessageLookupByLibrary.simpleMessage(
+      "اضغط لتغيير الصورة",
+    ),
+    "tapToUpload": MessageLookupByLibrary.simpleMessage("اضغط للرفع"),
     "ticket": MessageLookupByLibrary.simpleMessage("تذكرة"),
     "ticketPrice": MessageLookupByLibrary.simpleMessage("سعر التذكرة"),
     "ticket_price": MessageLookupByLibrary.simpleMessage("سعر التذكرة"),
@@ -543,14 +695,31 @@ class MessageLookup extends MessageLookupByLibrary {
     "unexpectedError": MessageLookupByLibrary.simpleMessage(
       "حدث خطأ غير متوقع",
     ),
+    "universityId": MessageLookupByLibrary.simpleMessage("كارنيه الجامعة"),
+    "universityIdDesc": MessageLookupByLibrary.simpleMessage(
+      "الواجهة الأمامية مع الصورة وتاريخ الانتهاء",
+    ),
     "unknownError": MessageLookupByLibrary.simpleMessage("خطأ غير معروف"),
     "upToTrips": MessageLookupByLibrary.simpleMessage("حتى 180 رحلة"),
     "updatePassword": MessageLookupByLibrary.simpleMessage(
       "تحديث كلمة المرور الخاصة بك",
     ),
+    "updatePasswordDesc": MessageLookupByLibrary.simpleMessage(
+      "قم بتحديث كلمة مرور حسابك",
+    ),
+    "uploadFailed": MessageLookupByLibrary.simpleMessage("فشل الرفع"),
+    "uploaded": MessageLookupByLibrary.simpleMessage("تم الرفع"),
+    "uploading": MessageLookupByLibrary.simpleMessage("جارٍ الرفع..."),
+    "userLoadError": MessageLookupByLibrary.simpleMessage(
+      "فشل في تحميل بيانات المستخدم",
+    ),
     "userName": MessageLookupByLibrary.simpleMessage("اسم المستخدم"),
     "verifiedUsers": MessageLookupByLibrary.simpleMessage(
       "+15 ألف مستخدم موثق",
+    ),
+    "verifyIdentity": MessageLookupByLibrary.simpleMessage("تأكيد الهوية"),
+    "verifyIdentityDescription": MessageLookupByLibrary.simpleMessage(
+      "قم برفع صور واضحة للمستندات الرسمية لتفعيل الاشتراك.",
     ),
     "visaMastercardAccepted": MessageLookupByLibrary.simpleMessage(
       "فيزا، ماستركارد مقبولة",
@@ -561,7 +730,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "walking": MessageLookupByLibrary.simpleMessage("مشياً"),
     "wallet": MessageLookupByLibrary.simpleMessage("المحفظة"),
     "welcomeMessage": MessageLookupByLibrary.simpleMessage(
-      "مرحبًا بك في مترو ميت!",
+      "مرحبًا بك، سجل الدخول للمتابعة",
     ),
     "yearly": MessageLookupByLibrary.simpleMessage("سنوي"),
     "zone": MessageLookupByLibrary.simpleMessage("منطقة"),
