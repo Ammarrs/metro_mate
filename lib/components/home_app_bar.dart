@@ -3,6 +3,7 @@ import 'dart:io';
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:second/SubscrbtionScreen3,4/Notfications/Notfication_Cubit.dart';
 import 'package:second/generated/l10n.dart';
 import '../cubits/user/user_cubit.dart';
 import '../cubits/user/user_state.dart';
@@ -149,7 +150,7 @@ class HomeAppBar extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                greeting ?? s.WelcomeBack, // ✅ مترجمة
+                                greeting ?? s.WelcomeBack,
                                 style: const TextStyle(
                                   color: Colors.white,
                                   fontSize: 20,
@@ -173,30 +174,39 @@ class HomeAppBar extends StatelessWidget {
               ),
 
               /// Notification
-              GestureDetector(
-                onTap: onNotificationPressed,
-                child: Stack(
-                  children: [
-                    Icon(Icons.notifications_outlined,
-                        color: Colors.white, size: 28),
-                    if (notificationCount > 0)
-                      Positioned(
-                        right: 0,
-                        top: 0,
-                        child: Container(
-                          padding: const EdgeInsets.all(4),
-                          decoration: const BoxDecoration(
-                              color: Colors.red, shape: BoxShape.circle),
-                          child: Text(
-                            notificationCount.toString(),
-                            style: const TextStyle(
-                                color: Colors.white, fontSize: 10),
+              BlocBuilder<NotificationCubit, int>(
+                builder: (context, count) {
+                  return Stack(
+                    children: [
+                      IconButton(
+                        onPressed: () {
+                          Navigator.pushNamed(context, "NotificationScreen");
+                        },
+                        icon: Icon(Icons.notifications, color: Colors.white),
+                      ),
+                      if (count > 0)
+                        Positioned(
+                          right: 6,
+                          top: 6,
+                          child: Container(
+                            padding: EdgeInsets.all(5),
+                            decoration: BoxDecoration(
+                              color: Colors.red,
+                              shape: BoxShape.circle,
+                            ),
+                            child: Text(
+                              count.toString(),
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 10,
+                              ),
+                            ),
                           ),
                         ),
-                      ),
-                  ],
-                ),
-              ),
+                    ],
+                  );
+                },
+              )
             ],
           ),
 

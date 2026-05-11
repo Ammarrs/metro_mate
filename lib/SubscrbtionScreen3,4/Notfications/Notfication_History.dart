@@ -46,7 +46,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
           if (state is NotificationErrorState) {
             return Center(
               child: Text(
-                state.error,
+                "Not found any notifications",
                 style: const TextStyle(color: Colors.red),
               ),
             );

@@ -79,39 +79,8 @@ class Routedeatils extends StatelessWidget {
                     Navigator.pushNamed(context, "Screen3");
                   },
                   icon: Icon(Icons.info)),
-              BlocBuilder<NotificationCubit, int>(
-                builder: (context, count) {
-                  return Stack(
-                    children: [
-                      IconButton(
-                        onPressed: () {
-                          Navigator.pushNamed(context, "NotificationScreen");
-                        },
-                        icon: Icon(Icons.notifications),
-                      ),
-                      if (count > 0)
-                        Positioned(
-                          right: 6,
-                          top: 6,
-                          child: Container(
-                            padding: EdgeInsets.all(5),
-                            decoration: BoxDecoration(
-                              color: Colors.red,
-                              shape: BoxShape.circle,
-                            ),
-                            child: Text(
-                              count.toString(),
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 10,
-                              ),
-                            ),
-                          ),
-                        ),
-                    ],
-                  );
-                },
-              )
+
+              
             ],
           ),
           flexibleSpace: Container(
