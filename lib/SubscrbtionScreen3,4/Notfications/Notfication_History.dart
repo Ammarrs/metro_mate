@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:second/Bloc/SelectRoute_State.dart';
 import 'package:second/Bloc/selectRoute_Cubit.dart';
 import 'package:second/SubscrbtionScreen3,4/Notfications/Notfication_Cubit.dart';
+import 'package:second/generated/l10n.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class NotificationScreen extends StatefulWidget {
@@ -46,7 +47,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
           if (state is NotificationErrorState) {
             return Center(
               child: Text(
-                "Not found any notifications",
+                S.of(context).NotFoundInNotifications,
                 style: const TextStyle(color: Colors.red),
               ),
             );

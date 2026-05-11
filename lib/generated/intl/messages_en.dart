@@ -138,6 +138,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "NoAccount":
             MessageLookupByLibrary.simpleMessage("Don\'t have an account?"),
         "NotAvailable": MessageLookupByLibrary.simpleMessage("N/A"),
+        "NotFoundInNotifications":
+            MessageLookupByLibrary.simpleMessage("Not found any notifications"),
         "OldPassword": MessageLookupByLibrary.simpleMessage("Old Password"),
         "OnboardingDesc1": MessageLookupByLibrary.simpleMessage(
             "Easily check metro routes and directions from one station to another."),
