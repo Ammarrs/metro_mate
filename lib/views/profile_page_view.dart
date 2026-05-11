@@ -223,7 +223,7 @@ class _ProfilePageState extends State<ProfilePage> {
             context.read<UserCubit>().setUser(state.user);
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
-                content: Text(S.current.profileUpdated),
+                content: Text(S.of(context).profileUpdated),
                 backgroundColor: Colors.green,
               ),
             );
@@ -233,7 +233,7 @@ class _ProfilePageState extends State<ProfilePage> {
           } else if (state is ProfileError) {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
-                content: Text(state.message),
+                content: Text(S.of(context).profileUpdated),
                 backgroundColor: Colors.red,
               ),
             );
@@ -241,7 +241,7 @@ class _ProfilePageState extends State<ProfilePage> {
         },
         child: BlocBuilder<ProfileCubit, ProfileState>(
           builder: (context, profileState) {
-            String displayName = 'Guest';
+            String displayName = S.of(context).guest;
             String displayEmail = '';
             String? profileImageUrl;
 
@@ -402,15 +402,18 @@ class _ProfilePageState extends State<ProfilePage> {
                                       mainAxisSize: MainAxisSize.min,
                                       children: [
                                         Flexible(
-                                          child: profileState is ProfileNameUpdating
+                                          child: profileState
+                                                  is ProfileNameUpdating
                                               // While saving: dim name + spinner
                                               ? Row(
-                                                  mainAxisSize: MainAxisSize.min,
+                                                  mainAxisSize:
+                                                      MainAxisSize.min,
                                                   children: [
                                                     const SizedBox(
                                                       width: 14,
                                                       height: 14,
-                                                      child: CircularProgressIndicator(
+                                                      child:
+                                                          CircularProgressIndicator(
                                                         strokeWidth: 2,
                                                         color: Colors.white,
                                                       ),
@@ -422,9 +425,11 @@ class _ProfilePageState extends State<ProfilePage> {
                                                         style: const TextStyle(
                                                           color: Colors.white54,
                                                           fontSize: 20,
-                                                          fontWeight: FontWeight.bold,
+                                                          fontWeight:
+                                                              FontWeight.bold,
                                                         ),
-                                                        overflow: TextOverflow.ellipsis,
+                                                        overflow: TextOverflow
+                                                            .ellipsis,
                                                         maxLines: 1,
                                                       ),
                                                     ),
@@ -438,15 +443,17 @@ class _ProfilePageState extends State<ProfilePage> {
                                                     fontSize: 20,
                                                     fontWeight: FontWeight.bold,
                                                   ),
-                                                  overflow: TextOverflow.ellipsis,
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
                                                   maxLines: 1,
                                                 ),
                                         ),
                                         // Pen icon — hidden while update is in flight
-                                        if (profileState is! ProfileNameUpdating)
+                                        if (profileState
+                                            is! ProfileNameUpdating)
                                           GestureDetector(
-                                            onTap: () =>
-                                                _showEditNameDialog(context, displayName),
+                                            onTap: () => _showEditNameDialog(
+                                                context, displayName),
                                             child: const Padding(
                                               padding: EdgeInsets.only(left: 6),
                                               child: Icon(
@@ -561,8 +568,8 @@ class _ProfilePageState extends State<ProfilePage> {
         return AlertDialog(
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-          title: const Text(
-            'Edit Name',
+          title: Text(
+            S.of(context).editName,
             style: TextStyle(fontWeight: FontWeight.bold),
           ),
           content: Form(
@@ -572,7 +579,7 @@ class _ProfilePageState extends State<ProfilePage> {
               autofocus: true,
               textCapitalization: TextCapitalization.words,
               decoration: InputDecoration(
-                hintText: 'Enter your name',
+                hintText: S.of(context).enterName,
                 prefixIcon:
                     const Icon(Icons.person_outline, color: Color(0xFF4A6FA5)),
                 border: OutlineInputBorder(
@@ -586,10 +593,10 @@ class _ProfilePageState extends State<ProfilePage> {
               ),
               validator: (value) {
                 if (value == null || value.trim().isEmpty) {
-                  return 'Name cannot be empty';
+                  return S.of(context).nameEmptyError;
                 }
                 if (value.trim().length < 2) {
-                  return 'Name must be at least 2 characters';
+                  return S.of(context).nameLengthError;
                 }
                 return null;
               },
@@ -598,7 +605,7 @@ class _ProfilePageState extends State<ProfilePage> {
           actions: [
             TextButton(
               onPressed: () => Navigator.pop(dialogContext),
-              child: const Text('Cancel',
+              child: Text(S.of(context).cancel,
                   style: TextStyle(color: Colors.grey)),
             ),
             ElevatedButton(
@@ -618,7 +625,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   }
                 }
               },
-              child: const Text('Save'),
+              child: Text(S.of(context).save),
             ),
           ],
         );

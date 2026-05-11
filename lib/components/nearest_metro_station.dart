@@ -42,7 +42,7 @@ class _NearestMetroContent extends StatelessWidget {
               child: IconButton(
                 icon: const Icon(Icons.refresh, color: Color(0xFF5B7C99)),
                 onPressed: () => context.read<NearestMetroCubit>().refresh(),
-                tooltip: 'Refresh',
+                tooltip: S.of(context).refresh,
               ),
             ),
           ],

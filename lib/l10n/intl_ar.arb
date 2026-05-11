@@ -273,7 +273,7 @@
   
   "enterPassword": "من فضلك أدخل كلمة المرور",
   "passwordValidation": "يجب أن تحتوي كلمة المرور على 8 أحرف على الأقل وتشمل حرف كبير وصغير ورقم ورمز",
-  "passwordNotMatch": "كلمتا المرور غير متطابقتين"
+  "passwordNotMatch": "كلمتا المرور غير متطابقتين",
   "subscription": "الأشتراكات",
 
 
@@ -323,7 +323,164 @@
   "perYear": "سنوي",
 
   "BRT": "الأتوبيس الترددي",
-  "SeeYourTrips": "تابع رحلاتك"
+  "SeeYourTrips": "تابع رحلاتك",
+  "LogOut":"تسجيل الخروج",
+  "refresh": "تحديث",
+   "fileAccessError": "تعذر الوصول إلى الملف، حاول مرة أخرى",
+  "fileSizeError": "يجب أن يكون حجم الملف أقل من 5 ميجا",
+  "completeRequiredFields": "من فضلك أكمل كل البيانات المطلوبة",
+  "userLoadError": "فشل في تحميل بيانات المستخدم",
+  "logoutError": "فشل في تسجيل الخروج",
+  "guest": "زائر",
+  "securityPrivacy": "الأمان والخصوصية",
+  "changePassword": "تغيير كلمة المرور",
+  "updatePasswordDesc": "قم بتحديث كلمة مرور حسابك",
+  "history": "السجل",
+  "recentTrips": "رحلاتك الأخيرة",
+  "searchRoutes": "ابحث عن الرحلات...",
+  "retry": "إعادة المحاولة",
+  "noTripsYet": "لا توجد رحلات بعد",
+  "noTripsMatch": "لا توجد رحلات تطابق ",
+  "egp": "جنيه",
+   "AppName": "مترو ميت",
+  "welcomeMessage": "مرحبًا بك، سجل الدخول للمتابعة",
+  "Email": "البريد الإلكتروني",
+  "EnterEmail": "أدخل بريدك الإلكتروني",
+  "Password": "كلمة المرور",
+  "EnterPassword": "أدخل كلمة المرور",
+  "ForgotPassword": "هل نسيت كلمة المرور؟",
+  "SignIn": "تسجيل الدخول",
+  "SignUp": "إنشاء حساب",
+  "NoAccount": "ليس لديك حساب؟",
+
+  "enterEmailError": "أدخل بريدك الإلكتروني",
+  "invalidEmail": "أدخل بريد إلكتروني صحيح",
+  "enterPasswordError": "أدخل كلمة المرور",
+  "passwordLengthError": "يجب أن تكون كلمة المرور 8 أحرف على الأقل",
+
+
+   "guest": "زائر",
+  "editName": "تعديل الاسم",
+  "enterName": "أدخل اسمك",
+  "nameEmptyError": "لا يمكن أن يكون الاسم فارغًا",
+  "nameLengthError": "يجب أن يكون الاسم على الأقل حرفين",
+  "cancel": "إلغاء",
+  "save": "حفظ",
+  "profileUpdated": "تم تحديث الملف الشخصي بنجاح",
+  "manageAccount": "إدارة إعدادات حسابك",
+  "settingsPrivacy": "الإعدادات والخصوصية",
+  "signOut": "تسجيل الخروج",
+  "chooseProfilePhoto": "اختر صورة الملف الشخصي",
+  "chooseFromGallery": "اختر من المعرض",
+  "takePhoto": "التقاط صورة",
+  "errorPickingImage": "خطأ أثناء اختيار الصورة",
+  "errorTakingPhoto": "خطأ أثناء التقاط الصورة",
+  "tapPhototochange": "اضغط لتغيير الصورة",
+
+
+
+
+
+
+
+
+
+  "studentsCategoryDescription": "يشترط إثبات القيد في الجامعات أو المدارس المصرية المعتمدة.",
+  "studentsFeature1": "حتى 180 رحلة",
+  "studentsFeature2": "صالح لعدة مناطق",
+
+  "militaryCategoryDescription": "أسعار مخصصة للقوات المسلحة والشرطة والمحاربين القدامى.",
+  "militaryFeature1": "خيارات متعددة للمدة",
+  "militaryFeature2": "خصم للمرافق العائلي",
+
+  "publicCategoryDescription": "اشتراك قياسي لموظفي القطاعين العام والخاص.",
+  "publicFeature1": "خطط شهرية وربع سنوية",
+  "publicFeature2": "تتبع الإيصالات الرقمية",
+
+  "elderlyCategoryDescription": "أسعار خاصة لكبار السن بعمر 60 سنة فأكثر.",
+  "elderlyFeature1": "أولوية في الصعود",
+  "elderlyFeature2": "صالح لجميع المناطق",
+
+  "specialCategoryDescription": "دعم خاص لأسر الشهداء والحالات الخاصة.",
+  "specialFeature1": "خطط ربع سنوية متاحة",
+  "specialFeature2": "دعم حكومي",
+
+  "specialNeedsCategoryDescription": "خدمات مخصصة لذوي الاحتياجات الخاصة.",
+  "specialNeedsFeature1": "خطط ربع سنوية متاحة",
+  "specialNeedsFeature2": "دعم لسهولة الصعود",
+
+  "defaultCategoryDescription": "خطة اشتراك مدعومة للمستحقين.",
+  "defaultFeature1": "صالح لجميع الخطوط",
+  "defaultFeature2": "بطاقة رقمية مدمجة",
+
+  "tailoredSubscriptionsDescription": "اشتراكات مصممة خصيصًا لركاب القاهرة. اختر الفئة المناسبة لرحلتك اليومية للحصول على أسعار مدعومة حصرية.",
+
+  "couldNotLoadPlans": "تعذر تحميل الخطط",
+  "retry": "إعادة المحاولة",
+
+  "studentsCategory": "الطلاب",
+  "militaryCategory": "العسكريين",
+  "publicCategory": "القطاع العام",
+  "elderlyCategory": "كبار السن",
+  "specialCategory": "الحالات الخاصة",
+  "specialNeedsCategory": "ذوي الاحتياجات الخاصة",
+
+
+
+
+
+
+  "verifyIdentity": "تأكيد الهوية",
+  "verifyIdentityDescription": "قم برفع صور واضحة للمستندات الرسمية لتفعيل الاشتراك.",
+
+  "selectedCategory": "الفئة المختارة",
+  "commuteDetails": "تفاصيل الرحلة",
+  "identityDocuments": "مستندات الهوية",
+
+  "startStation": "محطة البداية",
+  "startStationHint": "مثال: عدلي منصور",
+
+  "endStation": "محطة الوصول",
+  "endStationHint": "مثال: العباسية",
+
+  "office": "المكتب",
+  "officeHint": "مثال: الزهراء",
+
+  "universityId": "كارنيه الجامعة",
+  "universityIdDesc": "الواجهة الأمامية مع الصورة وتاريخ الانتهاء",
+
+  "militaryId": "الهوية العسكرية",
+  "militaryIdDesc": "بطاقة عسكرية أو شرطة سارية",
+
+  "nationalIdFront": "البطاقة الشخصية (الأمام)",
+  "nationalIdBack": "البطاقة الشخصية (الخلف)",
+
+  "requiredLabel": "إجباري",
+
+  "uploaded": "تم الرفع",
+  "uploadFailed": "فشل الرفع",
+  "uploading": "جارٍ الرفع...",
+
+  "changeFile": "تغيير الملف",
+  "selectFile": "اختيار ملف",
+  "tapToUpload": "اضغط للرفع",
+
+  "photoGuidelines": "إرشادات الصور",
+
+  "photoGuide1": "الحد الأقصى للحجم 5MB (JPG, PNG, PDF)",
+  "photoGuide2": "تأكد من عدم وجود انعكاسات أو ظلال",
+  "photoGuide3": "يجب أن تكون البطاقات سارية",
+
+  "continueToPayment": "المتابعة للدفع",
+
+  "step2of3": "الخطوة 2 من 3",
+
+  "metroMate": "مترو ميت"
+
+
+
+
+
 
 
 

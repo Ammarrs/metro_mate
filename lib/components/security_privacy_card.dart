@@ -12,7 +12,7 @@ class SecurityPrivacyCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final s = S.of(context); // 🔥 ده أهم سطر
+    final s = S.of(context);
 
     return BlocBuilder<SettingsCubit, SettingsState>(
       builder: (context, state) {

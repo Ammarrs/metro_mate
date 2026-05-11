@@ -79,10 +79,7 @@ class SubscrptionConfirmVisacardPage extends StatelessWidget {
                           ),
                         ),
                       ),
-
                       SizedBox(height: 20),
-
-                      /// 🔥 البيانات
                       buildItem(S.of(context).userName,
                           cubit.SubscriptionUserName ?? ""),
                       buildItem(S.of(context).subscriptionType,
@@ -95,10 +92,7 @@ class SubscrptionConfirmVisacardPage extends StatelessWidget {
                           "${S.of(context).EGP} ${cubit.SubscriptionTotalPrice}"),
                       buildItem(
                           S.of(context).date, cubit.SubscriptionDate ?? ""),
-
                       SizedBox(height: 25),
-
-                      /// 🔥 الأزرار
                       Row(
                         children: [
                           Expanded(

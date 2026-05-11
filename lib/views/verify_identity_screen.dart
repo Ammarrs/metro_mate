@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:second/generated/l10n.dart';
 import '../cubits/subscription/verify_identity/verify_identity_cubit.dart';
 import '../services/verify_identity_service.dart';
 
@@ -93,22 +94,21 @@ class _VerifyIdentityScreen extends StatelessWidget {
                         const SizedBox(height: 20),
 
                         // ── Station & Office fields ─────────────────────
-                        const _SectionLabel(label: 'Commute Details'),
+                        _SectionLabel(label: S.of(context).commuteDetails),
                         const SizedBox(height: 10),
                         _StationFields(state: state),
                         const SizedBox(height: 20),
 
                         // ── Documents ───────────────────────────────────
-                        const _SectionLabel(label: 'Identity Documents'),
+                        _SectionLabel(label: S.of(context).identityDocuments),
                         const SizedBox(height: 10),
 
                         // Category-specific extra ID
                         if (state.isStudent) ...[
                           _DocumentCard(
                             icon: Icons.badge_outlined,
-                            title: 'University ID',
-                            subtitle:
-                                'Front side with photo and expiration date',
+                            title: S.of(context).universityId,
+                            subtitle: S.of(context).universityIdDesc,
                             documentFile: state.universityId,
                             onTap: () => context
                                 .read<VerifyIdentityCubit>()
@@ -120,8 +120,8 @@ class _VerifyIdentityScreen extends StatelessWidget {
                         if (state.isMilitary) ...[
                           _DocumentCard(
                             icon: Icons.military_tech_outlined,
-                            title: 'Military ID',
-                            subtitle: 'Valid military or police ID card',
+                            title: S.of(context).militaryId,
+                            subtitle: S.of(context).militaryIdDesc,
                             documentFile: state.militaryId,
                             onTap: () => context
                                 .read<VerifyIdentityCubit>()
@@ -134,8 +134,8 @@ class _VerifyIdentityScreen extends StatelessWidget {
                         // National ID — always required
                         _DocumentCard(
                           icon: Icons.add_a_photo_outlined,
-                          title: 'National ID (Front)',
-                          subtitle: 'REQUIRED',
+                          title: S.of(context).nationalIdFront,
+                          subtitle: S.of(context).requiredLabel,
                           documentFile: state.nationalIdFront,
                           onTap: () => context
                               .read<VerifyIdentityCubit>()
@@ -145,8 +145,8 @@ class _VerifyIdentityScreen extends StatelessWidget {
                         const SizedBox(height: 12),
                         _DocumentCard(
                           icon: Icons.add_a_photo_outlined,
-                          title: 'National ID (Back)',
-                          subtitle: 'REQUIRED',
+                          title: S.of(context).nationalIdBack,
+                          subtitle: S.of(context).requiredLabel,
                           documentFile: state.nationalIdBack,
                           onTap: () => context
                               .read<VerifyIdentityCubit>()
@@ -178,8 +178,8 @@ class _VerifyIdentityScreen extends StatelessWidget {
         icon: const Icon(Icons.arrow_back, color: _kDarkBlue),
         onPressed: () => Navigator.pop(context),
       ),
-      title: const Text(
-        'Metro Mate',
+      title: Text(
+        S.of(context).metroMate,
         style: TextStyle(
           color: _kDarkBlue,
           fontWeight: FontWeight.w700,
@@ -210,8 +210,8 @@ class _StepHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        const Text(
-          'STEP 2 OF 3',
+        Text(
+          S.of(context).step2of3,
           style: TextStyle(
             color: _kTeal,
             fontSize: 12,
@@ -220,8 +220,8 @@ class _StepHeader extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 8),
-        const Text(
-          'Verify Identity',
+        Text(
+          S.of(context).verifyIdentity,
           style: TextStyle(
             color: _kDarkBlue,
             fontSize: 26,
@@ -229,8 +229,8 @@ class _StepHeader extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 6),
-        const Text(
-          'Upload clear photos of your official documents\nto activate your subscription.',
+        Text(
+          S.of(context).verifyIdentityDescription,
           textAlign: TextAlign.center,
           style: TextStyle(color: _kTextMuted, fontSize: 13.5, height: 1.5),
         ),
@@ -291,8 +291,8 @@ class _CategoryBadge extends StatelessWidget {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text(
-                'Selected Category',
+              Text(
+                S.of(context).selectedCategory,
                 style: TextStyle(
                     color: _kTextMuted,
                     fontSize: 11.5,
@@ -346,22 +346,22 @@ class _StationFields extends StatelessWidget {
     return Column(
       children: [
         _InputField(
-          label: 'Start Station',
-          hint: 'e.g. Adly Mansour',
+          label: S.of(context).startStation,
+          hint: S.of(context).startStationHint,
           icon: Icons.trip_origin_rounded,
           onChanged: cubit.startStationChanged,
         ),
         const SizedBox(height: 10),
         _InputField(
-          label: 'End Station',
-          hint: 'e.g. Abbassiya',
+          label: S.of(context).endStation,
+          hint: S.of(context).endStationHint,
           icon: Icons.location_on_rounded,
           onChanged: cubit.endStationChanged,
         ),
         const SizedBox(height: 10),
         _InputField(
-          label: 'Office',
-          hint: 'e.g. El-Zahraa',
+          label: S.of(context).office,
+          hint: S.of(context).officeHint,
           icon: Icons.business_rounded,
           onChanged: cubit.officeChanged,
         ),
@@ -502,11 +502,11 @@ class _DocumentCard extends StatelessWidget {
             const SizedBox(height: 3),
             Text(
               isUploaded
-                  ? documentFile.fileName ?? 'Uploaded'
+                  ? documentFile.fileName ?? S.of(context).uploaded
                   : hasError
-                      ? documentFile.errorMessage ?? 'Upload failed'
+                      ? documentFile.errorMessage ?? S.of(context).uploadFailed
                       : isUploading
-                          ? 'Uploading...'
+                          ? S.of(context).uploading
                           : subtitle,
               textAlign: TextAlign.center,
               style: TextStyle(
@@ -535,7 +535,9 @@ class _DocumentCard extends StatelessWidget {
                       const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
                 ),
                 child: Text(
-                  isUploaded ? 'Change File' : 'Select File',
+                  isUploaded
+                      ? S.of(context).changeFile
+                      : S.of(context).selectFile,
                   style: const TextStyle(
                       fontWeight: FontWeight.w600, fontSize: 13),
                 ),
@@ -547,7 +549,7 @@ class _DocumentCard extends StatelessWidget {
                 !hasError) ...[
               const SizedBox(height: 8),
               Text(
-                'Tap to upload',
+                S.of(context).tapToUpload,
                 style: TextStyle(
                     color: _kTeal.withOpacity(0.8),
                     fontSize: 11.5,
@@ -593,18 +595,18 @@ class _PhotoGuidelinesCard extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text(
-                  'Photo Guidelines',
+                Text(
+                  S.of(context).photoGuidelines,
                   style: TextStyle(
                       color: _kDarkBlue,
                       fontWeight: FontWeight.w700,
                       fontSize: 13.5),
                 ),
-                const SizedBox(height: 8),
+                SizedBox(height: 8),
                 ...[
-                  'Max file size 5MB (JPG, PNG, PDF)',
-                  'Ensure no glare or shadows over details',
-                  'IDs must be valid and not expired',
+                  S.of(context).photoGuide1,
+                  S.of(context).photoGuide2,
+                  S.of(context).photoGuide3,
                 ].map(
                   (g) => Padding(
                     padding: const EdgeInsets.only(bottom: 5),
@@ -669,8 +671,8 @@ class _BottomActions extends StatelessWidget {
                   child: CircularProgressIndicator(
                       color: Colors.white, strokeWidth: 2.5),
                 )
-              : const Text(
-                  'Continue to Payment',
+              : Text(
+                  S.of(context).continueToPayment,
                   style: TextStyle(fontWeight: FontWeight.w700, fontSize: 15),
                 ),
         ),

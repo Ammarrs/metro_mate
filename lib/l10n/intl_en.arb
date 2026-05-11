@@ -338,7 +338,7 @@
   
   "enterPassword": "Enter your password",
   "passwordValidation": "Password must be at least 8 characters, include uppercase, lowercase, number and symbol",
-  "passwordNotMatch": "Passwords do not match"
+  "passwordNotMatch": "Passwords do not match",
   "subscription": "Subscriptions",
 
   "step01": "STEP 01/02",
@@ -387,7 +387,155 @@
   "perYear": "yr",
 
   "BRT": "BRT",
-  "SeeYourTrips": "See Your Trips"
+  "SeeYourTrips": "See Your Trips",
+  "LogOut":"Log Out",
+  "refresh": "ٌRefresh",
+   "fileAccessError": "Could not access file. Please try again.",
+  "fileSizeError": "File must be smaller than 5 MB.",
+  "completeRequiredFields": "Please complete all required fields",
+   "userLoadError": "Failed to load user data",
+  "logoutError": "Failed to logout",
+  "guest": "Guest",
+  "securityPrivacy": "Security & Privacy",
+  "changePassword": "Change Password",
+  "updatePasswordDesc": "Update your account password",
+   "history": "History",
+  "recentTrips": "Your recent trips",
+  "searchRoutes": "Search routes...",
+  "retry": "Retry",
+  "noTripsYet": "No trips yet",
+  "noTripsMatch": "No trips match ",
+  "egp": "EGP",
+  "AppName": "Metro Mate",
+  "welcomeMessage": "Welcome back, sign in to continue",
+  "Email": "Email",
+  "EnterEmail": "Enter your email",
+  "Password": "Password",
+  "EnterPassword": "Enter your password",
+  "ForgotPassword": "Forgot Password?",
+  "SignIn": "Sign In",
+  "SignUp": "Sign Up",
+  "NoAccount": "Don't have an account?",
+
+  "enterEmailError": "Enter your email",
+  "invalidEmail": "Enter a valid email",
+  "enterPasswordError": "Enter your password",
+  "passwordLengthError": "Password must be at least 8 characters",
+
+
+
+   "guest": "Guest",
+  "editName": "Edit Name",
+  "enterName": "Enter your name",
+  "nameEmptyError": "Name cannot be empty",
+  "nameLengthError": "Name must be at least 2 characters",
+  "cancel": "Cancel",
+  "save": "Save",
+  "profileUpdated": "Profile updated successfully",
+  "manageAccount": "Manage your account settings",
+  "settingsPrivacy": "Settings & Privacy",
+  "signOut": "Sign Out",
+  "chooseProfilePhoto": "Choose profile photo",
+  "chooseFromGallery": "Choose from gallery",
+  "takePhoto": "Take photo",
+  "errorPickingImage": "Error picking image",
+  "errorTakingPhoto": "Error taking photo",
+  "tapPhototochange": "Tap photo to change",
+
+
+
+
+  
+  "studentsCategoryDescription": "Active enrollment in recognized Egyptian universities or schools required.",
+  "studentsFeature1": "Up to 180 trips",
+  "studentsFeature2": "Valid across multiple zones",
+
+  "militaryCategoryDescription": "Dedicated rates for the Armed Forces, Police, and Veterans.",
+  "militaryFeature1": "Multiple duration options",
+  "militaryFeature2": "Family companion discount",
+
+  "publicCategoryDescription": "Standard subscription for private and public sector professionals.",
+  "publicFeature1": "Monthly & quarterly plans",
+  "publicFeature2": "Digital receipt tracking",
+
+  "elderlyCategoryDescription": "Special rates for senior citizens aged 60 and above.",
+  "elderlyFeature1": "Priority boarding",
+  "elderlyFeature2": "Valid across all zones",
+
+  "specialCategoryDescription": "Exclusive support for families of martyrs and special cases.",
+  "specialFeature1": "Quarterly plans available",
+  "specialFeature2": "Government-backed subsidy",
+
+  "specialNeedsCategoryDescription": "Tailored access for individuals with special needs.",
+  "specialNeedsFeature1": "Quarterly plans available",
+  "specialNeedsFeature2": "Accessible boarding support",
+
+  "defaultCategoryDescription": "Subsidized subscription plan for eligible commuters.",
+  "defaultFeature1": "Valid on all lines",
+  "defaultFeature2": "Digital pass included",
+
+  "tailoredSubscriptionsDescription": "Tailored subscriptions for the backbone of Cairo. Choose the category that fits your daily journey to unlock exclusive subsidized rates.",
+
+  "couldNotLoadPlans": "Could not load plans",
+  "retry": "Retry",
+   "studentsCategory": "Students",
+  "militaryCategory": "Military",
+  "publicCategory": "Public",
+  "elderlyCategory": "Elderly",
+  "specialCategory": "Special Cases",
+  "specialNeedsCategory": "Special Needs",
+
+
+
+  
+  "verifyIdentity": "Verify Identity",
+  "verifyIdentityDescription": "Upload clear photos of your official documents to activate your subscription.",
+  "selectedCategory": "Selected Category",
+  "commuteDetails": "Commute Details",
+  "identityDocuments": "Identity Documents",
+
+  "startStation": "Start Station",
+  "startStationHint": "e.g. Adly Mansour",
+
+  "endStation": "End Station",
+  "endStationHint": "e.g. Abbassiya",
+
+  "office": "Office",
+  "officeHint": "e.g. El-Zahraa",
+
+  "universityId": "University ID",
+  "universityIdDesc": "Front side with photo and expiration date",
+
+  "militaryId": "Military ID",
+  "militaryIdDesc": "Valid military or police ID card",
+
+  "nationalIdFront": "National ID (Front)",
+  "nationalIdBack": "National ID (Back)",
+
+  "requiredLabel": "REQUIRED",
+
+  "uploaded": "Uploaded",
+  "uploadFailed": "Upload failed",
+  "uploading": "Uploading...",
+  "changeFile": "Change File",
+  "selectFile": "Select File",
+  "tapToUpload": "Tap to upload",
+
+  "photoGuidelines": "Photo Guidelines",
+
+  "photoGuide1": "Max file size 5MB (JPG, PNG, PDF)",
+  "photoGuide2": "Ensure no glare or shadows over details",
+  "photoGuide3": "IDs must be valid and not expired",
+
+  "continueToPayment": "Continue to Payment",
+
+  "step2of3": "STEP 2 OF 3",
+
+  "metroMate": "Metro Mate"
+
+
+
+  
 
 
 

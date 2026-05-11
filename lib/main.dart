@@ -283,6 +283,10 @@ class _test_pageState extends State<test_page> {
         title: Text(S.of(context).subscriptions),
         automaticallyImplyLeading: false,
       ),
+      AppBar(
+        title: null,
+        automaticallyImplyLeading: false,
+      ),
     ];
   }
 
