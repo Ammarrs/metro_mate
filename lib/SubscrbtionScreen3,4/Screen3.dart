@@ -46,11 +46,25 @@ class _Screen3State extends State<Screen3> {
         title: Text(S.of(context).subscriptionStatus),
       ),
       body: BlocListener<SubscriptionCubitS3, SubscriptionState>(
-        listener: (context, state) {
+        listener: (context, state) async {
           if (state is SubscriptionAccepted ||
               state is SubscriptionRejected ||
               state is SubscriptionActive) {
             timer?.cancel();
+          }
+
+          if (state is SubscriptionError) {
+            timer?.cancel();
+
+            final prefs = await SharedPreferences.getInstance();
+
+            await prefs.remove('subscription_id');
+
+            Navigator.pushNamedAndRemoveUntil(
+              context,
+              "test_page",
+              (route) => false,
+            );
           }
         },
         child: BlocBuilder<SubscriptionCubitS3, SubscriptionState>(
@@ -140,7 +154,13 @@ class _Screen3State extends State<Screen3> {
           ),
           const SizedBox(height: 20),
           ElevatedButton(
-            onPressed: () {
+            onPressed: () async {
+              final prefs = await SharedPreferences.getInstance();
+
+              await prefs.remove('subscription_id');
+
+              print("subscription_id deleted successfully");
+
               Navigator.pushNamed(context, "test_page");
             },
             child: Text(S.of(context).backToHome),
