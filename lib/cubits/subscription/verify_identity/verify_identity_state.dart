@@ -83,17 +83,24 @@ class VerifyIdentityState extends Equatable {
     this.dropdownError,
   });
 
-  bool get isStudent => category.toLowerCase() == 'students';
-  bool get isMilitary => category.toLowerCase() == 'military';
+  bool get isStudent {
+    final cat = category.toLowerCase();
+
+    return cat.contains('student') || category.contains('طلاب');
+  }
+
+  bool get isMilitary {
+    final cat = category.toLowerCase();
+
+    return cat.contains('military') || category.contains('عسكري');
+  }
 
   bool get canProceed {
-    final stationsOk =
-        office.trim().isNotEmpty &&
+    final stationsOk = office.trim().isNotEmpty &&
         startStation.trim().isNotEmpty &&
         endStation.trim().isNotEmpty;
 
-    final nationalOk =
-        nationalIdFront.status == UploadStatus.success &&
+    final nationalOk = nationalIdFront.status == UploadStatus.success &&
         nationalIdBack.status == UploadStatus.success;
 
     final extraOk = isStudent
@@ -148,14 +155,27 @@ class VerifyIdentityState extends Equatable {
 
   @override
   List<Object?> get props => [
-        category, duration, zones, planId,
-        office, startStation, endStation,
-        nationalIdFront.status, nationalIdFront.fileName,
-        nationalIdBack.status, nationalIdBack.fileName,
-        universityId.status, universityId.fileName,
-        militaryId.status, militaryId.fileName,
-        isSubmitting, isSubmitSuccess, submitError,
-        stations.length, offices.length,
-        isLoadingDropdowns, dropdownError,
+        category,
+        duration,
+        zones,
+        planId,
+        office,
+        startStation,
+        endStation,
+        nationalIdFront.status,
+        nationalIdFront.fileName,
+        nationalIdBack.status,
+        nationalIdBack.fileName,
+        universityId.status,
+        universityId.fileName,
+        militaryId.status,
+        militaryId.fileName,
+        isSubmitting,
+        isSubmitSuccess,
+        submitError,
+        stations.length,
+        offices.length,
+        isLoadingDropdowns,
+        dropdownError,
       ];
 }
