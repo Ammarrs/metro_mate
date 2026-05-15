@@ -1,5 +1,6 @@
 // lib/components/logout_button.dart
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart'; // Add this import
 
 class LogoutButton extends StatelessWidget {
   final VoidCallback? onLogout;
@@ -14,7 +15,7 @@ class LogoutButton extends StatelessWidget {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 16),
       decoration: BoxDecoration(
-        color: const Color(0xFFFFF5F5), // Light pink background
+        color: const Color(0xFFFFF5F5),
         borderRadius: BorderRadius.circular(12),
         boxShadow: [
           BoxShadow(
@@ -36,7 +37,7 @@ class LogoutButton extends StatelessWidget {
               children: [
                 const Icon(
                   Icons.logout,
-                  color: Color(0xFFEF4444), // Red color
+                  color: Color(0xFFEF4444),
                   size: 20,
                 ),
                 const SizedBox(width: 8),
@@ -57,23 +58,20 @@ class LogoutButton extends StatelessWidget {
   }
 
   void _handleLogout(BuildContext context) async {
-    // Call custom callback if provided
     if (onLogout != null) {
       onLogout!();
     }
     
-    // Clear token and navigate
     await _clearToken();
     _navigateToLogin(context);
   }
 
   Future<void> _clearToken() async {
-    // Clear token from storage (implement based on your storage method)
-    // Examples shown in Step 2
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.remove('Token');
   }
 
   void _navigateToLogin(BuildContext context) {
-    // Navigate to login and clear navigation stack
     Navigator.of(context).pushNamedAndRemoveUntil(
       '/login',
       (route) => false,
