@@ -77,8 +77,6 @@ class Routedeatils extends StatelessWidget {
                     Navigator.pushNamed(context, "Screen3");
                   },
                   icon: Icon(Icons.info)),
-
-              
             ],
           ),
           flexibleSpace: Container(
@@ -299,39 +297,44 @@ class Routedeatils extends StatelessWidget {
                                 ],
                               ),
                               const SizedBox(height: 20),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
+                              Wrap(
+                                alignment: WrapAlignment.center,
+                                spacing: 15,
+                                runSpacing: 10,
                                 children: [
-                                  CircleAvatar(
-                                    backgroundColor: Colors.blue,
-                                    radius: 10,
+                                  Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      CircleAvatar(
+                                        backgroundColor: Colors.blue,
+                                        radius: 10,
+                                      ),
+                                      const SizedBox(width: 5),
+                                      Text(S.current.Line1),
+                                    ],
                                   ),
-                                  SizedBox(
-                                    width: 5,
+                                  Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      CircleAvatar(
+                                        backgroundColor: Colors.redAccent,
+                                        radius: 10,
+                                      ),
+                                      const SizedBox(width: 5),
+                                      Text(S.current.Line2),
+                                    ],
                                   ),
-                                  Text(S.current.Line1),
-                                  SizedBox(
-                                    width: 15,
+                                  Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      CircleAvatar(
+                                        backgroundColor: Colors.greenAccent,
+                                        radius: 10,
+                                      ),
+                                      const SizedBox(width: 5),
+                                      Text(S.current.Line3),
+                                    ],
                                   ),
-                                  CircleAvatar(
-                                    backgroundColor: Colors.redAccent,
-                                    radius: 10,
-                                  ),
-                                  SizedBox(
-                                    width: 5,
-                                  ),
-                                  Text(S.current.Line2),
-                                  SizedBox(
-                                    width: 15,
-                                  ),
-                                  CircleAvatar(
-                                    backgroundColor: Colors.greenAccent,
-                                    radius: 10,
-                                  ),
-                                  SizedBox(
-                                    width: 5,
-                                  ),
-                                  Text(S.current.Line3),
                                 ],
                               ),
                               const SizedBox(height: 20),

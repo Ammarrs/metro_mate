@@ -4,7 +4,7 @@ import 'package:shared_preferences/shared_preferences.dart'; // Add this import
 
 class LogoutButton extends StatelessWidget {
   final VoidCallback? onLogout;
-  
+
   const LogoutButton({
     Key? key,
     this.onLogout,
@@ -61,14 +61,18 @@ class LogoutButton extends StatelessWidget {
     if (onLogout != null) {
       onLogout!();
     }
-    
+
     await _clearToken();
     _navigateToLogin(context);
   }
 
   Future<void> _clearToken() async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.remove('Token');
+    // final prefs = await SharedPreferences.getInstance();
+    // await prefs.remove('Token');
+    // final tkn = await prefs.getString("Token");
+    // print("___________________________");
+    // print("token: $tkn");
+    // print("___________________________");
   }
 
   void _navigateToLogin(BuildContext context) {

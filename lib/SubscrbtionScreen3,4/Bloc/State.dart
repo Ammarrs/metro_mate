@@ -45,3 +45,7 @@ class SubscriptionRenew extends SubscriptionState {
 class SubscriptionExpired extends SubscriptionState {
   const SubscriptionExpired();
 }
+
+class SubscriptionmanualRenew extends SubscriptionState {
+  const SubscriptionmanualRenew();
+}

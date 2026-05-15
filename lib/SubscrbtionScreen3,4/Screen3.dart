@@ -58,6 +58,7 @@ class _Screen3State extends State<Screen3> {
               state is SubscriptionRejected ||
               state is SubscriptionRenew ||
               state is SubscriptionExpired ||
+              state is SubscriptionmanualRenew ||
               state is SubscriptionActive) {
             timer?.cancel();
           }
@@ -67,6 +68,13 @@ class _Screen3State extends State<Screen3> {
             if (state is SubscriptionLoading) {
               return const Center(
                 child: CircularProgressIndicator(),
+              );
+            }
+
+            if (state is SubscriptionmanualRenew) {
+              Navigator.pushNamed(
+                context,
+                "Screen4",
               );
             }
 
@@ -568,18 +576,28 @@ class _Screen3State extends State<Screen3> {
                                       ),
                                     ),
                                     TextButton(
-                                      onPressed: () {
+                                      onPressed: () async {
                                         Navigator.pop(context);
 
-                                        ScaffoldMessenger.of(context)
-                                            .showSnackBar(
+                                        final messenger =
+                                            ScaffoldMessenger.of(context);
+
+                                        String message = await context
+                                            .read<SubscriptionCubitS3>()
+                                            .confirmRenew();
+
+                                        if (!mounted) return;
+
+                                        messenger.showSnackBar(
                                           SnackBar(
                                             backgroundColor: Colors.green,
-                                            content: Text(
-                                              S.of(context).renewSuccess,
-                                            ),
+                                            content: Text(message),
                                           ),
                                         );
+
+                                        context
+                                            .read<SubscriptionCubitS3>()
+                                            .checkStatus();
                                       },
                                       child: Text(
                                         S.of(context).yes,

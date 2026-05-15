@@ -60,11 +60,9 @@ class SubscriptionCubitS3 extends Cubit<SubscriptionState> {
         return;
       }
 
-      final statusData =
-          statusResponse.data as Map<String, dynamic>;
+      final statusData = statusResponse.data as Map<String, dynamic>;
 
-      final status =
-          statusData['data']?['status']?.toString();
+      final status = statusData['data']?['status']?.toString();
 
       print("Status = $status");
 
@@ -95,8 +93,7 @@ class SubscriptionCubitS3 extends Cubit<SubscriptionState> {
         return;
       }
 
-      final responseData =
-          detailsResponse.data as Map<String, dynamic>;
+      final responseData = detailsResponse.data as Map<String, dynamic>;
 
       final data = responseData['data'];
 
@@ -144,6 +141,9 @@ class SubscriptionCubitS3 extends Cubit<SubscriptionState> {
             );
           }
           break;
+        case "manualRenew":
+          emit(const SubscriptionmanualRenew());
+          break;
 
         default:
           emit(
@@ -164,6 +164,36 @@ class SubscriptionCubitS3 extends Cubit<SubscriptionState> {
           e.toString(),
         ),
       );
+    }
+  }
+
+  Future<String> confirmRenew() async {
+    try {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+
+      String? token = prefs.getString("Token");
+
+      final response = await dio.patch(
+        "https://metrodb-production.up.railway.app/api/v1/subscriptions/renew",
+        data: {
+          "wantRenew": true,
+        },
+        options: Options(
+          headers: {
+            "Authorization": "Bearer $token",
+            "Accept": "application/json",
+            "Accept-Language": await _getLanguage(),
+          },
+        ),
+      );
+
+      if (response.statusCode == 200) {
+        return response.data['message'];
+      }
+
+      return "Failed To Renew";
+    } catch (e) {
+      return e.toString();
     }
   }
 }
