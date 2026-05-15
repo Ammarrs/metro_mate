@@ -7,6 +7,9 @@ import '../config/api_config.dart';
 class AppPrefKeys {
   static const String token = 'Token';
   static const String subscriptionId = 'subscription_id';
+  /// Must match ApiConfig.languagePrefKey. Written by SettingsCubit whenever
+  /// the user changes the app language, e.g. prefs.setString(language, 'ar').
+  static const String language = 'app_language';
 }
 
 /// Handles POST /api/v1/subscriptions/create (multipart/form-data).
@@ -28,7 +31,8 @@ class VerifyIdentityRepository {
 
     _dio.interceptors.addAll([
       LogInterceptor(requestBody: false, responseBody: true),
-      _AuthInterceptor(), // attaches Bearer token from SharedPreferences
+      _AuthInterceptor(),     // attaches Bearer token from SharedPreferences
+      _LanguageInterceptor(), // attaches Accept-Language from prefs / device locale
     ]);
   }
 
@@ -56,10 +60,17 @@ class VerifyIdentityRepository {
     File? militaryId,
   }) async {
     try {
+      // API contract: yearly subscriptions send 'numOfLines' (2 or 3 metro lines);
+      // all other durations send 'zones'.
+      // Duration comes from the plans API in Arabic ("سنوي") or English ("yearly").
+      final isYearly =
+          duration == 'سنوي' || duration.toLowerCase() == 'yearly';
+      final zonesOrLinesKey = isYearly ? 'numOfLines' : 'zones';
+
       final fields = <String, dynamic>{
         'category': category,
         'duration': duration,
-        'zones': zones.toString(),
+        zonesOrLinesKey: zones.toString(),
         'office': office,
         'start_station': startStation,
         'end_station': endStation,
@@ -164,5 +175,30 @@ class _AuthInterceptor extends Interceptor {
       // Token expired — caller should redirect to login
     }
     handler.next(err);
+  }
+}
+
+/// Reads the language preference from SharedPreferences (key "app_language").
+/// Falls back to the device locale (e.g. "ar_EG" → "ar") so the first launch
+/// already sends the correct language without the user needing to change anything.
+/// When the user changes the language in Settings, SettingsCubit must persist
+/// the new tag with:  prefs.setString(AppPrefKeys.language, 'ar');
+class _LanguageInterceptor extends Interceptor {
+  @override
+  void onRequest(
+    RequestOptions options,
+    RequestInterceptorHandler handler,
+  ) async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      final saved = prefs.getString(AppPrefKeys.language);
+      final lang = (saved != null && saved.isNotEmpty)
+          ? saved
+          : Platform.localeName.split('_').first;
+      options.headers['Accept-Language'] = lang;
+    } catch (_) {
+      // If reading fails, proceed without the header
+    }
+    handler.next(options);
   }
 }

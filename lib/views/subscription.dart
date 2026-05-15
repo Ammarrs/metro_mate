@@ -9,9 +9,12 @@ import '../models/subscribtion_model.dart';
 import '../views/verify_identity_screen.dart';
 
 // ─── Entry point ──────────────────────────────────────────────────────────────
-// If a subscription_id is already stored in SharedPreferences the user has an
-// in-progress / pending subscription, so we redirect them straight to Screen3
-// instead of making them go through the flow again.
+// Checks "subscription_seen_<token>" in SharedPreferences.
+// Each logged-in user has their own flag keyed to their Token, so switching
+// accounts never carries over a previous user's subscription state.
+// true  → user has already submitted → redirect straight to Screen3.
+// false → fresh flow → show category / plan selection as normal.
+// The flag is written to true when the user taps "Continue to Payment".
 
 class SubscriptionPage extends StatefulWidget {
   const SubscriptionPage({super.key});
@@ -21,28 +24,30 @@ class SubscriptionPage extends StatefulWidget {
 }
 
 class _SubscriptionPageState extends State<SubscriptionPage> {
-  // null  → still loading
-  // true  → has active subscription_id, redirect to Screen3
-  // false → no subscription_id, show normal flow
-  bool? _hasActiveSubscription;
+  // null  → still reading SharedPreferences
+  // true  → subscription_seen_<token> == true → redirect to Screen3
+  // false → not seen yet → show normal flow
+  bool? _subscriptionSeen;
 
   @override
   void initState() {
     super.initState();
-    _checkSubscriptionId();
+    _checkSubscriptionSeen();
   }
 
-  Future<void> _checkSubscriptionId() async {
+  Future<void> _checkSubscriptionSeen() async {
     final prefs = await SharedPreferences.getInstance();
-    final id = prefs.getString('subscription_id') ?? '';
+    final token = prefs.getString('Token') ?? '';
+    // Per-user key: absent key or different user → defaults to false.
+    final seen = token.isNotEmpty &&
+        (prefs.getBool('subscription_seen_$token') ?? false);
     if (!mounted) return;
-    setState(() => _hasActiveSubscription = id.isNotEmpty);
+    setState(() => _subscriptionSeen = seen);
   }
 
   @override
   Widget build(BuildContext context) {
-    // Still reading SharedPreferences — show a blank/loading state.
-    if (_hasActiveSubscription == null) {
+    if (_subscriptionSeen == null) {
       return const Scaffold(
         backgroundColor: Color(0xFFF0F2F5),
         body: Center(
@@ -51,17 +56,13 @@ class _SubscriptionPageState extends State<SubscriptionPage> {
       );
     }
 
-    // Already has a subscription in progress → send to Screen3 directly.
-    if (_hasActiveSubscription == true) {
-      // Use a post-frame callback so we navigate after the widget tree is built.
+    if (_subscriptionSeen == true) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         if (mounted) Navigator.pushReplacementNamed(context, 'Screen3');
       });
-      // Return a blank scaffold while the navigation fires.
       return const Scaffold(backgroundColor: Color(0xFFF0F2F5));
     }
 
-    // No active subscription → normal flow.
     return BlocProvider(
       create: (_) => SubscriptionCubit()..loadCategories(),
       child: const _SubscriptionCategoryScreen(),
@@ -745,6 +746,8 @@ class _PlansList extends StatefulWidget {
 
 class _PlansListState extends State<_PlansList> {
   int? _selectedIndex;
+  // For yearly plans, stores the assigned line count (2 or 3) of the selected plan.
+  int _selectedLines = 2;
 
   Map<String, List<MapEntry<int, SubscriptionPlan>>> _grouped() {
     final map = <String, List<MapEntry<int, SubscriptionPlan>>>{};
@@ -759,15 +762,19 @@ class _PlansListState extends State<_PlansList> {
   String _capitalize(String s) =>
       s.isEmpty ? s : s[0].toUpperCase() + s.substring(1);
 
-  // ✅ Localized section header
+  // Maps Arabic duration strings (returned by API) to localized display text.
   String _localizedDuration(String duration) {
-    switch (duration.toLowerCase()) {
+    switch (duration) {
+      case 'شهري':
       case 'monthly':
         return S.of(context).monthly;
+      case 'ربع سنوي':
       case 'quarterly':
         return S.of(context).quarterly;
+      case 'نصف سنوي':
       case 'half yearly':
         return S.of(context).halfYearly;
+      case 'سنوي':
       case 'yearly':
         return S.of(context).yearly;
       default:
@@ -776,18 +783,38 @@ class _PlansListState extends State<_PlansList> {
   }
 
   String _durationShort(String duration) {
-    switch (duration.toLowerCase()) {
+    switch (duration) {
+      case 'شهري':
       case 'monthly':
         return S.of(context).perMonth;
+      case 'ربع سنوي':
       case 'quarterly':
         return S.of(context).perQuarter;
+      case 'نصف سنوي':
       case 'half yearly':
         return S.of(context).per6Months;
+      case 'سنوي':
       case 'yearly':
         return S.of(context).perYear;
       default:
         return duration;
     }
+  }
+
+  /// Returns the human-readable label for the plan card.
+  /// Yearly plans use "Lines" (2 or 3 metro lines); all others use "Zones".
+  /// [lineCount] is only used when [isYearly] is true.
+  String _planLabel(BuildContext context, SubscriptionPlan plan, bool isYearly,
+      {int lineCount = 2}) {
+    if (isYearly) {
+      final isArabic = Localizations.localeOf(context).languageCode == 'ar';
+      final singular = isArabic ? 'خط' : 'Line';
+      final plural = isArabic ? 'خطوط' : 'Lines';
+      return '$lineCount ${lineCount == 1 ? singular : plural}';
+    }
+    if (plan.zones == null) return S.of(context).allZones;
+    final count = plan.zones!;
+    return '$count ${count == 1 ? S.of(context).zone : S.of(context).zones}';
   }
 
   @override
@@ -839,13 +866,17 @@ class _PlansListState extends State<_PlansList> {
 
               // Grouped plan cards
               ...grouped.entries.map((entry) {
+                // API returns duration in Arabic: "سنوي" = yearly.
+                final isYearly =
+                    entry.key == 'سنوي' || entry.key.toLowerCase() == 'yearly';
+
                 return Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Padding(
                       padding: const EdgeInsets.only(bottom: 10, top: 4),
                       child: Text(
-                        _localizedDuration(entry.key), // ✅ localized
+                        _localizedDuration(entry.key),
                         style: const TextStyle(
                           fontSize: 13,
                           fontWeight: FontWeight.w700,
@@ -854,14 +885,22 @@ class _PlansListState extends State<_PlansList> {
                         ),
                       ),
                     ),
-                    ...entry.value.map((indexedPlan) {
-                      final globalIndex = indexedPlan.key;
-                      final plan = indexedPlan.value;
+                    // Use asMap().entries so we have a local index within this
+                    // duration group — yearly plans get lines 2, 3 by position.
+                    ...entry.value.asMap().entries.map((localEntry) {
+                      final localIndex = localEntry.key;
+                      final globalIndex = localEntry.value.key;
+                      final plan = localEntry.value.value;
                       final isSelected = _selectedIndex == globalIndex;
 
+                      // Yearly: first plan = 2 lines, second = 3 lines.
+                      final lineCount = isYearly ? (localIndex + 2) : (plan.zones ?? 1);
+
                       return GestureDetector(
-                        onTap: () =>
-                            setState(() => _selectedIndex = globalIndex),
+                        onTap: () => setState(() {
+                          _selectedIndex = globalIndex;
+                          if (isYearly) _selectedLines = lineCount;
+                        }),
                         child: AnimatedContainer(
                           duration: const Duration(milliseconds: 200),
                           margin: const EdgeInsets.only(bottom: 12),
@@ -891,7 +930,7 @@ class _PlansListState extends State<_PlansList> {
                               horizontal: 18, vertical: 16),
                           child: Row(
                             children: [
-                              // Zone badge
+                              // Line / Zone badge
                               Container(
                                 width: 44,
                                 height: 44,
@@ -902,37 +941,28 @@ class _PlansListState extends State<_PlansList> {
                                   borderRadius: BorderRadius.circular(12),
                                 ),
                                 child: Center(
-                                  child: plan.zones != null
-                                      ? Text(
-                                          '${plan.zones}',
-                                          style: TextStyle(
-                                            fontSize: 20,
-                                            fontWeight: FontWeight.w800,
-                                            color: isSelected
-                                                ? Colors.white
-                                                : widget.meta.color,
-                                          ),
-                                        )
-                                      : Icon(
-                                          Icons.all_inclusive_rounded,
-                                          color: isSelected
-                                              ? Colors.white
-                                              : widget.meta.color,
-                                          size: 22,
-                                        ),
+                                  child: Text(
+                                    '$lineCount',
+                                    style: TextStyle(
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.w800,
+                                      color: isSelected
+                                          ? Colors.white
+                                          : widget.meta.color,
+                                    ),
+                                  ),
                                 ),
                               ),
                               const SizedBox(width: 14),
-                              // Label
+                              // Label — "2 Lines" for yearly, "2 Zones" otherwise
                               Expanded(
                                 child: Column(
                                   crossAxisAlignment:
                                       CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      plan.zones != null
-                                          ? '${plan.zones! > 1 ? "${plan.zones} ${S.of(context).zones}" : "${plan.zones} ${S.of(context).zone}"}'
-                                          : S.of(context).allZones,
+                                      _planLabel(context, plan, isYearly,
+                                          lineCount: lineCount),
                                       style: TextStyle(
                                         fontSize: 15,
                                         fontWeight: FontWeight.w700,
@@ -1015,14 +1045,20 @@ class _PlansListState extends State<_PlansList> {
                   : () {
                       final plan =
                           widget.result.plans[_selectedIndex!];
+                      final isYearlyPlan = plan.durationEn == 'سنوي' ||
+                          plan.durationEn.toLowerCase() == 'yearly';
                       Navigator.push(
                         context,
                         MaterialPageRoute(
                           builder: (_) => VerifyIdentityPage(
                             category: widget.result.category.en
                                 .toLowerCase(),
-                            duration: plan.durationEn.toLowerCase(),
-                            zones: plan.zones ?? 1,
+                            duration: plan.durationEn,
+                            // Yearly plans have no zones in API response;
+                            // use the line number assigned during selection.
+                            zones: isYearlyPlan
+                                ? _selectedLines
+                                : (plan.zones ?? 1),
                             planId: plan.id,
                           ),
                         ),

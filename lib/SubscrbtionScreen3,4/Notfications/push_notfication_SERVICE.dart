@@ -16,18 +16,47 @@ class PushNotficationService {
 
   static Future init() async {
     final prefs = await SharedPreferences.getInstance();
+
     await Firebase.initializeApp();
+
     await messaging.requestPermission();
 
+    /// FCM Token
     String? token = await messaging.getToken();
-    await prefs.setString("fcm_token", token!);
+
+    if (token == null || token.isEmpty) {
+      print("FCM Token is null");
+
+      return;
+    }
+
+    await prefs.setString(
+      "fcm_token",
+      token,
+    );
+
+    FirebaseMessaging.instance.onTokenRefresh.listen((newToken) async {
+      final prefs = await SharedPreferences.getInstance();
+
+      await prefs.setString(
+        "fcm_token",
+        newToken,
+      );
+
+      print(
+        "FCM Token Refreshed: $newToken",
+      );
+    });
+
     print(
         '................................................................................................................');
+
     print("Firebase Messaging Token: $token");
+
     print(
         "................................................................................................................");
 
-    /// 📌 app مقفول
+    /// 📌 app closed
     RemoteMessage? initialMessage =
         await FirebaseMessaging.instance.getInitialMessage();
 
@@ -35,25 +64,31 @@ class PushNotficationService {
       NotificationCubit cubit = BlocProvider.of<NotificationCubit>(context);
 
       cubit.increase();
+
       _navigate();
     }
 
     /// 📌 background
-    FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) async {
-      NotificationCubit cubit = BlocProvider.of<NotificationCubit>(context);
+    FirebaseMessaging.onMessageOpenedApp.listen(
+      (RemoteMessage message) async {
+        NotificationCubit cubit = BlocProvider.of<NotificationCubit>(context);
 
-      cubit.increase();
-      _navigate();
-    });
+        cubit.increase();
+
+        _navigate();
+      },
+    );
 
     /// 📩 foreground
-    FirebaseMessaging.onMessage.listen((RemoteMessage message) async {
-      LocalNotificationService.showBasicNotification(message);
+    FirebaseMessaging.onMessage.listen(
+      (RemoteMessage message) async {
+        LocalNotificationService.showBasicNotification(message);
 
-      NotificationCubit cubit = BlocProvider.of<NotificationCubit>(context);
+        NotificationCubit cubit = BlocProvider.of<NotificationCubit>(context);
 
-      cubit.increase();
-    });
+        cubit.increase();
+      },
+    );
   }
 
   static void _navigate() {

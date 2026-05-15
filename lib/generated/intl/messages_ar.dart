@@ -272,6 +272,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "buyTickets": MessageLookupByLibrary.simpleMessage("شراء التذاكر"),
     "calculate_price": MessageLookupByLibrary.simpleMessage("احسب السعر"),
     "cancel": MessageLookupByLibrary.simpleMessage("إلغاء"),
+    "category": MessageLookupByLibrary.simpleMessage("الفئة"),
     "changeFile": MessageLookupByLibrary.simpleMessage("تغيير الملف"),
     "changePassword": MessageLookupByLibrary.simpleMessage("تغيير كلمة المرور"),
     "changePasswordDesc": MessageLookupByLibrary.simpleMessage(
@@ -306,6 +307,9 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "confirmPasswordLabel": MessageLookupByLibrary.simpleMessage(
       "تأكيد كلمة المرور",
+    ),
+    "confirmRenew": MessageLookupByLibrary.simpleMessage(
+      "هل أنت متأكد من تأكيد التجديد ؟",
     ),
     "connectionError": MessageLookupByLibrary.simpleMessage("خطأ في الاتصال"),
     "connectionTimeout": MessageLookupByLibrary.simpleMessage(
@@ -353,7 +357,8 @@ class MessageLookup extends MessageLookupByLibrary {
     "emailRequired": MessageLookupByLibrary.simpleMessage(
       "البريد الإلكتروني مطلوب",
     ),
-    "endStation": MessageLookupByLibrary.simpleMessage("محطة الوصول"),
+    "endDate": MessageLookupByLibrary.simpleMessage("تاريخ النهاية"),
+    "endStation": MessageLookupByLibrary.simpleMessage("محطة النهاية"),
     "endStationHint": MessageLookupByLibrary.simpleMessage("مثال: العباسية"),
     "enterEmailError": MessageLookupByLibrary.simpleMessage(
       "أدخل بريدك الإلكتروني",
@@ -482,6 +487,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "networkError": MessageLookupByLibrary.simpleMessage("خطأ في الشبكة"),
     "nextToPayment": MessageLookupByLibrary.simpleMessage("الانتقال للدفع"),
+    "no": MessageLookupByLibrary.simpleMessage("لا"),
     "noTripsMatch": MessageLookupByLibrary.simpleMessage(
       "لا توجد رحلات تطابق ",
     ),
@@ -578,6 +584,10 @@ class MessageLookup extends MessageLookupByLibrary {
     "rejectedSubscription": MessageLookupByLibrary.simpleMessage(
       "تم رفض الاشتراك ❌\nراجع بريدك الإلكتروني",
     ),
+    "renew": MessageLookupByLibrary.simpleMessage("تجديد"),
+    "renewSuccess": MessageLookupByLibrary.simpleMessage(
+      "تم تأكيد التجديد بنجاح",
+    ),
     "requiredLabel": MessageLookupByLibrary.simpleMessage("إجباري"),
     "retry": MessageLookupByLibrary.simpleMessage("إعادة المحاولة"),
     "routeDetails": MessageLookupByLibrary.simpleMessage("تفاصيل الرحلة"),
@@ -653,6 +663,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "specialNeedsFeature2": MessageLookupByLibrary.simpleMessage(
       "دعم لسهولة الصعود",
     ),
+    "startDate": MessageLookupByLibrary.simpleMessage("تاريخ البداية"),
     "startStation": MessageLookupByLibrary.simpleMessage("محطة البداية"),
     "startStationHint": MessageLookupByLibrary.simpleMessage(
       "مثال: عدلي منصور",
@@ -667,8 +678,18 @@ class MessageLookup extends MessageLookupByLibrary {
     "studentsFeature1": MessageLookupByLibrary.simpleMessage("حتى 180 رحلة"),
     "studentsFeature2": MessageLookupByLibrary.simpleMessage("صالح لعدة مناطق"),
     "subscription": MessageLookupByLibrary.simpleMessage("الأشتراكات"),
+    "subscriptionActive": MessageLookupByLibrary.simpleMessage("الاشتراك مفعل"),
     "subscriptionDuration": MessageLookupByLibrary.simpleMessage(
       "مدة الاشتراك",
+    ),
+    "subscriptionExpired": MessageLookupByLibrary.simpleMessage(
+      "انتهت صلاحية الاشتراك",
+    ),
+    "subscriptionExpiredMessage": MessageLookupByLibrary.simpleMessage(
+      "انتهت صلاحية اشتراكك برجاء تجديد الاشتراك.",
+    ),
+    "subscriptionNeedRenew": MessageLookupByLibrary.simpleMessage(
+      "الاشتراك يحتاج تجديد",
     ),
     "subscriptionPayment": MessageLookupByLibrary.simpleMessage("دفع الاشتراك"),
     "subscriptionStatus": MessageLookupByLibrary.simpleMessage("حالة الاشتراك"),
@@ -739,7 +760,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "welcomeMessage": MessageLookupByLibrary.simpleMessage(
       "مرحبًا بك، سجل الدخول للمتابعة",
     ),
+    "workingHours": MessageLookupByLibrary.simpleMessage("مواعيد العمل"),
     "yearly": MessageLookupByLibrary.simpleMessage("سنوي"),
+    "yes": MessageLookupByLibrary.simpleMessage("نعم"),
     "zone": MessageLookupByLibrary.simpleMessage("منطقة"),
     "zones": MessageLookupByLibrary.simpleMessage("مناطق"),
   };

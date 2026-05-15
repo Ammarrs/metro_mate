@@ -4,7 +4,7 @@ import 'package:equatable/equatable.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:second/generated/l10n.dart';
 import '../../../services/verify_identity_service.dart';
-import '../../../services/dropdown_service.dart';  // ← new import
+import '../../../services/dropdown_service.dart';
 
 part 'verify_identity_state.dart';
 

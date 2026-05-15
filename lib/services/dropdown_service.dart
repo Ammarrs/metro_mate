@@ -1,4 +1,6 @@
+import 'dart:io';
 import 'package:dio/dio.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../config/api_config.dart';
 
 class StationItem {
@@ -32,7 +34,7 @@ class DropdownService {
       connectTimeout: ApiConfig.connectTimeout,
       receiveTimeout: ApiConfig.receiveTimeout,
     ),
-  );
+  )..interceptors.add(_LanguageInterceptor());
 
   /// GET /api/v1/trips/station
   static Future<List<StationItem>> fetchStations() async {
@@ -58,5 +60,31 @@ class DropdownService {
               offersYearly: e['offersYearly'] as bool,
             ))
         .toList();
+  }
+}
+
+// ─── Language interceptor ─────────────────────────────────────────────────────
+// Reads the user-selected language from SharedPreferences (key "app_language").
+// Falls back to the device locale (e.g. "ar_EG" → "ar") on first launch before
+// the user changes anything in Settings.
+// When SettingsCubit saves a new language it is picked up automatically on the
+// next request — no restart required.
+class _LanguageInterceptor extends Interceptor {
+  @override
+  void onRequest(
+    RequestOptions options,
+    RequestInterceptorHandler handler,
+  ) async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      final saved = prefs.getString(ApiConfig.languagePrefKey);
+      final lang = (saved != null && saved.isNotEmpty)
+          ? saved
+          : Platform.localeName.split('_').first;
+      options.headers['Accept-Language'] = lang;
+    } catch (_) {
+      // If reading fails, proceed without the header
+    }
+    handler.next(options);
   }
 }

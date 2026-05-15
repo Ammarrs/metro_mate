@@ -293,6 +293,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "buyTickets": MessageLookupByLibrary.simpleMessage("Buy Tickets"),
     "calculate_price": MessageLookupByLibrary.simpleMessage("Calculate Price"),
     "cancel": MessageLookupByLibrary.simpleMessage("Cancel"),
+    "category": MessageLookupByLibrary.simpleMessage("Category"),
     "changeFile": MessageLookupByLibrary.simpleMessage("Change File"),
     "changePassword": MessageLookupByLibrary.simpleMessage("Change Password"),
     "changePasswordDesc": MessageLookupByLibrary.simpleMessage(
@@ -333,6 +334,9 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "confirmPasswordLabel": MessageLookupByLibrary.simpleMessage(
       "Confirm Password",
+    ),
+    "confirmRenew": MessageLookupByLibrary.simpleMessage(
+      "Are you sure to confirm Renew ?",
     ),
     "connectionError": MessageLookupByLibrary.simpleMessage("Connection error"),
     "connectionTimeout": MessageLookupByLibrary.simpleMessage(
@@ -384,6 +388,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "Email Notifications",
     ),
     "emailRequired": MessageLookupByLibrary.simpleMessage("Email is required"),
+    "endDate": MessageLookupByLibrary.simpleMessage("End Date"),
     "endStation": MessageLookupByLibrary.simpleMessage("End Station"),
     "endStationHint": MessageLookupByLibrary.simpleMessage("e.g. Abbassiya"),
     "enterEmailError": MessageLookupByLibrary.simpleMessage("Enter your email"),
@@ -513,6 +518,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "networkError": MessageLookupByLibrary.simpleMessage("Network error"),
     "nextToPayment": MessageLookupByLibrary.simpleMessage("Next To Payment"),
+    "no": MessageLookupByLibrary.simpleMessage("No"),
     "noTripsMatch": MessageLookupByLibrary.simpleMessage("No trips match "),
     "noTripsYet": MessageLookupByLibrary.simpleMessage("No trips yet"),
     "notFoundInformation": MessageLookupByLibrary.simpleMessage(
@@ -611,6 +617,10 @@ class MessageLookup extends MessageLookupByLibrary {
     "rejectedSubscription": MessageLookupByLibrary.simpleMessage(
       "Rejected Subscription ❌\nCheck your Email for more details",
     ),
+    "renew": MessageLookupByLibrary.simpleMessage("Renew"),
+    "renewSuccess": MessageLookupByLibrary.simpleMessage(
+      "Renew Confirmed Successfully",
+    ),
     "requiredLabel": MessageLookupByLibrary.simpleMessage("REQUIRED"),
     "retry": MessageLookupByLibrary.simpleMessage("Retry"),
     "routeDetails": MessageLookupByLibrary.simpleMessage("Route Details"),
@@ -698,6 +708,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "specialNeedsFeature2": MessageLookupByLibrary.simpleMessage(
       "Accessible boarding support",
     ),
+    "startDate": MessageLookupByLibrary.simpleMessage("Start Date"),
     "startStation": MessageLookupByLibrary.simpleMessage("Start Station"),
     "startStationHint": MessageLookupByLibrary.simpleMessage(
       "e.g. Adly Mansour",
@@ -714,8 +725,20 @@ class MessageLookup extends MessageLookupByLibrary {
       "Valid across multiple zones",
     ),
     "subscription": MessageLookupByLibrary.simpleMessage("Subscriptions"),
+    "subscriptionActive": MessageLookupByLibrary.simpleMessage(
+      "Subscription Active",
+    ),
     "subscriptionDuration": MessageLookupByLibrary.simpleMessage(
       "Subscription Duration",
+    ),
+    "subscriptionExpired": MessageLookupByLibrary.simpleMessage(
+      "Subscription Expired",
+    ),
+    "subscriptionExpiredMessage": MessageLookupByLibrary.simpleMessage(
+      "Your subscription validity has expired. Please renew your subscription.",
+    ),
+    "subscriptionNeedRenew": MessageLookupByLibrary.simpleMessage(
+      "Your Subscription Need Renew",
     ),
     "subscriptionPayment": MessageLookupByLibrary.simpleMessage(
       "Subscription Payment",
@@ -792,7 +815,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "welcomeMessage": MessageLookupByLibrary.simpleMessage(
       "Welcome back, sign in to continue",
     ),
+    "workingHours": MessageLookupByLibrary.simpleMessage("Working Hours"),
     "yearly": MessageLookupByLibrary.simpleMessage("Yearly"),
+    "yes": MessageLookupByLibrary.simpleMessage("Yes"),
     "zone": MessageLookupByLibrary.simpleMessage("Zone"),
     "zones": MessageLookupByLibrary.simpleMessage("Zones"),
   };

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class Subscrptionpaymob extends StatefulWidget {
@@ -33,9 +32,7 @@ class _SubscrptionpaymobState extends State<Subscrptionpaymob> {
             if (!hasNavigated) {
               if (url.contains("success=true")) {
                 hasNavigated = true;
-                Future.delayed(Duration(seconds: 5), () async {
-                  final prefs = await SharedPreferences.getInstance();
-                  await prefs.remove('subscription_id');
+                Future.delayed(Duration(seconds: 5), () {
                   Navigator.pushReplacementNamed(context, "test_page");
                 });
               } else if (url.contains("success=false")) {

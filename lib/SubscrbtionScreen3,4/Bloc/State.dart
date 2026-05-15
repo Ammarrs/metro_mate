@@ -22,16 +22,26 @@ class SubscriptionRejected extends SubscriptionState {
   const SubscriptionRejected();
 }
 
-class SubscriptionActive extends SubscriptionState {
-  const SubscriptionActive();
-}
-
-class SubscriptionExpired extends SubscriptionState {
-  const SubscriptionExpired();
-}
-
 class SubscriptionError extends SubscriptionState {
   final String message;
 
   const SubscriptionError(this.message);
+}
+
+/// Active State
+class SubscriptionActive extends SubscriptionState {
+  final Map<String, dynamic> data;
+
+  const SubscriptionActive(this.data);
+}
+
+/// Renew State
+class SubscriptionRenew extends SubscriptionState {
+  final Map<String, dynamic> data;
+
+  const SubscriptionRenew(this.data);
+}
+
+class SubscriptionExpired extends SubscriptionState {
+  const SubscriptionExpired();
 }

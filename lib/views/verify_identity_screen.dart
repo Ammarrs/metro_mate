@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:second/generated/l10n.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../cubits/subscription/verify_identity/verify_identity_cubit.dart';
 import '../services/verify_identity_service.dart';
 
@@ -1018,7 +1019,14 @@ class _BottomActions extends StatelessWidget {
         height: 52,
         child: ElevatedButton(
           onPressed: state.canProceed && !state.isSubmitting
-              ? cubit.continueToPayment
+              ? () async {
+                  final prefs = await SharedPreferences.getInstance();
+                  final token = prefs.getString('Token') ?? '';
+                  if (token.isNotEmpty) {
+                    await prefs.setBool('subscription_seen_$token', true);
+                  }
+                  cubit.continueToPayment();
+                }
               : null,
           style: ElevatedButton.styleFrom(
             backgroundColor: const Color(0xFF1E2D4E),

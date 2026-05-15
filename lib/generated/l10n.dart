@@ -3488,6 +3488,106 @@ class S {
   String get close {
     return Intl.message('Close', name: 'close', desc: '', args: []);
   }
+
+  /// `Subscription Active`
+  String get subscriptionActive {
+    return Intl.message(
+      'Subscription Active',
+      name: 'subscriptionActive',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Your Subscription Need Renew`
+  String get subscriptionNeedRenew {
+    return Intl.message(
+      'Your Subscription Need Renew',
+      name: 'subscriptionNeedRenew',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Category`
+  String get category {
+    return Intl.message('Category', name: 'category', desc: '', args: []);
+  }
+
+  /// `Start Date`
+  String get startDate {
+    return Intl.message('Start Date', name: 'startDate', desc: '', args: []);
+  }
+
+  /// `End Date`
+  String get endDate {
+    return Intl.message('End Date', name: 'endDate', desc: '', args: []);
+  }
+
+  /// `Working Hours`
+  String get workingHours {
+    return Intl.message(
+      'Working Hours',
+      name: 'workingHours',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Renew`
+  String get renew {
+    return Intl.message('Renew', name: 'renew', desc: '', args: []);
+  }
+
+  /// `Are you sure to confirm Renew ?`
+  String get confirmRenew {
+    return Intl.message(
+      'Are you sure to confirm Renew ?',
+      name: 'confirmRenew',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Renew Confirmed Successfully`
+  String get renewSuccess {
+    return Intl.message(
+      'Renew Confirmed Successfully',
+      name: 'renewSuccess',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No`
+  String get no {
+    return Intl.message('No', name: 'no', desc: '', args: []);
+  }
+
+  /// `Yes`
+  String get yes {
+    return Intl.message('Yes', name: 'yes', desc: '', args: []);
+  }
+
+  /// `Subscription Expired`
+  String get subscriptionExpired {
+    return Intl.message(
+      'Subscription Expired',
+      name: 'subscriptionExpired',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Your subscription validity has expired. Please renew your subscription.`
+  String get subscriptionExpiredMessage {
+    return Intl.message(
+      'Your subscription validity has expired. Please renew your subscription.',
+      name: 'subscriptionExpiredMessage',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

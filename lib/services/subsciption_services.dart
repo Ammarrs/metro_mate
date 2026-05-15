@@ -2,6 +2,14 @@ import '../config/api_config.dart';
 import '../models/subscribtion_model.dart';
 import 'api_client.dart';
 
+// ─── Language note ─────────────────────────────────────────────────────────
+// ApiClient should be initialised (or have an interceptor) that adds the
+// Accept-Language header.  The easiest approach is to add a _LanguageInterceptor
+// (see verify_identity_service.dart) to the Dio instance inside ApiClient, or
+// to replace the static headers with:
+//   final headers = await ApiConfig.headersWithLanguage();
+// ──────────────────────────────────────────────────────────────────────────
+
 class SubscriptionService {
   final ApiClient _apiClient = ApiClient();
 

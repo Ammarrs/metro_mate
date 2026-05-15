@@ -531,7 +531,26 @@
 "line": "الخط",
 "time": "الوقت",
 "price": "السعر",
-"close": "إغلاق"
+"close": "إغلاق",
+"subscriptionActive": "الاشتراك مفعل",
+  "subscriptionNeedRenew": "الاشتراك يحتاج تجديد",
+  "userName": "اسم المستخدم",
+  "category": "الفئة",
+  "duration": "المدة",
+  "price": "السعر",
+  "startDate": "تاريخ البداية",
+  "endDate": "تاريخ النهاية",
+  "startStation": "محطة البداية",
+  "endStation": "محطة النهاية",
+  "office": "المكتب",
+  "workingHours": "مواعيد العمل",
+  "renew": "تجديد",
+  "confirmRenew": "هل أنت متأكد من تأكيد التجديد ؟",
+  "renewSuccess": "تم تأكيد التجديد بنجاح",
+  "no": "لا",
+  "yes": "نعم",
+  "subscriptionExpired": "انتهت صلاحية الاشتراك",
+  "subscriptionExpiredMessage": "انتهت صلاحية اشتراكك برجاء تجديد الاشتراك."
 
 
 }

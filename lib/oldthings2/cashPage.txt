@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:second/generated/l10n.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import '../Bloc/SelectRoute_State.dart';
 import '../Bloc/selectRoute_Cubit.dart';
@@ -86,9 +85,7 @@ class SubscrptionCashPage extends StatelessWidget {
                                     ),
                                     padding: EdgeInsets.symmetric(vertical: 14),
                                   ),
-                                  onPressed: () async {
-                                    final prefs = await SharedPreferences.getInstance();
-                                    await prefs.remove('subscription_id');
+                                  onPressed: () {
                                     Navigator.pushReplacementNamed(
                                         context, "test_page");
                                   },

@@ -586,7 +586,26 @@
 "line": "Line",
 "time": "Time",
 "price": "Price",
-"close": "Close"
+"close": "Close",
+"subscriptionActive": "Subscription Active",
+  "subscriptionNeedRenew": "Your Subscription Need Renew",
+  "userName": "User Name",
+  "category": "Category",
+  "duration": "Duration",
+  "price": "Price",
+  "startDate": "Start Date",
+  "endDate": "End Date",
+  "startStation": "Start Station",
+  "endStation": "End Station",
+  "office": "Office",
+  "workingHours": "Working Hours",
+  "renew": "Renew",
+  "confirmRenew": "Are you sure to confirm Renew ?",
+  "renewSuccess": "Renew Confirmed Successfully",
+  "no": "No",
+  "yes": "Yes",
+   "subscriptionExpired": "Subscription Expired",
+  "subscriptionExpiredMessage": "Your subscription validity has expired. Please renew your subscription."
 
 
 
