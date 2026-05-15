@@ -67,12 +67,12 @@ class LogoutButton extends StatelessWidget {
   }
 
   Future<void> _clearToken() async {
-    // final prefs = await SharedPreferences.getInstance();
-    // await prefs.remove('Token');
-    // final tkn = await prefs.getString("Token");
-    // print("___________________________");
-    // print("token: $tkn");
-    // print("___________________________");
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.remove('Token');
+    final tkn = await prefs.getString("Token");
+    print("___________________________");
+    print("token: $tkn");
+    print("___________________________");
   }
 
   void _navigateToLogin(BuildContext context) {

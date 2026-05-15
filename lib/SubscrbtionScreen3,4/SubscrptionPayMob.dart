@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:second/Bloc/Navigate_cubit.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
@@ -34,9 +36,17 @@ class _SubscrptionpaymobState extends State<Subscrptionpaymob> {
               if (url.contains("success=true")) {
                 hasNavigated = true;
                 Future.delayed(Duration(seconds: 5), () async {
-                  final prefs = await SharedPreferences.getInstance();
-                  await prefs.remove('subscription_id');
-                  Navigator.pushReplacementNamed(context, "test_page");
+                  // final prefs = await SharedPreferences.getInstance();
+                  // await prefs.remove('subscription_id');
+                  // Navigator.pushReplacementNamed(context, "test_page");
+
+                  context.read<Navigate_Cubit>().ChangeIndex(0);
+
+                  Navigator.pushNamedAndRemoveUntil(
+                    context,
+                    "test_page",
+                    (route) => false,
+                  );
                 });
               } else if (url.contains("success=false")) {
                 hasNavigated = true;

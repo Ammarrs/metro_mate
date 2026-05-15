@@ -3588,6 +3588,16 @@ class S {
       args: [],
     );
   }
+
+  /// `Return to Subscripe`
+  String get returnToSubscripe {
+    return Intl.message(
+      'Return to Subscripe',
+      name: 'returnToSubscripe',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

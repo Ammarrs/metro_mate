@@ -74,7 +74,7 @@ class TripRecord {
       paymentMethod: json['payment_method']?.toString() ??
                      json['paymentMethod']?.toString() ??
                      json['payment']?.toString() ??
-                     'Wallet',
+                     '',
     );
   }
 }

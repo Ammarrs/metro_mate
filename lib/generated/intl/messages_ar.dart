@@ -590,6 +590,9 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "requiredLabel": MessageLookupByLibrary.simpleMessage("إجباري"),
     "retry": MessageLookupByLibrary.simpleMessage("إعادة المحاولة"),
+    "returnToSubscripe": MessageLookupByLibrary.simpleMessage(
+      "العودة إلى الأشتراك",
+    ),
     "routeDetails": MessageLookupByLibrary.simpleMessage("تفاصيل الرحلة"),
     "routeSummary": MessageLookupByLibrary.simpleMessage("ملخص الرحلة"),
     "sameStationError": MessageLookupByLibrary.simpleMessage(

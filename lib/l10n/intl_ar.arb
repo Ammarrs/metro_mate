@@ -550,7 +550,8 @@
   "no": "لا",
   "yes": "نعم",
   "subscriptionExpired": "انتهت صلاحية الاشتراك",
-  "subscriptionExpiredMessage": "انتهت صلاحية اشتراكك برجاء تجديد الاشتراك."
+  "subscriptionExpiredMessage": "انتهت صلاحية اشتراكك برجاء تجديد الاشتراك.",
+  "returnToSubscripe": "العودة إلى الأشتراك"
 
 
 }

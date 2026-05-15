@@ -50,6 +50,14 @@ class SubscriptionCubitS3 extends Cubit<SubscriptionState> {
       print(statusResponse.data);
       print(statusResponse.data.runtimeType);
 
+      // 404 means the user has no subscription at all — clear local state
+      // and send them back to Screen 1 / Screen 2.
+      if (statusResponse.statusCode == 404) {
+        await _clearSubscriptionId();
+        emit(const SubscriptionNotFound());
+        return;
+      }
+
       if (statusResponse.data is! Map<String, dynamic>) {
         emit(
           const SubscriptionError(
@@ -65,6 +73,14 @@ class SubscriptionCubitS3 extends Cubit<SubscriptionState> {
       final status = statusData['data']?['status']?.toString();
 
       print("Status = $status");
+
+      // Null or blank status means the backend returned data with no
+      // recognisable status field — treat as "no subscription".
+      if (status == null || status.isEmpty) {
+        await _clearSubscriptionId();
+        emit(const SubscriptionNotFound());
+        return;
+      }
 
       /// DETAILS API
       final detailsResponse = await dio.get(
@@ -146,11 +162,10 @@ class SubscriptionCubitS3 extends Cubit<SubscriptionState> {
           break;
 
         default:
-          emit(
-            const SubscriptionError(
-              "Unknown status",
-            ),
-          );
+          // Unknown status — the subscription was likely deleted on the backend.
+          // Clear the local key so the next visit starts from Screen 1.
+          await _clearSubscriptionId();
+          emit(const SubscriptionNotFound());
       }
     } catch (e, stackTrace) {
       print("ERROR:");
@@ -165,6 +180,15 @@ class SubscriptionCubitS3 extends Cubit<SubscriptionState> {
         ),
       );
     }
+  }
+
+  /// Removes the locally-cached subscription id so that the next time the
+  /// user opens the Subscription tab they start from Screen 1 again.
+  Future<void> _clearSubscriptionId() async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.remove('subscription_id');
+    } catch (_) {}
   }
 
   Future<String> confirmRenew() async {

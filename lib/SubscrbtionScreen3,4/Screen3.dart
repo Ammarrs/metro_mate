@@ -62,10 +62,22 @@ class _Screen3State extends State<Screen3> {
               state is SubscriptionActive) {
             timer?.cancel();
           }
+
+          // Subscription was deleted on the backend (or never existed).
+          // The cubit already cleared the local subscription_id.
+          // Pop back to SubscriptionPage — its .then() callback will call
+          // _checkSubscription(), which will now show Screen 1 (fresh flow).
+          if (state is SubscriptionNotFound) {
+            timer?.cancel();
+            WidgetsBinding.instance.addPostFrameCallback((_) {
+              if (!mounted) return;
+              Navigator.of(context).pop();
+            });
+          }
         },
         child: BlocBuilder<SubscriptionCubitS3, SubscriptionState>(
           builder: (context, state) {
-            if (state is SubscriptionLoading) {
+            if (state is SubscriptionLoading || state is SubscriptionNotFound) {
               return const Center(
                 child: CircularProgressIndicator(),
               );
@@ -140,6 +152,17 @@ class _Screen3State extends State<Screen3> {
                         S.of(context).backToHome,
                       ),
                     ),
+                    ElevatedButton(
+                      onPressed: () {
+                        Navigator.pushNamed(
+                          context,
+                          "Subscription",
+                        );
+                      },
+                      child: Text(
+                        S.of(context).returnToSubscripe,
+                      ),
+                    )
                   ],
                 ),
               );
@@ -290,6 +313,17 @@ class _Screen3State extends State<Screen3> {
               S.of(context).backToHome,
             ),
           ),
+          ElevatedButton(
+            onPressed: () {
+              Navigator.pushNamed(
+                context,
+                "Subscription",
+              );
+            },
+            child: Text(
+              S.of(context).returnToSubscripe,
+            ),
+          )
         ],
       ),
     );
@@ -710,6 +744,19 @@ class _Screen3State extends State<Screen3> {
                       ),
                     ),
                   ),
+                  SizedBox(
+                    child: ElevatedButton(
+                      onPressed: () {
+                        Navigator.pushNamed(
+                          context,
+                          "Subscription",
+                        );
+                      },
+                      child: Text(
+                        S.of(context).returnToSubscripe,
+                      ),
+                    ),
+                  )
                 ],
               ),
             ),

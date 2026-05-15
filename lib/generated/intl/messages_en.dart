@@ -623,6 +623,9 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "requiredLabel": MessageLookupByLibrary.simpleMessage("REQUIRED"),
     "retry": MessageLookupByLibrary.simpleMessage("Retry"),
+    "returnToSubscripe": MessageLookupByLibrary.simpleMessage(
+      "Return to Subscripe",
+    ),
     "routeDetails": MessageLookupByLibrary.simpleMessage("Route Details"),
     "routeSummary": MessageLookupByLibrary.simpleMessage("Route Summary"),
     "sameStationError": MessageLookupByLibrary.simpleMessage(

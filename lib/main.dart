@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:second/Bloc/LocaliztionCubit/Localization_Cubit.dart';
@@ -153,6 +154,7 @@ class MetroApp extends StatelessWidget {
                   SubscrptionConfirmVisacardPage(),
               "SubscrptionCashPage": (context) => SubscrptionCashPage(),
               "NotificationScreen": (context) => NotificationScreen(),
+              "Subscription": (context) => SubscriptionPage(),
             },
             builder: (context, child) {
               PushNotficationService.setContext(context);
@@ -160,6 +162,10 @@ class MetroApp extends StatelessWidget {
               return BlocListener<LogOutCubit, LogOutState>(
                 listener: (context, state) {
                   if (state is LogOutSuccessful) {
+                    // Clear subscription state so a different user starts fresh.
+                    SharedPreferences.getInstance().then(
+                      (prefs) => prefs.remove('subscription_id'),
+                    );
                     Navigator.pushAndRemoveUntil(
                       context,
                       MaterialPageRoute(

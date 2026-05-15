@@ -1019,14 +1019,7 @@ class _BottomActions extends StatelessWidget {
         height: 52,
         child: ElevatedButton(
           onPressed: state.canProceed && !state.isSubmitting
-              ? () async {
-                  final prefs = await SharedPreferences.getInstance();
-                  final token = prefs.getString('Token') ?? '';
-                  if (token.isNotEmpty) {
-                    await prefs.setBool('subscription_seen_$token', true);
-                  }
-                  cubit.continueToPayment();
-                }
+              ? cubit.continueToPayment
               : null,
           style: ElevatedButton.styleFrom(
             backgroundColor: const Color(0xFF1E2D4E),

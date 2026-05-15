@@ -325,7 +325,7 @@
   "passwordInvalid": "Password must be at least 8 characters, include uppercase, lowercase, number and symbol",
   "passwordNotMatch": "Passwords do not match",
   
-  "shuttleBus": "Shuttle Bus",
+  "shuttleBus": "BRT Bus",
   "subscriptions": "Subscriptions",
   "GoToHome": "Go to Home",
   
@@ -605,7 +605,8 @@
   "no": "No",
   "yes": "Yes",
    "subscriptionExpired": "Subscription Expired",
-  "subscriptionExpiredMessage": "Your subscription validity has expired. Please renew your subscription."
+  "subscriptionExpiredMessage": "Your subscription validity has expired. Please renew your subscription.",
+  "returnToSubscripe": "Return to Subscripe"
 
 
 

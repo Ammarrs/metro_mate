@@ -49,3 +49,12 @@ class SubscriptionExpired extends SubscriptionState {
 class SubscriptionmanualRenew extends SubscriptionState {
   const SubscriptionmanualRenew();
 }
+
+/// Emitted when the backend has no subscription for this user
+/// (404, null data, or any status that doesn't match a known value
+/// AND the details endpoint confirms no active subscription).
+/// The app should clear the local subscription_id and send the user
+/// back to Screen 1 / Screen 2 to create a new subscription.
+class SubscriptionNotFound extends SubscriptionState {
+  const SubscriptionNotFound();
+}

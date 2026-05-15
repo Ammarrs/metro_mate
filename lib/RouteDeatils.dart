@@ -72,11 +72,7 @@ class Routedeatils extends StatelessWidget {
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
               ),
-              IconButton(
-                  onPressed: () {
-                    Navigator.pushNamed(context, "Screen3");
-                  },
-                  icon: Icon(Icons.info)),
+              
             ],
           ),
           flexibleSpace: Container(

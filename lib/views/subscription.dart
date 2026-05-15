@@ -6,15 +6,14 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../../cubits/subscription/subscription_cubit.dart';
 import '../../cubits/subscription/subscription_state.dart';
 import '../models/subscribtion_model.dart';
-import '../views/verify_identity_screen.dart';
+import 'package:second/views/verify_identity_screen.dart';
 
 // ─── Entry point ──────────────────────────────────────────────────────────────
-// Checks "subscription_seen_<token>" in SharedPreferences.
-// Each logged-in user has their own flag keyed to their Token, so switching
-// accounts never carries over a previous user's subscription state.
-// true  → user has already submitted → redirect straight to Screen3.
-// false → fresh flow → show category / plan selection as normal.
-// The flag is written to true when the user taps "Continue to Payment".
+// Checks "subscription_id" in SharedPreferences (written by VerifyIdentityService
+// when the API call succeeds). This key is stable across login sessions and is
+// cleared on logout, so each user gets the correct state independently.
+// non-empty → user has a subscription → redirect straight to Screen3.
+// empty     → fresh flow → show category / plan selection as normal.
 
 class SubscriptionPage extends StatefulWidget {
   const SubscriptionPage({super.key});
@@ -25,29 +24,28 @@ class SubscriptionPage extends StatefulWidget {
 
 class _SubscriptionPageState extends State<SubscriptionPage> {
   // null  → still reading SharedPreferences
-  // true  → subscription_seen_<token> == true → redirect to Screen3
-  // false → not seen yet → show normal flow
-  bool? _subscriptionSeen;
+  // true  → subscription_id exists → go to Screen3
+  // false → no subscription_id → show normal Screen 1 / 2 flow
+  bool? _hasSubscription;
 
   @override
   void initState() {
     super.initState();
-    _checkSubscriptionSeen();
+    _checkSubscription();
   }
 
-  Future<void> _checkSubscriptionSeen() async {
+  /// Re-readable at any point (e.g. after returning from Screen3).
+  Future<void> _checkSubscription() async {
+    if (mounted) setState(() => _hasSubscription = null);
     final prefs = await SharedPreferences.getInstance();
-    final token = prefs.getString('Token') ?? '';
-    // Per-user key: absent key or different user → defaults to false.
-    final seen = token.isNotEmpty &&
-        (prefs.getBool('subscription_seen_$token') ?? false);
+    final id = prefs.getString('subscription_id') ?? '';
     if (!mounted) return;
-    setState(() => _subscriptionSeen = seen);
+    setState(() => _hasSubscription = id.isNotEmpty);
   }
 
   @override
   Widget build(BuildContext context) {
-    if (_subscriptionSeen == null) {
+    if (_hasSubscription == null) {
       return const Scaffold(
         backgroundColor: Color(0xFFF0F2F5),
         body: Center(
@@ -56,9 +54,15 @@ class _SubscriptionPageState extends State<SubscriptionPage> {
       );
     }
 
-    if (_subscriptionSeen == true) {
+    if (_hasSubscription == true) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
-        if (mounted) Navigator.pushReplacementNamed(context, 'Screen3');
+        if (!mounted) return;
+        // pushNamed (not pushReplacementNamed) so Screen3 can pop back
+        // here when it detects the subscription was deleted.
+        Navigator.pushNamed(context, 'Screen3').then((_) {
+          // Screen3 popped → re-read prefs so we decide correctly.
+          _checkSubscription();
+        });
       });
       return const Scaffold(backgroundColor: Color(0xFFF0F2F5));
     }
